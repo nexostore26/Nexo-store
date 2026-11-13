@@ -21,16 +21,28 @@
         }
     </script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
 </head>
-<body class="bg-nexoDark text-gray-100 font-sans antialiased min-h-screen flex flex-col justify-between">
+<body class="bg-nexoDark text-gray-100 font-sans antialiased min-h-screen flex flex-col justify-between relative overflow-x-hidden">
+
+    <!-- VIDEO DE FONDO CINEMÁTICO -->
+    <div class="fixed inset-0 z-[-1] overflow-hidden pointer-events-none">
+        <div class="absolute inset-0 bg-black/85 z-10"></div>
+        <video autoplay muted loop playsinline class="w-full h-full object-cover scale-105 filter blur-[1px]">
+            <source src="https://assets.mixkit.co/videos/preview/mixkit-digital-animation-of-screens-and-numbers-31930-large.mp4" type="video/mp4">
+        </video>
+    </div>
 
     <!-- ANUNCIO SUPERIOR -->
-    <div class="bg-gradient-to-r from-purple-950 via-purple-900 to-black text-xs py-1.5 px-4 text-center font-bold text-purple-300 tracking-wider border-b border-purple-900/40">
+    <div class="bg-gradient-to-r from-purple-950 via-purple-900 to-black text-xs py-1.5 px-4 text-center font-bold text-purple-300 tracking-wider border-b border-purple-900/40 z-20">
         ⚡ RECARGAS OFICIALES • ENTREGA INMEDIATA 24/7 ⚡
     </div>
 
     <!-- NAVEGACIÓN -->
-    <header class="sticky top-0 z-50 bg-black/90 backdrop-blur-md border-b border-purple-950">
+    <header class="sticky top-0 z-50 bg-black/80 backdrop-blur-md border-b border-purple-950">
         <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
             <div class="flex items-center space-x-3 cursor-pointer" onclick="location.reload()">
                 <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-purple-600 to-indigo-600 flex items-center justify-center shadow-lg shadow-purple-600/30">
@@ -38,112 +50,224 @@
                 </div>
                 <div>
                     <span class="text-xl font-black tracking-wider bg-gradient-to-r from-purple-400 to-indigo-400 bg-clip-text text-transparent">NEXO STORE</span>
-                    <span class="block text-[10px] text-gray-500 tracking-widest uppercase">HydraUp Edition</span>
+                    <span class="block text-[10px] text-gray-400 tracking-widest uppercase">Plataforma Oficial</span>
                 </div>
             </div>
-            <button onclick="openWallet()" class="bg-gray-900 text-purple-400 px-3 py-1.5 rounded-lg text-xs font-bold border border-purple-500/30 flex items-center gap-1.5 hover:bg-purple-950/30 transition">
-                <i class="fa-solid fa-wallet"></i> <span id="user-coins">150</span> NexoCoins
-            </button>
+            
+            <!-- APARTADO DE NEXO COINS -->
+            <div class="bg-purple-950/40 border border-purple-500/30 rounded-xl px-3 py-1.5 flex items-center gap-2 shadow-inner">
+                <div class="w-6 h-6 rounded-lg bg-purple-600/30 flex items-center justify-center text-purple-400 text-xs">
+                    <i class="fa-solid fa-coins"></i>
+                </div>
+                <div>
+                    <span class="block text-[9px] text-purple-400 font-bold uppercase tracking-wider">Tu Saldo</span>
+                    <span class="text-xs font-black text-white"><span id="user-coins">150</span> NC</span>
+                </div>
+            </div>
         </div>
     </header>
 
     <!-- CONTENIDO PRINCIPAL -->
-    <main class="max-w-7xl mx-auto px-4 py-8 flex-grow w-full">
-        <div class="mb-8">
-            <h1 class="text-2xl md:text-3xl font-black text-white">Selecciona tu juego</h1>
-            <p class="text-xs text-gray-400 mt-1">Recargas directas con validación de ID en tiempo real.</p>
+    <main class="max-w-7xl mx-auto px-4 py-6 flex-grow w-full z-10 space-y-6">
+        
+        <!-- BANNERS PROMOCIONALES / ANUNCIOS -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="bg-gradient-to-r from-purple-900/50 to-indigo-900/50 border border-purple-500/30 rounded-2xl p-5 relative overflow-hidden shadow-xl flex flex-col justify-between">
+                <div class="absolute -right-4 -bottom-4 text-purple-600/20 text-8xl font-black pointer-events-none">
+                    <i class="fa-solid fa-fire"></i>
+                </div>
+                <div>
+                    <span class="bg-purple-600 text-white text-[9px] font-bold px-2 py-0.5 rounded uppercase tracking-widest">Evento Especial</span>
+                    <h2 class="text-lg font-black text-white mt-1">¡Bonificación en Free Fire!</h2>
+                    <p class="text-xs text-gray-300 mt-1">Obtén hasta un 10% extra en diamantes seleccionados por tiempo limitado.</p>
+                </div>
+                <div class="mt-4">
+                    <span class="text-[10px] text-purple-300 font-bold flex items-center gap-1">Aprovechar oferta <i class="fa-solid fa-arrow-right"></i></span>
+                </div>
+            </div>
+
+            <div class="bg-gradient-to-r from-indigo-900/50 to-purple-950/50 border border-purple-500/30 rounded-2xl p-5 relative overflow-hidden shadow-xl flex flex-col justify-between">
+                <div class="absolute -right-4 -bottom-4 text-indigo-600/20 text-8xl font-black pointer-events-none">
+                    <i class="fa-solid fa-shield-cat"></i>
+                </div>
+                <div>
+                    <span class="bg-indigo-600 text-white text-[9px] font-bold px-2 py-0.5 rounded uppercase tracking-widest">Seguridad 24/7</span>
+                    <h2 class="text-lg font-black text-white mt-1">Validación Instantánea</h2>
+                    <p class="text-xs text-gray-300 mt-1">Tus recargas acreditadas al instante directo a tu ID con NexoBot.</p>
+                </div>
+                <div class="mt-4">
+                    <span class="text-[10px] text-indigo-300 font-bold flex items-center gap-1">Sistema Automático <i class="fa-solid fa-check"></i></span>
+                </div>
+            </div>
         </div>
 
-        <!-- CATALOGO -->
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+        <div>
+            <h1 class="text-xl md:text-2xl font-black text-white">Selecciona tu juego</h1>
+            <p class="text-xs text-gray-400 mt-0.5">Recargas directas con validación inteligente.</p>
+        </div>
+
+        <!-- CATALOGO COMPACTO (TARJETAS MÁS CHICAS) -->
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
             
             <!-- Free Fire -->
-            <div onclick="openProduct('Free Fire', 'https://play-lh.googleusercontent.com/hnnIRd5AAf7T2gWzwki00aA9aWMX9JUbr8N42WjGqSVEq36Ey5_T0GCvyekeBkn_rSknR3vXvF4zTkZh4j-KRw=w240-h480-rw', ['100 Diamantes - $1.00', '310 Diamantes - $3.00', '520 Diamantes - $5.00', '1060 Diamantes - $10.00'])" class="bg-nexoCard border border-purple-950 hover:border-purple-500 rounded-2xl p-4 cursor-pointer transition transform hover:-translate-y-1 group">
-                <div class="relative rounded-xl overflow-hidden aspect-video sm:aspect-square mb-4 bg-black">
+            <div onclick="openProduct('Free Fire', 'https://play-lh.googleusercontent.com/hnnIRd5AAf7T2gWzwki00aA9aWMX9JUbr8N42WjGqSVEq36Ey5_T0GCvyekeBkn_rSknR3vXvF4zTkZh4j-KRw=w240-h480-rw', ['100 Diamantes - $1.00', '310 Diamantes - $3.00', '520 Diamantes - $5.00', '1060 Diamantes - $10.00'])" class="bg-nexoCard/90 backdrop-blur-sm border border-purple-950 hover:border-purple-500 rounded-xl p-3 cursor-pointer transition transform hover:-translate-y-1 group shadow-lg flex flex-col items-center text-center">
+                <div class="relative rounded-lg overflow-hidden w-16 h-16 mb-2.5 bg-black border border-purple-500/20 shrink-0">
                     <img src="https://play-lh.googleusercontent.com/hnnIRd5AAf7T2gWzwki00aA9aWMX9JUbr8N42WjGqSVEq36Ey5_T0GCvyekeBkn_rSknR3vXvF4zTkZh4j-KRw=w240-h480-rw" alt="Free Fire" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
-                    <span class="absolute top-2 right-2 bg-purple-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-md">Popular</span>
                 </div>
-                <span class="text-[10px] font-bold text-purple-400 uppercase tracking-wider">Videojuego</span>
-                <h3 class="font-bold text-base text-white mt-1">Free Fire</h3>
-                <p class="text-xs text-gray-400 mt-1">Entrega inmediata por ID</p>
+                <span class="text-[9px] font-bold text-purple-400 uppercase tracking-wider">Juego</span>
+                <h3 class="font-bold text-xs text-white mt-0.5">Free Fire</h3>
+                <span class="text-[9px] text-gray-400 mt-1 bg-purple-950/50 px-2 py-0.5 rounded-full border border-purple-900/30">Recargar</span>
             </div>
 
             <!-- Blood Strike -->
-            <div onclick="openProduct('Blood Strike', 'https://gamecentergt.com/wp-content/uploads/2026/08/fazercards-giftcard-6615-1e27e2506ef0.jpg', ['100 Oro - $1.50', '500 Oro - $5.00', '1200 Oro - $11.00', '2500 Oro - $22.00'])" class="bg-nexoCard border border-purple-950 hover:border-purple-500 rounded-2xl p-4 cursor-pointer transition transform hover:-translate-y-1 group">
-                <div class="relative rounded-xl overflow-hidden aspect-video sm:aspect-square mb-4 bg-black">
+            <div onclick="openProduct('Blood Strike', 'https://gamecentergt.com/wp-content/uploads/2026/08/fazercards-giftcard-6615-1e27e2506ef0.jpg', ['100 Oro - $1.50', '500 Oro - $5.00', '1200 Oro - $11.00', '2500 Oro - $22.00'])" class="bg-nexoCard/90 backdrop-blur-sm border border-purple-950 hover:border-purple-500 rounded-xl p-3 cursor-pointer transition transform hover:-translate-y-1 group shadow-lg flex flex-col items-center text-center">
+                <div class="relative rounded-lg overflow-hidden w-16 h-16 mb-2.5 bg-black border border-purple-500/20 shrink-0">
                     <img src="https://gamecentergt.com/wp-content/uploads/2026/08/fazercards-giftcard-6615-1e27e2506ef0.jpg" alt="Blood Strike" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
                 </div>
-                <span class="text-[10px] font-bold text-purple-400 uppercase tracking-wider">Videojuego</span>
-                <h3 class="font-bold text-base text-white mt-1">Blood Strike</h3>
-                <p class="text-xs text-gray-400 mt-1">Recarga segura por ID</p>
+                <span class="text-[9px] font-bold text-purple-400 uppercase tracking-wider">Juego</span>
+                <h3 class="font-bold text-xs text-white mt-0.5">Blood Strike</h3>
+                <span class="text-[9px] text-gray-400 mt-1 bg-purple-950/50 px-2 py-0.5 rounded-full border border-purple-900/30">Recargar</span>
             </div>
 
             <!-- Roblox -->
-            <div onclick="openProduct('Roblox', 'https://images.rbxcdn.com/5348266ea6c5e67b19d6a814cbbb70f6.jpg', ['400 Robux - $4.99', '800 Robux - $9.99', '1700 Robux - $19.99', '4500 Robux - $49.99'])" class="bg-nexoCard border border-purple-950 hover:border-purple-500 rounded-2xl p-4 cursor-pointer transition transform hover:-translate-y-1 group">
-                <div class="relative rounded-xl overflow-hidden aspect-video sm:aspect-square mb-4 bg-black">
+            <div onclick="openProduct('Roblox', 'https://images.rbxcdn.com/5348266ea6c5e67b19d6a814cbbb70f6.jpg', ['400 Robux - $4.99', '800 Robux - $9.99', '1700 Robux - $19.99', '4500 Robux - $49.99'])" class="bg-nexoCard/90 backdrop-blur-sm border border-purple-950 hover:border-purple-500 rounded-xl p-3 cursor-pointer transition transform hover:-translate-y-1 group shadow-lg flex flex-col items-center text-center">
+                <div class="relative rounded-lg overflow-hidden w-16 h-16 mb-2.5 bg-black border border-purple-500/20 shrink-0">
                     <img src="https://images.rbxcdn.com/5348266ea6c5e67b19d6a814cbbb70f6.jpg" alt="Roblox" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
                 </div>
-                <span class="text-[10px] font-bold text-purple-400 uppercase tracking-wider">Videojuego</span>
-                <h3 class="font-bold text-base text-white mt-1">Roblox</h3>
-                <p class="text-xs text-gray-400 mt-1">Tarjetas y Robux directos</p>
+                <span class="text-[9px] font-bold text-purple-400 uppercase tracking-wider">Juego</span>
+                <h3 class="font-bold text-xs text-white mt-0.5">Roblox</h3>
+                <span class="text-[9px] text-gray-400 mt-1 bg-purple-950/50 px-2 py-0.5 rounded-full border border-purple-900/30">Recargar</span>
             </div>
 
         </div>
     </main>
 
-    <!-- MODAL DE COMPRA Y VALIDACION -->
-    <div id="product-modal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm hidden items-center justify-center p-4">
-        <div class="bg-nexoCard border border-purple-900/50 rounded-2xl max-w-md w-full p-6 relative shadow-2xl">
-            <button onclick="closeModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
+    <!-- MODAL PROFESIONAL PASO A PASO -->
+    <div id="product-modal" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-md hidden items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-nexoCard border border-purple-900/60 rounded-2xl max-w-lg w-full p-6 relative shadow-2xl my-8">
+            <button onclick="closeModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white transition"><i class="fa-solid fa-xmark text-lg"></i></button>
             <div class="flex items-center gap-3 mb-5">
-                <img id="modal-img" src="" class="w-12 h-12 rounded-xl object-cover border border-purple-500/30">
+                <img id="modal-img" src="" class="w-12 h-12 rounded-xl object-cover border border-purple-500/30 shadow">
                 <div>
                     <h3 id="modal-title" class="font-bold text-lg text-white">Juego</h3>
-                    <span class="text-xs text-purple-400">Selecciona tu paquete</span>
+                    <span id="modal-step-indicator" class="text-xs text-purple-400">Paso 1: Validación de ID y Paquete</span>
                 </div>
             </div>
 
             <div class="space-y-4">
-                <div>
-                    <label class="block text-xs font-semibold text-gray-400 mb-1">ID de Jugador</label>
+                <!-- ID INPUT -->
+                <div id="step-1-container">
+                    <label class="block text-xs font-semibold text-gray-400 mb-1">ID de Jugador (Solo Números)</label>
                     <div class="flex gap-2">
-                        <input type="text" id="player-id" placeholder="Ingresa tu ID" class="w-full bg-black border border-purple-950 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-purple-500 text-white">
-                        <button onclick="validatePlayerId()" class="bg-purple-600 hover:bg-purple-500 text-white px-4 py-2.5 rounded-xl text-xs font-bold transition flex items-center gap-1">
+                        <input type="number" id="player-id" placeholder="Ej: 311128916" class="w-full bg-black border border-purple-950 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-purple-500 text-white shadow-inner">
+                        <button onclick="validatePlayerId()" class="bg-purple-600 hover:bg-purple-500 text-white px-4 py-2.5 rounded-xl text-xs font-bold transition flex items-center gap-1 shrink-0 shadow-lg shadow-purple-600/30">
                             <i class="fa-solid fa-robot"></i> Verificar
                         </button>
                     </div>
-                    <span id="validation-status" class="text-[10px] text-gray-500 mt-1 block">La IA comprobará el ID en los servidores del juego.</span>
+                    <span id="validation-status" class="text-[10px] text-gray-500 mt-1 block">La IA comprobará el ID en el servidor.</span>
                 </div>
 
-                <div>
-                    <label class="block text-xs font-semibold text-gray-400 mb-1">Paquetes Disponibles</label>
+                <!-- TARJETA DE JUGADOR -->
+                <div id="player-card" class="hidden bg-purple-950/30 border border-purple-500/30 rounded-xl p-3.5 flex items-center gap-3 shadow">
+                    <div class="w-10 h-10 rounded-lg bg-purple-600/40 flex items-center justify-center text-purple-300 font-bold">
+                        <i class="fa-solid fa-user-shield text-lg"></i>
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <span id="player-name-res" class="font-bold text-sm text-white">⭐ Jugador Verificado ⭐</span>
+                            <span class="text-[10px] bg-purple-600 text-white px-1.5 py-0.5 rounded shadow">Activo</span>
+                        </div>
+                        <span id="player-id-res" class="text-xs text-purple-300">ID: 311128916</span>
+                        <span class="block text-[10px] text-green-400 font-semibold mt-0.5">✓ Cuenta verificada correctamente</span>
+                    </div>
+                </div>
+
+                <!-- PAQUETES -->
+                <div id="packages-section">
+                    <label class="block text-xs font-semibold text-gray-400 mb-1">Elegí tu pack</label>
                     <div id="packages-container" class="grid grid-cols-2 gap-2"></div>
                 </div>
 
-                <button onclick="proceedToCheckout()" class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-bold py-3 rounded-xl shadow-lg shadow-purple-600/30 transition mt-2">Continuar al Pago</button>
+                <!-- SECCIÓN DE PAGOS -->
+                <div id="checkout-section" class="hidden space-y-3 pt-3 border-t border-purple-950">
+                    <label class="block text-xs font-semibold text-purple-300 mb-1"><i class="fa-solid fa-wallet"></i> Selecciona tu método de pago</label>
+                    
+                    <div class="space-y-2">
+                        <div class="p-3 rounded-xl border border-purple-500 bg-purple-500/10 flex items-center justify-between shadow">
+                            <div class="flex items-center gap-2.5">
+                                <i class="fa-solid fa-building-columns text-purple-400 text-base"></i>
+                                <div>
+                                    <div class="text-xs font-bold text-white">Transferencia directa <span class="bg-purple-600 text-[9px] px-1.5 py-0.5 rounded text-white">Auto</span></div>
+                                    <div class="text-[10px] text-gray-400">Transferí al alias y subí el comprobante.</div>
+                                </div>
+                            </div>
+                            <i class="fa-solid fa-circle-check text-purple-400"></i>
+                        </div>
+                    </div>
+
+                    <!-- DATOS DE TRANSFERENCIA -->
+                    <div class="bg-black border border-purple-950 rounded-xl p-3 space-y-2 text-xs shadow-inner">
+                        <div class="text-purple-300 font-bold mb-1">📋 Datos para transferir:</div>
+                        <div class="flex justify-between text-gray-300"><span>Alias:</span> <strong class="text-white">NEXO.STORE.MP</strong></div>
+                        <div class="flex justify-between text-gray-300"><span>CVU:</span> <strong class="text-white">0000151500030815013188</strong></div>
+                        <div class="flex justify-between text-gray-300"><span>Monto a pagar:</span> <strong id="pay-amount-res" class="text-purple-400 font-black">$1.00</strong></div>
+                    </div>
+                </div>
+
+                <!-- AVISO DE NOTIFICACIÓN -->
+                <div id="notification-banner" class="hidden p-3 rounded-xl bg-purple-950/60 border border-purple-500 text-center text-xs text-purple-200 font-bold shadow-lg animate-pulse">
+                    🎉 ¡Pedido procesado con éxito! Redirigiendo...
+                </div>
+
+                <!-- BOTÓN PRINCIPAL DE ACCIÓN -->
+                <button id="action-btn" onclick="handleMainAction()" class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-bold py-3 rounded-xl shadow-lg shadow-purple-600/30 transition mt-2">Verificar ID para Continuar</button>
             </div>
         </div>
-    </div>
+    </main>
 
-    <!-- FOOTER -->
-    <footer class="bg-black border-t border-purple-950 py-6 text-center text-xs text-gray-600 mt-12">
-        <p>© 2026 Nexo Store • Estilo HydraUp (Negro y Morado)</p>
+    <!-- FOOTER CON AVISOS DE SEGURIDAD Y POLÍTICA DE REEMBOLSOS -->
+    <footer class="bg-black/95 border-t border-purple-950 py-8 px-4 text-center text-xs text-gray-400 mt-12 z-20 space-y-3">
+        <div class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-4 text-left border-b border-purple-950/60 pb-6">
+            <div>
+                <h4 class="font-bold text-purple-300 mb-1"><i class="fa-solid fa-shield-halved"></i> Transacciones Seguras</h4>
+                <p class="text-[11px] text-gray-500">Validación de cuentas en tiempo real para evitar errores en las recargas.</p>
+            </div>
+            <div>
+                <h4 class="font-bold text-purple-300 mb-1"><i class="fa-solid fa-ban"></i> Política de Reembolsos</h4>
+                <p class="text-[11px] text-gray-500">No se aceptan reembolsos ni devoluciones una vez procesada y acreditada la recarga en el ID de destino.</p>
+            </div>
+            <div>
+                <h4 class="font-bold text-purple-300 mb-1"><i class="fa-solid fa-bolt"></i> Soporte 24/7</h4>
+                <p class="text-[11px] text-gray-500">Entrega automática inmediata respaldada por nuestro equipo técnico.</p>
+            </div>
+        </div>
+        <p class="text-[11px] text-gray-600">© 2026 Nexo Store • Todos los derechos reservados. Las marcas registradas pertenecen a sus respectivos dueños.</p>
     </footer>
 
-    <!-- SCRIPT -->
+    <!-- SCRIPT DE FLUJO PROFESIONAL -->
     <script>
         let currentProduct = null;
         let selectedPackage = null;
         let isIdValid = false;
+        let step = 1;
 
         function openProduct(name, img, packages) {
             currentProduct = name;
             isIdValid = false;
+            step = 1;
             document.getElementById('modal-title').innerText = name;
             document.getElementById('modal-img').src = img;
             document.getElementById('player-id').value = '';
-            document.getElementById('validation-status').innerText = 'La IA comprobará el ID en los servidores del juego.';
+            document.getElementById('validation-status').innerText = 'La IA comprobará el ID en el servidor.';
             document.getElementById('validation-status').className = 'text-[10px] text-gray-500 mt-1 block';
+            document.getElementById('modal-step-indicator').innerText = 'Paso 1: Validación de ID y Paquete';
+            document.getElementById('player-card').classList.add('hidden');
+            document.getElementById('checkout-section').classList.add('hidden');
+            document.getElementById('step-1-container').classList.remove('hidden');
+            document.getElementById('packages-section').classList.remove('hidden');
+            document.getElementById('notification-banner').classList.add('hidden');
+            document.getElementById('action-btn').classList.remove('hidden');
+            document.getElementById('action-btn').innerText = 'Verificar ID para Continuar';
 
             const container = document.getElementById('packages-container');
             container.innerHTML = '';
@@ -156,12 +280,24 @@
                     document.querySelectorAll('.package-btn').forEach(b => b.className = 'p-3 rounded-xl border text-xs font-bold text-left transition package-btn border-purple-950 bg-black text-gray-300');
                     btn.className = 'p-3 rounded-xl border text-xs font-bold text-left transition package-btn border-purple-500 bg-purple-500/10 text-purple-300';
                     selectedPackage = pkg;
+                    updatePriceDisplay();
                 };
                 container.appendChild(btn);
             });
             selectedPackage = packages[0];
+            updatePriceDisplay();
+
             document.getElementById('product-modal').classList.remove('hidden');
             document.getElementById('product-modal').classList.add('flex');
+        }
+
+        function updatePriceDisplay() {
+            if(selectedPackage) {
+                const parts = selectedPackage.split('-');
+                if(parts[1]) {
+                    document.getElementById('pay-amount-res').innerText = parts[1].trim();
+                }
+            }
         }
 
         function closeModal() {
@@ -173,38 +309,53 @@
             const idVal = document.getElementById('player-id').value.trim();
             const statusLabel = document.getElementById('validation-status');
             
-            if(!idVal) {
-                statusLabel.innerText = '⚠️ Ingresa un ID válido primero.';
-                statusLabel.className = 'text-[10px] text-red-400 mt-1 block';
+            if(!idVal || idVal.length < 7 || idVal.length > 12) {
+                isIdValid = false;
+                statusLabel.innerText = '❌ Ingresa un ID numérico válido (entre 7 y 12 dígitos).';
+                statusLabel.className = 'text-[10px] text-red-400 mt-1 block font-bold';
                 return;
             }
 
-            statusLabel.innerText = '🤖 NexoBot verificando cuenta...';
+            statusLabel.innerText = '🤖 NexoBot escaneando perfil oficial...';
             statusLabel.className = 'text-[10px] text-yellow-400 mt-1 block';
 
             setTimeout(() => {
                 isIdValid = true;
-                statusLabel.innerText = `✅ ¡ID verificado con éxito! Cuenta activa en ${currentProduct}.`;
+                statusLabel.innerText = `✅ ¡Cuenta confirmada en ${currentProduct}!`;
                 statusLabel.className = 'text-[10px] text-green-400 mt-1 block font-bold';
+                
+                document.getElementById('player-id-res').innerText = 'ID: ' + idVal;
+                document.getElementById('player-card').classList.remove('hidden');
+                
+                document.getElementById('action-btn').innerText = 'Continuar al Método de Pago';
+                step = 2;
             }, 1000);
         }
 
-        function proceedToCheckout() {
-            const playerId = document.getElementById('player-id').value;
-            if(!playerId) {
-                alert('Por favor ingresa tu ID de jugador.');
-                return;
+        function handleMainAction() {
+            if(step === 1) {
+                validatePlayerId();
+            } else if(step === 2) {
+                if(!isIdValid) {
+                    alert('Debes verificar tu ID primero.');
+                    return;
+                }
+                document.getElementById('step-1-container').classList.add('hidden');
+                document.getElementById('packages-section').classList.add('hidden');
+                document.getElementById('player-card').classList.add('hidden');
+                document.getElementById('checkout-section').classList.remove('hidden');
+                document.getElementById('modal-step-indicator').innerText = 'Paso 2: Pago y Comprobante';
+                document.getElementById('action-btn').innerText = 'Confirmar Pedido';
+                step = 3;
+            } else if(step === 3) {
+                document.getElementById('checkout-section').classList.add('hidden');
+                document.getElementById('action-btn').classList.add('hidden');
+                document.getElementById('notification-banner').classList.remove('hidden');
+                
+                setTimeout(() => {
+                    closeModal();
+                }, 2000);
             }
-            if(!isIdValid) {
-                alert('Por favor haz clic en "Verificar" para que la IA compruebe tu ID antes de continuar.');
-                return;
-            }
-            alert(`¡Pedido listo!\n\nJuego: ${currentProduct}\nPaquete: ${selectedPackage}\nID Verificado: ${playerId}\n\nRedirigiendo a pasarela de pago...`);
-            closeModal();
-        }
-
-        function openWallet() {
-            alert('Tu saldo es de 150 NexoCoins.');
         }
     </script>
 </body>
