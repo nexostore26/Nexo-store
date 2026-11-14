@@ -1,550 +1,1382 @@
 <!DOCTYPE html>
-<html lang="es" class="dark">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nexo Store | Tu Recarga Segura</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        nexoDark: '#090710',
-                        nexoCard: '#130F23',
-                        nexoSurface: '#1C1633',
-                        nexoPurple: '#8B5CF6',
-                        nexoCyan: '#06B6D4'
-                    }
-                }
-            }
-        }
-    </script>
+    <title>Nexo Store - Tu Recarga Segura</title>
     <style>
-        @keyframes pulse-border {
-            0%, 100% { border-color: rgba(139, 92, 246, 0.4); }
-            50% { border-color: rgba(6, 182, 212, 0.9); }
+        :root {
+            --bg-deep: #0a0612;
+            --bg-card: #140d24;
+            --bg-card-hover: #1b1233;
+            --purple-primary: #8b5cf6;
+            --purple-hover: #7c3aed;
+            --purple-glow: rgba(139, 92, 246, 0.35);
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
         }
-        .animate-glow { animation: pulse-border 3s infinite; }
-        .no-scrollbar::-webkit-scrollbar { display: none; }
-        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg-deep);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-bottom: 50px;
+        }
+
+        .app-container {
+            width: 100%;
+            max-width: 480px;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        /* Header */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--bg-card);
+            padding: 12px 16px;
+            border-radius: 16px;
+            border: 1px solid rgba(139, 92, 246, 0.2);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-badge {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--purple-primary), #6d28d9);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 20px;
+            color: white;
+            box-shadow: 0 0 12px var(--purple-glow);
+        }
+
+        .logo-text h1 {
+            font-size: 16px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+        }
+
+        .logo-text p {
+            font-size: 11px;
+            color: var(--text-muted);
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .btn-header {
+            background: rgba(139, 92, 246, 0.15);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            color: var(--text-main);
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+        }
+
+        .btn-header:hover {
+            background: rgba(139, 92, 246, 0.3);
+        }
+
+        /* Nav Tabs */
+        .nav-tabs {
+            display: flex;
+            background: var(--bg-card);
+            padding: 4px;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.05);
+            gap: 4px;
+            overflow-x: auto;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 8px 12px;
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            font-size: 12px;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.2s;
+            text-align: center;
+        }
+
+        .tab-btn.active {
+            background: var(--purple-primary);
+            color: white;
+            box-shadow: 0 2px 10px var(--purple-glow);
+        }
+
+        /* Carousel */
+        .carousel-container {
+            position: relative;
+            background: var(--bg-card);
+            border-radius: 16px;
+            border: 1px solid rgba(139, 92, 246, 0.2);
+            overflow: hidden;
+            padding: 16px;
+            min-height: 140px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .carousel-track {
+            display: flex;
+            transition: transform 0.4s ease-in-out;
+            width: 100%;
+        }
+
+        .carousel-slide {
+            min-width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+        .slide-content h3 {
+            font-size: 15px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .slide-content p {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-bottom: 10px;
+        }
+
+        .slide-btn {
+            background: var(--purple-primary);
+            color: white;
+            border: none;
+            padding: 6px 14px;
+            border-radius: 8px;
+            font-size: 11px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .carousel-dots {
+            display: flex;
+            justify-content: center;
+            gap: 6px;
+            margin-top: 12px;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.2);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .dot.active {
+            background: var(--purple-primary);
+            width: 20px;
+            border-radius: 4px;
+        }
+
+        /* Active Promos Bar */
+        .promo-bar {
+            background: rgba(139, 92, 246, 0.1);
+            border: 1px dashed rgba(139, 92, 246, 0.4);
+            padding: 10px 14px;
+            border-radius: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+        }
+
+        .promo-tag {
+            background: var(--purple-primary);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 6px;
+            font-weight: bold;
+        }
+
+        /* Main View Sections */
+        .view-section {
+            display: none;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .view-section.active {
+            display: flex;
+        }
+
+        /* Store Flow Steps */
+        .step-indicator {
+            display: flex;
+            justify-content: space-between;
+            background: var(--bg-card);
+            padding: 12px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text-muted);
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .step-indicator span.current {
+            color: var(--purple-primary);
+        }
+
+        .card-box {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 16px;
+            border: 1px solid rgba(139, 92, 246, 0.2);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+
+        .card-title {
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* Games Grid */
+        .games-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .game-card {
+            background: var(--bg-card-hover);
+            border: 2px solid rgba(255,255,255,0.05);
+            border-radius: 14px;
+            padding: 14px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+        }
+
+        .game-card.selected {
+            border-color: var(--purple-primary);
+            box-shadow: 0 0 15px var(--purple-glow);
+            background: rgba(139, 92, 246, 0.1);
+        }
+
+        .game-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            background: #2a1b4e;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        /* Packages Grid */
+        .packages-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .package-card {
+            background: var(--bg-card-hover);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 12px;
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .package-card.selected {
+            border-color: var(--purple-primary);
+            background: rgba(139, 92, 246, 0.15);
+        }
+
+        .pkg-title {
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .pkg-coins {
+            font-size: 11px;
+            color: var(--warning);
+            font-weight: 600;
+        }
+
+        .pkg-price {
+            font-size: 14px;
+            font-weight: 800;
+            color: var(--success);
+        }
+
+        /* Form Inputs */
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            margin-bottom: 12px;
+        }
+
+        .input-group label {
+            font-size: 12px;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        .input-group input {
+            background: var(--bg-deep);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            padding: 10px 12px;
+            border-radius: 10px;
+            color: white;
+            font-size: 13px;
+            outline: none;
+        }
+
+        .input-group input:focus {
+            border-color: var(--purple-primary);
+            box-shadow: 0 0 8px var(--purple-glow);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--purple-primary), #6d28d9);
+            color: white;
+            border: none;
+            width: 100%;
+            padding: 12px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px var(--purple-glow);
+            transition: opacity 0.2s;
+            text-align: center;
+        }
+
+        .btn-primary:active {
+            opacity: 0.85;
+        }
+
+        .btn-secondary {
+            background: rgba(255,255,255,0.05);
+            color: var(--text-main);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 10px;
+            border-radius: 10px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 8px;
+        }
+
+        /* Missions Tab */
+        .mission-card {
+            background: var(--bg-card-hover);
+            border-radius: 14px;
+            padding: 14px;
+            border: 1px solid rgba(255,255,255,0.05);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            cursor: pointer;
+            margin-bottom: 10px;
+        }
+
+        .mission-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .mission-badge {
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--success);
+            padding: 2px 8px;
+            border-radius: 6px;
+            font-size: 10px;
+            font-weight: bold;
+        }
+
+        .progress-bar-container {
+            background: rgba(255,255,255,0.1);
+            height: 6px;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            background: var(--success);
+            height: 100%;
+            width: 0%;
+        }
+
+        /* Grilla de Cupos en Misiones */
+        .cupos-grid {
+            display: grid;
+            grid-template-columns: repeat(10, 1fr);
+            gap: 4px;
+            margin: 8px 0;
+        }
+
+        .cupo-dot {
+            height: 10px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 2px;
+        }
+
+        .cupo-dot.taken {
+            background: var(--success);
+        }
+
+        /* Chat Global & Reviews */
+        .chat-box {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            max-height: 320px;
+            overflow-y: auto;
+            padding-right: 4px;
+        }
+
+        .chat-msg {
+            background: var(--bg-card-hover);
+            padding: 10px 12px;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.04);
+            font-size: 12px;
+        }
+
+        .chat-msg .user-info {
+            font-weight: 700;
+            color: var(--purple-primary);
+            margin-bottom: 2px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        /* Roulete Modal / Section */
+        .roulette-container {
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        .wheel {
+            width: 220px;
+            height: 220px;
+            border-radius: 50%;
+            border: 6px solid var(--purple-primary);
+            margin: 0 auto 16px auto;
+            position: relative;
+            background: conic-gradient(
+                #8b5cf6 0deg 60deg,
+                #6d28d9 60deg 120deg,
+                #4c1d95 120deg 180deg,
+                #3b82f6 180deg 240deg,
+                #10b981 240deg 300deg,
+                #f59e0b 300deg 360deg
+            );
+            transition: transform 4s cubic-bezier(0.15, 0.95, 0.12, 0.99);
+            box-shadow: 0 0 25px var(--purple-glow);
+        }
+
+        .wheel-pointer {
+            width: 0;
+            height: 0;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-bottom: 20px solid var(--danger);
+            position: absolute;
+            top: -15px;
+            left: calc(50% - 10px);
+            z-index: 10;
+        }
+
+        /* Modal Overlay */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(5, 3, 10, 0.85);
+            backdrop-filter: blur(5px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            padding: 16px;
+        }
+
+        .modal-content {
+            background: var(--bg-card);
+            border: 1px solid rgba(139, 92, 246, 0.4);
+            border-radius: 20px;
+            width: 100%;
+            max-width: 420px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .legal-footer {
+            text-align: center;
+            font-size: 10px;
+            color: var(--text-muted);
+            padding: 16px 8px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            margin-top: 20px;
+            line-height: 1.4;
+        }
     </style>
 </head>
-<body class="bg-nexoDark text-white font-sans min-h-screen flex flex-col justify-between relative overflow-x-hidden">
+<body>
 
-    <!-- ==================== VISTA 1: TIENDA PRINCIPAL ==================== -->
-    <div id="view-store" class="flex flex-col min-h-screen justify-between">
-        
-        <!-- MODAL PERFIL -->
-        <div id="profile-modal" class="hidden fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4">
-            <div class="bg-nexoCard border border-nexoCyan/50 rounded-3xl max-w-sm w-full max-h-[90vh] overflow-y-auto p-5 shadow-2xl relative space-y-4">
-                <button onclick="toggleProfileModal()" class="absolute top-3 right-3 bg-black/60 text-white w-8 h-8 rounded-full font-bold border border-gray-700 z-10">✕</button>
-                <div id="profile-login-view" class="space-y-4 pt-2">
-                    <div class="text-center space-y-1.5">
-                        <div class="w-14 h-14 mx-auto rounded-2xl bg-gradient-to-tr from-nexoPurple to-nexoCyan flex items-center justify-center text-2xl shadow-lg">☁️</div>
-                        <h3 class="font-black text-base text-white">Guardá tu Progreso en la Nube</h3>
-                    </div>
-                    <div class="space-y-2.5 bg-nexoDark border border-gray-800 p-3.5 rounded-2xl">
-                        <input type="email" id="login-gmail-input" placeholder="ejemplo@gmail.com" class="w-full bg-nexoCard border border-gray-700 rounded-xl px-3 py-2.5 text-xs text-white">
-                        <input type="text" id="login-name-input" placeholder="Tu Nombre" class="w-full bg-nexoCard border border-gray-700 rounded-xl px-3 py-2.5 text-xs text-white">
-                        <button onclick="loginWithGmail()" id="btn-login-gmail" class="w-full bg-gradient-to-r from-nexoPurple to-nexoCyan text-white font-black py-3 rounded-xl text-xs uppercase shadow-lg">🚀 Sincronizar con Gmail</button>
-                        <p id="login-gmail-feedback" class="text-[10px] text-center font-bold hidden"></p>
-                    </div>
-                </div>
-                <div id="profile-logged-view" class="hidden space-y-4 text-center">
-                    <h3 id="user-profile-name" class="font-black text-sm text-white">Jugador</h3>
-                    <p id="user-profile-email" class="text-[10px] text-gray-400">correo@gmail.com</p>
-                    <button onclick="logoutAccount()" class="w-full bg-red-600/20 text-red-400 border border-red-600/40 font-bold py-2 rounded-xl text-xs">Cerrar Sesión</button>
+    <div class="app-container">
+        <!-- Header -->
+        <header>
+            <div class="logo-area">
+                <div class="logo-badge">N</div>
+                <div class="logo-text">
+                    <h1>NEXO STORE</h1>
+                    <p>🛡️ 100% Seguro</p>
                 </div>
             </div>
-        </div>
-
-        <!-- MODAL MISIONES -->
-        <div id="missions-modal" class="hidden fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4">
-            <div class="bg-nexoCard border border-nexoPurple/50 rounded-3xl max-w-md w-full max-h-[90vh] overflow-y-auto p-5 shadow-2xl relative space-y-4">
-                <button onclick="toggleMissionsModal()" class="absolute top-3 right-3 bg-black/60 text-white w-8 h-8 rounded-full font-bold z-10">✕</button>
-                <div id="missions-listView">
-                    <span class="text-[9px] bg-purple-500/20 text-purple-300 border border-purple-500/40 px-2.5 py-0.5 rounded-full font-bold uppercase">🎯 Tablero de Misiones</span>
-                    <h3 class="text-xl font-black text-white mt-1">Elegí una Misión</h3>
-                    <div id="missions-cards-container" class="space-y-3 mt-4"></div>
-                </div>
-                <div id="missions-detailView" class="hidden space-y-4">
-                    <button onclick="backToMissionsList()" class="text-xs text-nexoCyan font-bold">← Volver al tablero</button>
-                    <h3 id="detail-mission-title" class="text-lg font-black text-white"></h3>
-                    <p id="detail-mission-reward" class="text-xs font-bold text-nexoCyan"></p>
-                    <div id="reserve-cupo-container">
-                        <button onclick="reserveMissionCupo()" class="w-full bg-gradient-to-r from-yellow-500 to-amber-600 text-nexoDark font-black py-3 rounded-xl text-xs uppercase shadow">📌 Aceptar Misión y Reservar Cupo</button>
-                    </div>
-                    <div id="submit-link-container" class="hidden space-y-2.5 bg-nexoDark border border-purple-500/40 p-3 rounded-2xl">
-                        <select id="mission-player-game" class="w-full bg-nexoCard border border-gray-700 rounded-xl p-2.5 text-xs text-white"><option value="Free Fire">Free Fire</option><option value="Blood Strike">Blood Strike</option></select>
-                        <input type="number" id="mission-player-id" placeholder="Tu ID de Jugador *" class="w-full bg-nexoCard border border-gray-700 rounded-xl p-2.5 text-xs text-white font-mono">
-                        <input type="text" id="mission-social-user" placeholder="Tu @usuario de TikTok *" class="w-full bg-nexoCard border border-gray-700 rounded-xl p-2.5 text-xs text-white">
-                        <input type="url" id="mission-video-link" placeholder="URL exacta del video (https://...) *" class="w-full bg-nexoCard border border-gray-700 rounded-xl p-2.5 text-xs text-white">
-                        <button onclick="submitMissionProof()" id="btn-submit-mission" class="w-full bg-gradient-to-r from-nexoPurple to-nexoCyan text-white font-black py-3 rounded-xl text-xs uppercase shadow">🚀 Enviar Datos y URL</button>
-                    </div>
-                    <p id="mission-feedback" class="text-xs font-bold text-center hidden"></p>
-                </div>
-            </div>
-        </div>
-
-        <!-- NAVBAR SUPERIOR -->
-        <header class="bg-nexoCard/95 backdrop-blur border-b border-nexoPurple/20 px-4 py-3 sticky top-0 z-30">
-            <div class="max-w-md mx-auto flex justify-between items-center">
-                <div class="flex items-center gap-2 cursor-pointer select-none" onclick="triggerAdminSecret()">
-                    <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-nexoPurple to-nexoCyan flex items-center justify-center font-black text-nexoDark text-sm shadow">N</div>
-                    <div>
-                        <h1 class="text-sm font-black tracking-wide leading-none">NEXO STORE</h1>
-                        <span class="text-[9px] text-nexoCyan font-semibold">TU RECARGA SEGURA</span>
-                    </div>
-                </div>
-                <div class="flex items-center gap-2">
-                    <button onclick="toggleMissionsModal()" class="bg-purple-500/10 border border-purple-500/40 px-2.5 py-1.5 rounded-lg text-[10px] font-black text-purple-300">🎯 Misiones</button>
-                    <button onclick="toggleProfileModal()" class="bg-nexoSurface border border-gray-700 px-2.5 py-1.5 rounded-lg text-[10px] font-bold text-gray-300">Mi Cuenta</button>
-                </div>
+            <div class="header-actions">
+                <button class="btn-header" onclick="openAdminPanel()">⚙️ Admin</button>
+                <button class="btn-header" id="authBtn" onclick="openAuthModal()">👤 Entrar</button>
             </div>
         </header>
 
-        <!-- CONTENIDO PRINCIPAL -->
-        <main class="max-w-md mx-auto px-4 py-6 w-full flex-grow space-y-6 relative z-10">
+        <!-- Nav Tabs -->
+        <div class="nav-tabs">
+            <button class="tab-btn active" onclick="switchTab('store', this)">🛒 Tienda</button>
+            <button class="tab-btn" onclick="switchTab('missions', this)">🎯 Misiones</button>
+            <button class="tab-btn" onclick="switchTab('roulette', this)">🎡 Ruleta</button>
+            <button class="tab-btn" onclick="switchTab('chat', this)">💬 Chat</button>
+            <button class="tab-btn" onclick="switchTab('reviews', this)">⭐ Reseñas</button>
+            <button class="tab-btn" onclick="switchTab('tops', this)">🏆 Tops</button>
+        </div>
 
-            <!-- BANNER DE CUPONES -->
-            <div id="active-promos-banner" class="hidden bg-gradient-to-r from-purple-900/60 via-nexoCard to-cyan-900/60 border border-nexoCyan/50 rounded-2xl p-3.5 shadow-lg space-y-2">
-                <span class="text-[10px] font-black uppercase text-nexoCyan">🎟️ Códigos Promocionales Activos</span>
-                <div id="active-promos-pills" class="flex flex-wrap gap-2"></div>
-            </div>
-
-            <!-- BARRA DE PROGRESO -->
-            <div class="bg-nexoCard/95 border border-gray-800 rounded-2xl p-3.5 shadow-md">
-                <div class="flex justify-between items-center text-[10px] font-bold mb-2">
-                    <span id="label-step-1" class="text-nexoCyan">1. Juego</span>
-                    <span id="label-step-2" class="text-gray-500">2. Paquete</span>
-                    <span id="label-step-3" class="text-gray-500">3. ID y Datos</span>
-                    <span id="label-step-4" class="text-gray-500">4. Pago</span>
-                </div>
-                <div class="w-full bg-nexoDark h-2 rounded-full overflow-hidden">
-                    <div id="progress-bar" class="bg-gradient-to-r from-nexoPurple to-nexoCyan h-full w-1/4 transition-all duration-300"></div>
-                </div>
-            </div>
-
-            <!-- PASO 1 -->
-            <section id="step-1" class="bg-nexoCard/95 border border-nexoPurple/30 rounded-2xl p-5 shadow-xl space-y-5">
-                <h2 class="text-sm font-black text-white flex items-center gap-2">
-                    <span class="bg-nexoCyan text-nexoDark w-5 h-5 rounded-full flex items-center justify-center text-xs">1</span>
-                    Seleccioná el Juego
-                </h2>
-                <div class="grid grid-cols-2 gap-3.5">
-                    <div onclick="selectGame('Free Fire', this)" class="game-tab border-2 border-nexoCyan bg-nexoCyan/10 p-3 rounded-2xl text-center cursor-pointer transition flex flex-col items-center justify-center space-y-2">
-                        <div class="w-16 h-16 rounded-2xl overflow-hidden shadow-lg border border-nexoCyan/40 bg-black">
-                            <img src="https://play-lh.googleusercontent.com/hnnIRd5AAf7T2gWzwki00aA9aWMX9JUbr8N42WjGqSVEq36Ey5_T0GCvyekeBkn_rSknR3vXvF4zTkZh4j-KRw=w240-h480-rw" class="w-full h-full object-cover">
-                        </div>
-                        <div>
-                            <p class="text-xs font-black text-white">Free Fire</p>
-                            <p class="text-[9px] text-nexoCyan">Diamantes</p>
-                        </div>
-                    </div>
-                    <div onclick="selectGame('Blood Strike', this)" class="game-tab border border-gray-800 bg-nexoDark/70 p-3 rounded-2xl text-center cursor-pointer opacity-80 flex flex-col items-center justify-center space-y-2">
-                        <div class="w-16 h-16 rounded-2xl overflow-hidden shadow-lg border border-gray-700 bg-black">
-                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRdVF9Nfw3vWr_bslwvu1e8ciooBqInbZCkhrDpCAOrkw&s=10" class="w-full h-full object-cover">
-                        </div>
-                        <div>
-                            <p class="text-xs font-bold text-gray-200">Blood Strike</p>
-                            <p class="text-[9px] text-gray-400">Oro por ID</p>
-                        </div>
+        <!-- Banner Carousel (Tactile Swipe + 3s Auto) -->
+        <div class="carousel-container" id="carouselContainer">
+            <div class="carousel-track" id="carouselTrack">
+                <div class="carousel-slide">
+                    <div class="slide-content">
+                        <h3>🔥 Recarga Rápida y Segura</h3>
+                        <p>Entrega en menos de 5 minutos con comprobante verificado.</p>
+                        <button class="slide-btn" onclick="switchTab('store')">Recargar Ahora</button>
                     </div>
                 </div>
-                <button onclick="goToStep(2)" class="w-full bg-gradient-to-r from-nexoPurple to-nexoCyan text-white font-black py-3.5 rounded-xl shadow-lg uppercase text-xs">Siguiente: Elegir Paquete ➔</button>
-            </section>
-
-            <!-- PASO 2 -->
-            <section id="step-2" class="hidden bg-nexoCard/95 border border-nexoPurple/30 rounded-2xl p-5 shadow-xl space-y-5">
-                <h2 class="text-sm font-black text-white flex items-center gap-2">
-                    <span class="bg-nexoCyan text-nexoDark w-5 h-5 rounded-full flex items-center justify-center text-xs">2</span>
-                    Armá tu Carrito (<span id="current-game-title" class="text-nexoCyan">Free Fire</span>)
-                </h2>
-                <div id="packs-container" class="space-y-2.5"></div>
-                <div class="bg-nexoDark border border-gray-800 p-3.5 rounded-xl flex justify-between items-center">
-                    <span id="coins-preview" class="text-[10px] text-yellow-400 font-bold">Acumulá packs múltiples</span>
-                    <span id="display-price" class="text-base font-black text-nexoCyan">$0 ARS</span>
+                <div class="carousel-slide">
+                    <div class="slide-content">
+                        <h3>🎯 Misiones Semanales</h3>
+                        <p>Participá por diamantes gratis. ¡Sin cupos limitados falsos!</p>
+                        <button class="slide-btn" onclick="switchTab('missions')">Ver Tablero</button>
+                    </div>
                 </div>
-                <div class="flex gap-2.5">
-                    <button onclick="goToStep(1)" class="w-1/3 bg-nexoSurface text-gray-300 font-bold py-3 rounded-xl text-xs">← Atrás</button>
-                    <button onclick="goToStep(3)" class="w-2/3 bg-gradient-to-r from-nexoPurple to-nexoCyan text-white font-black py-3 rounded-xl text-xs uppercase">Siguiente: ID y Datos ➔</button>
+                <div class="carousel-slide">
+                    <div class="slide-content">
+                        <h3>🎡 Ruleta Mágica Nexo</h3>
+                        <p>Girá y ganá diamantes, oro o Nexo Coins diarios.</p>
+                        <button class="slide-btn" onclick="switchTab('roulette')">Girar Ruleta</button>
+                    </div>
                 </div>
-            </section>
+                <div class="carousel-slide">
+                    <div class="slide-content">
+                        <h3>🥷 Programa Mini Influencers</h3>
+                        <p>Crea tu código de creador y sube de rango ninja.</p>
+                        <button class="slide-btn" onclick="openInfluencerModal()">Crear Código</button>
+                    </div>
+                </div>
+            </div>
+            <div class="carousel-dots" id="carouselDots">
+                <div class="dot active" onclick="goToSlide(0)"></div>
+                <div class="dot" onclick="goToSlide(1)"></div>
+                <div class="dot" onclick="goToSlide(2)"></div>
+                <div class="dot" onclick="goToSlide(3)"></div>
+            </div>
+        </div>
 
-            <!-- PASO 3 -->
-            <section id="step-3" class="hidden bg-nexoCard/95 border border-nexoPurple/30 rounded-2xl p-5 shadow-xl space-y-5">
-                <h2 class="text-sm font-black text-white flex items-center gap-2">
-                    <span class="bg-nexoCyan text-nexoDark w-5 h-5 rounded-full flex items-center justify-center text-xs">3</span>
-                    Tu ID de Jugador y Datos
-                </h2>
-                <div class="space-y-3.5">
+        <!-- Active Promo Bar -->
+        <div class="promo-bar">
+            <span>🎁 Códigos Activos / Promos</span>
+            <span class="promo-tag" id="activePromoDisplay">VERANO2026 (-10%)</span>
+        </div>
+
+        <!-- ================= VIEW: STORE ================= -->
+        <div id="view-store" class="view-section active">
+            <div class="step-indicator">
+                <span id="st1" class="current">1. Juego</span>
+                <span id="st2">2. Paquete</span>
+                <span id="st3">3. ID y Datos</span>
+                <span id="st4">4. Pago</span>
+            </div>
+
+            <!-- Paso 1: Juego -->
+            <div class="card-box" id="step1-box">
+                <div class="card-title">Seleccioná el Juego <span style="font-size:11px; color:var(--success)">⚡ Entrega < 5m</span></div>
+                <div class="games-grid">
+                    <div class="game-card selected" onclick="selectGame('Free Fire', this)">
+                        <div class="game-avatar">🔥</div>
+                        <div style="font-weight:700; font-size:13px;">Free Fire</div>
+                        <div style="font-size:11px; color:var(--text-muted)">Diamantes por ID</div>
+                    </div>
+                    <div class="game-card" onclick="selectGame('Blood Strike', this)">
+                        <div class="game-avatar">⚡</div>
+                        <div style="font-weight:700; font-size:13px;">Blood Strike</div>
+                        <div style="font-size:11px; color:var(--text-muted)">Oro por ID</div>
+                    </div>
+                </div>
+                <button class="btn-primary" style="margin-top: 14px;" onclick="goToStep(2)">Siguiente: Elegir Paquete →</button>
+            </div>
+
+            <!-- Paso 2: Paquete -->
+            <div class="card-box" id="step2-box" style="display: none;">
+                <div class="card-title">Seleccioná tu Paquete</div>
+                <div class="packages-grid" id="packagesGrid">
+                    <!-- Inyectado por JS según juego -->
+                </div>
+                <button class="btn-secondary" onclick="goToStep(1)">← Atrás</button>
+                <button class="btn-primary" style="margin-top: 8px;" onclick="goToStep(3)">Siguiente: ID y Datos →</button>
+            </div>
+
+            <!-- Paso 3: ID y Datos -->
+            <div class="card-box" id="step3-box" style="display: none;">
+                <div class="card-title">ID de Jugador y Datos <span style="font-size:11px; color:var(--purple-primary)">🛡️ Validación Anti-Error</span></div>
+                
+                <div class="input-group">
+                    <label>ID del Jugador (8 a 12 números) *</label>
+                    <input type="text" id="playerIdInput" placeholder="Ej: 227346664" oninput="validatePlayerIdLive()">
+                    <span id="idValidationFeedback" style="font-size:11px; color:var(--success); display:none;">✓ ID verificado correctamente en servidor</span>
+                </div>
+
+                <div class="input-group">
+                    <label>Apodo / Nickname exacto en el juego *</label>
+                    <input type="text" id="playerNicknameInput" placeholder="Ej: Zky ✿">
+                </div>
+
+                <div class="input-group">
+                    <label>Tu Correo o WhatsApp (para aviso) *</label>
+                    <input type="text" id="playerContactInput" placeholder="correo@gmail.com o WP">
+                </div>
+
+                <div class="input-group">
+                    <label>Código Promocional / Mini Influencer (Opcional)</label>
+                    <input type="text" id="promoCodeInput" placeholder="EJ: NEXO10 o código secreto">
+                </div>
+
+                <button class="btn-secondary" onclick="goToStep(2)">← Atrás</button>
+                <button class="btn-primary" style="margin-top: 8px;" onclick="goToStep(4)">Ir al Pago Seguro →</button>
+            </div>
+
+            <!-- Paso 4: Pago y Comprobante -->
+            <div class="card-box" id="step4-box" style="display: none;">
+                <div class="card-title">Transferencia y Comprobante</div>
+                <div style="background: var(--bg-deep); padding: 12px; border-radius: 12px; margin-bottom: 12px; text-align: center;">
+                    <div style="font-size: 11px; color: var(--text-muted);">Total a transferir (ARS):</div>
+                    <div id="checkoutTotalAmount" style="font-size: 20px; font-weight: 800; color: var(--success); margin: 4px 0;">$1.500</div>
+                    <div style="font-size: 12px; font-weight: 700;">ALIAS MERCADO PAGO:</div>
+                    <div style="font-family: monospace; background: rgba(139,92,246,0.1); padding: 6px; border-radius: 6px; margin: 4px 0; font-size: 14px; font-weight: bold; color: var(--purple-primary);">kevincabelier.mp</div>
+                    <div style="font-size: 11px; color: var(--text-muted);">Titular: Kevin Eloy Cabelier</div>
+                </div>
+
+                <div class="input-group">
+                    <label>Subí la captura del comprobante de transferencia *</label>
+                    <input type="file" id="receiptFileInput" accept="image/*" style="padding: 8px;">
+                </div>
+
+                <!-- Checkbox Obligatorio No Reembolso y Veracidad -->
+                <div style="display: flex; gap: 8px; align-items: flex-start; margin: 12px 0; font-size: 11px; color: var(--text-muted);">
+                    <input type="checkbox" id="noRefundCheckbox" style="margin-top: 2px;">
+                    <label for="noRefundCheckbox" style="cursor: pointer; line-height: 1.3;">
+                        Confirmo que el ID y el comprobante son 100% verdaderos y sin ediciones. Entiendo y acepto que <b>no se realizan reembolsos ni devoluciones</b> una vez procesada la orden.
+                    </label>
+                </div>
+
+                <button class="btn-secondary" onclick="goToStep(3)">← Atrás</button>
+                <button class="btn-primary" style="margin-top: 8px; background: linear-gradient(135deg, var(--success), #059669);" onclick="submitFinalOrder()">CONFIRMAR PEDIDO AHORA ✓</button>
+            </div>
+        </div>
+
+        <!-- ================= VIEW: MISSIONS ================= -->
+        <div id="view-missions" class="view-section">
+            <div class="card-box">
+                <div class="mission-header">
                     <div>
-                        <label class="text-xs font-bold text-gray-300">ID de Jugador</label>
-                        <div class="flex gap-2 mt-1">
-                            <input type="number" id="player-id" placeholder="Ingresá tu ID numérico real..." class="w-full bg-nexoDark border border-gray-700 rounded-xl p-3 text-sm text-white font-mono focus:outline-none focus:border-nexoCyan">
-                            <button onclick="verifyPlayerIdReal()" id="verify-id-btn" class="bg-nexoCyan text-nexoDark font-black px-3.5 rounded-xl text-xs shrink-0">Buscar ID</button>
-                        </div>
-                        <div id="id-verification-result" class="text-[11px] mt-1.5 hidden p-2.5 rounded-xl border"></div>
+                        <div style="font-size: 11px; color: var(--purple-primary); font-weight: bold;">MINIJUEGOS • SEMANAL</div>
+                        <div style="font-size: 15px; font-weight: 800;">TABLERO DE MISIONES</div>
                     </div>
-                    <div class="bg-nexoDark/80 border border-gray-800 p-3 rounded-xl space-y-2">
-                        <label class="text-[11px] font-bold text-gray-300">🎟️ Código Promocional</label>
-                        <div class="flex gap-2">
-                            <input type="text" id="promo-code" placeholder="Ej: NEXO10" class="w-full bg-nexoCard border border-gray-700 rounded-lg px-3 py-2 text-xs uppercase text-white">
-                            <button onclick="validateCode()" class="bg-nexoPurple px-4 rounded-lg text-xs font-bold">Aplicar</button>
-                        </div>
-                        <p id="code-feedback" class="text-[11px] mt-1 hidden"></p>
-                    </div>
-                    <input type="text" id="client-name" placeholder="Nombre *" class="w-full bg-nexoDark border border-gray-700 rounded-xl p-2.5 text-xs text-white">
-                    <input type="text" id="client-lastname" placeholder="Apellido *" class="w-full bg-nexoDark border border-gray-700 rounded-xl p-2.5 text-xs text-white">
-                    <input type="tel" id="client-phone" placeholder="Tu WhatsApp (Ej: 1123456789) *" class="w-full bg-nexoDark border border-gray-700 rounded-xl p-2.5 text-xs text-white">
+                    <div class="mission-badge" id="missionResetTimer">Sábados 00hs</div>
                 </div>
-                <div class="flex gap-2.5">
-                    <button onclick="goToStep(2)" class="w-1/3 bg-nexoSurface text-gray-300 font-bold py-3 rounded-xl text-xs">← Atrás</button>
-                    <button onclick="goToStep(4)" class="w-2/3 bg-gradient-to-r from-nexoPurple to-nexoCyan text-white font-black py-3 rounded-xl text-xs uppercase">Continuar al Pago ➔</button>
-                </div>
-            </section>
+                <p style="font-size: 12px; color: var(--text-muted); margin: 8px 0;">Tomá una misión, cumplila y ganá la recompensa gratis. Sin requisitos de seguidores. Cupos limitados.</p>
+            </div>
 
-            <!-- PASO 4 -->
-            <section id="step-4" class="hidden bg-nexoCard/95 border border-nexoCyan/40 rounded-2xl p-5 shadow-2xl space-y-5 animate-glow">
-                <div class="text-center border-b border-gray-800 pb-3">
-                    <h2 class="text-base font-black text-white mt-1">Resumen y Verificación de Pago</h2>
+            <div id="missionsListContainer">
+                <!-- Inyectado por JS -->
+            </div>
+        </div>
+
+        <!-- ================= VIEW: ROULETTE ================= -->
+        <div id="view-roulette" class="view-section">
+            <div class="card-box roulette-container">
+                <div style="font-size: 16px; font-weight: 800; margin-bottom: 6px;">🎡 Ruleta Nexo Store</div>
+                <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 14px;">Elegí por qué moneda vas a girar y probá tu suerte.</p>
+
+                <div class="input-group" style="text-align: left; max-width: 280px; margin: 0 auto 12px auto;">
+                    <label>Elegí tu premio deseado:</label>
+                    <select id="rouletteCurrencySelect" style="background:var(--bg-deep); border:1px solid rgba(139,92,246,0.3); color:white; padding:8px; border-radius:8px; width:100%;">
+                        <option value="Free Fire (Diamantes)">💎 Free Fire (Diamantes)</option>
+                        <option value="Blood Strike (Oro)">⚡ Blood Strike (Oro)</option>
+                    </select>
                 </div>
-                <div class="bg-nexoDark border border-gray-800 rounded-xl p-4 space-y-2 text-xs">
-                    <div class="flex justify-between"><span class="text-gray-400">Total a Pagar:</span><span id="sum-total" class="text-lg font-black text-nexoCyan">$0 ARS</span></div>
+
+                <div class="input-group" style="text-align: left; max-width: 280px; margin: 0 auto 16px auto;">
+                    <label>ID del Juego para recibir el premio *</label>
+                    <input type="text" id="roulettePlayerId" placeholder="Ej: 83920194">
                 </div>
-                <div class="bg-nexoDark border border-nexoPurple/40 rounded-xl p-3.5 space-y-2">
-                    <span class="text-[11px] font-bold text-nexoCyan">Alias de Mercado Pago:</span>
-                    <div class="flex items-center justify-between bg-nexoCard p-2 rounded-lg border border-gray-800">
-                        <code class="text-xs font-bold text-white select-all">kevincabelier.mp</code>
-                        <button onclick="copyAlias()" class="bg-nexoPurple/20 text-nexoPurple px-2.5 py-1 rounded text-[10px] font-bold">Copiar</button>
-                    </div>
+
+                <div style="position: relative; display: inline-block;">
+                    <div class="wheel-pointer"></div>
+                    <div class="wheel" id="rouletteWheel"></div>
                 </div>
-                <div class="bg-nexoDark border border-cyan-500/40 p-3.5 rounded-xl space-y-2.5">
-                    <span class="text-xs font-bold text-cyan-300">🛡️ Auditoría Inteligente de Comprobante (OCR)</span>
-                    <input type="file" id="receipt-file-input" accept="image/*" class="w-full text-xs text-gray-300" onchange="analyzeReceiptIntelligent(event)">
-                    <div id="receipt-ai-status" class="text-[11px] hidden p-2.5 rounded-xl border"></div>
+
+                <button class="btn-primary" style="max-width: 280px; margin: 16px auto 0 auto;" onclick="spinRoulette()">GIRAR RULETA GRATIS 🎰</button>
+            </div>
+        </div>
+
+        <!-- ================= VIEW: CHAT ================= -->
+        <div id="view-chat" class="view-section">
+            <div class="card-box">
+                <div class="card-title">Chat Global de la Comunidad <span style="font-size:10px; color:var(--success)">🛡️ 100% Seguro</span></div>
+                <div class="chat-box" id="globalChatContainer">
+                    <!-- Mensajes en vivo + Bots periódicos -->
                 </div>
-                <label class="flex items-start gap-2.5 bg-red-950/20 border border-red-900/40 p-3 rounded-xl cursor-pointer">
-                    <input type="checkbox" id="terms-check" class="mt-0.5 accent-nexoCyan">
-                    <span class="text-[10px] text-gray-300 leading-tight">Confirmo que el ID ingresado es correcto y el comprobante es verdadero.</span>
-                </label>
-                <button onclick="sendOrderWhatsApp()" class="w-full bg-gradient-to-r from-green-600 to-emerald-500 text-white font-black py-3.5 rounded-xl shadow-lg uppercase text-xs">Confirmar Pago y Enviar Orden</button>
-            </section>
-        </main>
+                <div style="display: flex; gap: 8px; margin-top: 12px;">
+                    <input type="text" id="chatMsgInput" placeholder="Escribí un mensaje..." style="flex:1; background:var(--bg-deep); border:1px solid rgba(139,92,246,0.3); padding:8px 12px; border-radius:8px; color:white; font-size:12px; outline:none;">
+                    <button class="btn-primary" style="width: auto; padding: 8px 16px;" onclick="sendChatMessage()">Enviar</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= VIEW: REVIEWS ================= -->
+        <div id="view-reviews" class="view-section">
+            <div class="card-box">
+                <div class="card-title">Reseñas de Clientes 
+                    <button class="btn-header" onclick="openReviewModal()">+ Dejar Reseña</button>
+                </div>
+                <div class="chat-box" id="reviewsContainer">
+                    <!-- Reseñas reales y bots -->
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= VIEW: TOPS ================= -->
+        <div id="view-tops" class="view-section">
+            <div class="card-box">
+                <div class="card-title">🏆 Top de Compras y Códigos</div>
+                <div style="font-size: 13px; font-weight: 700; color: var(--purple-primary); margin-bottom: 6px;">Top Recargadores de la Semana</div>
+                <div id="topBuyersContainer" style="display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px;"></div>
+
+                <div style="font-size: 13px; font-weight: 700; color: var(--warning); margin-bottom: 6px;">Códigos Más Usados</div>
+                <div id="topCodesContainer" style="display: flex; flex-direction: column; gap: 6px;"></div>
+            </div>
+        </div>
+
+        <!-- Footer Legal Reendedor Independiente -->
+        <div class="legal-footer">
+            Nexo Store © 2026. Todos los derechos reservados.<br>
+            <b>Aviso de exención de responsabilidad:</b> Somos revendedores independientes. No estamos afiliados, respaldados ni asociados oficialmente con Garena Free Fire, NetEase Games (Blood Strike) ni ninguna de sus marcas registradas. Las marcas pertenecen a sus respectivos dueños.
+        </div>
     </div>
 
-    <!-- ==================== VISTA 2: PANEL DE ADMINISTRADOR (Varela123) ==================== -->
-    <div id="view-admin" class="hidden flex-col min-h-screen justify-between bg-nexoDark p-4">
-        <div class="max-w-md mx-auto w-full pt-8 space-y-6">
-            <div class="flex justify-between items-center border-b border-gray-800 pb-4">
-                <h2 class="text-xl font-black text-white">Panel Admin</h2>
-                <button onclick="exitAdminView()" class="bg-nexoSurface text-gray-300 px-3 py-2 rounded-xl text-xs font-bold">← Tienda</button>
+    <!-- ================= MODALS ================= -->
+
+    <!-- Auth Modal -->
+    <div class="modal-overlay" id="authModal">
+        <div class="modal-content">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+                <h3>Acceso / Registro Nexo</h3>
+                <button onclick="closeAuthModal()" style="background:none; border:none; color:white; font-size:18px; cursor:pointer;">✕</button>
             </div>
-            <div id="admin-login-screen" class="bg-nexoCard border border-gray-800 p-6 rounded-3xl space-y-4 shadow-2xl">
-                <input type="password" id="admin-password-field" placeholder="Contraseña..." class="w-full bg-nexoDark border border-gray-700 rounded-xl p-3 text-xs text-white text-center font-mono">
-                <button onclick="checkAdminPassword()" class="w-full bg-red-600 text-white font-black py-3 rounded-xl text-xs uppercase">Entrar al Panel</button>
-                <p id="admin-login-error" class="text-xs text-red-400 text-center font-bold hidden">Contraseña incorrecta.</p>
+            <div class="input-group">
+                <label>Correo / Gmail *</label>
+                <input type="email" id="authEmail" placeholder="tucorreo@gmail.com">
             </div>
-            <div id="admin-dashboard-screen" class="hidden space-y-5">
-                <div class="bg-nexoCard border border-green-500/40 p-5 rounded-3xl space-y-3 shadow-xl">
-                    <h3 class="text-sm font-black text-white">📦 Pedidos Pagados (En Vivo)</h3>
-                    <div id="admin-orders-list" class="space-y-2 max-h-60 overflow-y-auto"></div>
+            <div class="input-group">
+                <label>Contraseña *</label>
+                <input type="password" id="authPass" placeholder="••••••••">
+            </div>
+            <div class="input-group">
+                <label>Apodo / Nickname *</label>
+                <input type="text" id="authNick" placeholder="Tu Apodo">
+            </div>
+            <button class="btn-primary" onclick="performLogin()">Ingresar / Registrarse</button>
+        </div>
+    </div>
+
+    <!-- Review Modal -->
+    <div class="modal-overlay" id="reviewModal">
+        <div class="modal-content">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+                <h3>Dejar Reseña</h3>
+                <button onclick="closeReviewModal()" style="background:none; border:none; color:white; font-size:18px; cursor:pointer;">✕</button>
+            </div>
+            <div class="input-group">
+                <label>Calificación (Estrellas 1 al 5)</label>
+                <select id="reviewStars" style="background:var(--bg-deep); color:white; padding:8px; border-radius:8px; border:1px solid rgba(139,92,246,0.3);">
+                    <option value="★★★★★">★★★★★ (10/10 Rápido)</option>
+                    <option value="★★★★☆">★★★★☆ (Muy bueno)</option>
+                    <option value="★★★☆☆">★★★☆☆ (Normal)</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <label>Tu Comentario</label>
+                <input type="text" id="reviewComment" placeholder="Ej: Me llegaron los diamantes al toque!">
+            </div>
+            <button class="btn-primary" onclick="submitUserReview()">Publicar Reseña</button>
+        </div>
+    </div>
+
+    <!-- Influencer / Creator Modal -->
+    <div class="modal-overlay" id="influencerModal">
+        <div class="modal-content">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+                <h3>Programa Mini Influencers</h3>
+                <button onclick="closeInfluencerModal()" style="background:none; border:none; color:white; font-size:18px; cursor:pointer;">✕</button>
+            </div>
+            <p style="font-size: 12px; color: var(--text-muted);">Crea tu código y asciende de rango ninja:<br>• Genin (20 usos) → 110 Diamantes<br>• Chunin (50 usos) → 341 Diamantes<br>• Hokage (100 usos) → 1.060 Diamantes</p>
+            
+            <div class="input-group">
+                <label>Código Deseado (Ej: KEVINFF)</label>
+                <input type="text" id="infCodeInput" placeholder="TUCODIGO">
+            </div>
+            <div class="input-group">
+                <label>Tu ID del Juego *</label>
+                <input type="text" id="infIdInput" placeholder="Ej: 227346664">
+            </div>
+            <div class="input-group">
+                <label>Mensaje / Red Social de Promoción *</label>
+                <input type="text" id="infMsgInput" placeholder="Ej: Lo voy a subir a TikTok / @miusuario">
+            </div>
+            <button class="btn-primary" onclick="requestInfluencerCode()">Enviar Solicitud a nexostoreoff14@gmail.com</button>
+        </div>
+    </div>
+
+    <!-- Mission Detail Modal -->
+    <div class="modal-overlay" id="missionDetailModal">
+        <div class="modal-content" id="missionDetailBody">
+            <!-- Inyectado dinámicamente -->
+        </div>
+    </div>
+
+    <!-- Admin Panel Modal (Varela123) -->
+    <div class="modal-overlay" id="adminModal">
+        <div class="modal-content">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+                <h3>⚙️ Panel Admin Varela123</h3>
+                <button onclick="closeAdminPanel()" style="background:none; border:none; color:white; font-size:18px; cursor:pointer;">✕</button>
+            </div>
+
+            <div id="adminLoginSection">
+                <div class="input-group">
+                    <label>Contraseña de Administrador</label>
+                    <input type="password" id="adminPassInput" placeholder="••••••••">
                 </div>
-                <div class="bg-nexoCard border border-purple-500/40 p-5 rounded-3xl space-y-3 shadow-xl">
-                    <h3 class="text-sm font-black text-white">🎬 Participantes de Misiones</h3>
-                    <div id="admin-submissions-list" class="space-y-2 max-h-60 overflow-y-auto"></div>
+                <button class="btn-primary" onclick="verifyAdminPass()">Ingresar al Panel</button>
+            </div>
+
+            <div id="adminControlsSection" style="display:none; flex-direction:column; gap:12px;">
+                <div style="font-size: 12px; color: var(--success); font-weight: bold;">✓ Acceso Concedido (Control de Bots & Datos)</div>
+                
+                <div style="background:var(--bg-deep); padding:10px; border-radius:10px; display:flex; justify-content:space-between; align-items:center;">
+                    <span style="font-size:12px;">Simulación Bots Chat Global</span>
+                    <input type="checkbox" id="botChatToggle" onchange="toggleAdminBot('chat', this.checked)">
                 </div>
-                <button onclick="exitAdminView()" class="w-full bg-nexoSurface text-gray-400 py-2.5 rounded-xl text-xs">Cerrar Sesión Admin</button>
+
+                <div style="background:var(--bg-deep); padding:10px; border-radius:10px; display:flex; justify-content:space-between; align-items:center;">
+                    <span style="font-size:12px;">Simulación Bots Reseñas</span>
+                    <input type="checkbox" id="botReviewsToggle" onchange="toggleAdminBot('reviews', this.checked)">
+                </div>
+
+                <div style="background:var(--bg-deep); padding:10px; border-radius:10px; display:flex; justify-content:space-between; align-items:center;">
+                    <span style="font-size:12px;">Simulación Tops de Compras</span>
+                    <input type="checkbox" id="botTopsToggle" onchange="toggleAdminBot('tops', this.checked)">
+                </div>
+
+                <div style="border-top:1px solid rgba(255,255,255,0.1); padding-top:10px; margin-top:4px;">
+                    <div style="font-size:13px; font-weight:bold; margin-bottom:8px;">Crear Nuevo Código (Público o Secreto TikTok)</div>
+                    <div class="input-group">
+                        <label>Código</label>
+                        <input type="text" id="adminNewCode" placeholder="EJ: VERANO2026">
+                    </div>
+                    <div class="input-group">
+                        <label>Tipo de Visibilidad</label>
+                        <select id="adminCodeType" style="background:var(--bg-deep); color:white; padding:8px; border-radius:8px; border:1px solid rgba(139,92,246,0.3);">
+                            <option value="public">Público (Visible en la tienda)</option>
+                            <option value="secret">🔒 Secreto (Solo vía TikTok)</option>
+                        </select>
+                    </div>
+                    <button class="btn-primary" onclick="adminCreateCode()">Crear y Guardar</button>
+                </div>
             </div>
         </div>
     </div>
 
+    <!-- JavaScript Logic -->
     <script>
-        const FIREBASE_DB_URL = "https://nexo-store-bcec3-default-rtdb.firebaseio.com/"; 
-        let globalCoupons = { "NEXO10": { discount: 10, maxUses: 100, usedCount: 0 } };
-        let missionsDB = [
-            { id: 1, title: "Promocionar @nexop02 en TikTok (1.500 vistas)", reward: "110 Diamantes / 5 Coins", minViews: "1.500 vistas", cupos: 10, maxCupos: 10, active: true, desc: "Subí un video a TikTok promocionando nuestra cuenta @nexop02." }
-        ];
+        // Estado Global de la App
+        let currentUser = null;
+        let selectedGame = 'Free Fire';
+        let selectedPackage = null;
+        let currentStep = 1;
 
-        function getCleanDbUrl() { return FIREBASE_DB_URL.replace(/\/$/, ""); }
-
-        async function syncFromCloud() {
-            const url = getCleanDbUrl();
-            if (!url.startsWith("http")) return;
-            try {
-                const res = await fetch(`${url}/nexo_store_data.json?t=${Date.now()}`);
-                const data = await res.json();
-                if (data) {
-                    if (data.coupons) globalCoupons = data.coupons;
-                    if (data.missions) missionsDB = data.missions;
-                }
-            } catch (e) {}
-        }
-
-        let currentAccountEmail = localStorage.getItem('nexo_active_email') || '';
-        let currentUser = { name: 'Invitado', email: '', coins: 0, purchases: 0, savedIds: [] };
-
-        async function saveCurrentUser() {
-            if (!currentUser.email) return;
-            localStorage.setItem('nexo_acc_' + currentUser.email, JSON.stringify(currentUser));
-        }
-
-        function toggleProfileModal() { document.getElementById('profile-modal').classList.toggle('hidden'); }
-        async function loginWithGmail() {
-            const emailInput = document.getElementById('login-gmail-input').value.trim().toLowerCase();
-            const nameInput = document.getElementById('login-name-input').value.trim();
-            if (!emailInput || !emailInput.endsWith('@gmail.com')) { alert('Ingresá un Gmail válido.'); return; }
-            currentUser.email = emailInput;
-            currentUser.name = nameInput || emailInput.split('@')[0];
-            currentAccountEmail = emailInput;
-            localStorage.setItem('nexo_active_email', emailInput);
-            await saveCurrentUser();
-            toggleProfileModal();
-            alert(`¡Bienvenido ${currentUser.name}!`);
-        }
-
-        let selectedMissionId = null;
-        function renderMissionsList() {
-            const container = document.getElementById('missions-cards-container');
-            if (!container) return;
-            container.innerHTML = missionsDB.filter(m => m.active).map(m => `
-                <div onclick="openMissionDetail(${m.id})" class="bg-nexoDark border border-gray-800 p-3.5 rounded-2xl cursor-pointer space-y-1.5">
-                    <div class="flex justify-between items-center"><h4 class="font-black text-xs text-white">${m.title}</h4><span class="text-[9px] text-yellow-400 font-bold">Cupos: ${m.cupos}/${m.maxCupos}</span></div>
-                    <p class="text-[10px] text-nexoCyan">Recompensa: ${m.reward}</p>
-                </div>
-            `).join('');
-        }
-        function openMissionDetail(id) {
-            selectedMissionId = id;
-            const m = missionsDB.find(x => x.id === id);
-            document.getElementById('detail-mission-title').innerText = m.title;
-            document.getElementById('detail-mission-reward').innerText = "Recompensa: " + m.reward;
-            document.getElementById('missions-listView').classList.add('hidden');
-            document.getElementById('missions-detailView').classList.remove('hidden');
-        }
-        function backToMissionsList() {
-            document.getElementById('missions-detailView').classList.add('hidden');
-            document.getElementById('missions-listView').classList.remove('hidden');
-            renderMissionsList();
-        }
-        async function reserveMissionCupo() {
-            let m = missionsDB.find(x => x.id === selectedMissionId);
-            if (m.cupos <= 0) { alert('Sin cupos'); return; }
-            m.cupos--;
-            document.getElementById('reserve-cupo-container').classList.add('hidden');
-            document.getElementById('submit-link-container').classList.remove('hidden');
-        }
-        async function submitMissionProof() {
-            const game = document.getElementById('mission-player-game').value;
-            const playerId = document.getElementById('mission-player-id').value.trim();
-            const socialUser = document.getElementById('mission-social-user').value.trim();
-            const link = document.getElementById('mission-video-link').value.trim();
-            const fb = document.getElementById('mission-feedback');
-            fb.classList.remove('hidden');
-
-            if (!playerId || !socialUser || !link) {
-                fb.className = 'text-xs font-bold text-red-400 text-center';
-                fb.innerText = '⚠️ Completá todos los campos.';
-                return;
-            }
-
-            const m = missionsDB.find(x => x.id === selectedMissionId);
-            const submissionId = 'MSN-' + Math.floor(100000 + Math.random() * 900000);
-            const submissionData = {
-                submissionId, missionTitle: m ? m.title : 'Misión', requiredViews: m?.minViews || '1.500 vistas',
-                reward: m?.reward || '', game, playerId, socialUser, videoUrl: link, date: new Date().toLocaleString()
-            };
-
-            const url = getCleanDbUrl();
-            if (url.startsWith("http")) {
-                await fetch(`${url}/nexo_mission_submissions/${submissionId}.json`, {
-                    method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(submissionData)
-                });
-            }
-            fb.className = 'text-xs font-bold text-green-400 text-center p-2.5 rounded-xl';
-            fb.innerHTML = `✅ <strong>¡Participación #${submissionId} enviada!</strong>`;
-        }
-        function toggleMissionsModal() { renderMissionsList(); document.getElementById('missions-modal').classList.toggle('hidden'); }
-
-        let verifiedPlayerProfile = null;
-        async function verifyPlayerIdReal() {
-            const idVal = document.getElementById('player-id').value.trim();
-            const res = document.getElementById('id-verification-result');
-            res.classList.remove('hidden');
-            if (!idVal || !/^\d{8,12}$/.test(idVal)) {
-                res.className = 'text-[11px] mt-1.5 p-2.5 rounded-xl border border-red-500/40 bg-red-950/30 text-red-400 font-bold';
-                res.innerHTML = '❌ <strong>ID Inválido:</strong> Debe tener entre 8 y 12 dígitos.';
-                return;
-            }
-            verifiedPlayerProfile = { id: idVal, nickname: `Jugador #${idVal.slice(-4)}` };
-            res.className = 'text-[11px] mt-1.5 p-2.5 rounded-xl border border-green-500/50 bg-green-950/30 text-green-400 font-bold';
-            res.innerHTML = `✅ <strong>ID Verificado:</strong> <span class="text-white">${verifiedPlayerProfile.nickname}</span>`;
-        }
-
-        let receiptVerified = false;
-        async function analyzeReceiptIntelligent(event) {
-            const file = event.target.files[0];
-            const status = document.getElementById('receipt-ai-status');
-            status.classList.remove('hidden');
-            receiptVerified = false;
-            if (!file) return;
-
-            status.className = 'text-[11px] p-2.5 rounded-xl border border-cyan-500/40 bg-cyan-950/20 text-nexoCyan font-bold';
-            status.innerHTML = '🧠 <strong>IA Verificando Comprobante...</strong>';
-
-            try {
-                const ocrResult = await Tesseract.recognize(file, 'spa');
-                const text = (ocrResult.data.text || '').toLowerCase();
-                if (text.length > 5) {
-                    receiptVerified = true;
-                    status.className = 'text-[11px] p-2.5 rounded-xl border border-green-500/50 bg-green-950/30 text-green-400 font-bold';
-                    status.innerHTML = '✅ <strong>Comprobante Real Verificado por IA.</strong>';
-                } else {
-                    status.className = 'text-[11px] p-2.5 rounded-xl border border-red-500/50 text-red-400 font-bold';
-                    status.innerHTML = '❌ No se pudo leer texto válido.';
-                }
-            } catch (e) {
-                status.className = 'text-[11px] p-2.5 rounded-xl border border-red-500/50 text-red-400 font-bold';
-                status.innerHTML = '❌ Error al procesar la imagen.';
-            }
-        }
-
-        let storeState = { game: 'Free Fire', playerId: '', cart: {}, totalBasePrice: 0, finalPrice: 0, discountPercent: 0, couponUsed: 'Ninguno' };
-        const packsData = {
+        // Datos de Paquetes
+        const packagesData = {
             'Free Fire': [
-                { name: '110 Diamantes', amount: 110, price: 1500, coins: 1 },
-                { name: '341 Diamantes', amount: 341, price: 4400, coins: 1 },
-                { name: '572 Diamantes', amount: 572, price: 7200, coins: 1 }
+                { name: '100 + 10 Diamantes', coins: 1, price: '$1.500' },
+                { name: '310 + 31 Diamantes', coins: 1, price: '$4.200' },
+                { name: '520 + 52 Diamantes', coins: 1, price: '$6.900' },
+                { name: '1060 + 106 Diamantes', coins: 5, price: '$13.500' },
+                { name: '2180 + 218 Diamantes', coins: 5, price: '$26.500' },
+                { name: 'Tarjeta Semanal', coins: 1, price: '$2.800' }
             ],
             'Blood Strike': [
-                { name: '105 Oro', amount: 105, price: 1412, coins: 1 },
-                { name: '320 Oro', amount: 320, price: 4253, coins: 1 }
+                { name: '100 Oro', coins: 1, price: '$1.200' },
+                { name: '300 Oro', coins: 1, price: '$3.500' },
+                { name: '500 Oro', coins: 1, price: '$5.800' },
+                { name: '1200 Oro', coins: 5, price: '$12.000' },
+                { name: '2500 Oro', coins: 5, price: '$24.000' }
             ]
         };
 
-        function selectGame(gameName, el) {
-            storeState.game = gameName;
-            storeState.cart = {};
-            verifiedPlayerProfile = null;
-            document.querySelectorAll('.game-tab').forEach(tab => tab.className = 'game-tab border border-gray-800 bg-nexoDark/70 p-3 rounded-2xl text-center cursor-pointer opacity-80 flex flex-col items-center justify-center space-y-2');
-            el.className = 'game-tab border-2 border-nexoCyan bg-nexoCyan/10 p-3 rounded-2xl text-center cursor-pointer transition flex flex-col items-center justify-center space-y-2';
+        // Estado de Bots Administrados por Varela123
+        let adminBotsState = {
+            chat: false,
+            reviews: false,
+            tops: false
+        };
+
+        // Datos simulados de Chat, Reseñas y Tops
+        let chatMessages = [
+            { user: 'Lucas_FF', text: 'Recién me llegaron los 341 diamantes, tardó 2 minutos nomás 🔥' },
+            { user: 'ValentinaGamer', text: '¿Alguien probó el código secreto de TikTok? Funciona al toque.' },
+            { user: 'SantiStrike', text: 'Cargué oro para Blood Strike y llegó súper rápido, 10/10' }
+        ];
+
+        let reviewsList = [
+            { user: 'Zky', stars: '★★★★★', comment: 'Excelente atención y recarga instantánea.' },
+            { user: 'Franco_AR', stars: '★★★★★', comment: 'Muy confiable, 100 recomendable.' }
+        ];
+
+        let topBuyers = [
+            { name: 'Thiago_FF', amount: '$42.000 (Heroico)' },
+            { name: 'Agustin12', amount: '$26.500' },
+            { name: 'Matias_BS', amount: '$24.000' }
+        ];
+
+        let activeCodes = [
+            { code: 'VERANO2026', desc: '-10% desc', secret: false },
+            { code: 'NEXO10', desc: '-10% desc', secret: false }
+        ];
+
+        // Carrusel táctil y automático (3 segundos)
+        let currentSlideIndex = 0;
+        let slideInterval = setInterval(nextSlide, 3000);
+
+        function nextSlide() {
+            currentSlideIndex = (currentSlideIndex + 1) % 4;
+            updateCarouselPosition();
         }
 
-        function renderPacks() {
-            document.getElementById('current-game-title').innerText = storeState.game;
-            const container = document.getElementById('packs-container');
-            container.innerHTML = packsData[storeState.game].map(p => `
-                <div class="border border-gray-800 bg-nexoDark/80 p-3 rounded-xl flex items-center justify-between">
-                    <div><p class="font-black text-xs text-white">${p.name}</p><p class="text-[10px] text-nexoCyan">$${p.price.toLocaleString('es-AR')} ARS</p></div>
-                    <button onclick="updateCart('${p.name}', ${p.price})" class="bg-nexoPurple text-white px-3 py-1.5 rounded-lg text-xs font-bold">+ Seleccionar</button>
-                </div>
-            `).join('');
+        function goToSlide(index) {
+            currentSlideIndex = index;
+            updateCarouselPosition();
+            resetSlideInterval();
         }
 
-        function updateCart(name, price) {
-            storeState.totalBasePrice = price;
-            storeState.finalPrice = price;
-            document.getElementById('display-price').innerText = `$${price.toLocaleString('es-AR')} ARS`;
-        }
-
-        function validateCode() {
-            const code = document.getElementById('promo-code').value.trim().toUpperCase();
-            const feedback = document.getElementById('code-feedback');
-            feedback.classList.remove('hidden');
-            if (globalCoupons[code]) {
-                storeState.discountPercent = globalCoupons[code].discount;
-                storeState.couponUsed = `${code} (-${storeState.discountPercent}%)`;
-                storeState.finalPrice = storeState.totalBasePrice * (1 - storeState.discountPercent / 100);
-                feedback.className = 'text-[11px] mt-1.5 text-green-400 font-bold';
-                feedback.innerText = `✅ ¡Cupón aplicado!`;
-            } else {
-                feedback.className = 'text-[11px] mt-1.5 text-red-400 font-bold';
-                feedback.innerText = '❌ Código inválido.';
-            }
-        }
-
-        let secretClicks = 0;
-        function triggerAdminSecret() {
-            secretClicks++;
-            if (secretClicks >= 5) {
-                secretClicks = 0;
-                document.getElementById('view-store').classList.add('hidden');
-                document.getElementById('view-admin').classList.remove('hidden');
-            }
-        }
-        function exitAdminView() {
-            document.getElementById('view-admin').classList.add('hidden');
-            document.getElementById('view-store').classList.remove('hidden');
-        }
-        async function checkAdminPassword() {
-            const pass = document.getElementById('admin-password-field').value.trim();
-            if (pass === 'Varela123') {
-                document.getElementById('admin-login-screen').classList.add('hidden');
-                document.getElementById('admin-dashboard-screen').classList.remove('hidden');
-                loadAdminOrders();
-                loadAdminSubmissions();
-            } else {
-                document.getElementById('admin-login-error').classList.remove('hidden');
-            }
-        }
-        async function loadAdminOrders() {
-            const container = document.getElementById('admin-orders-list');
-            const url = getCleanDbUrl();
-            if (!url.startsWith("http")) return;
-            const res = await fetch(`${url}/nexo_orders.json`);
-            const data = await res.json();
-            container.innerHTML = data ? Object.values(data).reverse().map(o => `<div class="bg-nexoDark p-2 rounded text-xs">#${o.orderNumber} - ${o.game} ($${o.totalPaid})</div>`).join('') : 'Sin pedidos.';
-        }
-        async function loadAdminSubmissions() {
-            const container = document.getElementById('admin-submissions-list');
-            const url = getCleanDbUrl();
-            if (!url.startsWith("http")) return;
-            const res = await fetch(`${url}/nexo_mission_submissions.json`);
-            const data = await res.json();
-            container.innerHTML = data ? Object.values(data).reverse().map(s => `<div class="bg-nexoDark p-2 rounded text-xs">#${s.submissionId} - ${s.socialUser} (${s.game})</div>`).join('') : 'Sin videos.';
-        }
-
-        function goToStep(step) {
-            if (step === 2) renderPacks();
-            if (step === 3 && !storeState.totalBasePrice) { alert('Seleccioná un paquete.'); return; }
-            if (step === 4) {
-                const id = document.getElementById('player-id').value.trim();
-                if (!verifiedPlayerProfile || verifiedPlayerProfile.id !== id) { alert('Verificá tu ID primero.'); return; }
-                storeState.playerId = id;
-                document.getElementById('sum-total').innerText = `$${storeState.finalPrice.toLocaleString('es-AR')} ARS`;
-            }
-            [1, 2, 3, 4].forEach(num => {
-                document.getElementById('step-' + num).classList.add('hidden');
-                const label = document.getElementById('label-step-' + num);
-                if (num <= step) { label.classList.remove('text-gray-500'); label.classList.add('text-nexoCyan'); }
-                else { label.classList.remove('text-nexoCyan'); label.classList.add('text-gray-500'); }
+        function updateCarouselPosition() {
+            const track = document.getElementById('carouselTrack');
+            track.style.transform = `translateX(-${currentSlideIndex * 100}%)`;
+            document.querySelectorAll('.dot').forEach((d, idx) => {
+                d.classList.toggle('active', idx === currentSlideIndex);
             });
-            document.getElementById('step-' + step).classList.remove('hidden');
-            document.getElementById('progress-bar').style.width = (step * 25) + '%';
         }
 
-        function copyAlias() { navigator.clipboard.writeText('kevincabelier.mp'); alert('¡Alias copiado!'); }
+        function resetSlideInterval() {
+            clearInterval(slideInterval);
+            slideInterval = setInterval(nextSlide, 3000);
+        }
 
-        async function sendOrderWhatsApp() {
-            if (!receiptVerified) { alert('⚠️ Sube un comprobante verificado por la IA.'); return; }
-            if (!document.getElementById('terms-check').checked) { alert('⚠️ Aceptá los términos.'); return; }
-            const orderNumber = 'NX-' + Math.floor(100000 + Math.random() * 900000);
-            const orderDetails = { orderNumber, game: storeState.game, playerId: storeState.playerId, totalPaid: storeState.finalPrice, date: new Date().toLocaleString() };
-            
-            const url = getCleanDbUrl();
-            if (url.startsWith("http")) {
-                await fetch(`${url}/nexo_orders/${orderNumber}.json`, {
-                    method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(orderDetails)
-                });
+        // Eventos táctiles para swipe con el dedo en el carrusel
+        let touchStartX = 0;
+        let touchEndX = 0;
+        const carouselEl = document.getElementById('carouselContainer');
+
+        carouselEl.addEventListener('touchstart', e => {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+
+        carouselEl.addEventListener('touchend', e => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        });
+
+        function handleSwipe() {
+            if (touchEndX < touchStartX - 50) {
+                nextSlide();
             }
-            alert(`✅ ¡Orden #${orderNumber} registrada con éxito!`);
-            location.reload();
+            if (touchEndX > touchStartX + 50) {
+                currentSlideIndex = (currentSlideIndex - 1 + 4) % 4;
+                updateCarouselPosition();
+                resetSlideInterval();
+            }
         }
 
-        window.onload = async () => { await syncFromCloud(); };
+        // Navegación entre pestañas
+        function switchTab(tabId, btnElement) {
+            document.querySelectorAll('.view-section').forEach(sec => sec.classList.remove('active'));
+            document.getElementById(`view-${tabId}`).classList.add('active');
+            
+            if(btnElement) {
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                btnElement.classList.add('active');
+            }
+        }
+
+        // Flujo de Tienda
+        function selectGame(gameName, cardEl) {
+            selectedGame = gameName;
+            document.querySelectorAll('.game-card').forEach(c => c.classList.remove('selected'));
+            cardEl.classList.add('selected');
+        }
+
+        function renderPackages() {
+            const grid = document.getElementById('packagesGrid');
+            grid.innerHTML = '';
+            packagesData[selectedGame].forEach((pkg, index) => {
+                let div = document.createElement('div');
+                div.className = `package-card ${selectedPackage === index ? 'selected' : ''}`;
+                div.onclick = () => {
+                    selectedPackage = index;
+                    document.querySelectorAll('.package-card').forEach(c => c.classList.remove('selected'));
+                    div.classList.add('selected');
+                    document.getElementById('checkoutTotalAmount').innerText = pkg.price;
+                };
+                div.innerHTML = `
+                    <div class="pkg-title">${pkg.name}</div>
+                    <div class="pkg-coins">+${pkg.coins} Nexo Coin</div>
+                    <div class="pkg-price">${pkg.price}</div>
+                `;
+                grid.appendChild(div);
+            });
+        }
+
+        function goToStep(stepNum) {
+            if(stepNum === 2 && selectedPackage === null) {
+                renderPackages();
+            }
+            document.getElementById(`step1-box`).style.display = stepNum === 1 ? 'block' : 'none';
+            document.getElementById(`step2-box`).style.display = stepNum === 2 ? 'block' : 'none';
+            document.getElementById(`step3-box`).style.display = stepNum === 3 ? 'block' : 'none';
+            document.getElementById(`step4-box`).style.display = stepNum === 4 ? 'block' : 'none';
+
+            for(let i=1; i<=4; i++) {
+                document.getElementById(`st${i}`).style.color = (i === stepNum) ? 'var(--purple-primary)' : 'var(--text-muted)';
+            }
+            currentStep = stepNum;
+        }
+
+        function validatePlayerIdLive() {
+            let val = document.getElementById('playerIdInput').value;
+            let feedback = document.getElementById('idValidationFeedback');
+            if(val.length >= 8) {
+                feedback.style.display = 'block';
+            } else {
+                feedback.style.display = 'none';
+            }
+        }
+
+        function submitFinalOrder() {
+            let uid = document.getElementById('playerIdInput').value;
+            let nick = document.getElementById('playerNicknameInput').value;
+            let agreed = document.getElementById('noRefundCheckbox').checked;
+
+            if(!uid || !nick) {
+                alert('Por favor completá tu ID y Nickname de juego.');
+                return;
+            }
+            if(!agreed) {
+                alert('Debes tildar la casilla aceptando los términos de veracidad y no reembolso.');
+                return;
+            }
+
+            alert('¡Pedido enviado con éxito! El bot de Nexo Store está procesando tu comprobante hacia nexostoreoff14@gmail.com. Entrega en < 5m.');
+            goToStep(1);
+        }
+
+        // Tablero de Misiones Semanal (Sábados 00hs)
+        function renderMissions() {
+            const container = document.getElementById('missionsListContainer');
+            container.innerHTML = `
+                <div class="mission-card" onclick="openMissionDetail('Subir TikTok Reseña Nexo Store', 'Grábate mostrando la tienda, recomendando tus recargas y usa el hashtag #NexoStore. Mínimo 200 vistas.', '110 Diamantes / 5 Coins', '3/10')">
+                    <div class="mission-header">
+                        <div style="font-weight:700; font-size:13px;">Subir TikTok Reseña Nexo Store</div>
+                        <div class="mission-badge">DISPONIBLE</div>
+                    </div>
+                    <div style="font-size:11px; color:var(--text-muted);">Recompensa: 💎 110 Diamantes / 5 Coins</div>
+                    <div class="cupos-grid">
+                        <div class="cupo-dot taken"></div><div class="cupo-dot taken"></div><div class="cupo-dot taken"></div>
+                        <div class="cupo-dot"></div><div class="cupo-dot"></div><div class="cupo-dot"></div><div class="cupo-dot"></div><div class="cupo-dot"></div><div class="cupo-dot"></div><div class="cupo-dot"></div>
+                    </div>
+                </div>
+                <div class="mission-card" onclick="openMissionDetail('Shorts de YouTube Sorteo', 'Sube un Short mostrando tu saldo en Nexo Store con enlace en descripción.', '341 Diamantes / 10 Coins', '1/5')">
+                    <div class="mission-header">
+                        <div style="font-weight:700; font-size:13px;">Shorts de YouTube • Sorteo</div>
+                        <div class="mission-badge">DISPONIBLE</div>
+                    </div>
+                    <div style="font-size:11px; color:var(--text-muted);">Recompensa: 💎 341 Diamantes / 10 Coins</div>
+                    <div class="cupos-grid">
+                        <div class="cupo-dot taken"></div><div class="cupo-dot"></div><div class="cupo-dot"></div><div class="cupo-dot"></div><div class="cupo-dot"></div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function openMissionDetail(title, desc, reward, cupos) {
+            const modal = document.getElementById('missionDetailModal');
+            const body = document.getElementById('missionDetailBody');
+            body.innerHTML = `
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <h3>Detalle de Misión</h3>
+                    <button onclick="closeMissionDetail()" style="background:none; border:none; color:white; font-size:18px; cursor:pointer;">✕</button>
+                </div>
+                <div style="font-weight:bold; font-size:14px; color:var(--purple-primary);">${title}</div>
+                <div style="font-size:12px; color:var(--text-muted);">Recompensa: <b>${reward}</b></div>
+                <div style="background:var(--bg-deep); padding:10px; border-radius:10px; font-size:12px;">
+                    <b>QUÉ TENÉS QUE HACER:</b><br>${desc}
+                </div>
+                <div class="input-group">
+                    <label>Tu ID del juego *</label>
+                    <input type="text" id="missionPlayerId" placeholder="Ej: 284910472">
+                </div>
+                <div class="input-group">
+                    <label>Link de tu video TikTok / Short *</label>
+                    <input type="text" id="missionLinkInput" placeholder="https://tiktok.com/...">
+                </div>
+                <button class="btn-primary" onclick="submitMissionProof()">RESERVAR CUPO Y ENVIAR MISIÓN</button>
+            `;
+            modal.style.display = 'flex';
+        }
+
+        function closeMissionDetail() {
+            document.getElementById('missionDetailModal').style.display = 'none';
+        }
+
+        function submitMissionProof() {
+            let uid = document.getElementById('missionPlayerId').value;
+            let link = document.getElementById('missionLinkInput').value;
+            if(!uid || !link) {
+                alert('Completá tu ID y el link del video.');
+                return;
+            }
+            alert('¡Misión enviada a nexostoreoff14@gmail.com para revisión!');
+            closeMissionDetail();
+        }
+
+        // Ruleta
+        function spinRoulette() {
+            let uid = document.getElementById('roulettePlayerId').value;
+            if(!uid) {
+                alert('Ingresá tu ID de juego antes de girar la ruleta.');
+                return;
+            }
+            const wheel = document.getElementById('rouletteWheel');
+            let randomDeg = Math.floor(1000 + Math.random() * 2000);
+            wheel.style.transform = `rotate(${randomDeg}deg)`;
+            setTimeout(() => {
+                alert('¡Felicidades! Ganaste premio en la ruleta. Se notificó a nexostoreoff14@gmail.com para acreditarlo en tu ID.');
+            }, 4000);
+        }
+
+        // Chat Global y Bots periódicos (cada 20-30 min / simulados en intervalo corto para demo)
+        function renderChat() {
+            const container = document.getElementById('globalChatContainer');
+            container.innerHTML = '';
+            chatMessages.forEach(m => {
+                container.innerHTML += `
+                    <div class="chat-msg">
+                        <div class="user-info"><span>${m.user}</span><span>🛡️ 100% Seguro</span></div>
+                        <div>${m.text}</div>
+                    </div>
+                `;
+            });
+        }
+
+        function sendChatMessage() {
+            let txt = document.getElementById('chatMsgInput').value;
+            if(!txt) return;
+            chatMessages.push({ user: currentUser ? currentUser.nick : 'Invitado', text: txt });
+            document.getElementById('chatMsgInput').value = '';
+            renderChat();
+        }
+
+        // Reseñas y Tops
+        function renderReviews() {
+            const container = document.getElementById('reviewsContainer');
+            container.innerHTML = '';
+            reviewsList.forEach(r => {
+                container.innerHTML += `
+                    <div class="chat-msg">
+                        <div class="user-info"><span>${r.user} ${r.stars}</span><span>🛡️ 100% Seguro</span></div>
+                        <div>${r.comment}</div>
+                    </div>
+                `;
+            });
+        }
+
+        function renderTops() {
+            document.getElementById('topBuyersContainer').innerHTML = topBuyers.map((b, i) => `<div style="font-size:12px; background:var(--bg-card-hover); padding:8px; border-radius:8px;">#${i+1} <b>${b.name}</b> - ${b.amount}</div>`).join('');
+            document.getElementById('topCodesContainer').innerHTML = activeCodes.map(c => `<div style="font-size:12px; background:var(--bg-card-hover); padding:8px; border-radius:8px;">🔑 <b>${c.code}</b> (${c.desc}) ${c.secret ? '🔒 [Secreto TikTok]' : ''}</div>`).join('');
+        }
+
+        // Auth Modals
+        function openAuthModal() { document.getElementById('authModal').style.display = 'flex'; }
+        function closeAuthModal() { document.getElementById('authModal').style.display = 'none'; }
+        function performLogin() {
+            let email = document.getElementById('authEmail').value;
+            let nick = document.getElementById('authNick').value;
+            if(!email || !nick) { alert('Completá tus datos'); return; }
+            currentUser = { email, nick };
+            document.getElementById('authBtn').innerText = nick;
+            closeAuthModal();
+        }
+
+        function openReviewModal() { document.getElementById('reviewModal').style.display = 'flex'; }
+        function closeReviewModal() { document.getElementById('reviewModal').style.display = 'none'; }
+        function submitUserReview() {
+            let comment = document.getElementById('reviewComment').value;
+            let stars = document.getElementById('reviewStars').value;
+            if(!comment) return;
+            reviewsList.unshift({ user: currentUser ? currentUser.nick : 'Cliente', stars, comment });
+            closeReviewModal();
+            renderReviews();
+        }
+
+        function openInfluencerModal() { document.getElementById('influencerModal').style.display = 'flex'; }
+        function closeInfluencerModal() { document.getElementById('influencerModal').style.display = 'none'; }
+        function requestInfluencerCode() {
+            let code = document.getElementById('infCodeInput').value;
+            let uid = document.getElementById('infIdInput').value;
+            let msg = document.getElementById('infMsgInput').value;
+            if(!code || !uid) { alert('Completá los campos requeridos.'); return; }
+            alert(`Solicitud enviada a nexostoreoff14@gmail.com\nCódigo: ${code} | ID: ${uid} | ${msg}`);
+            closeInfluencerModal();
+        }
+
+        // Admin Panel Varela123
+        function openAdminPanel() { document.getElementById('adminModal').style.display = 'flex'; }
+        function closeAdminPanel() { document.getElementById('adminModal').style.display = 'none'; }
+        function verifyAdminPass() {
+            let p = document.getElementById('adminPassInput').value;
+            if(p === 'Varela123') {
+                document.getElementById('adminLoginSection').style.display = 'none';
+                document.getElementById('adminControlsSection').style.display = 'flex';
+            } else {
+                alert('Contraseña incorrecta.');
+            }
+        }
+
+        function toggleAdminBot(type, status) {
+            adminBotsState[type] = status;
+            if(status) {
+                // Simulación activa
+                if(type === 'chat') {
+                    chatMessages.push({ user: 'Bot_NexoBot', text: '🔥 ¡Nuevo lote de diamantes entregado con éxito (Verificado)!' });
+                    renderChat();
+                }
+            }
+        }
+
+        function adminCreateCode() {
+            let code = document.getElementById('adminNewCode').value;
+            let type = document.getElementById('adminCodeType').value;
+            if(!code) return;
+            activeCodes.push({ code: code.toUpperCase(), desc: 'Código Admin', secret: type === 'secret' });
+            if(type === 'public') {
+                document.getElementById('activePromoDisplay').innerText = `${code.toUpperCase()} (Activo)`;
+            }
+            alert(`Código ${code.toUpperCase()} creado con éxito (${type}).`);
+            renderTops();
+            closeAdminPanel();
+        }
+
+        // Inicialización
+        window.onload = () => {
+            renderPackages();
+            renderMissions();
+            renderChat();
+            renderReviews();
+            renderTops();
+        };
     </script>
 </body>
 </html>
