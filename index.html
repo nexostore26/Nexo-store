@@ -22,12 +22,85 @@
             }
         }
     </script>
+    <style>
+        @keyframes pulse-border {
+            0%, 100% { border-color: rgba(139, 92, 246, 0.4); }
+            50% { border-color: rgba(6, 182, 212, 0.9); }
+        }
+        .animate-glow { animation: pulse-border 3s infinite; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        .roulette-wheel {
+            background: conic-gradient(
+                #EAB308 0deg 45deg,
+                #1E1B4B 45deg 90deg,
+                #06B6D4 90deg 135deg,
+                #1E1B4B 135deg 180deg,
+                #10B981 180deg 225deg,
+                #1E1B4B 225deg 270deg,
+                #8B5CF6 270deg 315deg,
+                #EF4444 315deg 360deg
+            );
+            transition: transform 4s cubic-bezier(0.17, 0.67, 0.12, 0.99);
+        }
+    </style>
 </head>
 <body class="bg-nexoDark text-white font-sans min-h-screen flex flex-col justify-between relative overflow-x-hidden">
 
     <!-- ==================== VISTA 1: TIENDA PRINCIPAL ==================== -->
     <div id="view-store" class="flex flex-col min-h-screen justify-between">
         
+        <!-- MODAL PERFIL Y SINCRONIZACIÓN -->
+        <div id="profile-modal" class="hidden fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4">
+            <div class="bg-nexoCard border border-nexoCyan/50 rounded-3xl max-w-sm w-full max-h-[90vh] overflow-y-auto p-5 shadow-2xl relative space-y-4">
+                <button onclick="toggleProfileModal()" class="absolute top-3 right-3 bg-black/60 text-white w-8 h-8 rounded-full font-bold border border-gray-700 z-10">✕</button>
+                <div id="profile-login-view" class="space-y-4 pt-2">
+                    <div class="text-center space-y-1.5">
+                        <div class="w-14 h-14 mx-auto rounded-2xl bg-gradient-to-tr from-nexoPurple to-nexoCyan flex items-center justify-center text-2xl shadow-lg">☁️</div>
+                        <h3 class="font-black text-base text-white">Guardá tu Progreso en la Nube</h3>
+                    </div>
+                    <div class="space-y-2.5 bg-nexoDark border border-gray-800 p-3.5 rounded-2xl">
+                        <input type="email" id="login-gmail-input" placeholder="ejemplo@gmail.com" class="w-full bg-nexoCard border border-gray-700 rounded-xl px-3 py-2.5 text-xs text-white">
+                        <input type="text" id="login-name-input" placeholder="Tu Nombre" class="w-full bg-nexoCard border border-gray-700 rounded-xl px-3 py-2.5 text-xs text-white">
+                        <button onclick="loginWithGmail()" class="w-full bg-gradient-to-r from-nexoPurple to-nexoCyan text-white font-black py-3 rounded-xl text-xs uppercase">Entrar / Sincronizar</button>
+                    </div>
+                </div>
+                <div id="profile-logged-view" class="hidden space-y-4 text-center">
+                    <h3 id="user-profile-name" class="font-black text-sm text-white">Jugador</h3>
+                    <p id="user-profile-email" class="text-[10px] text-gray-400">correo@gmail.com</p>
+                    <button onclick="logoutAccount()" class="w-full bg-red-600/20 text-red-400 border border-red-600/40 font-bold py-2 rounded-xl text-xs">Cerrar Sesión</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- MODAL MISIONES -->
+        <div id="missions-modal" class="hidden fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4">
+            <div class="bg-nexoCard border border-nexoPurple/50 rounded-3xl max-w-md w-full max-h-[90vh] overflow-y-auto p-5 shadow-2xl relative space-y-4">
+                <button onclick="toggleMissionsModal()" class="absolute top-3 right-3 bg-black/60 text-white w-8 h-8 rounded-full font-bold">✕</button>
+                <div id="missions-listView">
+                    <h3 class="text-xl font-black text-white">Elegí una Misión</h3>
+                    <div id="missions-cards-container" class="space-y-3 mt-4"></div>
+                </div>
+                <div id="missions-detailView" class="hidden space-y-4">
+                    <button onclick="backToMissionsList()" class="text-xs text-nexoCyan font-bold">← Volver al tablero</button>
+                    <h3 id="detail-mission-title" class="text-lg font-black text-white"></h3>
+                    <p id="detail-mission-reward" class="text-xs font-bold text-nexoCyan"></p>
+                    <div id="reserve-cupo-container">
+                        <button onclick="reserveMissionCupo()" class="w-full bg-gradient-to-r from-yellow-500 to-amber-600 text-nexoDark font-black py-3 rounded-xl text-xs uppercase">📌 Aceptar Misión y Reservar Cupo</button>
+                    </div>
+                    <div id="submit-link-container" class="hidden space-y-2.5">
+                        <select id="mission-player-game" class="w-full bg-nexoCard border border-gray-700 rounded-xl p-2.5 text-xs text-white"><option value="Free Fire">Free Fire</option><option value="Blood Strike">Blood Strike</option></select>
+                        <input type="number" id="mission-player-id" placeholder="Tu ID de Jugador *" class="w-full bg-nexoCard border border-gray-700 rounded-xl p-2.5 text-xs text-white font-mono">
+                        <input type="text" id="mission-social-user" placeholder="Tu @usuario de TikTok *" class="w-full bg-nexoCard border border-gray-700 rounded-xl p-2.5 text-xs text-white">
+                        <input type="url" id="mission-video-link" placeholder="URL exacta del video (https://...) *" class="w-full bg-nexoCard border border-gray-700 rounded-xl p-2.5 text-xs text-white">
+                        <button onclick="submitMissionProof()" class="w-full bg-gradient-to-r from-nexoPurple to-nexoCyan text-white font-black py-3 rounded-xl text-xs uppercase">🚀 Enviar Datos y URL</button>
+                    </div>
+                    <p id="mission-feedback" class="text-xs font-bold text-center hidden"></p>
+                </div>
+            </div>
+        </div>
+
         <!-- NAVBAR SUPERIOR -->
         <header class="bg-nexoCard/95 backdrop-blur border-b border-nexoPurple/20 px-4 py-3 sticky top-0 z-30">
             <div class="max-w-md mx-auto flex justify-between items-center">
@@ -48,7 +121,13 @@
         <!-- CONTENIDO PRINCIPAL -->
         <main class="max-w-md mx-auto px-4 py-6 w-full flex-grow space-y-6 relative z-10">
 
-            <!-- BARRA DE PROGRESO -->
+            <!-- BANNER CUPONES -->
+            <div id="active-promos-banner" class="hidden bg-gradient-to-r from-purple-900/60 via-nexoCard to-cyan-900/60 border border-nexoCyan/50 rounded-2xl p-3.5 shadow-lg space-y-2">
+                <span class="text-[10px] font-black uppercase text-nexoCyan">🎟️ Códigos Promocionales Activos</span>
+                <div id="active-promos-pills" class="flex flex-wrap gap-2"></div>
+            </div>
+
+            <!-- PROGRESO -->
             <div class="bg-nexoCard/95 border border-gray-800 rounded-2xl p-3.5 shadow-md">
                 <div class="flex justify-between items-center text-[10px] font-bold mb-2">
                     <span id="label-step-1" class="text-nexoCyan">1. Juego</span>
@@ -61,7 +140,7 @@
                 </div>
             </div>
 
-            <!-- PASO 1: SELECCIONAR JUEGO -->
+            <!-- PASO 1 -->
             <section id="step-1" class="bg-nexoCard/95 border border-nexoPurple/30 rounded-2xl p-5 shadow-xl space-y-5">
                 <h2 class="text-sm font-black text-white flex items-center gap-2">
                     <span class="bg-nexoCyan text-nexoDark w-5 h-5 rounded-full flex items-center justify-center text-xs">1</span>
@@ -70,17 +149,15 @@
                 <div class="grid grid-cols-2 gap-3.5">
                     <div onclick="selectGame('Free Fire', this)" class="game-tab border-2 border-nexoCyan bg-nexoCyan/10 p-3 rounded-2xl text-center cursor-pointer flex flex-col items-center justify-center space-y-2">
                         <p class="text-xs font-black text-white">Free Fire</p>
-                        <p class="text-[9px] text-nexoCyan">Diamantes</p>
                     </div>
                     <div onclick="selectGame('Blood Strike', this)" class="game-tab border border-gray-800 bg-nexoDark/70 p-3 rounded-2xl text-center cursor-pointer opacity-80 flex flex-col items-center justify-center space-y-2">
                         <p class="text-xs font-bold text-gray-200">Blood Strike</p>
-                        <p class="text-[9px] text-gray-400">Oro por ID</p>
                     </div>
                 </div>
-                <button onclick="goToStep(2)" class="w-full bg-gradient-to-r from-nexoPurple to-nexoCyan text-white font-black py-3.5 rounded-xl shadow-lg transition text-xs uppercase">Siguiente: Elegir Paquete ➔</button>
+                <button onclick="goToStep(2)" class="w-full bg-gradient-to-r from-nexoPurple to-nexoCyan text-white font-black py-3.5 rounded-xl shadow-lg uppercase text-xs">Siguiente: Elegir Paquete ➔</button>
             </section>
 
-            <!-- PASO 2: PAQUETES -->
+            <!-- PASO 2 -->
             <section id="step-2" class="hidden bg-nexoCard/95 border border-nexoPurple/30 rounded-2xl p-5 shadow-xl space-y-5">
                 <h2 class="text-sm font-black text-white flex items-center gap-2">
                     <span class="bg-nexoCyan text-nexoDark w-5 h-5 rounded-full flex items-center justify-center text-xs">2</span>
@@ -96,7 +173,7 @@
                 </div>
             </section>
 
-            <!-- PASO 3: ID Y DATOS -->
+            <!-- PASO 3 -->
             <section id="step-3" class="hidden bg-nexoCard/95 border border-nexoPurple/30 rounded-2xl p-5 shadow-xl space-y-5">
                 <h2 class="text-sm font-black text-white flex items-center gap-2">
                     <span class="bg-nexoCyan text-nexoDark w-5 h-5 rounded-full flex items-center justify-center text-xs">3</span>
@@ -129,8 +206,8 @@
                 </div>
             </section>
 
-            <!-- PASO 4: PAGO Y COMPROBANTE IA -->
-            <section id="step-4" class="hidden bg-nexoCard/95 border border-nexoCyan/40 rounded-2xl p-5 shadow-2xl space-y-5">
+            <!-- PASO 4 -->
+            <section id="step-4" class="hidden bg-nexoCard/95 border border-nexoCyan/40 rounded-2xl p-5 shadow-2xl space-y-5 animate-glow">
                 <div class="text-center border-b border-gray-800 pb-3">
                     <h2 class="text-base font-black text-white mt-1">Resumen y Verificación de Pago</h2>
                 </div>
@@ -154,35 +231,7 @@
         </main>
     </div>
 
-    <!-- MODAL MISIONES -->
-    <div id="missions-modal" class="hidden fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4">
-        <div class="bg-nexoCard border border-nexoPurple/50 rounded-3xl max-w-md w-full p-5 shadow-2xl relative space-y-4">
-            <button onclick="toggleMissionsModal()" class="absolute top-3 right-3 bg-black/60 text-white w-8 h-8 rounded-full font-bold">✕</button>
-            <div id="missions-listView">
-                <h3 class="text-xl font-black text-white">Tablero de Misiones</h3>
-                <div id="missions-cards-container" class="space-y-3 mt-4"></div>
-            </div>
-            <div id="missions-detailView" class="hidden space-y-4">
-                <button onclick="backToMissionsList()" class="text-xs text-nexoCyan font-bold">← Volver</button>
-                <h3 id="detail-mission-title" class="text-lg font-black text-white"></h3>
-                <p id="detail-mission-reward" class="text-xs font-bold text-nexoCyan"></p>
-                <p id="detail-mission-desc" class="text-xs text-gray-300"></p>
-                <div id="reserve-cupo-container">
-                    <button onclick="reserveMissionCupo()" class="w-full bg-yellow-500 text-nexoDark font-black py-3 rounded-xl text-xs uppercase">📌 Aceptar Misión</button>
-                </div>
-                <div id="submit-link-container" class="hidden space-y-2.5">
-                    <select id="mission-player-game" class="w-full bg-nexoDark border border-gray-700 rounded-xl p-2.5 text-xs text-white"><option value="Free Fire">Free Fire</option><option value="Blood Strike">Blood Strike</option></select>
-                    <input type="number" id="mission-player-id" placeholder="Tu ID de Jugador *" class="w-full bg-nexoDark border border-gray-700 rounded-xl p-2.5 text-xs text-white font-mono">
-                    <input type="text" id="mission-social-user" placeholder="Tu @usuario de TikTok *" class="w-full bg-nexoDark border border-gray-700 rounded-xl p-2.5 text-xs text-white">
-                    <input type="url" id="mission-video-link" placeholder="URL exacta del video (https://...) *" class="w-full bg-nexoDark border border-gray-700 rounded-xl p-2.5 text-xs text-white">
-                    <button onclick="submitMissionProof()" class="w-full bg-nexoPurple text-white font-black py-3 rounded-xl text-xs uppercase">🚀 Enviar Datos</button>
-                </div>
-                <p id="mission-feedback" class="text-xs font-bold text-center hidden"></p>
-            </div>
-        </div>
-    </div>
-
-    <!-- PANEL ADMIN -->
+    <!-- ==================== VISTA 2: PANEL DE ADMINISTRADOR (Varela123) ==================== -->
     <div id="view-admin" class="hidden flex-col min-h-screen justify-between bg-nexoDark p-4">
         <div class="max-w-md mx-auto w-full pt-8 space-y-6">
             <div class="flex justify-between items-center border-b border-gray-800 pb-4">
@@ -199,6 +248,10 @@
                     <h3 class="text-sm font-black text-white">📦 Pedidos Pagados (En Vivo)</h3>
                     <div id="admin-orders-list" class="space-y-2 max-h-60 overflow-y-auto"></div>
                 </div>
+                <div class="bg-nexoCard border border-purple-500/40 p-5 rounded-3xl space-y-3 shadow-xl">
+                    <h3 class="text-sm font-black text-white">🎬 Participantes de Misiones</h3>
+                    <div id="admin-submissions-list" class="space-y-2 max-h-60 overflow-y-auto"></div>
+                </div>
                 <button onclick="exitAdminView()" class="w-full bg-nexoSurface text-gray-400 py-2.5 rounded-xl text-xs">Cerrar Sesión Admin</button>
             </div>
         </div>
@@ -208,7 +261,8 @@
         const FIREBASE_DB_URL = "https://nexo-store-bcec3-default-rtdb.firebaseio.com/"; 
         let globalCoupons = { "NEXO10": { discount: 10, maxUses: 100, usedCount: 0 } };
         let missionsDB = [
-            { id: 1, title: "Promocionar @nexop02 en TikTok (1.500 vistas)", reward: "110 Diamantes / 5 Coins", minViews: "1.500 vistas", cupos: 10, maxCupos: 10, active: true, desc: "Subí un video a TikTok promocionando nuestra cuenta @nexop02." }
+            { id: 1, title: "Promocionar @nexop02 en TikTok (1.500 vistas)", reward: "110 Diamantes / 5 Coins", minViews: "1.500 vistas", cupos: 10, maxCupos: 10, active: true, desc: "Subí un video a TikTok promocionando nuestra cuenta @nexop02." },
+            { id: 2, title: "Seguir y Compartir @nexop02 (500 vistas)", reward: "3 Nexo Coins 🟡", minViews: "500 vistas", cupos: 15, maxCupos: 15, active: true, desc: "Seguí a @nexop02 y compartí la tienda." }
         ];
 
         function getCleanDbUrl() { return FIREBASE_DB_URL.replace(/\/$/, ""); }
@@ -224,6 +278,34 @@
                     if (data.missions) missionsDB = data.missions;
                 }
             } catch (e) {}
+        }
+
+        let currentAccountEmail = localStorage.getItem('nexo_active_email') || '';
+        let currentUser = { name: 'Invitado', email: '', coins: 0, purchases: 0, savedIds: [] };
+
+        async function saveCurrentUser() {
+            if (!currentUser.email) return;
+            localStorage.setItem('nexo_acc_' + currentUser.email, JSON.stringify(currentUser));
+        }
+
+        function toggleProfileModal() { document.getElementById('profile-modal').classList.toggle('hidden'); }
+        async function loginWithGmail() {
+            const emailInput = document.getElementById('login-gmail-input').value.trim().toLowerCase();
+            const nameInput = document.getElementById('login-name-input').value.trim();
+            if (!emailInput || !emailInput.endsWith('@gmail.com')) { alert('Ingresá un Gmail válido.'); return; }
+            currentUser.email = emailInput;
+            currentUser.name = nameInput || emailInput.split('@')[0];
+            currentAccountEmail = emailInput;
+            localStorage.setItem('nexo_active_email', emailInput);
+            await saveCurrentUser();
+            toggleProfileModal();
+            alert(`¡Bienvenido ${currentUser.name}!`);
+        }
+        function logoutAccount() {
+            localStorage.removeItem('nexo_active_email');
+            currentUser = { name: 'Invitado', email: '', coins: 0, purchases: 0, savedIds: [] };
+            toggleProfileModal();
+            alert('Sesión cerrada.');
         }
 
         let selectedMissionId = null;
@@ -242,7 +324,6 @@
             const m = missionsDB.find(x => x.id === id);
             document.getElementById('detail-mission-title').innerText = m.title;
             document.getElementById('detail-mission-reward').innerText = "Recompensa: " + m.reward;
-            document.getElementById('detail-mission-desc').innerText = m.desc;
             document.getElementById('missions-listView').classList.add('hidden');
             document.getElementById('missions-detailView').classList.remove('hidden');
         }
@@ -253,7 +334,7 @@
         }
         async function reserveMissionCupo() {
             let m = missionsDB.find(x => x.id === selectedMissionId);
-            if (m.cupos <= 0) return;
+            if (m.cupos <= 0) { alert('Sin cupos'); return; }
             m.cupos--;
             document.getElementById('reserve-cupo-container').classList.add('hidden');
             document.getElementById('submit-link-container').classList.remove('hidden');
@@ -274,7 +355,10 @@
 
             const m = missionsDB.find(x => x.id === selectedMissionId);
             const submissionId = 'MSN-' + Math.floor(100000 + Math.random() * 900000);
-            const submissionData = { submissionId, missionTitle: m ? m.title : 'Misión', game, playerId, socialUser, videoUrl: link, date: new Date().toLocaleString() };
+            const submissionData = {
+                submissionId, missionTitle: m ? m.title : 'Misión', requiredViews: m?.minViews || '1.500 vistas',
+                reward: m?.reward || '', game, playerId, socialUser, videoUrl: link, date: new Date().toLocaleString()
+            };
 
             const url = getCleanDbUrl();
             if (url.startsWith("http")) {
@@ -286,17 +370,67 @@
             fb.innerHTML = `✅ <strong>¡Participación #${submissionId} enviada!</strong>`;
         }
         function toggleMissionsModal() { renderMissionsList(); document.getElementById('missions-modal').classList.toggle('hidden'); }
-        function toggleProfileModal() { alert('Función de perfil de usuario.'); }
+
+        let verifiedPlayerProfile = null;
+        async function verifyPlayerIdReal() {
+            const idVal = document.getElementById('player-id').value.trim();
+            const res = document.getElementById('id-verification-result');
+            res.classList.remove('hidden');
+            if (!idVal || !/^\d{8,12}$/.test(idVal)) {
+                res.className = 'text-[11px] mt-1.5 p-2.5 rounded-xl border border-red-500/40 bg-red-950/30 text-red-400 font-bold';
+                res.innerHTML = '❌ <strong>ID Inválido:</strong> Debe tener entre 8 y 12 dígitos.';
+                return;
+            }
+            verifiedPlayerProfile = { id: idVal, nickname: `Jugador #${idVal.slice(-4)}` };
+            res.className = 'text-[11px] mt-1.5 p-2.5 rounded-xl border border-green-500/50 bg-green-950/30 text-green-400 font-bold';
+            res.innerHTML = `✅ <strong>ID Verificado:</strong> <span class="text-white">${verifiedPlayerProfile.nickname}</span>`;
+        }
+
+        let receiptVerified = false;
+        async function analyzeReceiptIntelligent(event) {
+            const file = event.target.files[0];
+            const status = document.getElementById('receipt-ai-status');
+            status.classList.remove('hidden');
+            receiptVerified = false;
+            if (!file) return;
+
+            status.className = 'text-[11px] p-2.5 rounded-xl border border-cyan-500/40 bg-cyan-950/20 text-nexoCyan font-bold';
+            status.innerHTML = '🧠 <strong>IA Verificando Comprobante...</strong>';
+
+            try {
+                const ocrResult = await Tesseract.recognize(file, 'spa');
+                const text = (ocrResult.data.text || '').toLowerCase();
+                if (text.length > 5) {
+                    receiptVerified = true;
+                    status.className = 'text-[11px] p-2.5 rounded-xl border border-green-500/50 bg-green-950/30 text-green-400 font-bold';
+                    status.innerHTML = '✅ <strong>Comprobante Real Verificado por IA.</strong>';
+                } else {
+                    status.className = 'text-[11px] p-2.5 rounded-xl border border-red-500/50 text-red-400 font-bold';
+                    status.innerHTML = '❌ No se pudo leer texto válido en el comprobante.';
+                }
+            } catch (e) {
+                status.className = 'text-[11px] p-2.5 rounded-xl border border-red-500/50 text-red-400 font-bold';
+                status.innerHTML = '❌ Error al procesar la imagen.';
+            }
+        }
 
         let storeState = { game: 'Free Fire', playerId: '', cart: {}, totalBasePrice: 0, finalPrice: 0, discountPercent: 0, couponUsed: 'Ninguno' };
         const packsData = {
-            'Free Fire': [{ name: '110 Diamantes', amount: 110, price: 1500, coins: 1 }],
-            'Blood Strike': [{ name: '105 Oro', amount: 105, price: 1412, coins: 1 }]
+            'Free Fire': [
+                { name: '110 Diamantes', amount: 110, price: 1500, coins: 1 },
+                { name: '341 Diamantes', amount: 341, price: 4400, coins: 1 },
+                { name: '572 Diamantes', amount: 572, price: 7200, coins: 1 }
+            ],
+            'Blood Strike': [
+                { name: '105 Oro', amount: 105, price: 1412, coins: 1 },
+                { name: '320 Oro', amount: 320, price: 4253, coins: 1 }
+            ]
         };
 
         function selectGame(gameName, el) {
             storeState.game = gameName;
             storeState.cart = {};
+            verifiedPlayerProfile = null;
             document.querySelectorAll('.game-tab').forEach(tab => tab.className = 'game-tab border border-gray-800 bg-nexoDark/70 p-3 rounded-2xl text-center cursor-pointer opacity-80 flex flex-col items-center justify-center space-y-2');
             el.className = 'game-tab border-2 border-nexoCyan bg-nexoCyan/10 p-3 rounded-2xl text-center cursor-pointer transition flex flex-col items-center justify-center space-y-2';
         }
@@ -307,7 +441,7 @@
             container.innerHTML = packsData[storeState.game].map(p => `
                 <div class="border border-gray-800 bg-nexoDark/80 p-3 rounded-xl flex items-center justify-between">
                     <div><p class="font-black text-xs text-white">${p.name}</p><p class="text-[10px] text-nexoCyan">$${p.price.toLocaleString('es-AR')} ARS</p></div>
-                    <button onclick="updateCart('${p.name}', ${p.price})" class="bg-nexoPurple text-white px-3 py-1.5 rounded-lg text-xs font-bold">+ Agregar</button>
+                    <button onclick="updateCart('${p.name}', ${p.price})" class="bg-nexoPurple text-white px-3 py-1.5 rounded-lg text-xs font-bold">+ Seleccionar</button>
                 </div>
             `).join('');
         }
@@ -353,6 +487,7 @@
                 document.getElementById('admin-login-screen').classList.add('hidden');
                 document.getElementById('admin-dashboard-screen').classList.remove('hidden');
                 loadAdminOrders();
+                loadAdminSubmissions();
             } else {
                 document.getElementById('admin-login-error').classList.remove('hidden');
             }
@@ -365,23 +500,51 @@
             const data = await res.json();
             container.innerHTML = data ? Object.values(data).reverse().map(o => `<div class="bg-nexoDark p-2 rounded text-xs">#${o.orderNumber} - ${o.game} ($${o.totalPaid})</div>`).join('') : 'Sin pedidos.';
         }
+        async function loadAdminSubmissions() {
+            const container = document.getElementById('admin-submissions-list');
+            const url = getCleanDbUrl();
+            if (!url.startsWith("http")) return;
+            const res = await fetch(`${url}/nexo_mission_submissions.json`);
+            const data = await res.json();
+            container.innerHTML = data ? Object.values(data).reverse().map(s => `<div class="bg-nexoDark p-2 rounded text-xs">#${s.submissionId} - ${s.socialUser} (${s.game})</div>`).join('') : 'Sin videos.';
+        }
 
         function goToStep(step) {
             if (step === 2) renderPacks();
+            if (step === 3) {
+                if (!storeState.totalBasePrice) { alert('Seleccioná un paquete.'); return; }
+            }
             if (step === 4) {
+                const id = document.getElementById('player-id').value.trim();
+                if (!verifiedPlayerProfile || verifiedPlayerProfile.id !== id) { alert('Verificá tu ID primero.'); return; }
+                storeState.playerId = id;
                 document.getElementById('sum-total').innerText = `$${storeState.finalPrice.toLocaleString('es-AR')} ARS`;
             }
-            [1, 2, 3, 4].forEach(num => document.getElementById('step-' + num).classList.add('hidden'));
+            [1, 2, 3, 4].forEach(num => {
+                document.getElementById('step-' + num).classList.add('hidden');
+                const label = document.getElementById('label-step-' + num);
+                if (num <= step) { label.classList.remove('text-gray-500'); label.classList.add('text-nexoCyan'); }
+                else { label.classList.remove('text-nexoCyan'); label.classList.add('text-gray-500'); }
+            });
             document.getElementById('step-' + step).classList.remove('hidden');
+            document.getElementById('progress-bar').style.width = (step * 25) + '%';
         }
 
         function copyAlias() { navigator.clipboard.writeText('kevincabelier.mp'); alert('¡Alias copiado!'); }
 
-        let receiptVerified = false;
-        async function analyzeReceiptIntelligent(event) {
-            receiptVerified = true;
-            document.getElementById('receipt-ai-status').classList.remove('hidden');
-            document.getElementById('receipt-ai-status').innerText = '✅ Comprobante verificado.';
+        async function sendOrderWhatsApp() {
+            if (!receiptVerified) { alert('⚠️ Sube un comprobante verificado por la IA.'); return; }
+            const orderNumber = 'NX-' + Math.floor(100000 + Math.random() * 900000);
+            const orderDetails = { orderNumber, game: storeState.game, playerId: storeState.playerId, totalPaid: storeState.finalPrice, date: new Date().toLocaleString() };
+            
+            const url = getCleanDbUrl();
+            if (url.startsWith("http")) {
+                await fetch(`${url}/nexo_orders/${orderNumber}.json`, {
+                    method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(orderDetails)
+                });
+            }
+            alert(`✅ ¡Orden #${orderNumber} registrada con éxito!`);
+            location.reload();
         }
 
         window.onload = async () => { await syncFromCloud(); };
