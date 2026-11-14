@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nexo Store | Recargas Oficiales</title>
+    <title>HYDRAUP - Recargas de diamantes y monedas para tus juegos</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -11,10 +11,10 @@
             theme: {
                 extend: {
                     colors: {
-                        nexoDark: '#000000',
-                        nexoCard: '#0E0B16',
-                        nexoPurple: '#A855F7',
-                        nexoPurpleDark: '#7C3AED'
+                        hydraDark: '#09080E',
+                        hydraCard: '#13111C',
+                        hydraGreen: '#00FF66',
+                        hydraGreenDark: '#00CC52'
                     }
                 }
             }
@@ -26,336 +26,298 @@
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
 </head>
-<body class="bg-nexoDark text-gray-100 font-sans antialiased min-h-screen flex flex-col justify-between relative overflow-x-hidden">
+<body class="bg-hydraDark text-gray-100 font-sans antialiased min-h-screen flex flex-col justify-between selection:bg-hydraGreen selection:text-black">
 
-    <!-- VIDEO DE FONDO CINEMÁTICO -->
-    <div class="fixed inset-0 z-[-1] overflow-hidden pointer-events-none">
-        <div class="absolute inset-0 bg-black/85 z-10"></div>
-        <video autoplay muted loop playsinline class="w-full h-full object-cover scale-105 filter blur-[1px]">
-            <source src="https://assets.mixkit.co/videos/preview/mixkit-digital-animation-of-screens-and-numbers-31930-large.mp4" type="video/mp4">
-        </video>
+    <!-- BARRA SUPERIOR / COMUNIDAD -->
+    <div class="bg-hydraCard border-b border-gray-800 text-xs py-2 px-4 flex flex-wrap items-center justify-between gap-2 z-50">
+        <div class="flex items-center gap-2 text-green-400 font-medium">
+            <span class="animate-pulse">🟢</span>
+            <span>¡Únete a nuestra Comunidad de WhatsApp ¡Súmate aquí!</span>
+        </div>
+        <div class="flex items-center gap-4 ml-auto">
+            <button class="text-gray-300 hover:text-white flex items-center gap-1"><i class="fa-regular fa-bell"></i></button>
+            <button class="text-gray-300 hover:text-white flex items-center gap-1"><i class="fa-solid fa-user-circle"></i></button>
+            <button class="text-gray-300 hover:text-white flex items-center gap-1"><i class="fa-solid fa-language"></i> PT</button>
+            <!-- SELECTOR DE PAÍS CON BANDERA -->
+            <div class="flex items-center gap-1 bg-black/40 px-2 py-1 rounded border border-gray-700">
+                <span>🇻🇪</span>
+                <select class="bg-transparent text-white focus:outline-none cursor-pointer text-xs font-bold">
+                    <option value="VEN">Venezuela</option>
+                    <option value="ARG">Argentina</option>
+                    <option value="MEX">México</option>
+                    <option value="BOL">Bolivia</option>
+                    <option value="URY">Uruguay</option>
+                </select>
+            </div>
+        </div>
     </div>
 
-    <!-- ANUNCIO SUPERIOR -->
-    <div class="bg-gradient-to-r from-purple-950 via-purple-900 to-black text-xs py-1.5 px-4 text-center font-bold text-purple-300 tracking-wider border-b border-purple-900/40 z-20">
-        ⚡ RECARGAS OFICIALES • ENTREGA INMEDIATA 24/7 ⚡
-    </div>
-
-    <!-- NAVEGACIÓN -->
-    <header class="sticky top-0 z-50 bg-black/80 backdrop-blur-md border-b border-purple-950">
+    <!-- NAVEGACIÓN PRINCIPAL -->
+    <header class="sticky top-0 z-40 bg-hydraDark/95 backdrop-blur-md border-b border-gray-800">
         <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
             <div class="flex items-center space-x-3 cursor-pointer" onclick="location.reload()">
-                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-purple-600 to-indigo-600 flex items-center justify-center shadow-lg shadow-purple-600/30">
-                    <i class="fa-solid fa-bolt text-white text-lg"></i>
-                </div>
-                <div>
-                    <span class="text-xl font-black tracking-wider bg-gradient-to-r from-purple-400 to-indigo-400 bg-clip-text text-transparent">NEXO STORE</span>
-                    <span class="block text-[10px] text-gray-400 tracking-widest uppercase">Plataforma Oficial</span>
+                <div class="font-black text-xl tracking-wider text-white flex items-center gap-2">
+                    <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-green-500 to-emerald-700 flex items-center justify-center shadow-lg shadow-green-500/20 text-black font-black">
+                        <i class="fa-solid fa-wolf-pack-battalion text-lg"></i>
+                    </div>
+                    <span>HYDRAUP</span>
                 </div>
             </div>
-            
-            <!-- APARTADO DE NEXO COINS -->
-            <div class="bg-purple-950/40 border border-purple-500/30 rounded-xl px-3 py-1.5 flex items-center gap-2 shadow-inner">
-                <div class="w-6 h-6 rounded-lg bg-purple-600/30 flex items-center justify-center text-purple-400 text-xs">
-                    <i class="fa-solid fa-coins"></i>
-                </div>
-                <div>
-                    <span class="block text-[9px] text-purple-400 font-bold uppercase tracking-wider">Tu Saldo</span>
-                    <span class="text-xs font-black text-white"><span id="user-coins">150</span> NC</span>
-                </div>
+            <div class="flex items-center gap-3">
+                <button onclick="openSupport()" class="bg-hydraGreen/10 border border-hydraGreen/30 text-hydraGreen px-3 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5 hover:bg-hydraGreen/20 transition">
+                    <i class="fa-solid fa-headset"></i> Soporte en línea
+                </button>
             </div>
         </div>
     </header>
 
     <!-- CONTENIDO PRINCIPAL -->
-    <main class="max-w-7xl mx-auto px-4 py-6 flex-grow w-full z-10 space-y-6">
+    <main class="max-w-3xl mx-auto px-4 py-6 flex-grow w-full space-y-6">
         
-        <!-- BANNERS PROMOCIONALES / ANUNCIOS -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div class="bg-gradient-to-r from-purple-900/50 to-indigo-900/50 border border-purple-500/30 rounded-2xl p-5 relative overflow-hidden shadow-xl flex flex-col justify-between">
-                <div class="absolute -right-4 -bottom-4 text-purple-600/20 text-8xl font-black pointer-events-none">
-                    <i class="fa-solid fa-fire"></i>
-                </div>
-                <div>
-                    <span class="bg-purple-600 text-white text-[9px] font-bold px-2 py-0.5 rounded uppercase tracking-widest">Evento Especial</span>
-                    <h2 class="text-lg font-black text-white mt-1">¡Bonificación en Free Fire!</h2>
-                    <p class="text-xs text-gray-300 mt-1">Obtén hasta un 10% extra en diamantes seleccionados por tiempo limitado.</p>
-                </div>
-                <div class="mt-4">
-                    <span class="text-[10px] text-purple-300 font-bold flex items-center gap-1">Aprovechar oferta <i class="fa-solid fa-arrow-right"></i></span>
-                </div>
+        <!-- BANNER PRINCIPAL DE MISIONES -->
+        <div class="bg-gradient-to-r from-hydraCard to-gray-900 border border-gray-800 rounded-2xl p-5 relative overflow-hidden shadow-2xl flex flex-col justify-between">
+            <div class="absolute right-2 -bottom-4 text-green-500/10 text-9xl font-black pointer-events-none">
+                <i class="fa-solid fa-gamepad"></i>
             </div>
-
-            <div class="bg-gradient-to-r from-indigo-900/50 to-purple-950/50 border border-purple-500/30 rounded-2xl p-5 relative overflow-hidden shadow-xl flex flex-col justify-between">
-                <div class="absolute -right-4 -bottom-4 text-indigo-600/20 text-8xl font-black pointer-events-none">
-                    <i class="fa-solid fa-shield-cat"></i>
-                </div>
-                <div>
-                    <span class="bg-indigo-600 text-white text-[9px] font-bold px-2 py-0.5 rounded uppercase tracking-widest">Seguridad 24/7</span>
-                    <h2 class="text-lg font-black text-white mt-1">Validación Instantánea</h2>
-                    <p class="text-xs text-gray-300 mt-1">Tus recargas acreditadas al instante directo a tu ID con NexoBot.</p>
-                </div>
-                <div class="mt-4">
-                    <span class="text-[10px] text-indigo-300 font-bold flex items-center gap-1">Sistema Automático <i class="fa-solid fa-check"></i></span>
-                </div>
+            <div>
+                <span class="bg-green-500 text-black text-[10px] font-black px-2 py-0.5 rounded uppercase tracking-widest">Nuevo • Misiones</span>
+                <h2 class="text-lg font-black text-white mt-1.5">Completá misiones y ganá diamantes gratis</h2>
+                <p class="text-xs text-gray-400 mt-1">Hacé un video en TikTok, cumplí la misión y te recargamos gratis. Cupos limitados.</p>
+            </div>
+            <div class="mt-4">
+                <button class="bg-hydraGreen hover:bg-hydraGreenDark text-black font-black text-xs px-4 py-2 rounded-xl transition shadow-lg shadow-green-500/20">Ver misiones</button>
             </div>
         </div>
 
-        <div>
-            <h1 class="text-xl md:text-2xl font-black text-white">Selecciona tu juego</h1>
-            <p class="text-xs text-gray-400 mt-0.5">Recargas directas con validación inteligente.</p>
+        <!-- CONTADOR DE RECARGAS PROCESADAS -->
+        <div class="bg-hydraCard/60 border border-gray-800/80 rounded-xl p-3 flex items-center justify-between text-xs">
+            <span class="text-gray-400 flex items-center gap-1.5"><i class="fa-solid fa-bolt text-green-400"></i> Recargas procesadas</span>
+            <span class="font-black text-white tracking-widest text-sm bg-black/40 px-3 py-1 rounded-lg border border-gray-800">2 2 2 . 9 0 8 +</span>
         </div>
 
-        <!-- CATALOGO COMPACTO (TARJETAS MÁS CHICAS) -->
-        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
-            
-            <!-- Free Fire -->
-            <div onclick="openProduct('Free Fire', 'https://play-lh.googleusercontent.com/hnnIRd5AAf7T2gWzwki00aA9aWMX9JUbr8N42WjGqSVEq36Ey5_T0GCvyekeBkn_rSknR3vXvF4zTkZh4j-KRw=w240-h480-rw', ['100 Diamantes - $1.00', '310 Diamantes - $3.00', '520 Diamantes - $5.00', '1060 Diamantes - $10.00'])" class="bg-nexoCard/90 backdrop-blur-sm border border-purple-950 hover:border-purple-500 rounded-xl p-3 cursor-pointer transition transform hover:-translate-y-1 group shadow-lg flex flex-col items-center text-center">
-                <div class="relative rounded-lg overflow-hidden w-16 h-16 mb-2.5 bg-black border border-purple-500/20 shrink-0">
-                    <img src="https://play-lh.googleusercontent.com/hnnIRd5AAf7T2gWzwki00aA9aWMX9JUbr8N42WjGqSVEq36Ey5_T0GCvyekeBkn_rSknR3vXvF4zTkZh4j-KRw=w240-h480-rw" alt="Free Fire" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
-                </div>
-                <span class="text-[9px] font-bold text-purple-400 uppercase tracking-wider">Juego</span>
-                <h3 class="font-bold text-xs text-white mt-0.5">Free Fire</h3>
-                <span class="text-[9px] text-gray-400 mt-1 bg-purple-950/50 px-2 py-0.5 rounded-full border border-purple-900/30">Recargar</span>
-            </div>
-
-            <!-- Blood Strike -->
-            <div onclick="openProduct('Blood Strike', 'https://gamecentergt.com/wp-content/uploads/2026/08/fazercards-giftcard-6615-1e27e2506ef0.jpg', ['100 Oro - $1.50', '500 Oro - $5.00', '1200 Oro - $11.00', '2500 Oro - $22.00'])" class="bg-nexoCard/90 backdrop-blur-sm border border-purple-950 hover:border-purple-500 rounded-xl p-3 cursor-pointer transition transform hover:-translate-y-1 group shadow-lg flex flex-col items-center text-center">
-                <div class="relative rounded-lg overflow-hidden w-16 h-16 mb-2.5 bg-black border border-purple-500/20 shrink-0">
-                    <img src="https://gamecentergt.com/wp-content/uploads/2026/08/fazercards-giftcard-6615-1e27e2506ef0.jpg" alt="Blood Strike" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
-                </div>
-                <span class="text-[9px] font-bold text-purple-400 uppercase tracking-wider">Juego</span>
-                <h3 class="font-bold text-xs text-white mt-0.5">Blood Strike</h3>
-                <span class="text-[9px] text-gray-400 mt-1 bg-purple-950/50 px-2 py-0.5 rounded-full border border-purple-900/30">Recargar</span>
-            </div>
-
-            <!-- Roblox -->
-            <div onclick="openProduct('Roblox', 'https://images.rbxcdn.com/5348266ea6c5e67b19d6a814cbbb70f6.jpg', ['400 Robux - $4.99', '800 Robux - $9.99', '1700 Robux - $19.99', '4500 Robux - $49.99'])" class="bg-nexoCard/90 backdrop-blur-sm border border-purple-950 hover:border-purple-500 rounded-xl p-3 cursor-pointer transition transform hover:-translate-y-1 group shadow-lg flex flex-col items-center text-center">
-                <div class="relative rounded-lg overflow-hidden w-16 h-16 mb-2.5 bg-black border border-purple-500/20 shrink-0">
-                    <img src="https://images.rbxcdn.com/5348266ea6c5e67b19d6a814cbbb70f6.jpg" alt="Roblox" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
-                </div>
-                <span class="text-[9px] font-bold text-purple-400 uppercase tracking-wider">Juego</span>
-                <h3 class="font-bold text-xs text-white mt-0.5">Roblox</h3>
-                <span class="text-[9px] text-gray-400 mt-1 bg-purple-950/50 px-2 py-0.5 rounded-full border border-purple-900/30">Recargar</span>
-            </div>
-
-        </div>
-    </main>
-
-    <!-- MODAL PROFESIONAL PASO A PASO -->
-    <div id="product-modal" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-md hidden items-center justify-center p-4 overflow-y-auto">
-        <div class="bg-nexoCard border border-purple-900/60 rounded-2xl max-w-lg w-full p-6 relative shadow-2xl my-8">
-            <button onclick="closeModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white transition"><i class="fa-solid fa-xmark text-lg"></i></button>
-            <div class="flex items-center gap-3 mb-5">
-                <img id="modal-img" src="" class="w-12 h-12 rounded-xl object-cover border border-purple-500/30 shadow">
-                <div>
-                    <h3 id="modal-title" class="font-bold text-lg text-white">Juego</h3>
-                    <span id="modal-step-indicator" class="text-xs text-purple-400">Paso 1: Validación de ID y Paquete</span>
+        <!-- SECCIÓN DE SELECCIÓN DE PRODUCTO -->
+        <div class="space-y-3">
+            <div class="flex items-center justify-between">
+                <h2 class="text-base font-black text-white uppercase tracking-wide">Seleccioná un producto</h2>
+                <div class="flex gap-2 text-xs font-bold text-gray-400">
+                    <span class="text-green-400 border-b-2 border-green-400 pb-0.5 cursor-pointer">TODOS</span>
+                    <span class="cursor-pointer hover:text-white">JUEGOS</span>
+                    <span class="cursor-pointer hover:text-white">GIFT CARDS</span>
+                    <span class="cursor-pointer hover:text-white">MINIJUEGOS</span>
                 </div>
             </div>
 
-            <div class="space-y-4">
-                <!-- ID INPUT -->
-                <div id="step-1-container">
-                    <label class="block text-xs font-semibold text-gray-400 mb-1">ID de Jugador (Solo Números)</label>
-                    <div class="flex gap-2">
-                        <input type="number" id="player-id" placeholder="Ej: 311128916" class="w-full bg-black border border-purple-950 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-purple-500 text-white shadow-inner">
-                        <button onclick="validatePlayerId()" class="bg-purple-600 hover:bg-purple-500 text-white px-4 py-2.5 rounded-xl text-xs font-bold transition flex items-center gap-1 shrink-0 shadow-lg shadow-purple-600/30">
-                            <i class="fa-solid fa-robot"></i> Verificar
-                        </button>
-                    </div>
-                    <span id="validation-status" class="text-[10px] text-gray-500 mt-1 block">La IA comprobará el ID en el servidor.</span>
-                </div>
-
-                <!-- TARJETA DE JUGADOR -->
-                <div id="player-card" class="hidden bg-purple-950/30 border border-purple-500/30 rounded-xl p-3.5 flex items-center gap-3 shadow">
-                    <div class="w-10 h-10 rounded-lg bg-purple-600/40 flex items-center justify-center text-purple-300 font-bold">
-                        <i class="fa-solid fa-user-shield text-lg"></i>
+            <!-- TARJETA JUEGO: FREE FIRE (PRINCIPAL DEL VIDEO) -->
+            <div onclick="openFreeFireModal()" class="bg-hydraCard border border-gray-800 hover:border-hydnraGreen rounded-2xl p-4 cursor-pointer transition transform hover:-translate-y-1 group relative overflow-hidden shadow-xl">
+                <div class="absolute top-3 right-3 bg-hydraGreen/20 text-hydraGreen text-[10px] font-bold px-2 py-0.5 rounded border border-hydraGreen/40">DISPONIBLE</div>
+                <div class="flex items-center gap-4">
+                    <div class="w-16 h-16 rounded-xl overflow-hidden bg-black border border-gray-700 shrink-0">
+                        <img src="https://play-lh.googleusercontent.com/hnnIRd5AAf7T2gWzwki00aA9aWMX9JUbr8N42WjGqSVEq36Ey5_T0GCvyekeBkn_rSknR3vXvF4zTkZh4j-KRw=w240-h480-rw" alt="Free Fire" class="w-full h-full object-cover">
                     </div>
                     <div>
-                        <div class="flex items-center gap-2">
-                            <span id="player-name-res" class="font-bold text-sm text-white">⭐ Jugador Verificado ⭐</span>
-                            <span class="text-[10px] bg-purple-600 text-white px-1.5 py-0.5 rounded shadow">Activo</span>
-                        </div>
-                        <span id="player-id-res" class="text-xs text-purple-300">ID: 311128916</span>
-                        <span class="block text-[10px] text-green-400 font-semibold mt-0.5">✓ Cuenta verificada correctamente</span>
+                        <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Videojuego</span>
+                        <h3 class="font-black text-base text-white">Free Fire LATAM</h3>
+                        <p class="text-xs text-green-400 mt-0.5 font-medium">⚡ Entrega automática 24/7 con Bonus</p>
                     </div>
                 </div>
-
-                <!-- PAQUETES -->
-                <div id="packages-section">
-                    <label class="block text-xs font-semibold text-gray-400 mb-1">Elegí tu pack</label>
-                    <div id="packages-container" class="grid grid-cols-2 gap-2"></div>
-                </div>
-
-                <!-- SECCIÓN DE PAGOS -->
-                <div id="checkout-section" class="hidden space-y-3 pt-3 border-t border-purple-950">
-                    <label class="block text-xs font-semibold text-purple-300 mb-1"><i class="fa-solid fa-wallet"></i> Selecciona tu método de pago</label>
-                    
-                    <div class="space-y-2">
-                        <div class="p-3 rounded-xl border border-purple-500 bg-purple-500/10 flex items-center justify-between shadow">
-                            <div class="flex items-center gap-2.5">
-                                <i class="fa-solid fa-building-columns text-purple-400 text-base"></i>
-                                <div>
-                                    <div class="text-xs font-bold text-white">Transferencia directa <span class="bg-purple-600 text-[9px] px-1.5 py-0.5 rounded text-white">Auto</span></div>
-                                    <div class="text-[10px] text-gray-400">Transferí al alias y subí el comprobante.</div>
-                                </div>
-                            </div>
-                            <i class="fa-solid fa-circle-check text-purple-400"></i>
-                        </div>
-                    </div>
-
-                    <!-- DATOS DE TRANSFERENCIA -->
-                    <div class="bg-black border border-purple-950 rounded-xl p-3 space-y-2 text-xs shadow-inner">
-                        <div class="text-purple-300 font-bold mb-1">📋 Datos para transferir:</div>
-                        <div class="flex justify-between text-gray-300"><span>Alias:</span> <strong class="text-white">NEXO.STORE.MP</strong></div>
-                        <div class="flex justify-between text-gray-300"><span>CVU:</span> <strong class="text-white">0000151500030815013188</strong></div>
-                        <div class="flex justify-between text-gray-300"><span>Monto a pagar:</span> <strong id="pay-amount-res" class="text-purple-400 font-black">$1.00</strong></div>
-                    </div>
-                </div>
-
-                <!-- AVISO DE NOTIFICACIÓN -->
-                <div id="notification-banner" class="hidden p-3 rounded-xl bg-purple-950/60 border border-purple-500 text-center text-xs text-purple-200 font-bold shadow-lg animate-pulse">
-                    🎉 ¡Pedido procesado con éxito! Redirigiendo...
-                </div>
-
-                <!-- BOTÓN PRINCIPAL DE ACCIÓN -->
-                <button id="action-btn" onclick="handleMainAction()" class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-bold py-3 rounded-xl shadow-lg shadow-purple-600/30 transition mt-2">Verificar ID para Continuar</button>
             </div>
         </div>
     </main>
 
-    <!-- FOOTER CON AVISOS DE SEGURIDAD Y POLÍTICA DE REEMBOLSOS -->
-    <footer class="bg-black/95 border-t border-purple-950 py-8 px-4 text-center text-xs text-gray-400 mt-12 z-20 space-y-3">
-        <div class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-4 text-left border-b border-purple-950/60 pb-6">
-            <div>
-                <h4 class="font-bold text-purple-300 mb-1"><i class="fa-solid fa-shield-halved"></i> Transacciones Seguras</h4>
-                <p class="text-[11px] text-gray-500">Validación de cuentas en tiempo real para evitar errores en las recargas.</p>
+    <!-- MODAL DE FLUJO COMPLETO HYDRAUP (ID, PERFIL, PAQUETES Y PAGOS) -->
+    <div id="hydra-modal" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-md hidden items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-hydraCard border border-gray-800 rounded-3xl max-w-lg w-full p-6 relative shadow-2xl my-8 space-y-5">
+            <button onclick="closeHydraModal()" class="absolute top-5 right-5 text-gray-400 hover:text-white text-lg"><i class="fa-solid fa-xmark"></i></button>
+            
+            <!-- CABECERA MODAL -->
+            <div class="flex items-center gap-3">
+                <img src="https://play-lh.googleusercontent.com/hnnIRd5AAf7T2gWzwki00aA9aWMX9JUbr8N42WjGqSVEq36Ey5_T0GCvyekeBkn_rSknR3vXvF4zTkZh4j-KRw=w240-h480-rw" class="w-12 h-12 rounded-xl object-cover border border-green-500/30">
+                <div>
+                    <h3 class="font-black text-lg text-white">Free Fire LATAM</h3>
+                    <span class="text-xs text-gray-400">¿Qué país funciona? 🌎</span>
+                </div>
             </div>
-            <div>
-                <h4 class="font-bold text-purple-300 mb-1"><i class="fa-solid fa-ban"></i> Política de Reembolsos</h4>
-                <p class="text-[11px] text-gray-500">No se aceptan reembolsos ni devoluciones una vez procesada y acreditada la recarga en el ID de destino.</p>
+
+            <!-- PASO 1: ID DE JUGADOR -->
+            <div class="space-y-2">
+                <div class="flex justify-between items-center text-xs">
+                    <label class="font-bold text-gray-300">1. Tu ID de juego</label>
+                    <span class="text-gray-500 cursor-pointer hover:text-white" onclick="useLastId()">🕒 Último usado: <strong class="text-green-400">8383119792</strong></span>
+                </div>
+                <div class="flex gap-2">
+                    <input type="number" id="player-id" placeholder="Ingresá tu ID de Jugador" class="w-full bg-black/70 border border-gray-800 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-hydraGreen text-white font-mono">
+                    <button onclick="verifyHydraId()" class="bg-hydraGreen hover:bg-hydraGreenDark text-black px-5 py-3 rounded-xl text-xs font-black transition shrink-0 shadow-lg shadow-green-500/20">Verificar</button>
+                </div>
             </div>
-            <div>
-                <h4 class="font-bold text-purple-300 mb-1"><i class="fa-solid fa-bolt"></i> Soporte 24/7</h4>
-                <p class="text-[11px] text-gray-500">Entrega automática inmediata respaldada por nuestro equipo técnico.</p>
+
+            <!-- TARJETA DE PERFIL OFICIAL (COMO EN EL VIDEO) -->
+            <div id="profile-card" class="hidden bg-black/60 border border-green-500/40 rounded-2xl p-4 space-y-3 relative shadow-inner">
+                <div class="flex items-start justify-between">
+                    <div class="flex items-center gap-3">
+                        <div class="w-12 h-12 rounded-xl bg-gray-800 overflow-hidden border border-green-500/30">
+                            <img src="https://play-lh.googleusercontent.com/hnnIRd5AAf7T2gWzwki00aA9aWMX9JUbr8N42WjGqSVEq36Ey5_T0GCvyekeBkn_rSknR3vXvF4zTkZh4j-KRw=w240-h480-rw" class="w-full h-full object-cover">
+                        </div>
+                        <div>
+                            <div class="flex items-center gap-2">
+                                <span class="font-black text-sm text-white">⭐ Roxloy ⭐</span>
+                                <span class="text-[9px] bg-green-500/20 text-green-400 px-2 py-0.5 rounded font-bold border border-green-500/35">Nivel 56</span>
+                            </div>
+                            <span class="text-[11px] text-gray-400 font-mono">ID: 8383119792</span>
+                            <span class="block text-[10px] text-green-400 font-medium">✓ Verificá que sea tu cuenta</span>
+                        </div>
+                    </div>
+                    <button onclick="resetId()" class="text-[10px] bg-gray-800 hover:bg-gray-700 text-gray-300 px-2.5 py-1 rounded-lg border border-gray-700">Cambiar</button>
+                </div>
+                <div class="grid grid-cols-3 gap-2 text-center pt-2 border-t border-gray-800/80 text-[11px]">
+                    <div class="bg-gray-900/80 p-1.5 rounded-lg border border-gray-800"><span class="block text-gray-400 text-[9px]">RANGO</span> <strong class="text-white">Heroico 320</strong></div>
+                    <div class="bg-gray-900/80 p-1.5 rounded-lg border border-gray-800"><span class="block text-gray-400 text-[9px]">PASE ÉLITE</span> <strong class="text-green-400">Sí</strong></div>
+                    <div class="bg-gray-900/80 p-1.5 rounded-lg border border-gray-800"><span class="block text-gray-400 text-[9px]">INSIGNIAS</span> <strong class="text-white">54</strong></div>
+                </div>
+            </div>
+
+            <!-- PASO 2: ELEGÍ TU PACK + CÓDIGO DE DESCUENTO -->
+            <div class="space-y-3">
+                <div class="flex justify-between items-center">
+                    <label class="text-xs font-bold text-gray-300">2. Elegí tu pack</label>
+                    <!-- CÓDIGO DE DESCUENTO (MOSTRADO EN EL VIDEO) -->
+                    <div class="flex items-center gap-1.5 bg-black/60 px-2.5 py-1 rounded-xl border border-gray-800">
+                        <i class="fa-solid fa-tag text-green-400 text-xs"></i>
+                        <input type="text" id="discount-code" placeholder="Código de descuento" class="bg-transparent text-[11px] text-white focus:outline-none w-28 uppercase font-bold placeholder:text-gray-600">
+                        <button onclick="applyDiscount()" class="text-[10px] bg-green-500 text-black px-2 py-0.5 rounded font-black">Aplicar</button>
+                    </div>
+                </div>
+
+                <!-- GRILLA DE PAQUETES CON PRECIOS Y BONUS -->
+                <div class="grid grid-cols-2 gap-2.5">
+                    <div onclick="selectPkg(this, '110 Diamantes', 'Bs. 840')" class="package-box bg-black/60 border border-green-500 rounded-2xl p-3 cursor-pointer transition relative shadow-lg">
+                        <span class="absolute top-2 right-2 text-green-400 text-xs">✓</span>
+                        <h4 class="font-black text-sm text-white">110 Diamantes</h4>
+                        <span class="font-black text-green-400 text-base">Bs. 840</span>
+                        <span class="block text-[9px] text-gray-400 mt-1">+1 Hydra Points</span>
+                    </div>
+                    <div onclick="selectPkg(this, '341 Diamantes', 'Bs. 2.531')" class="package-box bg-black/40 border border-gray-800 rounded-2xl p-3 cursor-pointer transition relative hover:border-gray-700">
+                        <h4 class="font-black text-sm text-white">341 Diamantes</h4>
+                        <span class="font-black text-green-400 text-base">Bs. 2.531</span>
+                        <span class="block text-[9px] text-gray-400 mt-1">+1 Hydra Points</span>
+                    </div>
+                    <div onclick="selectPkg(this, '572 Diamantes', 'Bs. 4.271')" class="package-box bg-black/40 border border-gray-800 rounded-2xl p-3 cursor-pointer transition relative hover:border-gray-700">
+                        <h4 class="font-black text-sm text-white">572 Diamantes</h4>
+                        <span class="font-black text-green-400 text-base">Bs. 4.271</span>
+                        <span class="block text-[9px] text-gray-400 mt-1">+2 Hydra Points</span>
+                    </div>
+                    <div onclick="selectPkg(this, '1166 Diamantes', 'Bs. 8.179')" class="package-box bg-black/40 border border-gray-800 rounded-2xl p-3 cursor-pointer transition relative hover:border-gray-700">
+                        <h4 class="font-black text-sm text-white">1166 Diamantes</h4>
+                        <span class="font-black text-green-400 text-base">Bs. 8.179</span>
+                        <span class="block text-[9px] text-gray-400 mt-1">+3 Hydra Points</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CANTIDAD DE RECARGAS EN UN SOLO PAGO -->
+            <div class="space-y-1.5">
+                <label class="text-[11px] font-bold text-gray-400">¿Cuántas recargas? (Hasta 5 al mismo ID)</label>
+                <div class="flex gap-1.5">
+                    <button class="flex-1 py-1.5 rounded-lg bg-green-500 text-black font-black text-xs">1</button>
+                    <button class="flex-1 py-1.5 rounded-lg bg-black/60 border border-gray-800 text-gray-400 font-bold text-xs hover:text-white">2</button>
+                    <button class="flex-1 py-1.5 rounded-lg bg-black/60 border border-gray-800 text-gray-400 font-bold text-xs hover:text-white">3</button>
+                    <button class="flex-1 py-1.5 rounded-lg bg-black/60 border border-gray-800 text-gray-400 font-bold text-xs hover:text-white">4</button>
+                    <button class="flex-1 py-1.5 rounded-lg bg-black/60 border border-gray-800 text-gray-400 font-bold text-xs hover:text-white">5</button>
+                </div>
+            </div>
+
+            <!-- DATOS DE CONTACTO (WHATSAPP / GMAIL) -->
+            <div class="space-y-2 pt-2 border-t border-gray-800">
+                <label class="text-xs font-bold text-gray-300">Te avisamos a</label>
+                <div class="bg-black/60 border border-gray-800 rounded-xl p-3 flex items-center justify-between text-xs">
+                    <div class="flex items-center gap-2">
+                        <i class="fa-solid fa-envelope text-green-400"></i>
+                        <span class="text-gray-300">wilfranalvarez860@gmail.com</span>
+                    </div>
+                    <span class="text-[10px] bg-green-500/10 text-green-400 px-2 py-0.5 rounded font-bold border border-green-500/20">De tu cuenta</span>
+                </div>
+                <p class="text-[10px] text-gray-500">Al continuar aceptás los <a href="#" class="text-green-400 underline">Términos y Condiciones</a>.</p>
+            </div>
+
+            <!-- MÉTODO DE PAGO Y BOTÓN FINAL -->
+            <div class="pt-3 border-t border-gray-800 space-y-3">
+                <div class="flex items-center justify-between text-xs">
+                    <span class="text-gray-400 font-bold">Seleccionado: <strong id="selected-summary" class="text-white">110 Diamantes</strong></span>
+                    <span class="text-green-400 font-black text-sm" id="selected-price">Bs. 840</span>
+                </div>
+                <button onclick="proceedToPayment()" class="w-full bg-hydraGreen hover:bg-hydraGreenDark text-black font-black py-3.5 rounded-2xl shadow-xl shadow-green-500/20 transition flex items-center justify-center gap-2 text-sm">
+                    <span>Pagar ahora</span> <i class="fa-solid fa-arrow-right"></i>
+                </button>
             </div>
         </div>
-        <p class="text-[11px] text-gray-600">© 2026 Nexo Store • Todos los derechos reservados. Las marcas registradas pertenecen a sus respectivos dueños.</p>
-    </footer>
+    </div>
 
-    <!-- SCRIPT DE FLUJO PROFESIONAL -->
+    <!-- BARRA DE NAVEGACIÓN INFERIOR ESTILO HYDRAUP -->
+    <nav class="sticky bottom-0 z-40 bg-hydraCard border-t border-gray-800 py-3 px-6">
+        <div class="max-w-md mx-auto flex items-center justify-around text-center text-gray-400 text-xs">
+            <button class="flex flex-col items-center gap-1 hover:text-white"><i class="fa-solid fa-user text-sm"></i><span>Perfil</span></button>
+            <button class="flex flex-col items-center gap-1 hover:text-white"><i class="fa-solid fa-wallet text-sm"></i><span>Pagos</span></button>
+            <button class="flex flex-col items-center gap-1 hover:text-white"><i class="fa-solid fa-star text-sm"></i><span>Reseñas</span></button>
+            <button class="flex flex-col items-center gap-1 text-green-400 font-bold"><i class="fa-solid fa-headset text-sm"></i><span>Soporte</span></button>
+        </div>
+    </nav>
+
+    <!-- SCRIPT DE FUNCIONAMIENTO EXACTO -->
     <script>
-        let currentProduct = null;
-        let selectedPackage = null;
-        let isIdValid = false;
-        let step = 1;
-
-        function openProduct(name, img, packages) {
-            currentProduct = name;
-            isIdValid = false;
-            step = 1;
-            document.getElementById('modal-title').innerText = name;
-            document.getElementById('modal-img').src = img;
-            document.getElementById('player-id').value = '';
-            document.getElementById('validation-status').innerText = 'La IA comprobará el ID en el servidor.';
-            document.getElementById('validation-status').className = 'text-[10px] text-gray-500 mt-1 block';
-            document.getElementById('modal-step-indicator').innerText = 'Paso 1: Validación de ID y Paquete';
-            document.getElementById('player-card').classList.add('hidden');
-            document.getElementById('checkout-section').classList.add('hidden');
-            document.getElementById('step-1-container').classList.remove('hidden');
-            document.getElementById('packages-section').classList.remove('hidden');
-            document.getElementById('notification-banner').classList.add('hidden');
-            document.getElementById('action-btn').classList.remove('hidden');
-            document.getElementById('action-btn').innerText = 'Verificar ID para Continuar';
-
-            const container = document.getElementById('packages-container');
-            container.innerHTML = '';
-            
-            packages.forEach((pkg, index) => {
-                const btn = document.createElement('button');
-                btn.className = `p-3 rounded-xl border text-xs font-bold text-left transition package-btn ${index === 0 ? 'border-purple-500 bg-purple-500/10 text-purple-300' : 'border-purple-950 bg-black text-gray-300'}`;
-                btn.innerText = pkg;
-                btn.onclick = () => {
-                    document.querySelectorAll('.package-btn').forEach(b => b.className = 'p-3 rounded-xl border text-xs font-bold text-left transition package-btn border-purple-950 bg-black text-gray-300');
-                    btn.className = 'p-3 rounded-xl border text-xs font-bold text-left transition package-btn border-purple-500 bg-purple-500/10 text-purple-300';
-                    selectedPackage = pkg;
-                    updatePriceDisplay();
-                };
-                container.appendChild(btn);
-            });
-            selectedPackage = packages[0];
-            updatePriceDisplay();
-
-            document.getElementById('product-modal').classList.remove('hidden');
-            document.getElementById('product-modal').classList.add('flex');
+        function openFreeFireModal() {
+            document.getElementById('hydra-modal').classList.remove('hidden');
+            document.getElementById('hydra-modal').classList.add('flex');
         }
 
-        function updatePriceDisplay() {
-            if(selectedPackage) {
-                const parts = selectedPackage.split('-');
-                if(parts[1]) {
-                    document.getElementById('pay-amount-res').innerText = parts[1].trim();
-                }
-            }
+        function closeHydraModal() {
+            document.getElementById('hydra-modal').classList.remove('flex');
+            document.getElementById('hydra-modal').classList.add('hidden');
         }
 
-        function closeModal() {
-            document.getElementById('product-modal').classList.remove('flex');
-            document.getElementById('product-modal').classList.add('hidden');
-        }
-
-        function validatePlayerId() {
+        function verifyHydraId() {
             const idVal = document.getElementById('player-id').value.trim();
-            const statusLabel = document.getElementById('validation-status');
-            
-            if(!idVal || idVal.length < 7 || idVal.length > 12) {
-                isIdValid = false;
-                statusLabel.innerText = '❌ Ingresa un ID numérico válido (entre 7 y 12 dígitos).';
-                statusLabel.className = 'text-[10px] text-red-400 mt-1 block font-bold';
+            if(!idVal) {
+                alert('Ingresá tu ID de jugador.');
                 return;
             }
-
-            statusLabel.innerText = '🤖 NexoBot escaneando perfil oficial...';
-            statusLabel.className = 'text-[10px] text-yellow-400 mt-1 block';
-
-            setTimeout(() => {
-                isIdValid = true;
-                statusLabel.innerText = `✅ ¡Cuenta confirmada en ${currentProduct}!`;
-                statusLabel.className = 'text-[10px] text-green-400 mt-1 block font-bold';
-                
-                document.getElementById('player-id-res').innerText = 'ID: ' + idVal;
-                document.getElementById('player-card').classList.remove('hidden');
-                
-                document.getElementById('action-btn').innerText = 'Continuar al Método de Pago';
-                step = 2;
-            }, 1000);
+            // Muestra la tarjeta de perfil detallada como en el video
+            document.getElementById('profile-card').classList.remove('hidden');
         }
 
-        function handleMainAction() {
-            if(step === 1) {
-                validatePlayerId();
-            } else if(step === 2) {
-                if(!isIdValid) {
-                    alert('Debes verificar tu ID primero.');
-                    return;
-                }
-                document.getElementById('step-1-container').classList.add('hidden');
-                document.getElementById('packages-section').classList.add('hidden');
-                document.getElementById('player-card').classList.add('hidden');
-                document.getElementById('checkout-section').classList.remove('hidden');
-                document.getElementById('modal-step-indicator').innerText = 'Paso 2: Pago y Comprobante';
-                document.getElementById('action-btn').innerText = 'Confirmar Pedido';
-                step = 3;
-            } else if(step === 3) {
-                document.getElementById('checkout-section').classList.add('hidden');
-                document.getElementById('action-btn').classList.add('hidden');
-                document.getElementById('notification-banner').classList.remove('hidden');
-                
-                setTimeout(() => {
-                    closeModal();
-                }, 2000);
+        function useLastId() {
+            document.getElementById('player-id').value = '8383119792';
+            verifyHydraId();
+        }
+
+        function resetId() {
+            document.getElementById('profile-card').classList.add('hidden');
+            document.getElementById('player-id').value = '';
+        }
+
+        function selectPkg(el, name, price) {
+            document.querySelectorAll('.package-box').forEach(box => {
+                box.className = 'package-box bg-black/40 border border-gray-800 rounded-2xl p-3 cursor-pointer transition relative hover:border-gray-700';
+            });
+            el.className = 'package-box bg-black/60 border border-green-500 rounded-2xl p-3 cursor-pointer transition relative shadow-lg';
+            document.getElementById('selected-summary').innerText = name;
+            document.getElementById('selected-price').innerText = price;
+        }
+
+        function applyDiscount() {
+            const code = document.getElementById('discount-code').value.trim().toUpperCase();
+            if(code === 'WILFRAN02' || code === 'ELIEL' || code === 'PANCHO') {
+                alert('¡Código aplicado con éxito! Descuento aplicado.');
+            } else if(code !== '') {
+                alert('Código no válido.');
             }
+        }
+
+        function proceedToPayment() {
+            alert('Redirigiendo a pasarela de pago y comprobante automático...');
+            closeHydraModal();
+        }
+
+        function openSupport() {
+            alert('Abriendo soporte técnico y WhatsApp oficial...');
         }
     </script>
 </body>
