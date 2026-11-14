@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nexo Store v3.4 | Tu Recarga Segura</title>
+    <title>Nexo Store | Tu Recarga Segura</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
     <script>
@@ -37,19 +37,19 @@
     <!-- ==================== VISTA 1: TIENDA PRINCIPAL ==================== -->
     <div id="view-store" class="flex flex-col min-h-screen justify-between">
         
-        <!-- MODAL PERFIL Y SINCRONIZACIÓN -->
+        <!-- MODAL PERFIL -->
         <div id="profile-modal" class="hidden fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4">
             <div class="bg-nexoCard border border-nexoCyan/50 rounded-3xl max-w-sm w-full p-5 shadow-2xl relative space-y-4">
                 <button onclick="toggleProfileModal()" class="absolute top-3 right-3 bg-black/60 text-white w-8 h-8 rounded-full font-bold border border-gray-700 z-10">✕</button>
                 <div class="space-y-4 pt-2">
                     <div class="text-center space-y-1.5">
                         <div class="w-14 h-14 mx-auto rounded-2xl bg-gradient-to-tr from-nexoPurple to-nexoCyan flex items-center justify-center text-2xl shadow-lg">☁️</div>
-                        <h3 class="font-black text-base text-white">Sincronizar Progreso</h3>
+                        <h3 class="font-black text-base text-white">Sincronizar Progreso con Gmail</h3>
                     </div>
                     <div class="space-y-2.5 bg-nexoDark border border-gray-800 p-3.5 rounded-2xl">
-                        <input type="email" id="login-gmail-input" placeholder="ejemplo@gmail.com" class="w-full bg-nexoCard border border-gray-700 rounded-xl px-3 py-2.5 text-xs text-white focus:outline-none focus:border-nexoCyan">
-                        <input type="text" id="login-name-input" placeholder="Tu Nombre / Apodo" class="w-full bg-nexoCard border border-gray-700 rounded-xl px-3 py-2.5 text-xs text-white focus:outline-none focus:border-nexoPurple">
-                        <button onclick="loginWithGmail()" class="w-full bg-gradient-to-r from-nexoPurple to-nexoCyan text-white font-black py-3 rounded-xl text-xs uppercase shadow-lg">🚀 Entrar / Guardar</button>
+                        <input type="email" id="login-gmail-input" placeholder="ejemplo@gmail.com" class="w-full bg-nexoCard border border-gray-700 rounded-xl px-3 py-2.5 text-xs text-white">
+                        <input type="text" id="login-name-input" placeholder="Tu Nombre / Apodo" class="w-full bg-nexoCard border border-gray-700 rounded-xl px-3 py-2.5 text-xs text-white">
+                        <button onclick="loginWithGmail()" class="w-full bg-gradient-to-r from-nexoPurple to-nexoCyan text-white font-black py-3 rounded-xl text-xs uppercase shadow-lg">🚀 Entrar / Sincronizar</button>
                     </div>
                 </div>
             </div>
@@ -60,7 +60,7 @@
             <div class="bg-nexoCard border border-nexoPurple/50 rounded-3xl max-w-md w-full max-h-[90vh] overflow-y-auto p-5 shadow-2xl relative space-y-4">
                 <button onclick="toggleMissionsModal()" class="absolute top-3 right-3 bg-black/60 text-white w-8 h-8 rounded-full font-bold z-10">✕</button>
                 <div id="missions-listView">
-                    <span class="text-[9px] bg-purple-500/20 text-purple-300 border border-purple-500/40 px-2.5 py-0.5 rounded-full font-bold uppercase">🎯 Tablero Semanal</span>
+                    <span class="text-[9px] bg-purple-500/20 text-purple-300 border border-purple-500/40 px-2.5 py-0.5 rounded-full font-bold uppercase">🎯 Tablero de Misiones • Semanal</span>
                     <h3 class="text-xl font-black text-white mt-1">Elegí una Misión</h3>
                     <div id="missions-cards-container" class="space-y-3 mt-4"></div>
                 </div>
@@ -89,7 +89,7 @@
                 <div class="flex items-center gap-2 cursor-pointer select-none" onclick="triggerAdminSecret()">
                     <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-nexoPurple to-nexoCyan flex items-center justify-center font-black text-nexoDark text-sm shadow">N</div>
                     <div>
-                        <h1 class="text-sm font-black tracking-wide leading-none">NEXO STORE v3.4</h1>
+                        <h1 class="text-sm font-black tracking-wide leading-none">NEXO STORE</h1>
                         <span class="text-[9px] text-nexoCyan font-semibold">TU RECARGA SEGURA</span>
                     </div>
                 </div>
@@ -102,12 +102,6 @@
 
         <!-- CONTENIDO PRINCIPAL -->
         <main class="max-w-md mx-auto px-4 py-6 w-full flex-grow space-y-6 relative z-10">
-
-            <!-- BANNER CUPONES -->
-            <div id="active-promos-banner" class="hidden bg-gradient-to-r from-purple-900/60 via-nexoCard to-cyan-900/60 border border-nexoCyan/50 rounded-2xl p-3.5 shadow-lg space-y-2">
-                <span class="text-[10px] font-black uppercase text-nexoCyan">🎟️ Códigos Promocionales Activos</span>
-                <div id="active-promos-pills" class="flex flex-wrap gap-2"></div>
-            </div>
 
             <!-- BARRA DE PROGRESO -->
             <div class="bg-nexoCard/95 border border-gray-800 rounded-2xl p-3.5 shadow-md">
@@ -122,33 +116,44 @@
                 </div>
             </div>
 
-            <!-- PASO 1 -->
+            <!-- PASO 1: SELECCIONAR JUEGO -->
             <section id="step-1" class="bg-nexoCard/95 border border-nexoPurple/30 rounded-2xl p-5 shadow-xl space-y-5">
                 <h2 class="text-sm font-black text-white flex items-center gap-2">
                     <span class="bg-nexoCyan text-nexoDark w-5 h-5 rounded-full flex items-center justify-center text-xs">1</span>
                     Seleccioná el Juego
                 </h2>
                 <div class="grid grid-cols-2 gap-3.5">
-                    <div onclick="selectGame('Free Fire', this)" class="game-tab border-2 border-nexoCyan bg-nexoCyan/10 p-3 rounded-2xl text-center cursor-pointer flex flex-col items-center justify-center space-y-2">
-                        <p class="text-xs font-black text-white">Free Fire</p>
-                        <p class="text-[9px] text-nexoCyan">Diamantes</p>
+                    <div onclick="selectGame('Free Fire', this)" class="game-tab border-2 border-nexoCyan bg-nexoCyan/10 p-3 rounded-2xl text-center cursor-pointer transition flex flex-col items-center justify-center space-y-2">
+                        <div class="w-12 h-12 rounded-xl overflow-hidden bg-black border border-nexoCyan/40">
+                            <img src="https://play-lh.googleusercontent.com/hnnIRd5AAf7T2gWzwki00aA9aWMX9JUbr8N42WjGqSVEq36Ey5_T0GCvyekeBkn_rSknR3vXvF4zTkZh4j-KRw=w240-h480-rw" class="w-full h-full object-cover">
+                        </div>
+                        <div>
+                            <p class="text-xs font-black text-white">Free Fire</p>
+                            <p class="text-[9px] text-nexoCyan">Diamantes 💎</p>
+                        </div>
                     </div>
                     <div onclick="selectGame('Blood Strike', this)" class="game-tab border border-gray-800 bg-nexoDark/70 p-3 rounded-2xl text-center cursor-pointer opacity-80 flex flex-col items-center justify-center space-y-2">
-                        <p class="text-xs font-bold text-gray-200">Blood Strike</p>
-                        <p class="text-[9px] text-gray-400">Oro por ID</p>
+                        <div class="w-12 h-12 rounded-xl overflow-hidden bg-black border border-gray-700">
+                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRdVF9Nfw3vWr_bslwvu1e8ciooBqInbZCkhrDpCAOrkw&s=10" class="w-full h-full object-cover">
+                        </div>
+                        <div>
+                            <p class="text-xs font-bold text-gray-200">Blood Strike</p>
+                            <p class="text-[9px] text-gray-400">Oro por ID 🪙</p>
+                        </div>
                     </div>
                 </div>
                 <button onclick="goToStep(2)" class="w-full bg-gradient-to-r from-nexoPurple to-nexoCyan text-white font-black py-3.5 rounded-xl shadow-lg uppercase text-xs">Siguiente: Elegir Paquete ➔</button>
             </section>
 
-            <!-- PASO 2 -->
+            <!-- PASO 2: PAQUETES -->
             <section id="step-2" class="hidden bg-nexoCard/95 border border-nexoPurple/30 rounded-2xl p-5 shadow-xl space-y-5">
                 <h2 class="text-sm font-black text-white flex items-center gap-2">
                     <span class="bg-nexoCyan text-nexoDark w-5 h-5 rounded-full flex items-center justify-center text-xs">2</span>
-                    Armá tu Carrito (<span id="current-game-title" class="text-nexoCyan">Free Fire</span>)
+                    Elegí tu Paquete (<span id="current-game-title" class="text-nexoCyan">Free Fire</span>)
                 </h2>
                 <div id="packs-container" class="space-y-2.5"></div>
                 <div class="bg-nexoDark border border-gray-800 p-3.5 rounded-xl flex justify-between items-center">
+                    <span class="text-xs text-gray-400">Precio Total:</span>
                     <span id="display-price" class="text-base font-black text-nexoCyan">$0 ARS</span>
                 </div>
                 <div class="flex gap-2.5">
@@ -157,7 +162,7 @@
                 </div>
             </section>
 
-            <!-- PASO 3 -->
+            <!-- PASO 3: ID Y DATOS -->
             <section id="step-3" class="hidden bg-nexoCard/95 border border-nexoPurple/30 rounded-2xl p-5 shadow-xl space-y-5">
                 <h2 class="text-sm font-black text-white flex items-center gap-2">
                     <span class="bg-nexoCyan text-nexoDark w-5 h-5 rounded-full flex items-center justify-center text-xs">3</span>
@@ -167,7 +172,7 @@
                     <div>
                         <label class="text-xs font-bold text-gray-300">ID de Jugador</label>
                         <div class="flex gap-2 mt-1">
-                            <input type="number" id="player-id" placeholder="Ingresá tu ID numérico..." class="w-full bg-nexoDark border border-gray-700 rounded-xl p-3 text-sm text-white font-mono focus:outline-none focus:border-nexoCyan">
+                            <input type="number" id="player-id" placeholder="Ingresá tu ID numérico real..." class="w-full bg-nexoDark border border-gray-700 rounded-xl p-3 text-sm text-white font-mono focus:outline-none focus:border-nexoCyan">
                             <button onclick="verifyPlayerIdReal()" id="verify-id-btn" class="bg-nexoCyan text-nexoDark font-black px-3.5 rounded-xl text-xs shrink-0">Buscar ID</button>
                         </div>
                         <div id="id-verification-result" class="text-[11px] mt-1.5 hidden p-2.5 rounded-xl border"></div>
@@ -190,7 +195,7 @@
                 </div>
             </section>
 
-            <!-- PASO 4 -->
+            <!-- PASO 4: PAGO Y COMPROBANTE -->
             <section id="step-4" class="hidden bg-nexoCard/95 border border-nexoCyan/40 rounded-2xl p-5 shadow-2xl space-y-5 animate-glow">
                 <div class="text-center border-b border-gray-800 pb-3">
                     <h2 class="text-base font-black text-white mt-1">Resumen y Verificación de Pago</h2>
@@ -219,7 +224,7 @@
     <div id="view-admin" class="hidden flex-col min-h-screen justify-between bg-nexoDark p-4">
         <div class="max-w-md mx-auto w-full pt-8 space-y-6">
             <div class="flex justify-between items-center border-b border-gray-800 pb-4">
-                <h2 class="text-xl font-black text-white">Panel Admin v3.4</h2>
+                <h2 class="text-xl font-black text-white">Panel Admin</h2>
                 <button onclick="exitAdminView()" class="bg-nexoSurface text-gray-300 px-3 py-2 rounded-xl text-xs font-bold">← Tienda</button>
             </div>
             <div id="admin-login-screen" class="bg-nexoCard border border-gray-800 p-6 rounded-3xl space-y-4 shadow-2xl">
@@ -263,28 +268,6 @@
             } catch (e) {}
         }
 
-        let currentAccountEmail = localStorage.getItem('nexo_active_email') || '';
-        let currentUser = { name: 'Invitado', email: '', coins: 0, purchases: 0, savedIds: [] };
-
-        async function saveCurrentUser() {
-            if (!currentUser.email) return;
-            localStorage.setItem('nexo_acc_' + currentUser.email, JSON.stringify(currentUser));
-        }
-
-        function toggleProfileModal() { document.getElementById('profile-modal').classList.toggle('hidden'); }
-        async function loginWithGmail() {
-            const emailInput = document.getElementById('login-gmail-input').value.trim().toLowerCase();
-            const nameInput = document.getElementById('login-name-input').value.trim();
-            if (!emailInput || !emailInput.endsWith('@gmail.com')) { alert('Ingresá un Gmail válido.'); return; }
-            currentUser.email = emailInput;
-            currentUser.name = nameInput || emailInput.split('@')[0];
-            currentAccountEmail = emailInput;
-            localStorage.setItem('nexo_active_email', emailInput);
-            await saveCurrentUser();
-            toggleProfileModal();
-            alert(`¡Bienvenido ${currentUser.name}!`);
-        }
-
         let selectedMissionId = null;
         function renderMissionsList() {
             const container = document.getElementById('missions-cards-container');
@@ -311,7 +294,7 @@
         }
         async function reserveMissionCupo() {
             let m = missionsDB.find(x => x.id === selectedMissionId);
-            if (m.cupos <= 0) { alert('Sin cupos disponibles'); return; }
+            if (m.cupos <= 0) { alert('Sin cupos'); return; }
             m.cupos--;
             document.getElementById('reserve-cupo-container').classList.add('hidden');
             document.getElementById('submit-link-container').classList.remove('hidden');
@@ -347,6 +330,7 @@
             fb.innerHTML = `✅ <strong>¡Participación #${submissionId} enviada!</strong>`;
         }
         function toggleMissionsModal() { renderMissionsList(); document.getElementById('missions-modal').classList.toggle('hidden'); }
+        function toggleProfileModal() { document.getElementById('profile-modal').classList.toggle('hidden'); }
 
         let verifiedPlayerProfile = null;
         async function verifyPlayerIdReal() {
@@ -383,7 +367,7 @@
                     status.innerHTML = '✅ <strong>Comprobante Real Verificado por IA.</strong>';
                 } else {
                     status.className = 'text-[11px] p-2.5 rounded-xl border border-red-500/50 text-red-400 font-bold';
-                    status.innerHTML = '❌ No se pudo leer texto válido en el comprobante.';
+                    status.innerHTML = '❌ No se pudo leer texto válido.';
                 }
             } catch (e) {
                 status.className = 'text-[11px] p-2.5 rounded-xl border border-red-500/50 text-red-400 font-bold';
@@ -488,9 +472,7 @@
 
         function goToStep(step) {
             if (step === 2) renderPacks();
-            if (step === 3) {
-                if (!storeState.totalBasePrice) { alert('Seleccioná un paquete.'); return; }
-            }
+            if (step === 3 && !storeState.totalBasePrice) { alert('Seleccioná un paquete.'); return; }
             if (step === 4) {
                 const id = document.getElementById('player-id').value.trim();
                 if (!verifiedPlayerProfile || verifiedPlayerProfile.id !== id) { alert('Verificá tu ID primero.'); return; }
