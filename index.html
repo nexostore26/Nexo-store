@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nexo Store | Tu Recarga Segura</title>
+    <title>Nexo Store v3.4 | Tu Recarga Segura</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
     <script>
@@ -30,20 +30,6 @@
         .animate-glow { animation: pulse-border 3s infinite; }
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-        
-        .roulette-wheel {
-            background: conic-gradient(
-                #EAB308 0deg 45deg,
-                #1E1B4B 45deg 90deg,
-                #06B6D4 90deg 135deg,
-                #1E1B4B 135deg 180deg,
-                #10B981 180deg 225deg,
-                #1E1B4B 225deg 270deg,
-                #8B5CF6 270deg 315deg,
-                #EF4444 315deg 360deg
-            );
-            transition: transform 4s cubic-bezier(0.17, 0.67, 0.12, 0.99);
-        }
     </style>
 </head>
 <body class="bg-nexoDark text-white font-sans min-h-screen flex flex-col justify-between relative overflow-x-hidden">
@@ -53,23 +39,18 @@
         
         <!-- MODAL PERFIL Y SINCRONIZACIÓN -->
         <div id="profile-modal" class="hidden fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4">
-            <div class="bg-nexoCard border border-nexoCyan/50 rounded-3xl max-w-sm w-full max-h-[90vh] overflow-y-auto p-5 shadow-2xl relative space-y-4">
+            <div class="bg-nexoCard border border-nexoCyan/50 rounded-3xl max-w-sm w-full p-5 shadow-2xl relative space-y-4">
                 <button onclick="toggleProfileModal()" class="absolute top-3 right-3 bg-black/60 text-white w-8 h-8 rounded-full font-bold border border-gray-700 z-10">✕</button>
-                <div id="profile-login-view" class="space-y-4 pt-2">
+                <div class="space-y-4 pt-2">
                     <div class="text-center space-y-1.5">
                         <div class="w-14 h-14 mx-auto rounded-2xl bg-gradient-to-tr from-nexoPurple to-nexoCyan flex items-center justify-center text-2xl shadow-lg">☁️</div>
-                        <h3 class="font-black text-base text-white">Guardá tu Progreso en la Nube</h3>
+                        <h3 class="font-black text-base text-white">Sincronizar Progreso</h3>
                     </div>
                     <div class="space-y-2.5 bg-nexoDark border border-gray-800 p-3.5 rounded-2xl">
-                        <input type="email" id="login-gmail-input" placeholder="ejemplo@gmail.com" class="w-full bg-nexoCard border border-gray-700 rounded-xl px-3 py-2.5 text-xs text-white">
-                        <input type="text" id="login-name-input" placeholder="Tu Nombre" class="w-full bg-nexoCard border border-gray-700 rounded-xl px-3 py-2.5 text-xs text-white">
-                        <button onclick="loginWithGmail()" class="w-full bg-gradient-to-r from-nexoPurple to-nexoCyan text-white font-black py-3 rounded-xl text-xs uppercase">Entrar / Sincronizar</button>
+                        <input type="email" id="login-gmail-input" placeholder="ejemplo@gmail.com" class="w-full bg-nexoCard border border-gray-700 rounded-xl px-3 py-2.5 text-xs text-white focus:outline-none focus:border-nexoCyan">
+                        <input type="text" id="login-name-input" placeholder="Tu Nombre / Apodo" class="w-full bg-nexoCard border border-gray-700 rounded-xl px-3 py-2.5 text-xs text-white focus:outline-none focus:border-nexoPurple">
+                        <button onclick="loginWithGmail()" class="w-full bg-gradient-to-r from-nexoPurple to-nexoCyan text-white font-black py-3 rounded-xl text-xs uppercase shadow-lg">🚀 Entrar / Guardar</button>
                     </div>
-                </div>
-                <div id="profile-logged-view" class="hidden space-y-4 text-center">
-                    <h3 id="user-profile-name" class="font-black text-sm text-white">Jugador</h3>
-                    <p id="user-profile-email" class="text-[10px] text-gray-400">correo@gmail.com</p>
-                    <button onclick="logoutAccount()" class="w-full bg-red-600/20 text-red-400 border border-red-600/40 font-bold py-2 rounded-xl text-xs">Cerrar Sesión</button>
                 </div>
             </div>
         </div>
@@ -77,9 +58,10 @@
         <!-- MODAL MISIONES -->
         <div id="missions-modal" class="hidden fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4">
             <div class="bg-nexoCard border border-nexoPurple/50 rounded-3xl max-w-md w-full max-h-[90vh] overflow-y-auto p-5 shadow-2xl relative space-y-4">
-                <button onclick="toggleMissionsModal()" class="absolute top-3 right-3 bg-black/60 text-white w-8 h-8 rounded-full font-bold">✕</button>
+                <button onclick="toggleMissionsModal()" class="absolute top-3 right-3 bg-black/60 text-white w-8 h-8 rounded-full font-bold z-10">✕</button>
                 <div id="missions-listView">
-                    <h3 class="text-xl font-black text-white">Elegí una Misión</h3>
+                    <span class="text-[9px] bg-purple-500/20 text-purple-300 border border-purple-500/40 px-2.5 py-0.5 rounded-full font-bold uppercase">🎯 Tablero Semanal</span>
+                    <h3 class="text-xl font-black text-white mt-1">Elegí una Misión</h3>
                     <div id="missions-cards-container" class="space-y-3 mt-4"></div>
                 </div>
                 <div id="missions-detailView" class="hidden space-y-4">
@@ -87,14 +69,14 @@
                     <h3 id="detail-mission-title" class="text-lg font-black text-white"></h3>
                     <p id="detail-mission-reward" class="text-xs font-bold text-nexoCyan"></p>
                     <div id="reserve-cupo-container">
-                        <button onclick="reserveMissionCupo()" class="w-full bg-gradient-to-r from-yellow-500 to-amber-600 text-nexoDark font-black py-3 rounded-xl text-xs uppercase">📌 Aceptar Misión y Reservar Cupo</button>
+                        <button onclick="reserveMissionCupo()" class="w-full bg-gradient-to-r from-yellow-500 to-amber-600 text-nexoDark font-black py-3 rounded-xl text-xs uppercase shadow">📌 Aceptar Misión y Reservar Cupo</button>
                     </div>
-                    <div id="submit-link-container" class="hidden space-y-2.5">
+                    <div id="submit-link-container" class="hidden space-y-2.5 bg-nexoDark border border-purple-500/40 p-3 rounded-2xl">
                         <select id="mission-player-game" class="w-full bg-nexoCard border border-gray-700 rounded-xl p-2.5 text-xs text-white"><option value="Free Fire">Free Fire</option><option value="Blood Strike">Blood Strike</option></select>
                         <input type="number" id="mission-player-id" placeholder="Tu ID de Jugador *" class="w-full bg-nexoCard border border-gray-700 rounded-xl p-2.5 text-xs text-white font-mono">
                         <input type="text" id="mission-social-user" placeholder="Tu @usuario de TikTok *" class="w-full bg-nexoCard border border-gray-700 rounded-xl p-2.5 text-xs text-white">
                         <input type="url" id="mission-video-link" placeholder="URL exacta del video (https://...) *" class="w-full bg-nexoCard border border-gray-700 rounded-xl p-2.5 text-xs text-white">
-                        <button onclick="submitMissionProof()" class="w-full bg-gradient-to-r from-nexoPurple to-nexoCyan text-white font-black py-3 rounded-xl text-xs uppercase">🚀 Enviar Datos y URL</button>
+                        <button onclick="submitMissionProof()" class="w-full bg-gradient-to-r from-nexoPurple to-nexoCyan text-white font-black py-3 rounded-xl text-xs uppercase shadow">🚀 Enviar Datos y URL</button>
                     </div>
                     <p id="mission-feedback" class="text-xs font-bold text-center hidden"></p>
                 </div>
@@ -107,7 +89,7 @@
                 <div class="flex items-center gap-2 cursor-pointer select-none" onclick="triggerAdminSecret()">
                     <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-nexoPurple to-nexoCyan flex items-center justify-center font-black text-nexoDark text-sm shadow">N</div>
                     <div>
-                        <h1 class="text-sm font-black tracking-wide leading-none">NEXO STORE</h1>
+                        <h1 class="text-sm font-black tracking-wide leading-none">NEXO STORE v3.4</h1>
                         <span class="text-[9px] text-nexoCyan font-semibold">TU RECARGA SEGURA</span>
                     </div>
                 </div>
@@ -127,7 +109,7 @@
                 <div id="active-promos-pills" class="flex flex-wrap gap-2"></div>
             </div>
 
-            <!-- PROGRESO -->
+            <!-- BARRA DE PROGRESO -->
             <div class="bg-nexoCard/95 border border-gray-800 rounded-2xl p-3.5 shadow-md">
                 <div class="flex justify-between items-center text-[10px] font-bold mb-2">
                     <span id="label-step-1" class="text-nexoCyan">1. Juego</span>
@@ -149,9 +131,11 @@
                 <div class="grid grid-cols-2 gap-3.5">
                     <div onclick="selectGame('Free Fire', this)" class="game-tab border-2 border-nexoCyan bg-nexoCyan/10 p-3 rounded-2xl text-center cursor-pointer flex flex-col items-center justify-center space-y-2">
                         <p class="text-xs font-black text-white">Free Fire</p>
+                        <p class="text-[9px] text-nexoCyan">Diamantes</p>
                     </div>
                     <div onclick="selectGame('Blood Strike', this)" class="game-tab border border-gray-800 bg-nexoDark/70 p-3 rounded-2xl text-center cursor-pointer opacity-80 flex flex-col items-center justify-center space-y-2">
                         <p class="text-xs font-bold text-gray-200">Blood Strike</p>
+                        <p class="text-[9px] text-gray-400">Oro por ID</p>
                     </div>
                 </div>
                 <button onclick="goToStep(2)" class="w-full bg-gradient-to-r from-nexoPurple to-nexoCyan text-white font-black py-3.5 rounded-xl shadow-lg uppercase text-xs">Siguiente: Elegir Paquete ➔</button>
@@ -235,7 +219,7 @@
     <div id="view-admin" class="hidden flex-col min-h-screen justify-between bg-nexoDark p-4">
         <div class="max-w-md mx-auto w-full pt-8 space-y-6">
             <div class="flex justify-between items-center border-b border-gray-800 pb-4">
-                <h2 class="text-xl font-black text-white">Panel Admin</h2>
+                <h2 class="text-xl font-black text-white">Panel Admin v3.4</h2>
                 <button onclick="exitAdminView()" class="bg-nexoSurface text-gray-300 px-3 py-2 rounded-xl text-xs font-bold">← Tienda</button>
             </div>
             <div id="admin-login-screen" class="bg-nexoCard border border-gray-800 p-6 rounded-3xl space-y-4 shadow-2xl">
@@ -261,8 +245,7 @@
         const FIREBASE_DB_URL = "https://nexo-store-bcec3-default-rtdb.firebaseio.com/"; 
         let globalCoupons = { "NEXO10": { discount: 10, maxUses: 100, usedCount: 0 } };
         let missionsDB = [
-            { id: 1, title: "Promocionar @nexop02 en TikTok (1.500 vistas)", reward: "110 Diamantes / 5 Coins", minViews: "1.500 vistas", cupos: 10, maxCupos: 10, active: true, desc: "Subí un video a TikTok promocionando nuestra cuenta @nexop02." },
-            { id: 2, title: "Seguir y Compartir @nexop02 (500 vistas)", reward: "3 Nexo Coins 🟡", minViews: "500 vistas", cupos: 15, maxCupos: 15, active: true, desc: "Seguí a @nexop02 y compartí la tienda." }
+            { id: 1, title: "Promocionar @nexop02 en TikTok (1.500 vistas)", reward: "110 Diamantes / 5 Coins", minViews: "1.500 vistas", cupos: 10, maxCupos: 10, active: true, desc: "Subí un video a TikTok promocionando nuestra cuenta @nexop02." }
         ];
 
         function getCleanDbUrl() { return FIREBASE_DB_URL.replace(/\/$/, ""); }
@@ -301,12 +284,6 @@
             toggleProfileModal();
             alert(`¡Bienvenido ${currentUser.name}!`);
         }
-        function logoutAccount() {
-            localStorage.removeItem('nexo_active_email');
-            currentUser = { name: 'Invitado', email: '', coins: 0, purchases: 0, savedIds: [] };
-            toggleProfileModal();
-            alert('Sesión cerrada.');
-        }
 
         let selectedMissionId = null;
         function renderMissionsList() {
@@ -334,7 +311,7 @@
         }
         async function reserveMissionCupo() {
             let m = missionsDB.find(x => x.id === selectedMissionId);
-            if (m.cupos <= 0) { alert('Sin cupos'); return; }
+            if (m.cupos <= 0) { alert('Sin cupos disponibles'); return; }
             m.cupos--;
             document.getElementById('reserve-cupo-container').classList.add('hidden');
             document.getElementById('submit-link-container').classList.remove('hidden');
