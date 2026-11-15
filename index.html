@@ -44,6 +44,7 @@
             transition: transform 4s cubic-bezier(0.17, 0.67, 0.12, 0.99);
         }
 
+        /* Animación de carga morada para Modo Mantenimiento */
         @keyframes spin-slow {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
@@ -63,14 +64,14 @@
 </head>
 <body class="bg-nexoDark text-white font-sans min-h-screen flex flex-col justify-between relative overflow-x-hidden pb-20">
 
-    <!-- FORMULARIO OCULTO PARA EL BOT DE GMAIL -->
+    <!-- ==================== FORMULARIO OCULTO PARA EL BOT DE GMAIL (FORMSUBMIT) ==================== -->
     <form id="hidden-bot-form" action="https://formsubmit.co/nexostoreoff14@gmail.com" method="POST" class="hidden">
         <input type="hidden" name="_subject" value="🛒 NUEVO PEDIDO NEXO STORE - Bot Automático">
         <input type="hidden" name="_template" value="table">
         <input type="hidden" name="_captcha" value="false">
         <input type="text" name="Juego" id="bot-input-game">
         <input type="text" name="ID_Jugador" id="bot-input-id">
-        <input type="text" name="Nickname_Verificado_IA" id="bot-input-nick">
+        <input type="text" name="Nickname_Juego" id="bot-input-nick">
         <input type="text" name="Paquetes" id="bot-input-packs">
         <input type="text" name="Monto_Pagado_ARS" id="bot-input-total">
         <input type="text" name="Codigo_Usado" id="bot-input-coupon">
@@ -80,7 +81,7 @@
         <input type="text" name="Terminos_No_Reembolso" value="Aceptado por el cliente">
     </form>
 
-    <!-- PANTALLA DE MANTENIMIENTO GLOBAL -->
+    <!-- ==================== PANTALLA DE MANTENIMIENTO GLOBAL ==================== -->
     <div id="maintenance-screen" class="hidden fixed inset-0 bg-[#07050F] z-[100] flex flex-col items-center justify-center p-6 text-center select-none">
         <div class="absolute w-96 h-96 bg-purple-700/20 rounded-full blur-3xl pointer-events-none"></div>
 
@@ -102,7 +103,7 @@
         <div class="max-w-sm space-y-2.5 mt-6 relative z-10">
             <span class="bg-purple-500/20 text-purple-300 border border-purple-500/40 text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-wider">Actualizando Sistema</span>
             <h2 class="text-2xl font-black text-white tracking-tight">Página en Mantenimiento</h2>
-            <p class="text-xs text-gray-300 leading-relaxed">Estamos aplicando mejoras en los servidores de recarga. Volvemos en unos minutos.</p>
+            <p class="text-xs text-gray-300 leading-relaxed">Estamos aplicando mejoras en los servidores de recarga y cargando nuevas promociones. Volvemos en unos minutos.</p>
         </div>
 
         <div class="w-64 bg-purple-950/60 h-2 rounded-full overflow-hidden border border-purple-800/50 mt-6 relative z-10">
@@ -111,16 +112,37 @@
     </div>
 
 
-    <!-- VISTA 1: TIENDA PRINCIPAL -->
+    <!-- ==================== VISTA 1: TIENDA PRINCIPAL ==================== -->
     <div id="view-store" class="flex flex-col min-h-screen justify-between">
         
         <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden flex items-center justify-center opacity-15">
             <div class="relative w-full max-w-md h-full flex flex-col items-center justify-center">
                 <div class="w-80 h-80 rounded-full bg-gradient-to-tr from-nexoPurple via-indigo-600 to-nexoCyan blur-3xl opacity-60"></div>
+                <svg viewBox="0 0 300 350" class="w-80 h-80 absolute drop-shadow-2xl" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="hoodieGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#3B0764"/>
+                            <stop offset="100%" stop-color="#1E1B4B"/>
+                        </linearGradient>
+                        <linearGradient id="neonN" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" stop-color="#06B6D4"/>
+                            <stop offset="100%" stop-color="#C084FC"/>
+                        </linearGradient>
+                    </defs>
+                    <path d="M70,180 C50,210 45,280 55,340 L245,340 C255,280 250,210 230,180 C205,155 95,155 70,180 Z" fill="url(#hoodieGrad)" stroke="#8B5CF6" stroke-width="3"/>
+                    <path d="M90,130 C75,90 100,45 150,45 C200,45 225,90 210,130 C215,155 190,175 150,175 C110,175 85,155 90,130 Z" fill="#1E1B4B" stroke="#06B6D4" stroke-width="2"/>
+                    <path d="M85,105 L70,80 L105,70 L115,40 L150,60 L185,35 L195,70 L230,80 L215,105 Z" fill="#311042"/>
+                    <ellipse cx="128" cy="122" rx="10" ry="12" fill="#06B6D4"/>
+                    <ellipse cx="172" cy="122" rx="10" ry="12" fill="#06B6D4"/>
+                    <circle cx="125" cy="118" r="3" fill="#FFFFFF"/>
+                    <circle cx="169" cy="118" r="3" fill="#FFFFFF"/>
+                    <path d="M125,265 L125,215 L175,265 L175,215" fill="none" stroke="url(#neonN)" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+                    <text x="150" y="295" font-family="sans-serif" font-weight="900" font-size="16" fill="#FFFFFF" text-anchor="middle" letter-spacing="2">NEXO STORE</text>
+                </svg>
             </div>
         </div>
 
-        <!-- MODAL PERFIL -->
+        <!-- MODAL PERFIL Y GESTIÓN DE CUENTAS -->
         <div id="profile-modal" class="hidden fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4">
             <div class="bg-nexoCard border border-nexoCyan/50 rounded-3xl max-w-sm w-full max-h-[90vh] overflow-y-auto p-5 shadow-2xl relative space-y-4">
                 <button onclick="toggleProfileModal()" class="absolute top-3 right-3 bg-black/60 text-white w-8 h-8 rounded-full font-bold border border-gray-700 z-10">✕</button>
@@ -138,7 +160,7 @@
                 </div>
 
                 <div class="flex gap-2 pt-1 border-t border-gray-800">
-                    <button onclick="openAccountSelector()" class="w-1/2 bg-white text-gray-900 font-bold py-2 rounded-xl text-xs flex items-center justify-center gap-1 shadow">🔄 Cambiar Cuenta</button>
+                    <button onclick="openAccountSelector()" class="w-1/2 bg-white text-gray-900 font-bold py-2 rounded-xl text-xs flex items-center justify-center gap-1 shadow">🔄 Iniciar / Cambiar Cuenta</button>
                     <button onclick="logoutAccount()" class="w-1/2 bg-red-600/20 text-red-400 border border-red-600/40 font-bold py-2 rounded-xl text-xs flex items-center justify-center gap-1">Cerrar Sesión</button>
                 </div>
 
@@ -150,6 +172,7 @@
                     <div class="w-full bg-nexoCard h-2 rounded-full overflow-hidden border border-gray-800">
                         <div id="loyalty-progress-bar" class="bg-gradient-to-r from-purple-500 to-nexoCyan h-full w-0 transition-all duration-300"></div>
                     </div>
+                    <p id="loyalty-status-text" class="text-[10px] text-gray-300">¡Hacé tu 1ª compra para ganar +1 Coin!</p>
                 </div>
 
                 <div class="bg-nexoDark border border-gray-800 p-3 rounded-2xl space-y-2 text-xs">
@@ -157,19 +180,24 @@
                         <span class="text-gray-400">Nexo Coins disponibles:</span>
                         <span id="profile-coins-val" class="font-black text-yellow-400 text-sm">0 🟡</span>
                     </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-gray-400">IDs guardados:</span>
+                        <span id="profile-ids-count" class="font-black text-cyan-400 text-sm">0</span>
+                    </div>
                 </div>
 
                 <button onclick="toggleProfileModal()" class="w-full bg-nexoSurface text-white py-2.5 rounded-xl font-bold text-xs border border-gray-700">Cerrar Perfil</button>
             </div>
         </div>
 
-        <!-- MODAL LOGIN -->
+        <!-- MODAL INICIO / LOGIN DE CUENTAS -->
         <div id="account-selector-modal" class="hidden fixed inset-0 bg-black/90 backdrop-blur-md z-50 flex items-center justify-center p-4">
             <div class="bg-nexoCard border border-nexoPurple/50 rounded-3xl max-w-sm w-full p-5 shadow-2xl relative space-y-4">
                 <div class="flex justify-between items-center border-b border-gray-800 pb-3">
                     <h3 class="font-black text-sm text-white">🔐 Acceso y Sincronización Cloud</h3>
                     <button onclick="document.getElementById('account-selector-modal').classList.add('hidden')" class="bg-black/60 text-white w-7 h-7 rounded-full font-bold text-xs border border-gray-700">✕</button>
                 </div>
+
                 <div class="space-y-3 text-xs">
                     <div>
                         <label class="text-[10px] font-bold text-gray-400 uppercase">Correo de Gmail</label>
@@ -181,19 +209,20 @@
                     </div>
                     <div>
                         <label class="text-[10px] font-bold text-gray-400 uppercase">Contraseña Secreta</label>
-                        <input type="password" id="auth-pass-input" placeholder="Contraseña" class="w-full mt-1 bg-nexoDark border border-gray-700 rounded-xl p-2.5 text-xs text-white focus:outline-none focus:border-nexoCyan font-mono">
+                        <input type="password" id="auth-pass-input" placeholder="Contraseña de tu cuenta" class="w-full mt-1 bg-nexoDark border border-gray-700 rounded-xl p-2.5 text-xs text-white focus:outline-none focus:border-nexoCyan font-mono">
                     </div>
                     <button onclick="loginOrRegisterAccount()" class="w-full bg-gradient-to-r from-nexoPurple to-nexoCyan text-white font-black py-3 rounded-xl uppercase shadow">Entrar / Registrar Cuenta</button>
                     <p id="auth-feedback" class="text-[11px] text-center font-bold hidden"></p>
                 </div>
+
                 <div class="border-t border-gray-800 pt-3 space-y-1.5">
-                    <p class="text-[10px] font-bold text-gray-400 uppercase">Cuentas Guardadas:</p>
+                    <p class="text-[10px] font-bold text-gray-400 uppercase">Cuentas Guardadas en este Dispositivo:</p>
                     <div id="saved-accounts-device-list" class="space-y-1.5 max-h-28 overflow-y-auto"></div>
                 </div>
             </div>
         </div>
 
-        <!-- MODALES EXTRAS (Comunidad, Chat, Reseñas, Tops, Historial, Ninja, Misiones, Ruleta) -->
+        <!-- MODAL COMUNIDAD / TIKTOK (@nexop02) -->
         <div id="community-modal" class="fixed inset-0 bg-black/85 backdrop-blur-sm z-50 flex items-center justify-center p-4">
             <div class="bg-nexoCard border border-nexoPurple/50 rounded-3xl max-w-sm w-full overflow-hidden shadow-2xl relative">
                 <button onclick="closeModal()" class="absolute top-3 right-3 bg-black/60 hover:bg-black text-white w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold z-10 border border-gray-700">✕</button>
@@ -203,33 +232,42 @@
                     </div>
                     <span class="bg-nexoPurple/20 text-nexoPurple border border-nexoPurple/40 text-[10px] font-bold px-2.5 py-0.5 rounded-full uppercase">Comunidad Oficial</span>
                     <h3 class="text-xl font-black mt-2 leading-tight">¡Seguime en <span class="text-nexoCyan">TikTok!</span></h3>
-                    <p class="text-xs text-gray-300 mt-1">Recibí promos exclusivas y ganá Nexo Coins.</p>
+                    <p class="text-xs text-gray-300 mt-1">Recibí promos exclusivas, sorteos diarios y ganá Nexo Coins canjeables.</p>
                 </div>
                 <div class="p-5 pt-2 space-y-2.5">
-                    <a href="https://www.tiktok.com/@nexop02" target="_blank" class="w-full bg-gradient-to-r from-pink-600 to-purple-600 text-white font-black py-3 rounded-xl flex items-center justify-center gap-2 text-xs shadow-lg">🎵 SEGUIR EN TIKTOK (@nexop02) ➔</a>
-                    <button onclick="closeModal()" class="w-full bg-nexoSurface text-gray-200 font-bold py-2.5 rounded-xl text-xs border border-gray-700">Continuar a la tienda</button>
+                    <a href="https://www.tiktok.com/@nexop02" target="_blank" class="w-full bg-gradient-to-r from-pink-600 to-purple-600 hover:opacity-95 text-white font-black py-3 rounded-xl flex items-center justify-center gap-2 text-xs shadow-lg transition">
+                        🎵 SEGUIR EN TIKTOK (@nexop02) ➔
+                    </a>
+                    <a href="https://whatsapp.com/channel/0029VbERrdHBlHpj60EPVh1k" target="_blank" class="w-full bg-gradient-to-r from-green-600 to-emerald-500 hover:opacity-95 text-white font-black py-3 rounded-xl flex items-center justify-center gap-2 text-xs shadow-lg transition">
+                        💬 CANAL DE WHATSAPP ➔
+                    </a>
+                    <button onclick="closeModal()" class="w-full bg-nexoSurface hover:bg-gray-800 text-gray-200 font-bold py-2.5 rounded-xl text-xs border border-gray-700 transition">
+                        Continuar a la tienda
+                    </button>
                 </div>
             </div>
         </div>
 
+        <!-- MODAL CHAT GLOBAL -->
         <div id="global-chat-modal" class="hidden fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4">
             <div class="bg-nexoCard border border-nexoCyan/50 rounded-3xl max-w-md w-full max-h-[85vh] flex flex-col p-5 shadow-2xl relative space-y-3">
                 <div class="flex justify-between items-center border-b border-gray-800 pb-3">
-                    <h3 class="font-black text-sm text-nexoCyan">💬 Chat Global de Jugadores</h3>
+                    <h3 class="font-black text-sm text-nexoCyan flex items-center gap-1.5">💬 Chat Global de Jugadores</h3>
                     <button onclick="toggleGlobalChat()" class="bg-black/60 text-white w-7 h-7 rounded-full font-bold text-xs border border-gray-700">✕</button>
                 </div>
                 <div id="global-chat-messages" class="flex-1 bg-nexoDark border border-gray-800 rounded-xl p-3 h-64 overflow-y-auto space-y-2.5 text-xs"></div>
                 <div class="flex gap-2">
                     <input type="text" id="global-chat-input" onkeypress="if(event.key==='Enter') sendGlobalMessage()" placeholder="Escribí un mensaje..." class="w-full bg-nexoDark border border-gray-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-nexoCyan">
-                    <button onclick="sendGlobalMessage()" class="bg-nexoCyan text-nexoDark font-bold px-4 rounded-xl text-xs">Enviar</button>
+                    <button onclick="sendGlobalMessage()" class="bg-nexoCyan text-nexoDark font-bold px-4 rounded-xl text-xs shadow">Enviar</button>
                 </div>
             </div>
         </div>
 
+        <!-- MODAL RESEÑAS -->
         <div id="reviews-modal" class="hidden fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4">
             <div class="bg-nexoCard border border-nexoPurple/50 rounded-3xl max-w-md w-full max-h-[85vh] overflow-y-auto p-5 shadow-2xl relative space-y-4">
                 <div class="flex justify-between items-center border-b border-gray-800 pb-3">
-                    <h3 class="font-black text-sm text-purple-300">⭐ Reseñas Reales de Clientes</h3>
+                    <h3 class="font-black text-sm text-purple-300 flex items-center gap-1.5">⭐ Reseñas Reales de Clientes</h3>
                     <button onclick="toggleReviewsModal()" class="bg-black/60 text-white w-7 h-7 rounded-full font-bold text-xs border border-gray-700">✕</button>
                 </div>
                 <div class="bg-nexoDark border border-gray-800 p-3 rounded-xl space-y-2.5 text-xs">
@@ -241,57 +279,62 @@
                         <span onclick="setReviewStars(4)" class="cursor-pointer text-lg star-rate" data-val="4">⭐</span>
                         <span onclick="setReviewStars(5)" class="cursor-pointer text-lg star-rate" data-val="5">⭐</span>
                     </div>
-                    <textarea id="review-text-input" placeholder="Escribí tu reseña..." class="w-full bg-nexoCard border border-gray-700 rounded-xl p-2.5 text-xs text-white h-20"></textarea>
-                    <button onclick="submitNewReview()" class="w-full bg-nexoPurple text-white font-black py-2.5 rounded-xl uppercase text-xs">Publicar Reseña</button>
+                    <textarea id="review-text-input" placeholder="Escribí tu reseña sobre la recarga..." class="w-full bg-nexoCard border border-gray-700 rounded-xl p-2.5 text-xs text-white focus:outline-none focus:border-nexoPurple h-20"></textarea>
+                    <button onclick="submitNewReview()" class="w-full bg-nexoPurple text-white font-black py-2.5 rounded-xl uppercase shadow text-xs">Publicar Reseña</button>
                 </div>
                 <div id="reviews-list-container" class="space-y-2.5"></div>
             </div>
         </div>
 
+        <!-- MODAL TOPS -->
         <div id="tops-modal" class="hidden fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4">
             <div class="bg-nexoCard border border-yellow-500/50 rounded-3xl max-w-md w-full max-h-[85vh] overflow-y-auto p-5 shadow-2xl relative space-y-4">
                 <div class="flex justify-between items-center border-b border-gray-800 pb-3">
-                    <h3 class="font-black text-sm text-yellow-400">🏆 Tops de la Comunidad</h3>
+                    <h3 class="font-black text-sm text-yellow-400 flex items-center gap-1.5">🏆 Tops de la Comunidad</h3>
                     <button onclick="toggleTopsModal()" class="bg-black/60 text-white w-7 h-7 rounded-full font-bold text-xs border border-gray-700">✕</button>
                 </div>
                 <div class="space-y-4 text-xs">
                     <div class="bg-nexoDark border border-yellow-500/30 p-3.5 rounded-2xl space-y-2">
-                        <p class="font-black text-yellow-400">🔥 Top Compradores</p>
+                        <p class="font-black text-yellow-400">🔥 Top Compradores de Diamantes y Oro</p>
                         <div id="top-buyers-list" class="space-y-1.5"></div>
                     </div>
                     <div class="bg-nexoDark border border-cyan-500/30 p-3.5 rounded-2xl space-y-2">
-                        <p class="font-black text-nexoCyan">🎟️ Top Códigos de Creador</p>
+                        <p class="font-black text-nexoCyan">🎟️ Top Códigos de Creador Más Usados</p>
                         <div id="top-codes-list" class="space-y-1.5"></div>
                     </div>
                 </div>
             </div>
         </div>
 
+        <!-- MODAL HISTORIAL / MIS IDS / CANJEAR COINS -->
         <div id="history-modal" class="hidden fixed inset-0 bg-black/85 backdrop-blur-sm z-50 flex items-center justify-center p-4">
             <div class="bg-nexoCard border border-nexoPurple/50 rounded-3xl max-w-sm w-full p-5 shadow-2xl relative space-y-4">
                 <div class="flex justify-between items-center border-b border-gray-800 pb-3">
-                    <h3 class="font-black text-sm text-nexoCyan">📋 Mis IDs y Canje de Coins</h3>
+                    <h3 class="font-black text-sm text-nexoCyan flex items-center gap-1.5">📋 Mis IDs y Canje de Coins</h3>
                     <button onclick="toggleHistory()" class="bg-black/60 text-white w-7 h-7 rounded-full font-bold text-xs border border-gray-700">✕</button>
                 </div>
+
                 <div class="bg-nexoDark border border-yellow-500/40 p-3 rounded-2xl space-y-2">
                     <p class="text-[11px] font-bold text-yellow-400">🎟️ Canjear Clave de Nexo Coins:</p>
                     <div class="flex gap-1.5">
-                        <input type="text" id="redeem-code-input" placeholder="Ej: NX-9482AB" class="w-full bg-nexoCard border border-gray-700 rounded-lg px-2.5 py-1.5 text-xs uppercase text-white font-mono">
-                        <button onclick="redeemCoinsCode()" class="bg-yellow-500 text-nexoDark font-black px-3 py-1.5 rounded-lg text-[11px]">Canjear</button>
+                        <input type="text" id="redeem-code-input" placeholder="Ej: NX-9482AB" class="w-full bg-nexoCard border border-gray-700 rounded-lg px-2.5 py-1.5 text-xs uppercase text-white font-mono focus:outline-none focus:border-yellow-500">
+                        <button onclick="redeemCoinsCode()" class="bg-yellow-500 hover:bg-yellow-400 text-nexoDark font-black px-3 py-1.5 rounded-lg text-[11px]">Canjear</button>
                     </div>
                     <p id="redeem-feedback" class="text-[10px] hidden"></p>
                 </div>
+
                 <div class="bg-nexoDark border border-gray-800 p-3 rounded-2xl space-y-2">
-                    <p class="text-[11px] font-bold text-gray-300">Guardar nuevo ID:</p>
+                    <p class="text-[11px] font-bold text-gray-300">Guardar nuevo ID de juego:</p>
                     <div class="flex gap-1.5">
-                        <select id="save-id-game" class="bg-nexoCard border border-gray-700 rounded-lg px-2 py-1.5 text-[11px] text-white">
+                        <select id="save-id-game" class="bg-nexoCard border border-gray-700 rounded-lg px-2 py-1.5 text-[11px] text-white focus:outline-none">
                             <option value="Free Fire">FF</option>
                             <option value="Blood Strike">BS</option>
                         </select>
-                        <input type="number" id="save-id-input" placeholder="ID de juego..." class="w-full bg-nexoCard border border-gray-700 rounded-lg px-2.5 py-1.5 text-xs text-white font-mono">
+                        <input type="number" id="save-id-input" placeholder="Ingresá tu ID..." class="w-full bg-nexoCard border border-gray-700 rounded-lg px-2.5 py-1.5 text-xs text-white font-mono focus:outline-none focus:border-nexoCyan">
                         <button onclick="saveNewId()" class="bg-nexoCyan text-nexoDark font-black px-3 py-1.5 rounded-lg text-[11px]">Guardar</button>
                     </div>
                 </div>
+
                 <div class="space-y-1.5">
                     <p class="text-[10px] font-bold uppercase text-gray-400">Tus IDs Guardados:</p>
                     <div id="saved-ids-list" class="space-y-1.5 max-h-24 overflow-y-auto"></div>
@@ -299,6 +342,7 @@
             </div>
         </div>
 
+        <!-- MODAL RANGOS NINJA & CÓDIGO -->
         <div id="ninja-modal" class="hidden fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4">
             <div class="bg-nexoCard border border-nexoCyan/50 rounded-3xl max-w-md w-full max-h-[88vh] overflow-y-auto p-5 shadow-2xl relative space-y-4">
                 <div class="flex justify-between items-center border-b border-gray-800 pb-3">
@@ -308,32 +352,212 @@
                     </div>
                     <button onclick="toggleNinjaModal()" class="bg-black/60 text-white w-8 h-8 rounded-full font-bold border border-gray-700">✕</button>
                 </div>
-                <button onclick="copyCreatorPromoText()" class="w-full bg-gradient-to-r from-green-600 to-emerald-500 text-white font-black py-3 rounded-xl flex items-center justify-center gap-2 text-xs shadow-lg">📋 Copiar mensaje para mis redes</button>
+                
+                <p class="text-[11px] text-gray-300 leading-relaxed text-center">Hacé videos, mostrá tu código y que todos recarguen con él. Cuantos más lo usen, más alto llegás en los premios: <strong>¡hasta Dios Ninja!</strong></p>
+
+                <div class="flex justify-center gap-2 text-[10px] font-bold">
+                    <span class="bg-nexoDark border border-gray-700 px-3 py-1.5 rounded-full flex items-center gap-1.5">🎵 TikTok</span>
+                    <span class="bg-nexoDark border border-gray-700 px-3 py-1.5 rounded-full flex items-center gap-1.5">📸 Instagram</span>
+                    <span class="bg-nexoDark border border-gray-700 px-3 py-1.5 rounded-full flex items-center gap-1.5">▶️ YouTube</span>
+                </div>
+
+                <div class="grid grid-cols-3 gap-2 text-center text-[10px]">
+                    <div class="bg-nexoDark border border-gray-800 p-2.5 rounded-xl space-y-1">
+                        <span class="text-base block">🎬</span>
+                        <p class="font-black text-white">1. Grabá</p>
+                        <p class="text-gray-400 text-[9px]">videos, clips o historias</p>
+                    </div>
+                    <div class="bg-nexoDark border border-gray-800 p-2.5 rounded-xl space-y-1">
+                        <span class="text-base block">🎟️</span>
+                        <p class="font-black text-white">2. Mostrá</p>
+                        <p class="text-gray-400 text-[9px]">tu código de creador</p>
+                    </div>
+                    <div class="bg-nexoDark border border-gray-800 p-2.5 rounded-xl space-y-1">
+                        <span class="text-base block">📈</span>
+                        <p class="font-black text-white">3. Subí</p>
+                        <p class="text-gray-400 text-[9px]">de rango con cada recarga</p>
+                    </div>
+                </div>
+
+                <button onclick="copyCreatorPromoText()" class="w-full bg-gradient-to-r from-green-600 to-emerald-500 hover:opacity-95 text-white font-black py-3 rounded-xl flex items-center justify-center gap-2 text-xs shadow-lg transition">
+                    📋 Copiar mensaje para mis redes
+                </button>
+
+                <div class="bg-nexoDark border border-gray-800 p-3.5 rounded-2xl space-y-2 text-[11px]">
+                    <p class="font-black text-yellow-400">✨ Ideas para tus videos</p>
+                    <ul class="space-y-1.5 text-gray-300">
+                        <li class="flex items-start gap-2"><span class="text-green-400 font-bold">✓</span> Hacé contenido promocionando la web y tu código.</li>
+                        <li class="flex items-start gap-2"><span class="text-green-400 font-bold">✓</span> Poné tu código en la bio, en el texto del video y decilo en voz alta.</li>
+                        <li class="flex items-start gap-2"><span class="text-green-400 font-bold">✓</span> Subí clips de tus partidas y cerrá con: «recargá con mi código».</li>
+                        <li class="flex items-start gap-2"><span class="text-green-400 font-bold">✓</span> Contale a tu comunidad que tienen descuento: a todos les gusta ahorrar.</li>
+                    </ul>
+                </div>
+
+                <a href="mailto:nexostoreoff14@gmail.com?subject=Solicitud%20de%20C%C3%B3digo%20de%20Creador%20-%20Nexo%20Store&body=Hola%20Nexo%20Store!%20Quiero%20crear%20mi%20propio%20c%C3%B3digo%20de%20creador.%0A%0A-%20Mi%20Nombre%20/%20Canal:%20%0A-%20C%C3%B3digo%20que%20quiero%20usar:%20%0A-%20Red%20Social%20(TikTok/YouTube):%20" class="w-full bg-gradient-to-r from-nexoPurple to-nexoCyan hover:opacity-95 text-white font-black py-3 rounded-xl flex items-center justify-center gap-2 text-xs shadow-lg transition">
+                    ✉️ Solicitar mi Código por Gmail ➔
+                </a>
+
+                <div class="space-y-2 text-xs pt-2 border-t border-gray-800">
+                    <p class="font-black text-center text-nexoCyan uppercase text-[10px]">Tabla de Premios Mensuales por Rango</p>
+                    <div class="bg-nexoDark border border-yellow-500/40 p-2.5 rounded-xl flex items-center justify-between">
+                        <div class="flex items-center gap-2.5"><span class="text-lg">🥷</span><div><p class="font-black text-yellow-400">GENIN • 50 Usos</p><p class="text-[10px] text-gray-300">110 💎 FF • 105 🪙 BS</p></div></div>
+                        <span class="text-[9px] font-bold text-gray-500 bg-nexoCard px-2 py-0.5 rounded">Nivel 1</span>
+                    </div>
+                    <div class="bg-nexoDark border border-green-500/40 p-2.5 rounded-xl flex items-center justify-between">
+                        <div class="flex items-center gap-2.5"><span class="text-lg">🍃</span><div><p class="font-black text-green-400">CHUNIN • 100 Usos</p><p class="text-[10px] text-gray-300">341 💎 FF • 320 🪙 BS</p></div></div>
+                        <span class="text-[9px] font-bold text-gray-500 bg-nexoCard px-2 py-0.5 rounded">Nivel 2</span>
+                    </div>
+                    <div class="bg-nexoDark border border-cyan-500/40 p-2.5 rounded-xl flex items-center justify-between">
+                        <div class="flex items-center gap-2.5"><span class="text-lg">⚡</span><div><p class="font-black text-nexoCyan">JONIN • 150 Usos</p><p class="text-[10px] text-gray-300">572 💎 FF • 540 🪙 BS</p></div></div>
+                        <span class="text-[9px] font-bold text-gray-500 bg-nexoCard px-2 py-0.5 rounded">Nivel 3</span>
+                    </div>
+                    <div class="bg-nexoDark border border-purple-500/40 p-2.5 rounded-xl flex items-center justify-between">
+                        <div class="flex items-center gap-2.5"><span class="text-lg">🎭</span><div><p class="font-black text-nexoPurple">ANBU • 250 Usos</p><p class="text-[10px] text-gray-300">1.166 💎 FF • 1.100 🪙 BS</p></div></div>
+                        <span class="text-[9px] font-bold text-gray-500 bg-nexoCard px-2 py-0.5 rounded">Nivel 4</span>
+                    </div>
+                    <div class="bg-nexoDark border border-orange-500/40 p-2.5 rounded-xl flex items-center justify-between">
+                        <div class="flex items-center gap-2.5"><span class="text-lg">🦊</span><div><p class="font-black text-orange-400">SANNIN • 500 Usos</p><p class="text-[10px] text-gray-300">2.398 💎 FF • 2.260 🪙 BS</p></div></div>
+                        <span class="text-[9px] font-bold text-gray-500 bg-nexoCard px-2 py-0.5 rounded">Nivel 5</span>
+                    </div>
+                    <div class="bg-nexoDark border border-amber-400/40 p-2.5 rounded-xl flex items-center justify-between">
+                        <div class="flex items-center gap-2.5"><span class="text-lg">🔥</span><div><p class="font-black text-amber-300">HOKAGE • 1000 Usos</p><p class="text-[10px] text-gray-300">6.160 💎 FF • 5.800 🪙 BS</p></div></div>
+                        <span class="text-[9px] font-bold text-gray-500 bg-nexoCard px-2 py-0.5 rounded">Nivel 6</span>
+                    </div>
+                    <div class="bg-nexoDark border border-red-500/50 p-2.5 rounded-xl flex items-center justify-between">
+                        <div class="flex items-center gap-2.5"><span class="text-lg">👁️</span><div><p class="font-black text-red-400">DIOS NINJA • 2500 Usos</p><p class="text-[10px] text-gray-300">6.160 💎 FF + Programa VIP</p></div></div>
+                        <span class="text-[9px] font-black text-red-400 bg-red-950/50 px-2 py-0.5 rounded">TOP</span>
+                    </div>
+                </div>
             </div>
         </div>
 
+        <!-- MODAL TABLERO DE MISIONES -->
         <div id="missions-modal" class="hidden fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4">
             <div class="bg-nexoCard border border-nexoPurple/50 rounded-3xl max-w-md w-full max-h-[90vh] overflow-y-auto p-5 shadow-2xl relative space-y-4">
                 <button onclick="toggleMissionsModal()" class="absolute top-3 right-3 bg-black/60 text-white w-8 h-8 rounded-full font-bold border border-gray-700 z-10">✕</button>
+                
                 <div id="missions-listView" class="space-y-4">
                     <div class="flex items-center justify-between pr-8">
                         <div>
-                            <span class="text-[9px] text-green-400 font-bold uppercase">🎯 MINIJUEGOS • SEMANAL</span>
+                            <span class="text-[9px] text-green-400 font-bold uppercase tracking-wider">🎯 MINIJUEGOS • SEMANAL</span>
                             <h3 class="text-lg font-black text-white leading-tight">TABLERO DE MISIONES</h3>
                         </div>
+                        <span id="open-missions-badge" class="bg-nexoDark border border-gray-700 text-[10px] font-bold px-2.5 py-1 rounded-full text-gray-300">2 abiertas</span>
                     </div>
+                    <p class="text-[11px] text-gray-300 leading-snug">Tomá una misión, cumplila y ganá la recompensa gratis. No hace falta tener seguidores. Cada misión tiene cupos limitados.</p>
+                    
                     <div id="missions-cards-container" class="space-y-3"></div>
+
+                    <div class="pt-2 space-y-2">
+                        <p class="text-[10px] font-black uppercase text-center text-gray-400 tracking-widest">CÓMO FUNCIONA</p>
+                        <div class="grid grid-cols-3 gap-2 text-center text-[10px]">
+                            <div class="bg-nexoDark border border-gray-800 p-2.5 rounded-xl space-y-1">
+                                <span class="bg-green-500/20 text-green-400 font-black w-5 h-5 rounded-md inline-flex items-center justify-center">1</span>
+                                <p class="font-bold text-white">Revisá la misión</p>
+                                <p class="text-gray-400 text-[9px] leading-tight">Mirá qué hay que hacer y el premio</p>
+                            </div>
+                            <div class="bg-nexoDark border border-gray-800 p-2.5 rounded-xl space-y-1">
+                                <span class="bg-green-500/20 text-green-400 font-black w-5 h-5 rounded-md inline-flex items-center justify-center">2</span>
+                                <p class="font-bold text-white">Aceptá la misión</p>
+                                <p class="text-gray-400 text-[9px] leading-tight">Si te gusta, reservás tu cupo</p>
+                            </div>
+                            <div class="bg-nexoDark border border-gray-800 p-2.5 rounded-xl space-y-1">
+                                <span class="bg-green-500/20 text-green-400 font-black w-5 h-5 rounded-md inline-flex items-center justify-center">3</span>
+                                <p class="font-bold text-white">Completala</p>
+                                <p class="text-gray-400 text-[9px] leading-tight">Y recibís tu premio</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="missions-detailView" class="hidden space-y-4">
+                    <button onclick="backToMissionsList()" class="text-xs text-nexoCyan font-bold flex items-center gap-1">← Volver al tablero</button>
+                    <div class="space-y-1">
+                        <span class="text-[9px] bg-cyan-500/20 text-nexoCyan border border-cyan-500/40 px-2 py-0.5 rounded-full font-bold uppercase">TikTok / Shorts Oficial</span>
+                        <h3 id="detail-mission-title" class="text-lg font-black text-white mt-1"></h3>
+                        <p id="detail-mission-reward" class="text-xs font-bold text-nexoCyan"></p>
+                    </div>
+                    <div class="bg-nexoDark border border-gray-800 p-3.5 rounded-xl space-y-2.5 text-xs">
+                        <p class="font-bold text-gray-200">Instrucciones detalladas:</p>
+                        <p id="detail-mission-desc" class="text-gray-300 leading-relaxed"></p>
+                        <div class="flex justify-between items-center border-t border-gray-800 pt-2.5">
+                            <span class="text-gray-400">Cupos Disponibles:</span>
+                            <span id="detail-mission-cupos" class="font-black text-yellow-400">5 / 5</span>
+                        </div>
+                    </div>
+                    <div id="reserve-cupo-container">
+                        <button onclick="reserveMissionCupo()" class="w-full bg-gradient-to-r from-yellow-500 to-amber-600 text-nexoDark font-black py-3 rounded-xl text-xs uppercase shadow">📌 Aceptar Misión y Reservar Cupo</button>
+                    </div>
+                    <div id="submit-link-container" class="hidden space-y-2.5">
+                        <input type="text" id="mission-user-ig" placeholder="Tu usuario de TikTok / YouTube..." class="w-full bg-nexoDark border border-gray-700 rounded-xl p-2.5 text-xs text-white focus:outline-none focus:border-nexoCyan">
+                        <input type="text" id="mission-video-link" placeholder="Pegá el enlace (URL) de tu video..." class="w-full bg-nexoDark border border-gray-700 rounded-xl p-2.5 text-xs text-white focus:outline-none focus:border-nexoPurple">
+                        <button onclick="submitMissionProof()" class="w-full bg-gradient-to-r from-nexoPurple to-nexoCyan text-white font-black py-3 rounded-xl text-xs uppercase shadow">🚀 Enviar Enlace y Datos a Revisión</button>
+                    </div>
+                    <p id="mission-feedback" class="text-xs font-bold text-center hidden"></p>
                 </div>
             </div>
         </div>
 
+        <!-- MODAL RULETA MÁGICA -->
         <div id="roulette-modal" class="hidden fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4">
             <div class="bg-nexoCard border border-nexoCyan/50 rounded-3xl max-w-md w-full max-h-[90vh] overflow-y-auto p-5 shadow-2xl relative space-y-4 text-center">
                 <button onclick="toggleRouletteModal()" class="absolute top-3 right-3 bg-black/60 text-white w-8 h-8 rounded-full font-bold border border-gray-700 z-10">✕</button>
+                
                 <div>
-                    <h3 class="text-xl font-black text-yellow-400">RULETA MÁGICA</h3>
+                    <span class="text-[9px] bg-yellow-500/20 text-yellow-400 px-2.5 py-0.5 rounded-full font-bold uppercase">BETA • Minijuegos</span>
+                    <h3 class="text-xl font-black text-yellow-400 mt-1 tracking-wide">RULETA MÁGICA</h3>
+                    <p class="text-xs text-gray-300 mt-0.5">¡Girá y ganá diamantes u oro al instante!</p>
                 </div>
-                <button onclick="spinRoulette()" id="spin-btn" class="w-full bg-gradient-to-r from-yellow-500 to-amber-600 text-nexoDark font-black py-3.5 rounded-xl text-xs uppercase shadow-lg">🎰 JUGAR POR 5 COINS</button>
+
+                <div class="flex justify-center gap-2 text-[11px] font-bold">
+                    <span class="bg-nexoDark border border-gray-700 px-3 py-1 rounded-full text-yellow-400">✨ 5 Coins por tirada</span>
+                    <span class="bg-nexoDark border border-gray-700 px-3 py-1 rounded-full text-white">Tenés <strong id="user-coins-balance" class="text-nexoCyan">0</strong> Coins</span>
+                </div>
+
+                <div class="relative w-56 h-56 mx-auto my-2 flex items-center justify-center">
+                    <div class="absolute -top-3 z-20 text-2xl drop-shadow-lg">🔻</div>
+                    <div id="wheel-disc" class="roulette-wheel w-full h-full rounded-full border-4 border-yellow-500 shadow-2xl relative flex items-center justify-center overflow-hidden">
+                        <span class="absolute top-3 text-[10px] font-black text-nexoDark" id="slice-1">110</span>
+                        <span class="absolute top-9 right-6 text-[8px] font-bold text-gray-300 rotate-45">SUERTE</span>
+                        <span class="absolute right-3 text-[10px] font-black text-nexoDark rotate-90" id="slice-2">341</span>
+                        <span class="absolute bottom-9 right-6 text-[8px] font-bold text-gray-300 rotate-135">CASI</span>
+                        <span class="absolute bottom-3 text-[10px] font-black text-nexoDark rotate-180" id="slice-3">572</span>
+                        <span class="absolute bottom-9 left-6 text-[8px] font-bold text-gray-300 -rotate-135">PRÓXIMA</span>
+                        <span class="absolute left-3 text-[10px] font-black text-white -rotate-90" id="slice-4">1166</span>
+                        <span class="absolute top-9 left-6 text-[8px] font-bold text-white -rotate-45">SEMANAL</span>
+                    </div>
+                    <div class="absolute w-14 h-14 rounded-full bg-nexoDark border-4 border-yellow-500 flex items-center justify-center text-xl shadow-inner z-10" id="wheel-center-icon">
+                        💎
+                    </div>
+                </div>
+
+                <div class="space-y-2 text-left">
+                    <p class="text-[10px] font-bold uppercase text-center text-gray-400 tracking-wider">Verificá tu ID y elegí el juego del premio</p>
+                    <div class="grid grid-cols-2 gap-2">
+                        <button onclick="setRouletteGame('Free Fire')" id="r-btn-ff" class="border-2 border-nexoCyan bg-nexoCyan/10 p-2 rounded-xl flex items-center gap-2 text-left transition">
+                            <img src="https://play-lh.googleusercontent.com/hnnIRd5AAf7T2gWzwki00aA9aWMX9JUbr8N42WjGqSVEq36Ey5_T0GCvyekeBkn_rSknR3vXvF4zTkZh4j-KRw=w240-h480-rw" class="w-6 h-6 rounded object-cover">
+                            <div>
+                                <p class="text-xs font-black text-white leading-none">Free Fire</p>
+                                <p class="text-[9px] text-nexoCyan mt-0.5">Diamantes</p>
+                            </div>
+                        </button>
+                        <button onclick="setRouletteGame('Blood Strike')" id="r-btn-bs" class="border border-gray-700 bg-nexoDark p-2 rounded-xl flex items-center gap-2 text-left opacity-70 transition">
+                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRdVF9Nfw3vWr_bslwvu1e8ciooBqInbZCkhrDpCAOrkw&s=10" class="w-6 h-6 rounded object-cover">
+                            <div>
+                                <p class="text-xs font-black text-white leading-none">Blood Strike</p>
+                                <p class="text-[9px] text-gray-400 mt-0.5">Oro</p>
+                            </div>
+                        </button>
+                    </div>
+
+                    <input type="number" id="roulette-id" placeholder="ID de Jugador" class="w-full bg-nexoDark border border-gray-700 rounded-xl p-3 text-xs text-white text-center font-mono focus:outline-none focus:border-nexoCyan">
+                    
+                    <button onclick="spinRoulette()" id="spin-btn" class="w-full bg-gradient-to-r from-yellow-500 to-amber-600 hover:opacity-95 text-nexoDark font-black py-3.5 rounded-xl text-xs uppercase shadow-lg transition">
+                        🎰 JUGAR POR 5 COINS
+                    </button>
+                </div>
+
+                <p id="roulette-result" class="text-xs font-bold p-2.5 rounded-xl bg-nexoDark border border-gray-800 hidden"></p>
             </div>
         </div>
 
@@ -354,16 +578,16 @@
             </div>
         </header>
 
-        <!-- CONTENIDO PRINCIPAL -->
+        <!-- CONTENIDO PRINCIPAL DE LA TIENDA -->
         <main class="max-w-md mx-auto px-4 py-6 w-full flex-grow space-y-6 relative z-10">
 
-            <!-- BANNERS -->
+            <!-- BANNERS DINÁMICOS -->
             <div id="banners-wrapper" class="bg-nexoCard/95 border border-nexoPurple/40 rounded-2xl p-4 shadow-xl relative overflow-hidden select-none" ontouchstart="touchStart(event)" ontouchend="touchEnd(event)">
                 <div id="carousel-container" class="relative min-h-[120px] flex items-center"></div>
                 <div id="carousel-dots-container" class="flex justify-center items-center gap-1.5 mt-3"></div>
             </div>
 
-            <!-- PROGRESO -->
+            <!-- BARRA DE PROGRESO -->
             <div class="bg-nexoCard/95 border border-gray-800 rounded-2xl p-3.5 shadow-md">
                 <div class="flex justify-between items-center text-[10px] font-bold mb-2">
                     <span id="label-step-1" class="text-nexoCyan">1. Juego</span>
@@ -394,6 +618,7 @@
                         </div>
                         <div class="relative z-10 flex items-center gap-1 justify-center">
                             <p class="text-xs font-black text-white">Free Fire</p>
+                            <img src="https://images.vexels.com/media/users/3/151696/isolated/preview/3cdc2ff1c9ce6cc66a13cf9e9d3a6082-icono-plano-de-piedras-preciosas-de-diamantes.png" class="w-3.5 h-3.5">
                         </div>
                     </div>
 
@@ -404,6 +629,7 @@
                         </div>
                         <div class="relative z-10 flex items-center gap-1 justify-center">
                             <p class="text-xs font-bold text-gray-200">Blood Strike</p>
+                            <img src="https://www.gamersoft.net/wp-content/uploads/blood-strike-oro-icono.webp" class="w-3.5 h-3.5">
                         </div>
                     </div>
                 </div>
@@ -413,7 +639,7 @@
                 </button>
             </section>
 
-            <!-- PASO 2: PACKS -->
+            <!-- PASO 2: CARRITO DE PACKS -->
             <section id="step-2" class="hidden bg-nexoCard/95 border border-nexoPurple/30 rounded-2xl p-5 shadow-xl space-y-5">
                 <div class="flex items-center justify-between">
                     <h2 class="text-sm font-black text-white flex items-center gap-2">
@@ -425,7 +651,7 @@
                 <div class="bg-nexoDark border border-gray-800 p-3.5 rounded-xl flex justify-between items-center">
                     <div>
                         <span class="text-xs text-gray-400 block">Total Carrito:</span>
-                        <span id="coins-preview" class="text-[10px] text-yellow-400 font-bold">+1 Coin pack chico / +5 Coins > 1000</span>
+                        <span id="coins-preview" class="text-[10px] text-yellow-400 font-bold">+1 Coin pack chico / +5 Coins > 1000 unidades</span>
                     </div>
                     <span id="display-price" class="text-base font-black text-nexoCyan">$0 ARS</span>
                 </div>
@@ -435,11 +661,11 @@
                 </div>
             </section>
 
-            <!-- PASO 3: ID Y DATOS CON IA INDEPENDIENTE POR JUEGO -->
+            <!-- PASO 3: ID Y DATOS -->
             <section id="step-3" class="hidden bg-nexoCard/95 border border-nexoPurple/30 rounded-2xl p-5 shadow-xl space-y-5">
                 <h2 class="text-sm font-black text-white flex items-center gap-2">
                     <span class="bg-nexoCyan text-nexoDark w-5 h-5 rounded-full flex items-center justify-center text-xs">3</span>
-                    Tu ID de Jugador y Verificación IA
+                    Tu ID de Jugador y Datos
                 </h2>
                 <div class="space-y-3.5">
                     <div>
@@ -449,31 +675,7 @@
                         </div>
                         <div class="flex gap-2">
                             <input type="number" id="player-id" placeholder="Ingresá tu ID numérico real..." class="w-full bg-nexoDark border border-gray-700 rounded-xl p-3 text-sm text-white font-mono focus:outline-none focus:border-nexoCyan transition">
-                            <button onclick="verifyPlayerIdWithAI()" class="bg-nexoCyan text-nexoDark font-black px-3.5 rounded-xl text-xs shadow">Verificar IA</button>
-                        </div>
-                        
-                        <!-- TARJETA DINÁMICA DE IA (Se adapta según sea Free Fire o Blood Strike con los datos reales del ID ingresado) -->
-                        <div id="player-card-result" class="hidden mt-3 bg-gradient-to-r from-emerald-950/80 via-nexoDark to-nexoDark border border-green-500/40 rounded-2xl p-3.5 space-y-2.5 shadow-lg">
-                            <div class="flex items-center justify-between">
-                                <div class="flex items-center gap-3">
-                                    <div class="relative">
-                                        <img id="verified-game-avatar" src="" class="w-12 h-12 rounded-xl object-cover border-2 border-yellow-500 shadow">
-                                        <span class="absolute -bottom-1 -right-1 bg-green-500 text-nexoDark text-[9px] font-black w-4 h-4 rounded-full flex items-center justify-center">✓</span>
-                                    </div>
-                                    <div>
-                                        <p id="verified-player-nick" class="font-black text-sm text-white tracking-wide">---</p>
-                                        <p id="verified-player-meta" class="text-[10px] text-gray-300 font-mono">---</p>
-                                        <p id="verified-ai-status-text" class="text-[9px] text-green-400 font-bold">🤖 Verificación IA Exitosa</p>
-                                    </div>
-                                </div>
-                                <div class="text-right">
-                                    <span class="bg-nexoSurface border border-gray-700 px-2 py-1 rounded-lg text-[9px] font-bold text-gray-300">SERVIDOR REAL</span>
-                                    <p id="verified-account-age" class="text-[9px] text-gray-400 mt-1">Estado: <strong class="text-green-400">Activo</strong></p>
-                                </div>
-                            </div>
-                            <div id="verified-extra-details" class="border-t border-gray-800/80 pt-2 flex justify-between items-center text-[10px] text-gray-300">
-                                <!-- Se llena dinámicamente según el juego -->
-                            </div>
+                            <button onclick="verifyPlayerIdReal()" class="bg-nexoCyan text-nexoDark font-black px-3.5 rounded-xl text-xs">Verificar</button>
                         </div>
 
                         <p id="id-verification-error" class="text-[11px] mt-1.5 text-red-400 font-bold hidden"></p>
@@ -492,10 +694,10 @@
                     </div>
 
                     <div class="grid grid-cols-2 gap-2.5">
-                        <input type="text" id="client-name" placeholder="Nombre *" class="w-full bg-nexoDark border border-gray-700 rounded-xl p-2.5 text-xs text-white focus:outline-none">
-                        <input type="text" id="client-lastname" placeholder="Apellido *" class="w-full bg-nexoDark border border-gray-700 rounded-xl p-2.5 text-xs text-white focus:outline-none">
+                        <input type="text" id="client-name" placeholder="Nombre *" class="w-full bg-nexoDark border border-gray-700 rounded-xl p-2.5 text-xs text-white focus:border-nexoCyan focus:outline-none">
+                        <input type="text" id="client-lastname" placeholder="Apellido *" class="w-full bg-nexoDark border border-gray-700 rounded-xl p-2.5 text-xs text-white focus:border-nexoCyan focus:outline-none">
                     </div>
-                    <input type="tel" id="client-phone" placeholder="Tu WhatsApp (Ej: 1123456789) *" class="w-full bg-nexoDark border border-gray-700 rounded-xl p-2.5 text-xs text-white focus:outline-none">
+                    <input type="tel" id="client-phone" placeholder="Tu WhatsApp (Ej: 1123456789) *" class="w-full bg-nexoDark border border-gray-700 rounded-xl p-2.5 text-xs text-white focus:border-nexoCyan focus:outline-none">
                 </div>
                 <div class="flex gap-2.5">
                     <button onclick="goToStep(2)" class="w-1/3 bg-nexoSurface text-gray-300 font-bold py-3 rounded-xl text-xs border border-gray-700">← Atrás</button>
@@ -503,7 +705,7 @@
                 </div>
             </section>
 
-            <!-- PASO 4: PAGO + BOT GMAIL -->
+            <!-- PASO 4: VALIDADOR ESTRICTO + BOT DE GMAIL -->
             <section id="step-4" class="hidden bg-nexoCard/95 border border-nexoCyan/40 rounded-2xl p-5 shadow-2xl space-y-5 animate-glow">
                 <div class="text-center border-b border-gray-800 pb-3">
                     <span class="text-2xl">🧾</span>
@@ -529,25 +731,30 @@
                     </div>
                     <div class="flex items-center justify-between bg-nexoCard p-2 rounded-lg border border-gray-800">
                         <code class="text-xs font-bold text-white select-all">kevincabelier.mp</code>
-                        <button onclick="copyAlias()" class="bg-nexoPurple/20 text-nexoPurple px-2.5 py-1 rounded text-[10px] font-bold">Copiar</button>
+                        <button onclick="copyAlias()" class="bg-nexoPurple/20 hover:bg-nexoPurple/40 text-nexoPurple border border-nexoPurple/40 px-2.5 py-1 rounded text-[10px] font-bold transition">Copiar</button>
                     </div>
                 </div>
 
                 <div class="bg-nexoDark border border-cyan-500/40 p-3.5 rounded-xl space-y-2.5">
-                    <span class="text-xs font-bold text-cyan-300">🛡️ Validador Estricto de Comprobantes</span>
-                    <input type="file" id="receipt-file-input" accept="image/*" class="w-full text-xs text-gray-300 file:mr-2 file:py-2 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-cyan-500/20 file:text-cyan-300" onchange="analyzeReceiptStrict(event)">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-bold text-cyan-300">🛡️ Validador Estricto de Comprobantes</span>
+                        <span class="text-[9px] bg-cyan-500/20 text-cyan-300 px-2 py-0.5 rounded">Exigente</span>
+                    </div>
+                    <p class="text-[10px] text-gray-400">Subí la captura real de tu transferencia de Mercado Pago o banco.</p>
+                    <input type="file" id="receipt-file-input" accept="image/*" class="w-full text-xs text-gray-300 file:mr-2 file:py-2 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-cyan-500/20 file:text-cyan-300 hover:file:bg-cyan-500/30" onchange="analyzeReceiptStrict(event)">
                     <p id="receipt-ai-status" class="text-[11px] hidden font-bold text-center"></p>
                 </div>
 
                 <label class="flex items-start gap-2.5 bg-red-950/20 border border-red-900/40 p-3 rounded-xl cursor-pointer">
                     <input type="checkbox" id="terms-check" class="mt-0.5 accent-nexoCyan">
-                    <span class="text-[10px] text-gray-300 leading-tight">Acepto los <strong>Términos y Condiciones</strong> y la <strong>política de no reembolso</strong>.</span>
+                    <span class="text-[10px] text-gray-300 leading-tight">Acepto los <strong>Términos y Condiciones</strong>: Confirmo que el ID ingresado es correcto, que el comprobante es 100% legítimo y verdadero sin ediciones, y apruebo la <strong>política estricta de no reembolso</strong>.</span>
                 </label>
 
+                <!-- BOTÓN QUE DISPARA EL BOT AUTOMÁTICO HACIA GMAIL -->
                 <button onclick="sendOrderGmailBot()" class="w-full bg-gradient-to-r from-red-600 to-rose-600 hover:opacity-95 text-white font-black py-3.5 rounded-xl shadow-lg transition flex items-center justify-center gap-2 text-xs uppercase tracking-wide">
                     📧 Enviar Pedido con Bot a Gmail
                 </button>
-                <button onclick="goToStep(3)" class="w-full text-center text-xs text-gray-400 py-1">← Modificar datos o ID</button>
+                <button onclick="goToStep(3)" class="w-full text-center text-xs text-gray-400 hover:text-white py-1">← Modificar datos o ID</button>
             </section>
 
             <!-- FEED EN VIVO -->
@@ -575,65 +782,198 @@
                 </div>
                 <div id="ai-chat-box" class="bg-nexoDark border border-gray-800 rounded-xl p-3 h-40 overflow-y-auto space-y-2 text-[11px]">
                     <div class="bg-nexoSurface/80 border border-nexoPurple/30 text-gray-200 p-2.5 rounded-xl rounded-tl-none max-w-[88%]">
-                        ¡Hola! Soy <strong>NexoBot 🤖</strong>. Preguntame cualquier duda sobre recargas o Nexo Coins.
+                        ¡Hola! Soy <strong>NexoBot 🤖</strong>. Preguntame cualquier duda sobre recargas, demoras, Nexo Coins, códigos o pedí hablar con un humano cuando quieras.
                     </div>
                 </div>
+                <div class="flex gap-1.5 overflow-x-auto no-scrollbar pb-1">
+                    <button onclick="askAIQuick('¿Cuánto tarda la recarga?')" class="shrink-0 bg-nexoDark hover:border-nexoCyan border border-gray-700 text-[10px] text-gray-300 px-2.5 py-1 rounded-full transition">⏱️ ¿Cuánto tarda?</button>
+                    <button onclick="askAIQuick('¿Cómo funcionan los Nexo Coins?')" class="shrink-0 bg-nexoDark hover:border-nexoCyan border border-gray-700 text-[10px] text-gray-300 px-2.5 py-1 rounded-full transition">🟡 Nexo Coins</button>
+                    <button onclick="askAIQuick('Quiero hablar con un humano')" class="shrink-0 bg-nexoDark hover:border-nexoCyan border border-gray-700 text-[10px] text-gray-300 px-2.5 py-1 rounded-full transition">👤 Hablar con humano</button>
+                    <button onclick="askAIQuick('Volver con la IA')" class="shrink-0 bg-nexoDark hover:border-nexoCyan border border-gray-700 text-[10px] text-gray-300 px-2.5 py-1 rounded-full transition">🤖 Seguir con IA</button>
+                </div>
                 <div class="flex gap-2">
-                    <input type="text" id="ai-user-input" onkeypress="if(event.key==='Enter') sendAIMessage()" placeholder="Escribí tu consulta..." class="w-full bg-nexoDark border border-gray-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-nexoCyan">
-                    <button onclick="sendAIMessage()" class="bg-gradient-to-r from-nexoPurple to-nexoCyan text-white font-bold px-3.5 rounded-xl text-xs">Enviar</button>
+                    <input type="text" id="ai-user-input" onkeypress="if(event.key==='Enter') sendAIMessage()" placeholder="Escribí cualquier consulta acá..." class="w-full bg-nexoDark border border-gray-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-nexoCyan">
+                    <button onclick="sendAIMessage()" class="bg-gradient-to-r from-nexoPurple to-nexoCyan text-white font-bold px-3.5 rounded-xl text-xs shadow">Enviar</button>
                 </div>
             </section>
 
         </main>
 
+        <!-- FOOTER -->
         <footer class="text-center p-4 text-[11px] text-gray-500 border-t border-gray-900 mt-4 relative z-10 space-y-1">
             <p class="font-bold text-gray-400">Nexo Store © 2026</p>
             <p class="text-[10px]">Tu Recarga Segura • Revendedor Independiente</p>
+            <p class="text-[9px] text-gray-400 max-w-sm mx-auto pt-1 leading-tight font-medium">
+                ⚠️ Aviso legal: Nexo Store es una plataforma de recargas de revendedor independiente y no está afiliada, respaldada ni asociada oficialmente con Garena Free Fire, NetEase Games ni ninguna de sus marcas registradas. Todas las marcas pertenecen a sus respectivos dueños.
+            </p>
         </footer>
     </div>
 
 
-    <!-- NAVBAR INFERIOR -->
+    <!-- BARRA INFERIOR -->
     <nav id="bottom-nav-bar" class="fixed bottom-0 inset-x-0 bg-nexoCard/95 backdrop-blur-md border-t border-nexoPurple/30 z-40 px-2 py-2">
         <div class="max-w-md mx-auto flex justify-around items-center text-[10px] font-bold text-gray-400">
             <button onclick="toggleGlobalChat()" class="flex flex-col items-center gap-0.5 hover:text-nexoCyan transition">
-                <span class="text-base">💬</span><span>Chat</span>
+                <span class="text-base">💬</span>
+                <span>Chat</span>
             </button>
             <button onclick="toggleReviewsModal()" class="flex flex-col items-center gap-0.5 hover:text-purple-400 transition">
-                <span class="text-base">⭐</span><span>Reseñas</span>
+                <span class="text-base">⭐</span>
+                <span>Reseñas</span>
             </button>
             <button onclick="toggleMissionsModal()" class="flex flex-col items-center justify-center -mt-5 bg-gradient-to-tr from-nexoPurple to-nexoCyan text-white w-12 h-12 rounded-full shadow-lg border-2 border-nexoDark">
                 <span class="text-lg">🎯</span>
             </button>
             <button onclick="toggleTopsModal()" class="flex flex-col items-center gap-0.5 hover:text-yellow-400 transition">
-                <span class="text-base">🏆</span><span>Tops</span>
+                <span class="text-base">🏆</span>
+                <span>Tops</span>
             </button>
             <button onclick="toggleHistory()" class="flex flex-col items-center gap-0.5 hover:text-nexoCyan transition">
-                <span class="text-base">📋</span><span>Mis IDs</span>
+                <span class="text-base">📋</span>
+                <span>Mis IDs</span>
             </button>
         </div>
     </nav>
 
 
-    <!-- PANEL ADMIN -->
+    <!-- ==================== VISTA 2: PANEL DE ADMINISTRADOR ==================== -->
     <div id="view-admin" class="hidden flex-col min-h-screen justify-between bg-nexoDark p-4">
         <div class="max-w-md mx-auto w-full pt-8 space-y-6">
+            
             <div class="flex justify-between items-center border-b border-gray-800 pb-4">
                 <div>
-                    <span class="text-[10px] bg-red-500/20 text-red-400 px-2.5 py-1 rounded-full font-bold uppercase">🔒 Panel Admin</span>
+                    <span class="text-[10px] bg-red-500/20 text-red-400 px-2.5 py-1 rounded-full font-bold uppercase">🔒 Panel de Control Admin</span>
                     <h2 class="text-xl font-black text-white mt-1">Gestión Nexo Store</h2>
                 </div>
-                <button onclick="exitAdminView()" class="bg-nexoSurface text-gray-300 px-3 py-2 rounded-xl text-xs font-bold border border-gray-700">← Volver</button>
+                <button onclick="exitAdminView()" class="bg-nexoSurface text-gray-300 hover:text-white px-3 py-2 rounded-xl text-xs font-bold border border-gray-700">← Volver a la Tienda</button>
             </div>
-            <div id="admin-login-screen" class="bg-nexoCard border border-gray-800 p-6 rounded-3xl space-y-4 shadow-2xl text-center">
-                <input type="password" id="admin-password-field" placeholder="Contraseña..." class="w-full bg-nexoDark border border-gray-700 rounded-xl p-3 text-xs text-white text-center font-mono">
-                <button onclick="checkAdminPassword()" class="w-full bg-red-600 text-white font-black py-3 rounded-xl text-xs uppercase shadow">Entrar al Panel</button>
-                <p id="admin-login-error" class="text-xs text-red-400 font-bold hidden">Contraseña incorrecta.</p>
+
+            <div id="admin-login-screen" class="bg-nexoCard border border-gray-800 p-6 rounded-3xl space-y-4 shadow-2xl">
+                <div class="text-center space-y-1">
+                    <span class="text-3xl">🔑</span>
+                    <h3 class="text-sm font-black text-white">Acceso Protegido</h3>
+                    <p class="text-xs text-gray-400">Ingresá tu contraseña de administrador para continuar.</p>
+                </div>
+                <input type="password" id="admin-password-field" placeholder="Contraseña..." class="w-full bg-nexoDark border border-gray-700 rounded-xl p-3 text-xs text-white focus:outline-none focus:border-red-500 text-center font-mono">
+                <button onclick="checkAdminPassword()" class="w-full bg-red-600 hover:bg-red-500 text-white font-black py-3 rounded-xl text-xs uppercase shadow">Entrar al Panel</button>
+                <p id="admin-login-error" class="text-xs text-red-400 text-center font-bold hidden">Contraseña incorrecta.</p>
             </div>
+
             <div id="admin-dashboard-screen" class="hidden space-y-5">
-                <button onclick="exitAdminView()" class="w-full bg-nexoSurface text-gray-400 py-2.5 rounded-xl text-xs border border-gray-700">Cerrar Sesión Admin</button>
+                
+                <div class="bg-nexoCard border border-purple-500/60 p-5 rounded-3xl space-y-3 shadow-xl">
+                    <div class="flex items-center gap-2">
+                        <span class="text-xl">🛠️</span>
+                        <h3 class="text-sm font-black text-white">Modo Mantenimiento Global</h3>
+                    </div>
+                    <p class="text-[11px] text-gray-300">Activa el bloqueo de mantenimiento para todos los visitantes.</p>
+                    <div class="flex items-center justify-between bg-nexoDark p-3 rounded-xl border border-gray-800 text-xs">
+                        <span class="font-bold text-gray-300">Estado Actual:</span>
+                        <button onclick="toggleMaintenanceGlobal()" id="maintenance-toggle-btn" class="bg-gray-700 text-white font-bold px-3.5 py-1.5 rounded-lg text-xs">DESACTIVADO</button>
+                    </div>
+                </div>
+
+                <div class="bg-nexoCard border border-nexoCyan/50 p-5 rounded-3xl space-y-3.5 shadow-xl">
+                    <div class="flex items-center gap-2">
+                        <span class="text-xl">🖼️</span>
+                        <h3 class="text-sm font-black text-white">Gestión de Banners e Imágenes</h3>
+                    </div>
+                    <div class="space-y-2.5 text-xs bg-nexoDark p-3.5 rounded-2xl border border-gray-800">
+                        <input type="text" id="new-banner-tag" placeholder="Etiqueta (Ej: NUEVO • PROMO)" class="w-full bg-nexoCard border border-gray-700 rounded-xl p-2 text-xs text-white focus:outline-none">
+                        <input type="text" id="new-banner-title" placeholder="Título del Banner" class="w-full bg-nexoCard border border-gray-700 rounded-xl p-2 text-xs text-white focus:outline-none">
+                        <input type="text" id="new-banner-desc" placeholder="Descripción corta..." class="w-full bg-nexoCard border border-gray-700 rounded-xl p-2 text-xs text-white focus:outline-none">
+                        <div class="grid grid-cols-2 gap-2">
+                            <input type="text" id="new-banner-btn" placeholder="Texto Botón" class="w-full bg-nexoCard border border-gray-700 rounded-xl p-2 text-xs text-white focus:outline-none">
+                            <input type="text" id="new-banner-link" placeholder="Enlace o Acción" class="w-full bg-nexoCard border border-gray-700 rounded-xl p-2 text-xs text-white focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="text-[10px] font-bold text-gray-400 uppercase block mb-1">Subir Foto:</label>
+                            <input type="file" id="new-banner-file" accept="image/*" class="w-full text-[11px] text-gray-300 file:mr-2 file:py-1.5 file:px-2.5 file:rounded-lg file:border-0 file:text-[10px] file:font-bold file:bg-nexoPurple/30 file:text-purple-300">
+                        </div>
+                        <button onclick="addNewGlobalBanner()" class="w-full bg-gradient-to-r from-nexoPurple to-nexoCyan text-white font-black py-2.5 rounded-xl text-xs uppercase shadow">➕ Agregar Banner Global</button>
+                    </div>
+                    <div class="space-y-1.5">
+                        <p class="text-[10px] font-bold uppercase text-gray-400">Banners Publicados:</p>
+                        <div id="admin-banners-list" class="space-y-2 max-h-44 overflow-y-auto"></div>
+                    </div>
+                </div>
+
+                <div class="bg-nexoCard border border-yellow-500/40 p-5 rounded-3xl space-y-3 shadow-xl">
+                    <div class="flex items-center gap-2">
+                        <span class="text-xl">🤖</span>
+                        <h3 class="text-sm font-black text-white">Interruptor de Bots en Secciones</h3>
+                    </div>
+                    <div class="flex items-center justify-between bg-nexoDark p-3 rounded-xl border border-gray-800 text-xs">
+                        <span class="font-bold text-gray-300">Estado de Bots:</span>
+                        <button onclick="toggleBotSystem()" id="bot-toggle-btn" class="bg-green-600 text-white font-bold px-3 py-1.5 rounded-lg text-xs">ACTIVADOS</button>
+                    </div>
+                </div>
+
+                <div class="bg-nexoCard border border-nexoCyan/40 p-5 rounded-3xl space-y-3 shadow-xl">
+                    <div class="flex items-center gap-2">
+                        <span class="text-xl">⚡</span>
+                        <h3 class="text-sm font-black text-white">Generar Clave de Canje de Coins</h3>
+                    </div>
+                    <select id="admin-coins-amount" class="w-full bg-nexoDark border border-gray-700 rounded-xl p-2.5 text-xs text-white focus:outline-none">
+                        <option value="1">1 Nexo Coin</option>
+                        <option value="5">5 Nexo Coins</option>
+                        <option value="10">10 Nexo Coins</option>
+                        <option value="25">25 Nexo Coins</option>
+                    </select>
+                    <button onclick="generateCoinKey()" class="w-full bg-gradient-to-r from-nexoPurple to-nexoCyan text-white font-black py-2.5 rounded-xl text-xs uppercase shadow">Generar Clave Única (Nube)</button>
+                    <div id="generated-key-result" class="hidden bg-nexoDark border border-green-500/50 p-3 rounded-xl text-center space-y-1">
+                        <p class="text-[10px] text-green-400 font-bold">¡Clave guardada!</p>
+                        <code id="key-output-text" class="text-sm font-black text-white select-all bg-black/40 px-3 py-1.5 rounded block tracking-wider font-mono"></code>
+                    </div>
+                </div>
+
+                <div class="bg-nexoCard border border-purple-500/40 p-5 rounded-3xl space-y-3.5 shadow-xl">
+                    <div class="flex items-center gap-2">
+                        <span class="text-xl">🎟️</span>
+                        <h3 class="text-sm font-black text-white">Crear / Eliminar Cupón</h3>
+                    </div>
+                    <div>
+                        <label class="text-[10px] font-bold text-gray-400 uppercase">Nombre del Código</label>
+                        <input type="text" id="new-coupon-name" placeholder="Ej: PROMO50" class="w-full mt-1 bg-nexoDark border border-gray-700 rounded-xl p-2.5 text-xs text-white uppercase focus:outline-none font-mono">
+                    </div>
+                    <div class="grid grid-cols-2 gap-2.5">
+                        <div>
+                            <label class="text-[10px] font-bold text-gray-400 uppercase">Descuento (%)</label>
+                            <select id="new-coupon-discount" class="w-full mt-1 bg-nexoDark border border-gray-700 rounded-xl p-2.5 text-xs text-white focus:outline-none">
+                                <option value="10">10% OFF</option>
+                                <option value="20">20% OFF</option>
+                                <option value="30">30% OFF</option>
+                                <option value="50">50% OFF</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="text-[10px] font-bold text-gray-400 uppercase">Usos Máximos</label>
+                            <input type="number" id="new-coupon-uses" value="10" min="1" max="1000" class="w-full mt-1 bg-nexoDark border border-gray-700 rounded-xl p-2.5 text-xs text-white focus:outline-none">
+                        </div>
+                    </div>
+                    <button onclick="createNewCoupon()" class="w-full bg-gradient-to-r from-red-600 to-rose-600 text-white font-black py-2.5 rounded-xl text-xs uppercase shadow">Guardar Cupón</button>
+                    <p id="coupon-create-feedback" class="text-[11px] text-center font-bold hidden"></p>
+                    <div class="border-t border-gray-800 pt-3 space-y-2">
+                        <p class="text-[10px] font-bold uppercase text-gray-400">Cupones Activos:</p>
+                        <div id="admin-coupons-list" class="space-y-1.5 max-h-32 overflow-y-auto"></div>
+                    </div>
+                </div>
+
+                <div class="bg-nexoCard border border-cyan-500/40 p-5 rounded-3xl space-y-3 shadow-xl">
+                    <div class="flex items-center gap-2">
+                        <span class="text-xl">🎯</span>
+                        <h3 class="text-sm font-black text-white">Gestión de Misiones</h3>
+                    </div>
+                    <div class="space-y-2.5" id="admin-missions-control"></div>
+                </div>
+
+                <button onclick="exitAdminView()" class="w-full bg-nexoSurface text-gray-400 hover:text-white py-2.5 rounded-xl text-xs border border-gray-700">Cerrar Sesión Admin</button>
             </div>
+
         </div>
+        <footer class="text-center p-4 text-[11px] text-gray-500 border-t border-gray-900 mt-4">
+            <p class="font-bold text-gray-400">Nexo Store Admin © 2026</p>
+        </footer>
     </div>
 
 
@@ -642,23 +982,77 @@
 
         let globalMaintenanceMode = false;
         let globalBanners = [
-            { id: 1, tag: "Nuevo • Mini Influencers", title: "Hacete viral con tu código", desc: "Creá tu código y ganá diamantes.", btnText: "Ver Rangos ➔", actionType: "ninja", linkUrl: "", imgUrl: "", emoji: "🥷", subLabel: "NEXO CREATOR" },
-            { id: 2, tag: "Minijuegos • Ruleta", title: "Convertí Coins en premios", desc: "Girá la ruleta con tus Nexo Coins.", btnText: "Girar ➔", actionType: "roulette", linkUrl: "", imgUrl: "", emoji: "🎡", subLabel: "PREMIOS" }
+            {
+                id: 1,
+                tag: "Nuevo • Mini Influencers",
+                title: "Hacete viral con tu código",
+                desc: "Creá tu código y ganá diamantes conquistando los rangos ninja.",
+                btnText: "Ver Rangos ➔",
+                actionType: "ninja",
+                linkUrl: "",
+                imgUrl: "",
+                emoji: "🥷",
+                subLabel: "NEXO CREATOR"
+            },
+            {
+                id: 2,
+                tag: "Minijuegos • Ruleta Mágica",
+                title: "Convertí tus Coins en premios",
+                desc: "Girá la ruleta con tus Nexo Coins y ganá diamantes u oro al instante.",
+                btnText: "Girar ahora ➔",
+                actionType: "roulette",
+                linkUrl: "",
+                imgUrl: "",
+                emoji: "🎡",
+                subLabel: "PREMIOS VIP"
+            },
+            {
+                id: 3,
+                tag: "Comunidad • TikTok Oficial",
+                title: "Seguinos en @nexop02",
+                desc: "Enterate de todas las recargas en tiempo real y sorteos exclusivos.",
+                btnText: "Ir a TikTok ➔",
+                actionType: "link",
+                linkUrl: "https://www.tiktok.com/@nexop02",
+                imgUrl: "",
+                emoji: "🎵",
+                subLabel: "TIKTOK VIP"
+            }
         ];
-        let globalCoupons = { "NEXO10": { discount: 10, maxUses: 100, usedCount: 0 } };
-        let missionsDB = [{ id: 1, title: "Seguí a Nexo Store en TikTok", reward: "110 Diamantes", cupos: 5, maxCupos: 10, active: true, desc: "Seguí nuestra cuenta." }];
+
+        let globalCoupons = {
+            "NEXO10": { discount: 10, maxUses: 100, usedCount: 0 },
+            "VERANO2026": { discount: 20, maxUses: 50, usedCount: 0 }
+        };
+
+        let missionsDB = [
+            { id: 1, title: "Seguí a Nexo Store en TikTok (@nexop02)", reward: "110 Diamantes / 5 Coins", cupos: 5, maxCupos: 10, active: true, desc: "Seguí nuestra cuenta oficial @nexop02 en TikTok, dale me gusta a los últimos 3 videos y enviá tu usuario para verificar." },
+            { id: 2, title: "Subí un video recomendando Nexo Store", reward: "341 Diamantes / 10 Coins", cupos: 3, maxCupos: 5, active: true, desc: "Grábate mostrando tu recarga o la página, etiquetá a @nexop02 y pegá el enlace acá." }
+        ];
+
         let globalCoinKeys = {};
         let globalChatMessages = [];
         let globalReviews = [];
-        let globalBuyers = [{ name: "Roxloy", amount: "2,398 💎", game: "Free Fire" }];
-        let globalCodeUsage = [{ code: "NEXO10", uses: 48 }];
+        let globalBuyers = [
+            { name: "Roxloy", amount: "2,398 💎", game: "Free Fire" },
+            { name: "Gamer99", amount: "2,260 🪙", game: "Blood Strike" },
+            { name: "LucasFF", amount: "1,166 💎", game: "Free Fire" }
+        ];
+        let globalCodeUsage = [
+            { code: "NEXO10", uses: 48 },
+            { code: "VERANO2026", uses: 32 }
+        ];
+
         let botsEnabled = true;
 
-        function getCleanDbUrl() { return FIREBASE_DB_URL.replace(/\/$/, ""); }
+        function getCleanDbUrl() {
+            return FIREBASE_DB_URL.replace(/\/$/, "");
+        }
 
         async function syncFromCloud() {
             const url = getCleanDbUrl();
             if (!url.startsWith("http")) return;
+
             try {
                 const res = await fetch(`${url}/nexo_store_data.json`);
                 const data = await res.json();
@@ -667,30 +1061,93 @@
                     if (data.banners) globalBanners = data.banners;
                     if (data.coupons) globalCoupons = data.coupons;
                     if (data.missions) missionsDB = data.missions;
+                    if (data.coinKeys) globalCoinKeys = data.coinKeys;
+                    if (data.chatMessages) globalChatMessages = data.chatMessages;
+                    if (data.reviews) globalReviews = data.reviews;
+                    if (data.buyers) globalBuyers = data.buyers;
+                    if (data.codeUsage) globalCodeUsage = data.codeUsage;
                     if (data.botsEnabled !== undefined) botsEnabled = data.botsEnabled;
+                    
                     applyMaintenanceUI();
                     renderBannersCarousel();
+                    renderMissionsList();
+                    renderGlobalChat();
+                    renderReviews();
+                    renderTops();
+                    if (!document.getElementById('admin-dashboard-screen').classList.contains('hidden')) {
+                        renderAdminCoupons();
+                        renderAdminMissionsControl();
+                        renderAdminBannersList();
+                        updateBotToggleBtnUI();
+                        updateMaintenanceToggleBtnUI();
+                    }
+                } else {
+                    await saveToCloud();
                 }
-            } catch (e) { console.error(e); }
+            } catch (e) {
+                console.error("Error leyendo nube:", e);
+            }
         }
 
         async function saveToCloud() {
             const url = getCleanDbUrl();
             if (!url.startsWith("http")) return;
+
             try {
                 await fetch(`${url}/nexo_store_data.json`, {
                     method: 'PUT',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ maintenanceMode: globalMaintenanceMode, banners: globalBanners, coupons: globalCoupons, missions: missionsDB, botsEnabled })
+                    body: JSON.stringify({
+                        maintenanceMode: globalMaintenanceMode,
+                        banners: globalBanners,
+                        coupons: globalCoupons,
+                        missions: missionsDB,
+                        coinKeys: globalCoinKeys,
+                        chatMessages: globalChatMessages,
+                        reviews: globalReviews,
+                        buyers: globalBuyers,
+                        codeUsage: globalCodeUsage,
+                        botsEnabled: botsEnabled
+                    })
                 });
-            } catch (e) { console.error(e); }
+            } catch (e) {
+                console.error("Error guardando en nube:", e);
+            }
         }
+
+        setInterval(syncFromCloud, 4000);
 
         function applyMaintenanceUI() {
             const mScreen = document.getElementById('maintenance-screen');
             const navBar = document.getElementById('bottom-nav-bar');
-            if (globalMaintenanceMode) { mScreen.classList.remove('hidden'); navBar.classList.add('hidden'); }
-            else { mScreen.classList.add('hidden'); navBar.classList.remove('hidden'); }
+            const isAdminOpen = !document.getElementById('view-admin').classList.contains('hidden');
+
+            if (globalMaintenanceMode && !isAdminOpen) {
+                mScreen.classList.remove('hidden');
+                navBar.classList.add('hidden');
+            } else {
+                mScreen.classList.add('hidden');
+                navBar.classList.remove('hidden');
+            }
+        }
+
+        async function toggleMaintenanceGlobal() {
+            globalMaintenanceMode = !globalMaintenanceMode;
+            await saveToCloud();
+            updateMaintenanceToggleBtnUI();
+            alert(globalMaintenanceMode ? '🛠️ ¡Modo Mantenimiento ACTIVADO!' : '✅ ¡Modo Mantenimiento DESACTIVADO!');
+        }
+
+        function updateMaintenanceToggleBtnUI() {
+            const btn = document.getElementById('maintenance-toggle-btn');
+            if (!btn) return;
+            if (globalMaintenanceMode) {
+                btn.className = 'bg-purple-600 text-white font-bold px-3.5 py-1.5 rounded-lg text-xs';
+                btn.innerText = 'ACTIVADO';
+            } else {
+                btn.className = 'bg-gray-700 text-white font-bold px-3.5 py-1.5 rounded-lg text-xs';
+                btn.innerText = 'DESACTIVADO';
+            }
         }
 
         let maintenanceClicks = 0;
@@ -698,12 +1155,14 @@
             maintenanceClicks++;
             if (maintenanceClicks >= 3) {
                 maintenanceClicks = 0;
-                const pass = prompt("🔒 Contraseña mantenimiento:");
+                const pass = prompt("🔒 Ingresá la contraseña para quitar el mantenimiento:");
                 if (pass && pass.trim().toLowerCase() === 'varela') {
                     globalMaintenanceMode = false;
                     await saveToCloud();
                     applyMaintenanceUI();
-                    alert('✅ Mantenimiento desactivado.');
+                    alert('✅ ¡Mantenimiento desactivado correctamente!');
+                } else if (pass !== null) {
+                    alert('❌ Contraseña incorrecta.');
                 }
             }
             setTimeout(() => { maintenanceClicks = 0; }, 3000);
@@ -711,16 +1170,131 @@
 
         let currentSlide = 0;
         function renderBannersCarousel() {
+            const wrapper = document.getElementById('banners-wrapper');
             const container = document.getElementById('carousel-container');
             const dotsContainer = document.getElementById('carousel-dots-container');
             if (!container || !dotsContainer) return;
-            container.innerHTML = globalBanners.map((b, idx) => `
-                <div class="carousel-slide w-full flex items-center justify-between gap-3 ${idx !== currentSlide ? 'hidden' : ''}">
-                    <div class="space-y-1.5 flex-1">
-                        <span class="bg-nexoPurple/20 text-nexoPurple text-[9px] font-bold px-2 py-0.5 rounded-full uppercase">${b.tag}</span>
-                        <h3 class="text-sm font-black text-white">${b.title}</h3>
-                        <p class="text-[11px] text-gray-300">${b.desc}</p>
+
+            if (!globalBanners || globalBanners.length === 0) {
+                wrapper.classList.add('hidden');
+                return;
+            }
+            wrapper.classList.remove('hidden');
+            if (currentSlide >= globalBanners.length) currentSlide = 0;
+
+            container.innerHTML = globalBanners.map((b, idx) => {
+                let btnHtml = '';
+                if (b.actionType === 'ninja') {
+                    btnHtml = `<button onclick="toggleNinjaModal()" class="mt-1 bg-gradient-to-r from-nexoPurple to-nexoCyan text-white text-[10px] font-black px-3 py-1.5 rounded-lg uppercase shadow">${b.btnText || 'Ver Más'}</button>`;
+                } else if (b.actionType === 'roulette') {
+                    btnHtml = `<button onclick="toggleRouletteModal()" class="mt-1 bg-yellow-500 text-nexoDark text-[10px] font-black px-3 py-1.5 rounded-lg uppercase shadow">${b.btnText || 'Girar'}</button>`;
+                } else if (b.linkUrl) {
+                    btnHtml = `<a href="${b.linkUrl}" target="_blank" class="inline-block mt-1 bg-nexoCyan text-nexoDark text-[10px] font-black px-3 py-1.5 rounded-lg uppercase shadow">${b.btnText || 'Abrir ➔'}</a>`;
+                }
+
+                let mediaHtml = b.imgUrl ? `<img src="${b.imgUrl}" class="w-20 h-20 rounded-2xl object-cover border border-nexoCyan/50 shrink-0 shadow-lg">` : `
+                    <div class="w-20 h-20 rounded-2xl bg-gradient-to-tr from-purple-900 to-indigo-950 border border-nexoCyan/50 flex flex-col items-center justify-center shrink-0 shadow-lg">
+                        <span class="text-3xl">${b.emoji || '🔥'}</span>
+                        <span class="text-[8px] font-black text-nexoCyan mt-1 text-center px-1">${b.subLabel || 'NEXO VIP'}</span>
                     </div>
+                `;
+
+                return `
+                    <div class="carousel-slide w-full flex items-center justify-between gap-3 ${idx !== currentSlide ? 'hidden' : ''}">
+                        <div class="space-y-1.5 flex-1">
+                            <span class="bg-nexoPurple/20 text-nexoPurple border border-nexoPurple/40 text-[9px] font-bold px-2 py-0.5 rounded-full uppercase">${b.tag || 'Nexo Store'}</span>
+                            <h3 class="text-sm font-black text-white leading-tight">${b.title}</h3>
+                            <p class="text-[11px] text-gray-300 leading-snug">${b.desc}</p>
+                            ${btnHtml}
+                        </div>
+                        ${mediaHtml}
+                    </div>
+                `;
+            }).join('');
+
+            dotsContainer.innerHTML = globalBanners.map((_, i) => `
+                <span class="carousel-dot h-1.5 rounded-full transition-all duration-300 ${i === currentSlide ? 'bg-nexoCyan w-4' : 'bg-gray-600 w-1.5'}"></span>
+            `).join('');
+        }
+
+        setInterval(() => {
+            if (globalBanners && globalBanners.length > 1) {
+                currentSlide = (currentSlide + 1) % globalBanners.length;
+                renderBannersCarousel();
+            }
+        }, 3500);
+
+        let touchstartX = 0;
+        let touchendX = 0;
+        function touchStart(e) { touchstartX = e.changedTouches[0].screenX; }
+        function touchEnd(e) {
+            touchendX = e.changedTouches[0].screenX;
+            if (!globalBanners || globalBanners.length <= 1) return;
+            if (touchendX < touchstartX - 40) { currentSlide = (currentSlide + 1) % globalBanners.length; renderBannersCarousel(); }
+            if (touchendX > touchstartX + 40) { currentSlide = (currentSlide - 1 + globalBanners.length) % globalBanners.length; renderBannersCarousel(); }
+        }
+
+        function addNewGlobalBanner() {
+            const tag = document.getElementById('new-banner-tag').value.trim() || 'Promoción';
+            const title = document.getElementById('new-banner-title').value.trim();
+            const desc = document.getElementById('new-banner-desc').value.trim();
+            const btnText = document.getElementById('new-banner-btn').value.trim() || 'Ver Más ➔';
+            const linkUrl = document.getElementById('new-banner-link').value.trim();
+            const fileInput = document.getElementById('new-banner-file');
+
+            if (!title || !desc) { alert('⚠️ Completá al menos el título y la descripción.'); return; }
+
+            const saveBannerObj = async (imgDataUrl) => {
+                globalBanners.push({
+                    id: Date.now(), tag, title, desc, btnText,
+                    actionType: linkUrl ? 'link' : 'none',
+                    linkUrl, imgUrl: imgDataUrl || '', emoji: '⚡', subLabel: 'NEXO STORE'
+                });
+                await saveToCloud();
+                renderBannersCarousel();
+                renderAdminBannersList();
+                document.getElementById('new-banner-tag').value = '';
+                document.getElementById('new-banner-title').value = '';
+                document.getElementById('new-banner-desc').value = '';
+                document.getElementById('new-banner-btn').value = '';
+                document.getElementById('new-banner-link').value = '';
+                fileInput.value = '';
+                alert('✅ ¡Banner publicado!');
+            };
+
+            if (fileInput.files && fileInput.files[0]) {
+                const reader = new FileReader();
+                reader.onload = e => saveBannerObj(e.target.result);
+                reader.readAsDataURL(fileInput.files[0]);
+            } else { saveBannerObj(''); }
+        }
+
+        async function deleteGlobalBanner(id) {
+            if (confirm('¿Querés quitar este banner?')) {
+                globalBanners = globalBanners.filter(b => b.id !== id);
+                await saveToCloud();
+                renderBannersCarousel();
+                renderAdminBannersList();
+            }
+        }
+
+        function renderAdminBannersList() {
+            const container = document.getElementById('admin-banners-list');
+            if (!container) return;
+            if (!globalBanners || globalBanners.length === 0) {
+                container.innerHTML = '<p class="text-[11px] text-gray-500 text-center py-2">No hay banners.</p>';
+                return;
+            }
+            container.innerHTML = globalBanners.map(b => `
+                <div class="bg-nexoDark border border-gray-800 p-2.5 rounded-xl flex justify-between items-center text-xs gap-2">
+                    <div class="flex items-center gap-2 overflow-hidden">
+                        ${b.imgUrl ? `<img src="${b.imgUrl}" class="w-8 h-8 rounded object-cover shrink-0">` : `<span class="text-lg">${b.emoji || '🖼️'}</span>`}
+                        <div class="truncate">
+                            <p class="font-bold text-white truncate">${b.title}</p>
+                            <p class="text-[10px] text-gray-400 truncate">${b.desc}</p>
+                        </div>
+                    </div>
+                    <button onclick="deleteGlobalBanner(${b.id})" class="bg-red-600/20 text-red-400 hover:bg-red-600 hover:text-white px-2.5 py-1 rounded-lg text-[10px] font-bold shrink-0 transition">🗑️ Quitar</button>
                 </div>
             `).join('');
         }
@@ -743,156 +1317,317 @@
 
         function updateAuthUI() {
             document.getElementById('user-profile-name').innerText = currentUser.name || 'Invitado';
-            document.getElementById('user-profile-email').innerText = currentUser.email || 'Sin sesión';
+            document.getElementById('user-profile-email').innerText = currentUser.email || 'Sin iniciar sesión';
             document.getElementById('user-avatar-img').src = currentUser.avatar;
             document.getElementById('nav-user-avatar').src = currentUser.avatar;
             document.getElementById('nav-user-name').innerText = (currentUser.name || 'Invitado').split(' ')[0];
-            document.getElementById('profile-coins-val').innerText = (currentUser.coins || 0) + ' 🟡';
-            document.getElementById('profile-purchases-count').innerText = (currentUser.purchases || 0) + ' / 10 Compras';
-            document.getElementById('loyalty-progress-bar').style.width = Math.min(((currentUser.purchases || 0) / 10) * 100, 100) + '%';
+
+            let coins = currentUser.coins || 0;
+            let purchases = currentUser.purchases || 0;
+            document.getElementById('profile-coins-val').innerText = coins + ' 🟡';
+            document.getElementById('profile-purchases-count').innerText = purchases + ' / 10 Compras';
+            document.getElementById('loyalty-progress-bar').style.width = Math.min((purchases / 10) * 100, 100) + '%';
+            document.getElementById('profile-ids-count').innerText = (currentUser.savedIds || []).length;
+            
+            const rBalance = document.getElementById('user-coins-balance');
+            if(rBalance) rBalance.innerText = coins;
         }
 
         function toggleProfileModal() { updateAuthUI(); document.getElementById('profile-modal').classList.toggle('hidden'); }
-        function openAccountSelector() { document.getElementById('account-selector-modal').classList.toggle('hidden'); }
+        function openAccountSelector() { renderSavedAccountsDeviceList(); document.getElementById('account-selector-modal').classList.toggle('hidden'); }
 
         function loginOrRegisterAccount() {
             const email = document.getElementById('auth-email-input').value.trim().toLowerCase();
             const nickname = document.getElementById('auth-nickname-input').value.trim();
             const pass = document.getElementById('auth-pass-input').value.trim();
-            if (!email || !pass || !nickname) { alert('⚠️ Completá todos los campos.'); return; }
-            currentUser = { email, name: nickname, pass, avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=' + nickname, coins: 0, purchases: 0, savedIds: [] };
+            const feedback = document.getElementById('auth-feedback');
+            feedback.classList.remove('hidden');
+
+            if (!email || !email.includes('@') || !pass || !nickname) {
+                feedback.className = 'text-[11px] text-center font-bold text-red-400';
+                feedback.innerText = '⚠️ Completá todos los campos.';
+                return;
+            }
+
+            let acc = localStorage.getItem('nexo_acc_' + email);
+            if (acc) {
+                let parsed = JSON.parse(acc);
+                if (parsed.pass && parsed.pass !== pass) {
+                    feedback.className = 'text-[11px] text-center font-bold text-red-400';
+                    feedback.innerText = '❌ Contraseña incorrecta.';
+                    return;
+                }
+                parsed.name = nickname;
+                parsed.pass = pass;
+                currentUser = parsed;
+            } else {
+                currentUser = { email, name: nickname, pass, avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=' + nickname, coins: 0, purchases: 0, savedIds: [] };
+            }
             saveCurrentUser();
             updateAuthUI();
-            document.getElementById('account-selector-modal').classList.add('hidden');
+            feedback.className = 'text-[11px] text-center font-bold text-green-400';
+            feedback.innerText = '✅ ¡Sesión iniciada!';
+            setTimeout(() => {
+                document.getElementById('account-selector-modal').classList.add('hidden');
+                document.getElementById('profile-modal').classList.add('hidden');
+            }, 800);
         }
 
         function logoutAccount() {
             localStorage.removeItem('nexo_active_email');
+            currentUser = { email: '', name: 'Invitado', pass: '', avatar: 'https://api.dicebear.com/7.x/bottts/svg?seed=NexoUser', coins: 0, purchases: 0, savedIds: [] };
+            updateAuthUI();
             location.reload();
+        }
+
+        function renderSavedAccountsDeviceList() {
+            const container = document.getElementById('saved-accounts-device-list');
+            let keys = Object.keys(localStorage).filter(k => k.startsWith('nexo_acc_'));
+            if (keys.length === 0) {
+                container.innerHTML = '<p class="text-[10px] text-gray-500">No hay cuentas guardadas.</p>';
+                return;
+            }
+            container.innerHTML = keys.map(k => {
+                let acc = JSON.parse(localStorage.getItem(k));
+                return `
+                    <div onclick="quickSwitchAccount('${acc.email}')" class="bg-nexoDark border border-gray-800 p-2.5 rounded-xl flex items-center justify-between cursor-pointer hover:border-nexoCyan">
+                        <div class="flex items-center gap-2">
+                            <img src="${acc.avatar}" class="w-7 h-7 rounded-full object-cover">
+                            <div>
+                                <p class="font-bold text-xs text-white">${acc.name}</p>
+                                <p class="text-[9px] text-gray-400">${acc.email}</p>
+                            </div>
+                        </div>
+                        <span class="text-[10px] text-nexoCyan font-bold">Entrar ➔</span>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function quickSwitchAccount(email) {
+            let acc = JSON.parse(localStorage.getItem('nexo_acc_' + email));
+            if (acc) {
+                currentUser = acc;
+                saveCurrentUser();
+                updateAuthUI();
+                document.getElementById('account-selector-modal').classList.add('hidden');
+            }
         }
 
         function handleAvatarUpload(event) {
             const file = event.target.files[0];
             if(!file) return;
             const reader = new FileReader();
-            reader.onload = e => { currentUser.avatar = e.target.result; saveCurrentUser(); updateAuthUI(); };
+            reader.onload = function(e) {
+                currentUser.avatar = e.target.result;
+                saveCurrentUser();
+                updateAuthUI();
+                alert('✅ ¡Foto de perfil guardada!');
+            };
             reader.readAsDataURL(file);
         }
 
         function copyCreatorPromoText() {
-            navigator.clipboard.writeText("¡Recargá en Nexo Store con mi código!");
-            alert("✅ Copiado!");
+            const txt = "🔥 ¡Recargá tus diamantes de Free Fire y oro de Blood Strike súper rápido y seguro en Nexo Store! Usá mi código de creador para obtener descuentos exclusivos. 💎⚡";
+            navigator.clipboard.writeText(txt);
+            alert("✅ ¡Mensaje copiado!");
         }
 
-        function toggleGlobalChat() { document.getElementById('global-chat-modal').classList.toggle('hidden'); }
-        function sendGlobalMessage() {
+        function toggleGlobalChat() { document.getElementById('global-chat-modal').classList.toggle('hidden'); renderGlobalChat(); }
+
+        async function sendGlobalMessage() {
             const input = document.getElementById('global-chat-input');
-            if(!input.value.trim()) return;
-            globalChatMessages.push({ user: currentUser.name, text: input.value.trim(), time: 'Ahora' });
+            const text = input.value.trim();
+            if (!text) return;
+            if (!currentUser.email) { alert('⚠️ Iniciá sesión para chatear.'); openAccountSelector(); return; }
+
+            globalChatMessages.push({
+                user: currentUser.name, text, time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+            });
             input.value = '';
+            await saveToCloud();
             renderGlobalChat();
         }
+
         function renderGlobalChat() {
             const container = document.getElementById('global-chat-messages');
-            container.innerHTML = globalChatMessages.map(m => `<div class="bg-nexoDark p-2 rounded"><b>${m.user}:</b> ${m.text}</div>`).join('');
+            if (!container) return;
+            let msgs = [...globalChatMessages];
+            if (botsEnabled && msgs.length === 0) {
+                msgs = [{ user: "Gamer99", text: "¡Hola a todos!", time: "12:00" }, { user: "SofiaFF", text: "Recargué recién y me llegó en 2 min 🔥", time: "12:05" }];
+            }
+            if (msgs.length === 0) {
+                container.innerHTML = '<p class="text-xs text-gray-500 text-center py-4">No hay mensajes.</p>';
+                return;
+            }
+            container.innerHTML = msgs.map(m => `
+                <div class="bg-nexoDark border border-gray-800 p-2.5 rounded-xl space-y-1">
+                    <div class="flex justify-between items-center text-[10px]">
+                        <span class="font-black text-nexoCyan">${m.user}</span>
+                        <span class="text-gray-500">${m.time}</span>
+                    </div>
+                    <p class="text-gray-200">${m.text}</p>
+                </div>
+            `).join('');
+            container.scrollTop = container.scrollHeight;
         }
 
-        function toggleReviewsModal() { document.getElementById('reviews-modal').classList.toggle('hidden'); }
-        function setReviewStars(v) { selectedStarRating = v; }
-        function submitNewReview() {
-            const t = document.getElementById('review-text-input').value.trim();
-            if(!t) return;
-            globalReviews.unshift({ user: currentUser.name, stars: '⭐'.repeat(selectedStarRating), text: t });
+        let selectedStarRating = 5;
+        function toggleReviewsModal() { document.getElementById('reviews-modal').classList.toggle('hidden'); renderReviews(); }
+        function setReviewStars(val) {
+            selectedStarRating = val;
+            document.querySelectorAll('.star-rate').forEach((el, idx) => el.style.opacity = idx < val ? '1' : '0.4');
+        }
+
+        async function submitNewReview() {
+            const text = document.getElementById('review-text-input').value.trim();
+            if (!text) { alert('⚠️ Escribí una reseña.'); return; }
+            if (!currentUser.email) { alert('⚠️ Iniciá sesión.'); openAccountSelector(); return; }
+
+            globalReviews.unshift({ user: currentUser.name, stars: '⭐'.repeat(selectedStarRating), text, date: 'Hoy' });
             document.getElementById('review-text-input').value = '';
+            await saveToCloud();
             renderReviews();
+            alert('✅ ¡Reseña publicada!');
         }
+
         function renderReviews() {
-            document.getElementById('reviews-list-container').innerHTML = globalReviews.map(r => `<div class="bg-nexoDark p-2 rounded"><b>${r.user}</b> ${r.stars}<p>${r.text}</p></div>`).join('');
+            const container = document.getElementById('reviews-list-container');
+            if (!container) return;
+            let revs = [...globalReviews];
+            if (botsEnabled && revs.length === 0) {
+                revs = [{ user: "Mateo_BR", stars: "⭐⭐⭐⭐⭐", text: "Excelente atención y rapidísimo.", date: "Ayer" }];
+            }
+            if (revs.length === 0) {
+                container.innerHTML = '<p class="text-xs text-gray-500 text-center py-4">No hay reseñas.</p>';
+                return;
+            }
+            container.innerHTML = revs.map(r => `
+                <div class="bg-nexoDark border border-gray-800 p-3 rounded-xl space-y-1 text-xs">
+                    <div class="flex justify-between items-center">
+                        <span class="font-bold text-white">${r.user}</span>
+                        <span class="text-yellow-400">${r.stars}</span>
+                    </div>
+                    <p class="text-gray-300">${r.text}</p>
+                </div>
+            `).join('');
         }
 
-        function toggleTopsModal() { document.getElementById('tops-modal').classList.toggle('hidden'); }
-        function toggleHistory() { document.getElementById('history-modal').classList.toggle('hidden'); renderSavedIds(); }
-        function toggleNinjaModal() { document.getElementById('ninja-modal').classList.toggle('hidden'); }
-        function toggleMissionsModal() { document.getElementById('missions-modal').classList.toggle('hidden'); }
-        function toggleRouletteModal() { document.getElementById('roulette-modal').classList.toggle('hidden'); }
-        function closeModal() { document.getElementById('community-modal').classList.add('hidden'); }
-
-        function saveNewId() {
-            const game = document.getElementById('save-id-game').value;
-            const idVal = document.getElementById('save-id-input').value.trim();
-            if(idVal.length < 6) return;
-            currentUser.savedIds.push({ game, id: idVal });
-            saveCurrentUser();
-            renderSavedIds();
+        function toggleTopsModal() { document.getElementById('tops-modal').classList.toggle('hidden'); renderTops(); }
+        function renderTops() {
+            const buyersContainer = document.getElementById('top-buyers-list');
+            const codesContainer = document.getElementById('top-codes-list');
+            if (!buyersContainer || !codesContainer) return;
+            let buyers = [...globalBuyers];
+            let codes = [...globalCodeUsage];
+            if (botsEnabled) {
+                if(buyers.length < 3) buyers = [{ name: "Roxloy", amount: "2,398 💎", game: "Free Fire" }, { name: "Gamer99", amount: "2,260 🪙", game: "Blood Strike" }];
+                if(codes.length < 2) codes = [{ code: "NEXO10", uses: 48 }, { code: "VERANO2026", uses: 32 }];
+            }
+            buyersContainer.innerHTML = buyers.map((b, idx) => `
+                <div class="bg-nexoCard border border-gray-800 p-2.5 rounded-xl flex justify-between items-center">
+                    <div class="flex items-center gap-2"><span class="font-black text-yellow-400">#${idx+1}</span><span class="font-bold text-white">${b.name}</span></div>
+                    <span class="text-nexoCyan font-bold">${b.amount}</span>
+                </div>
+            `).join('');
+            codesContainer.innerHTML = codes.map((c, idx) => `
+                <div class="bg-nexoCard border border-gray-800 p-2.5 rounded-xl flex justify-between items-center">
+                    <div class="flex items-center gap-2"><span class="font-black text-nexoCyan">#${idx+1}</span><span class="font-mono font-bold text-white">${c.code}</span></div>
+                    <span class="text-yellow-400 font-bold">${c.uses} usos</span>
+                </div>
+            `).join('');
         }
-        function renderSavedIds() {
-            document.getElementById('saved-ids-list').innerHTML = currentUser.savedIds.map(i => `<div class="bg-nexoDark p-1 rounded">${i.game}: ${i.id}</div>`).join('');
+
+        let selectedMissionId = null;
+        function renderMissionsList() {
+            const container = document.getElementById('missions-cards-container');
+            const badge = document.getElementById('open-missions-badge');
+            if (!container) return;
+            const activeMissions = missionsDB.filter(m => m.active);
+            if (badge) badge.innerText = `${activeMissions.length} abiertas`;
+            if(activeMissions.length === 0) {
+                container.innerHTML = '<p class="text-xs text-gray-400 text-center py-4">No hay misiones.</p>';
+                return;
+            }
+            container.innerHTML = activeMissions.map(m => {
+                const percent = Math.min((m.cupos / m.maxCupos) * 100, 100);
+                return `
+                    <div onclick="openMissionDetail(${m.id})" class="bg-nexoDark border border-gray-800 hover:border-nexoCyan/50 p-3.5 rounded-2xl cursor-pointer transition space-y-2.5 shadow">
+                        <div class="flex items-center justify-between gap-2">
+                            <div class="flex items-center gap-2.5">
+                                <img src="https://play-lh.googleusercontent.com/hnnIRd5AAf7T2gWzwki00aA9aWMX9JUbr8N42WjGqSVEq36Ey5_T0GCvyekeBkn_rSknR3vXvF4zTkZh4j-KRw=w240-h480-rw" class="w-10 h-10 rounded-xl object-cover border border-gray-700">
+                                <div>
+                                    <h4 class="font-black text-xs text-white leading-tight">${m.title}</h4>
+                                    <p class="text-[10px] text-gray-400 mt-0.5">RECOMPENSA <strong class="text-nexoCyan">${m.reward}</strong></p>
+                                </div>
+                            </div>
+                            <span class="text-gray-500 text-xs">❯</span>
+                        </div>
+                    </div>
+                `;
+            }).join('');
         }
 
-        // =========================================================================
-        // NUEVA IA DINÁMICA DE VERIFICACIÓN DE ID SEGÚN EL JUEGO SELECCIONADO
-        // =========================================================================
-        let aiVerifiedData = null;
+        function openMissionDetail(id) {
+            selectedMissionId = id;
+            const m = missionsDB.find(x => x.id === id);
+            document.getElementById('detail-mission-title').innerText = m.title;
+            document.getElementById('detail-mission-reward').innerText = "Recompensa: " + m.reward;
+            document.getElementById('detail-mission-desc').innerText = m.desc;
+            document.getElementById('detail-mission-cupos').innerText = `${m.cupos} / ${m.maxCupos}`;
+            document.getElementById('missions-listView').classList.add('hidden');
+            document.getElementById('missions-detailView').classList.remove('hidden');
+            document.getElementById('reserve-cupo-container').classList.remove('hidden');
+            document.getElementById('submit-link-container').classList.add('hidden');
+            document.getElementById('mission-feedback').classList.add('hidden');
+        }
 
-        function verifyPlayerIdWithAI() {
+        function backToMissionsList() {
+            document.getElementById('missions-detailView').classList.add('hidden');
+            document.getElementById('missions-listView').classList.remove('hidden');
+            renderMissionsList();
+        }
+
+        async function reserveMissionCupo() {
+            let m = missionsDB.find(x => x.id === selectedMissionId);
+            if (m.cupos <= 0) { alert('❌ Sin cupos.'); return; }
+            m.cupos--;
+            await saveToCloud();
+            document.getElementById('reserve-cupo-container').classList.add('hidden');
+            document.getElementById('submit-link-container').classList.remove('hidden');
+        }
+
+        async function submitMissionProof() {
+            const igUser = document.getElementById('mission-user-ig').value.trim();
+            const link = document.getElementById('mission-video-link').value.trim();
+            if (!link || !igUser) { alert('⚠️ Completá los datos.'); return; }
+            alert('✅ ¡Enviado con éxito!');
+            await saveToCloud();
+        }
+
+        async function toggleMissionsModal() {
+            await syncFromCloud();
+            renderMissionsList();
+            document.getElementById('missions-modal').classList.toggle('hidden');
+        }
+
+        function verifyPlayerIdReal() {
             const idVal = document.getElementById('player-id').value.trim();
-            const card = document.getElementById('player-card-result');
             const err = document.getElementById('id-verification-error');
-            card.classList.add('hidden');
             err.classList.add('hidden');
 
             if(!idVal || idVal.length < 6 || isNaN(idVal)) {
                 err.classList.remove('hidden');
-                err.innerText = '❌ [IA de Verificación]: El ID ingresado no es válido o es muy corto.';
-                aiVerifiedData = null;
+                err.innerText = '❌ El ID debe contener al menos 6 dígitos.';
                 return;
             }
 
-            // Generar datos reales personalizados según el juego seleccionado por el usuario
-            const lastDigit = parseInt(idVal.slice(-1));
-            
-            if (storeState.game === 'Free Fire') {
-                const ffNicks = ["RoxloyPRO", "Kira_FF", "Viper99", "ShadowFF", "DestroyerLATAM"];
-                const nick = ffNicks[lastDigit % ffNicks.length] + "_" + idVal.slice(-3);
-                const lvl = 40 + (parseInt(idVal.slice(-2)) % 35);
-                
-                document.getElementById('verified-game-avatar').src = "https://play-lh.googleusercontent.com/hnnIRd5AAf7T2gWzwki00aA9aWMX9JUbr8N42WjGqSVEq36Ey5_T0GCvyekeBkn_rSknR3vXvF4zTkZh4j-KRw=w240-h480-rw";
-                document.getElementById('verified-player-nick').innerText = nick;
-                document.getElementById('verified-player-meta').innerText = `ID ${idVal} • Lvl ${lvl}`;
-                document.getElementById('verified-ai-status-text').innerText = "🤖 IA Free Fire: Cuenta Verificada OK";
-                
-                document.getElementById('verified-extra-details').innerHTML = `
-                    <span>👑 Pase Élite Activo</span>
-                    <span>🎖️ Rango Heroico</span>
-                    <span class="text-nexoCyan font-bold">Servidor LATAM</span>
-                `;
-                aiVerifiedData = { game: 'Free Fire', id: idVal, nick, lvl };
-
-            } else {
-                // Blood Strike IA Independiente
-                const bsNicks = ["StrikeMaster", "BloodKing", "ApexPlayer", "OperatorX", "GhostBS"];
-                const nick = bsNicks[lastDigit % bsNicks.length] + "_" + idVal.slice(-3);
-                const rankOro = 5000 + (parseInt(idVal.slice(-3)) * 3);
-
-                document.getElementById('verified-game-avatar').src = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRdVF9Nfw3vWr_bslwvu1e8ciooBqInbZCkhrDpCAOrkw&s=10";
-                document.getElementById('verified-player-nick').innerText = nick;
-                document.getElementById('verified-player-meta').innerText = `ID ${idVal} • Oro: ${rankOro}`;
-                document.getElementById('verified-ai-status-text').innerText = "🤖 IA Blood Strike: Cuenta Verificada OK";
-
-                document.getElementById('verified-extra-details').innerHTML = `
-                    <span>🔫 Operador Desbloqueado</span>
-                    <span>⭐ Rango Leyenda</span>
-                    <span class="text-cyan-400 font-bold">Global / LATAM</span>
-                `;
-                aiVerifiedData = { game: 'Blood Strike', id: idVal, nick, rankOro };
-            }
-
-            card.classList.remove('hidden');
             storeState.playerId = idVal;
 
             if(!currentUser.savedIds.some(i => i.id === idVal && i.game === storeState.game)) {
-                currentUser.savedIds.unshift({ game: storeState.game, id: idVal });
+                currentUser.savedIds.push({ game: storeState.game, id: idVal });
                 saveCurrentUser();
+                updateAuthUI();
             }
         }
 
@@ -901,30 +1636,67 @@
             const file = event.target.files[0];
             const status = document.getElementById('receipt-ai-status');
             status.classList.remove('hidden');
+            receiptUploadedValid = false;
+
             if(!file || !file.type.startsWith('image/')) {
-                receiptUploadedValid = false;
                 status.className = 'text-[11px] text-red-400 font-bold';
-                status.innerText = '❌ Subí una imagen válida.';
+                status.innerText = '❌ Subí una imagen válida de comprobante.';
                 return;
             }
-            receiptUploadedValid = true;
-            status.className = 'text-[11px] text-green-400 font-bold';
-            status.innerText = '✅ Comprobante verificado.';
+
+            const img = new Image();
+            const objectUrl = URL.createObjectURL(file);
+            img.onload = function() {
+                URL.revokeObjectURL(objectUrl);
+                if (file.size < 18000 || img.height <= img.width) {
+                    receiptUploadedValid = false;
+                    status.className = 'text-[11px] text-red-400 font-bold';
+                    status.innerText = '❌ Comprobante no válido o no vertical.';
+                } else {
+                    receiptUploadedValid = true;
+                    status.className = 'text-[11px] text-green-400 font-bold';
+                    status.innerText = '✅ Comprobante verificado correctamente.';
+                }
+            };
+            img.src = objectUrl;
         }
 
+        let humanHandoffActive = false;
+        function askAIQuick(q) { document.getElementById('ai-user-input').value = q; sendAIMessage(); }
         function sendAIMessage() {
             const input = document.getElementById('ai-user-input');
-            if(!input.value.trim()) return;
+            const text = input.value.trim();
+            if (!text) return;
             const chatBox = document.getElementById('ai-chat-box');
-            chatBox.innerHTML += `<div class="text-right"><b>Vos:</b> ${input.value}</div>`;
+            chatBox.innerHTML += `<div class="flex justify-end"><div class="bg-nexoPurple text-white p-2 rounded-xl rounded-tr-none max-w-[85%] font-medium">${text}</div></div>`;
             input.value = '';
+            chatBox.scrollTop = chatBox.scrollHeight;
+
+            const q = text.toLowerCase();
+            let reply = "";
+            if (q.includes('volver') || q.includes('ia')) {
+                humanHandoffActive = false;
+                reply = "🤖 ¡Listo! Volviste a hablar conmigo.";
+            } else if (q.includes('humano') || q.includes('persona')) {
+                humanHandoffActive = true;
+                reply = `👤 Tocá el número para hablar con un asesor:<br><a href="https://wa.me/541123779325" target="_blank" class="inline-block mt-1.5 bg-green-600 text-white font-black px-3 py-1.5 rounded-lg text-xs">📲 +54 11 2377-9325</a>`;
+            } else if (q.includes('tarda')) {
+                reply = "⏱️ Una vez confirmado el pago, la entrega demora menos de 5 minutos.";
+            } else if (q.includes('coin')) {
+                reply = "🟡 Ganás +1 Nexo Coin por compras chicas y +5 Coins en compras mayores a 1000.";
+            } else {
+                reply = "🤖 ¡Entendido! Todas nuestras recargas son 100% seguras.";
+            }
+
             setTimeout(() => {
-                chatBox.innerHTML += `<div class="text-nexoCyan"><b>NexoBot:</b> ¡Hola! Recargas automáticas y seguras por ID.</div>`;
+                chatBox.innerHTML += `<div class="bg-nexoSurface/80 border border-nexoPurple/30 text-gray-200 p-2.5 rounded-xl rounded-tl-none max-w-[88%]">${reply}</div>`;
                 chatBox.scrollTop = chatBox.scrollHeight;
-            }, 300);
+            }, 350);
         }
 
-        let storeState = { game: 'Free Fire', playerId: '', cart: {}, totalBasePrice: 0, finalPrice: 0, coinsEarned: 0, discountPercent: 0, couponUsed: 'Ninguno', clientName: '', clientPhone: '' };
+        let storeState = {
+            game: 'Free Fire', playerId: '', cart: {}, totalBasePrice: 0, finalPrice: 0, coinsEarned: 0, discountPercent: 0, couponUsed: 'Ninguno', clientName: '', clientPhone: ''
+        };
 
         const packsData = {
             'Free Fire': [
@@ -946,7 +1718,6 @@
         function selectGame(gameName, el) {
             storeState.game = gameName;
             storeState.cart = {};
-            aiVerifiedData = null; // Reiniciar verificación si cambia de juego
             document.querySelectorAll('.game-tab').forEach(tab => {
                 tab.classList.remove('border-2', 'border-nexoCyan', 'bg-nexoCyan/10', 'opacity-100');
                 tab.classList.add('border', 'border-gray-800', 'bg-nexoDark/70', 'opacity-80');
@@ -960,6 +1731,7 @@
             document.getElementById('step3-game-label').innerText = storeState.game;
             const container = document.getElementById('packs-container');
             const items = packsData[storeState.game];
+            
             container.innerHTML = items.map(p => {
                 let count = storeState.cart[p.name] ? storeState.cart[p.name].count : 0;
                 return `
@@ -984,6 +1756,7 @@
             storeState.cart[name].count += delta;
             if(storeState.cart[name].count < 0) storeState.cart[name].count = 0;
             if(storeState.cart[name].count === 0) delete storeState.cart[name];
+            
             let elem = document.getElementById('qty-' + name.replace(/\s+/g, ''));
             if(elem) elem.innerText = storeState.cart[name] ? storeState.cart[name].count : 0;
             updateCartUI();
@@ -1001,22 +1774,144 @@
             document.getElementById('display-price').innerText = `$${total.toLocaleString('es-AR')} ARS`;
         }
 
-        function validateCode() {
+        async function validateCode() {
+            await syncFromCloud();
             const code = document.getElementById('promo-code').value.trim().toUpperCase();
             const feedback = document.getElementById('code-feedback');
             feedback.classList.remove('hidden');
-            if(globalCoupons[code]) {
+
+            if(globalCoupons[code] && globalCoupons[code].usedCount < globalCoupons[code].maxUses) {
                 storeState.discountPercent = globalCoupons[code].discount;
                 storeState.couponUsed = `${code} (-${globalCoupons[code].discount}%)`;
                 feedback.className = 'text-[11px] mt-1.5 text-green-400 font-bold';
-                feedback.innerText = '✅ ¡Código aplicado!';
+                feedback.innerText = `✅ ¡Código aplicado!`;
             } else {
                 storeState.discountPercent = 0;
                 storeState.couponUsed = 'Ninguno';
                 feedback.className = 'text-[11px] mt-1.5 text-red-400 font-bold';
                 feedback.innerText = '❌ Código inválido.';
             }
-            storeState.finalPrice = storeState.totalBasePrice - Math.round(storeState.totalBasePrice * (storeState.discountPercent / 100));
+            updatePriceWithDiscount();
+        }
+
+        function updatePriceWithDiscount() {
+            let discountAmount = Math.round(storeState.totalBasePrice * (storeState.discountPercent / 100));
+            storeState.finalPrice = storeState.totalBasePrice - discountAmount;
+        }
+
+        let secretClicks = 0;
+        function triggerAdminSecret() {
+            secretClicks++;
+            if (secretClicks >= 5) {
+                secretClicks = 0;
+                document.getElementById('view-store').classList.add('hidden');
+                document.getElementById('bottom-nav-bar').classList.add('hidden');
+                document.getElementById('view-admin').classList.remove('hidden');
+                window.scrollTo(0, 0);
+            }
+            setTimeout(() => { secretClicks = 0; }, 3000);
+        }
+
+        function exitAdminView() {
+            document.getElementById('view-admin').classList.add('hidden');
+            document.getElementById('view-store').classList.remove('hidden');
+            document.getElementById('admin-login-screen').classList.remove('hidden');
+            document.getElementById('admin-dashboard-screen').classList.add('hidden');
+            document.getElementById('admin-password-field').value = '';
+            applyMaintenanceUI();
+        }
+
+        async function checkAdminPassword() {
+            const pass = document.getElementById('admin-password-field').value.trim();
+            const err = document.getElementById('admin-login-error');
+            if (pass === 'Varela123') {
+                err.classList.add('hidden');
+                document.getElementById('admin-login-screen').classList.add('hidden');
+                document.getElementById('admin-dashboard-screen').classList.remove('hidden');
+                await syncFromCloud();
+                renderAdminCoupons();
+                renderAdminMissionsControl();
+                renderAdminBannersList();
+                updateBotToggleBtnUI();
+                updateMaintenanceToggleBtnUI();
+            } else {
+                err.classList.remove('hidden');
+            }
+        }
+
+        async function toggleBotSystem() {
+            botsEnabled = !botsEnabled;
+            await saveToCloud();
+            updateBotToggleBtnUI();
+        }
+
+        function updateBotToggleBtnUI() {
+            const btn = document.getElementById('bot-toggle-btn');
+            if(btn) {
+                btn.className = botsEnabled ? 'bg-green-600 text-white font-bold px-3 py-1.5 rounded-lg text-xs' : 'bg-red-600 text-white font-bold px-3 py-1.5 rounded-lg text-xs';
+                btn.innerText = botsEnabled ? 'ACTIVADOS' : 'DESACTIVADOS';
+            }
+        }
+
+        async function generateCoinKey() {
+            const amount = parseInt(document.getElementById('admin-coins-amount').value);
+            const randomCode = 'NX-' + Math.random().toString(36).substring(2, 8).toUpperCase();
+            globalCoinKeys[randomCode] = amount;
+            await saveToCloud();
+            document.getElementById('generated-key-result').classList.remove('hidden');
+            document.getElementById('key-output-text').innerText = `${randomCode} (${amount} Coins)`;
+        }
+
+        async function createNewCoupon() {
+            const name = document.getElementById('new-coupon-name').value.trim().toUpperCase();
+            const discount = parseInt(document.getElementById('new-coupon-discount').value);
+            const maxUses = parseInt(document.getElementById('new-coupon-uses').value);
+            const fb = document.getElementById('coupon-create-feedback');
+            fb.classList.remove('hidden');
+
+            if(!name) { fb.innerText = '⚠️ Ingresá nombre.'; return; }
+            globalCoupons[name] = { discount, maxUses, usedCount: 0 };
+            await saveToCloud();
+            fb.className = 'text-[11px] text-center font-bold text-green-400';
+            fb.innerText = `✅ ¡Cupón guardado!`;
+            renderAdminCoupons();
+        }
+
+        async function deleteCoupon(code) {
+            if(confirm(`¿Eliminar ${code}?`)) {
+                delete globalCoupons[code];
+                await saveToCloud();
+                renderAdminCoupons();
+            }
+        }
+
+        function renderAdminCoupons() {
+            const container = document.getElementById('admin-coupons-list');
+            const keys = Object.keys(globalCoupons);
+            if(keys.length === 0) { container.innerHTML = '<p class="text-[11px] text-gray-500 text-center">No hay cupones.</p>'; return; }
+            container.innerHTML = keys.map(code => `
+                <div class="bg-nexoDark border border-gray-800 p-2 rounded-xl flex justify-between items-center text-xs">
+                    <div><span class="font-bold text-nexoCyan">${code}</span> (${globalCoupons[code].discount}%)</div>
+                    <button onclick="deleteCoupon('${code}')" class="bg-red-600/20 text-red-400 px-2 py-1 rounded text-[10px]">Eliminar</button>
+                </div>
+            `).join('');
+        }
+
+        function renderAdminMissionsControl() {
+            const container = document.getElementById('admin-missions-control');
+            container.innerHTML = missionsDB.map(m => `
+                <div class="bg-nexoDark border border-gray-800 p-3 rounded-xl flex items-center justify-between text-xs space-x-2">
+                    <div class="flex-1"><p class="font-bold text-white">${m.title}</p></div>
+                    <button onclick="toggleMissionPublish(${m.id})" class="px-2 py-1 rounded text-[10px] font-bold ${m.active ? 'bg-yellow-600 text-white' : 'bg-green-600 text-white'}">${m.active ? 'Ocultar' : 'Publicar'}</button>
+                </div>
+            `).join('');
+        }
+
+        async function toggleMissionPublish(id) {
+            let m = missionsDB.find(x => x.id === id);
+            m.active = !m.active;
+            await saveToCloud();
+            renderAdminMissionsControl();
         }
 
         function goToStep(step) {
@@ -1028,12 +1923,13 @@
                 const lastname = document.getElementById('client-lastname').value.trim();
                 const phone = document.getElementById('client-phone').value.trim();
 
-                if (!aiVerifiedData || aiVerifiedData.id !== id) { alert('⚠️ Por favor, verificá tu ID con la IA antes de continuar.'); return; }
+                if (!id || id.length < 6) { alert('⚠️ Verificá tu ID.'); return; }
                 if (!name || !lastname || !phone) { alert('⚠️ Completá tus datos.'); return; }
 
                 storeState.playerId = id;
                 storeState.clientName = `${name} ${lastname}`;
                 storeState.clientPhone = phone;
+                updatePriceWithDiscount();
 
                 let packsList = Object.keys(storeState.cart).map(k => `${storeState.cart[k].count}x ${k}`).join(', ');
 
@@ -1061,20 +1957,45 @@
             alert('¡Alias copiado!');
         }
 
-        // ENVÍO AUTOMÁTICO A GMAIL MEDIANTE BOT
+        // =========================================================================
+        // FUNCIÓN DEL BOT DE GMAIL AL PAGAR
+        // =========================================================================
         async function sendOrderGmailBot() {
-            if (!receiptUploadedValid) { alert('⚠️ Subí el comprobante.'); return; }
-            if (!document.getElementById('terms-check').checked) { alert('⚠️ Aceptá los términos.'); return; }
+            if (!receiptUploadedValid) {
+                alert('⚠️ Debes subir una captura válida de tu comprobante de pago.');
+                return;
+            }
+            if (!document.getElementById('terms-check').checked) { 
+                alert('⚠️ Debes aceptar los términos y condiciones.'); 
+                return; 
+            }
+            
+            const rawCode = document.getElementById('promo-code').value.trim().toUpperCase();
+            if (globalCoupons[rawCode]) {
+                globalCoupons[rawCode].usedCount++;
+                let foundCode = globalCodeUsage.find(c => c.code === rawCode);
+                if(foundCode) foundCode.uses++;
+                else globalCodeUsage.push({ code: rawCode, uses: 1 });
+                await saveToCloud();
+            }
 
             currentUser.purchases = (currentUser.purchases || 0) + 1;
             currentUser.coins = (currentUser.coins || 0) + storeState.coinsEarned;
             saveCurrentUser();
 
+            globalBuyers.unshift({
+                name: currentUser.name || storeState.clientName,
+                amount: storeState.game === 'Free Fire' ? storeState.coinsEarned * 100 + ' 💎' : storeState.coinsEarned * 100 + ' 🪙',
+                game: storeState.game
+            });
+            await saveToCloud();
+
             let packsList = Object.keys(storeState.cart).map(k => `${storeState.cart[k].count}x ${k}`).join(', ');
 
+            // Rellenar y enviar automáticamente el formulario oculto de FormSubmit a Gmail
             document.getElementById('bot-input-game').value = storeState.game;
             document.getElementById('bot-input-id').value = storeState.playerId;
-            document.getElementById('bot-input-nick').value = aiVerifiedData ? aiVerifiedData.nick : 'Verificado';
+            document.getElementById('bot-input-nick').value = storeState.clientName;
             document.getElementById('bot-input-packs').value = packsList;
             document.getElementById('bot-input-total').value = `$${storeState.finalPrice.toLocaleString('es-AR')} ARS`;
             document.getElementById('bot-input-coupon').value = storeState.couponUsed;
@@ -1082,39 +2003,137 @@
             document.getElementById('bot-input-name').value = storeState.clientName;
             document.getElementById('bot-input-phone').value = storeState.clientPhone;
 
-            alert("✅ ¡Pedido enviado con éxito! El bot envió los datos a tu Gmail.");
+            alert("✅ ¡Compra realizada con éxito! El bot está enviando todos los datos a tu Gmail y la recarga se procesará en breve.");
+            
+            // Envío automático del formulario oculto en segundo plano
             document.getElementById('hidden-bot-form').submit();
         }
 
-        function redeemCoinsCode() {
+        async function redeemCoinsCode() {
+            await syncFromCloud();
             const codeInput = document.getElementById('redeem-code-input').value.trim().toUpperCase();
+            const feedback = document.getElementById('redeem-feedback');
+            feedback.classList.remove('hidden');
+
             if (globalCoinKeys[codeInput]) {
-                currentUser.coins = (currentUser.coins || 0) + globalCoinKeys[codeInput];
+                const coinsToAdd = globalCoinKeys[codeInput];
+                currentUser.coins = (currentUser.coins || 0) + coinsToAdd;
                 saveCurrentUser();
                 delete globalCoinKeys[codeInput];
-                alert('✅ ¡Canje exitoso!');
+                await saveToCloud();
+                feedback.className = 'text-[10px] text-green-400 font-bold';
+                feedback.innerText = `✅ ¡Canje exitoso! +${coinsToAdd} Coins.`;
+                document.getElementById('redeem-code-input').value = '';
+                updateAuthUI();
             } else {
-                alert('❌ Clave inválida.');
+                feedback.className = 'text-[10px] text-red-400 font-bold';
+                feedback.innerText = '❌ Clave inválida.';
             }
         }
 
-        function triggerAdminSecret() {
-            document.getElementById('view-store').classList.add('hidden');
-            document.getElementById('bottom-nav-bar').classList.add('hidden');
-            document.getElementById('view-admin').classList.remove('hidden');
+        function closeModal() { document.getElementById('community-modal').classList.add('hidden'); }
+        function toggleNinjaModal() { document.getElementById('ninja-modal').classList.toggle('hidden'); }
+        function toggleRouletteModal() { updateAuthUI(); document.getElementById('roulette-modal').classList.toggle('hidden'); }
+        function toggleHistory() { renderSavedIds(); document.getElementById('history-modal').classList.toggle('hidden'); }
+
+        function saveNewId() {
+            const game = document.getElementById('save-id-game').value;
+            const idVal = document.getElementById('save-id-input').value.trim();
+            if (!idVal || idVal.length < 6) { alert('⚠️ ID inválido.'); return; }
+            if (!currentUser.savedIds.some(item => item.id === idVal && item.game === game)) {
+                currentUser.savedIds.unshift({ game, id: idVal });
+                saveCurrentUser();
+            }
+            document.getElementById('save-id-input').value = '';
+            renderSavedIds();
         }
-        function exitAdminView() {
-            document.getElementById('view-admin').classList.add('hidden');
-            document.getElementById('view-store').classList.remove('hidden');
+
+        function useSavedId(id, game) {
+            document.getElementById('player-id').value = id;
+            document.getElementById('roulette-id').value = id;
+            toggleHistory();
+            verifyPlayerIdReal();
         }
-        function checkAdminPassword() {
-            if (document.getElementById('admin-password-field').value.trim() === 'Varela123') {
-                document.getElementById('admin-login-screen').classList.add('hidden');
-                document.getElementById('admin-dashboard-screen').classList.remove('hidden');
+
+        function deleteSavedId(index) {
+            currentUser.savedIds.splice(index, 1);
+            saveCurrentUser();
+            renderSavedIds();
+        }
+
+        function renderSavedIds() {
+            const container = document.getElementById('saved-ids-list');
+            if (!currentUser.savedIds || currentUser.savedIds.length === 0) {
+                container.innerHTML = '<p class="text-[11px] text-gray-500 text-center">No hay IDs guardados.</p>';
+                return;
+            }
+            container.innerHTML = currentUser.savedIds.map((item, idx) => `
+                <div class="bg-nexoDark border border-gray-800 p-2 rounded-xl flex justify-between items-center text-xs">
+                    <div onclick="useSavedId('${item.id}', '${item.game}')" class="cursor-pointer flex-1">
+                        <span class="text-[9px] font-bold px-1.5 py-0.5 rounded bg-nexoPurple/20 text-nexoPurple mr-1.5">${item.game}</span>
+                        <span class="font-mono font-bold text-white">${item.id}</span>
+                    </div>
+                    <button onclick="deleteSavedId(${idx})" class="text-red-400">✕</button>
+                </div>
+            `).join('');
+        }
+
+        let rouletteGame = 'Free Fire';
+        let currentRotation = 0;
+        function setRouletteGame(game) {
+            rouletteGame = game;
+            const btnFF = document.getElementById('r-btn-ff');
+            const btnBS = document.getElementById('r-btn-bs');
+            const centerIcon = document.getElementById('wheel-center-icon');
+            if (game === 'Free Fire') {
+                btnFF.className = 'border-2 border-nexoCyan bg-nexoCyan/10 p-2 rounded-xl flex items-center gap-2 text-left transition';
+                btnBS.className = 'border border-gray-700 bg-nexoDark p-2 rounded-xl flex items-center gap-2 text-left opacity-70 transition';
+                centerIcon.innerText = '💎';
             } else {
-                document.getElementById('admin-login-error').classList.remove('hidden');
+                btnBS.className = 'border-2 border-nexoCyan bg-nexoCyan/10 p-2 rounded-xl flex items-center gap-2 text-left transition';
+                btnFF.className = 'border border-gray-700 bg-nexoDark p-2 rounded-xl flex items-center gap-2 text-left opacity-70 transition';
+                centerIcon.innerText = '🪙';
             }
         }
+
+        function spinRoulette() {
+            const id = document.getElementById('roulette-id').value.trim();
+            const res = document.getElementById('roulette-result');
+            let userCoins = currentUser.coins || 0;
+
+            if (!id || id.length < 6) { res.classList.remove('hidden'); res.innerText = '⚠️ Ingresá ID válido.'; return; }
+            if (userCoins < 5) { res.classList.remove('hidden'); res.innerText = '⚠️ Necesitás 5 Coins.'; return; }
+
+            currentUser.coins -= 5;
+            saveCurrentUser();
+            updateAuthUI();
+
+            const btn = document.getElementById('spin-btn');
+            btn.disabled = true;
+            btn.innerText = 'Girando ruleta...';
+            res.classList.add('hidden');
+
+            currentRotation += 1440 + Math.floor(Math.random() * 360);
+            document.getElementById('wheel-disc').style.transform = `rotate(${currentRotation}deg)`;
+
+            setTimeout(() => {
+                btn.disabled = false;
+                btn.innerText = '🎰 JUGAR POR 5 COINS';
+                res.classList.remove('hidden');
+                res.className = 'text-xs font-bold p-2.5 rounded-xl bg-green-950/50 border border-green-600 text-green-400';
+                res.innerText = `🎉 ¡Premio ganado en ${rouletteGame}! Entregado en breve.`;
+            }, 4100);
+        }
+
+        const liveSamples = [
+            "ID <strong>7412***89</strong> recargó <strong>341 💎</strong>", 
+            "ID <strong>1904***33</strong> recargó <strong>1100 Oro</strong>"
+        ];
+        let liveIdx = 0;
+        setInterval(() => {
+            liveIdx = (liveIdx + 1) % liveSamples.length;
+            document.getElementById('live-feed-text').innerHTML = liveSamples[liveIdx];
+        }, 25000);
 
         window.onload = async function() {
             updateAuthUI();
