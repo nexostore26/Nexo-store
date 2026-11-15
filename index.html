@@ -873,13 +873,13 @@
                     </div>
                 </div>
 
-                <!-- NUEVA SECCIÓN: GESTIÓN DE PRECIOS DE PRODUCTOS -->
+                <!-- GESTIÓN DE PRECIOS DE PRODUCTOS (TODOS LOS DIAMANTES Y OROS) -->
                 <div class="bg-nexoCard border border-green-500/50 p-5 rounded-3xl space-y-3.5 shadow-xl">
                     <div class="flex items-center gap-2">
                         <span class="text-xl">💲</span>
                         <h3 class="text-sm font-black text-white">Modificar Precios de Productos</h3>
                     </div>
-                    <p class="text-[11px] text-gray-300">Actualiza los precios en ARS de los paquetes de ambos juegos para todos los clientes en tiempo real.</p>
+                    <p class="text-[11px] text-gray-300">Modifica manualmente los precios en ARS de cada paquete para todos los clientes en tiempo real.</p>
                     
                     <div class="space-y-3 text-xs">
                         <div>
@@ -1346,7 +1346,7 @@
             `).join('');
         }
 
-        // FUNCIONES DE GESTIÓN DE PRECIOS DESDE EL ADMIN
+        // GESTIÓN DE PRECIOS EN EL PANEL ADMIN
         function renderAdminPriceInputs() {
             const game = document.getElementById('admin-price-game').value;
             const container = document.getElementById('admin-price-inputs-container');
@@ -1379,7 +1379,7 @@
             if(!document.getElementById('step-2').classList.contains('hidden')) {
                 renderPacks();
             }
-            alert(`✅ ¡Precios de ${game} actualizados para todos los usuarios!`);
+            alert(`✅ ¡Precios de ${game} actualizados y visibles para todos en tiempo real!`);
         }
 
         let currentAccountEmail = localStorage.getItem('nexo_active_email') || '';
@@ -1766,7 +1766,7 @@
             } else if (q.includes('tarda')) {
                 reply = "⏱️ Una vez confirmado el pago, la entrega demora menos de 5 minutos.";
             } else if (q.includes('coin')) {
-                reply = "🟡 Ganás +1 Nexo Coin por compras chicas y +5 Coins en compras mayores a 1000.";
+                reply = "🟡 Ganás +1 Nexo Coin por compras chicas y +5 Coins in compras mayores a 1000.";
             } else {
                 reply = "🤖 ¡Entendido! Todas nuestras recargas son 100% seguras.";
             }
@@ -1818,7 +1818,6 @@
         }
 
         function updateCart(name, price, units, delta) {
-            // Tomamos el precio actualizado directamente de la estructura global
             const gameItems = packsData[storeState.game];
             const currentItem = gameItems.find(x => x.name === name);
             const actualPrice = currentItem ? currentItem.price : price;
@@ -1906,7 +1905,7 @@
                 renderAdminCoupons();
                 renderAdminMissionsControl();
                 renderAdminBannersList();
-                renderAdminPriceInputs();
+                renderAdminPriceInputs(); // Se cargan automáticamente los precios al entrar
                 updateBotToggleBtnUI();
                 updateMaintenanceToggleBtnUI();
             } else {
@@ -2032,9 +2031,6 @@
             alert('¡Alias copiado!');
         }
 
-        // =========================================================================
-        // FUNCIÓN DEL BOT DE GMAIL AL PAGAR
-        // =========================================================================
         async function sendOrderGmailBot() {
             if (!receiptUploadedValid) {
                 alert('⚠️ Debes subir una captura válida de tu comprobante de pago.');
@@ -2067,7 +2063,6 @@
 
             let packsList = Object.keys(storeState.cart).map(k => `${storeState.cart[k].count}x ${k}`).join(', ');
 
-            // Rellenar y enviar automáticamente el formulario oculto de FormSubmit a Gmail
             document.getElementById('bot-input-game').value = storeState.game;
             document.getElementById('bot-input-id').value = storeState.playerId;
             document.getElementById('bot-input-nick').value = storeState.clientName;
@@ -2079,8 +2074,6 @@
             document.getElementById('bot-input-phone').value = storeState.clientPhone;
 
             alert("✅ ¡Compra realizada con éxito! El bot está enviando todos los datos a tu Gmail y la recarga se procesará en breve.");
-            
-            // Envío automático del formulario oculto en segundo plano
             document.getElementById('hidden-bot-form').submit();
         }
 
