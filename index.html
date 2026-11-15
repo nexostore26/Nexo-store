@@ -873,6 +873,27 @@
                     </div>
                 </div>
 
+                <!-- NUEVA SECCIÓN: GESTIÓN DE PRECIOS DE PRODUCTOS -->
+                <div class="bg-nexoCard border border-green-500/50 p-5 rounded-3xl space-y-3.5 shadow-xl">
+                    <div class="flex items-center gap-2">
+                        <span class="text-xl">💲</span>
+                        <h3 class="text-sm font-black text-white">Modificar Precios de Productos</h3>
+                    </div>
+                    <p class="text-[11px] text-gray-300">Actualiza los precios en ARS de los paquetes de ambos juegos para todos los clientes en tiempo real.</p>
+                    
+                    <div class="space-y-3 text-xs">
+                        <div>
+                            <label class="text-[10px] font-bold text-nexoCyan uppercase block mb-1">🎮 Seleccionar Juego:</label>
+                            <select id="admin-price-game" onchange="renderAdminPriceInputs()" class="w-full bg-nexoDark border border-gray-700 rounded-xl p-2.5 text-xs text-white focus:outline-none">
+                                <option value="Free Fire">Free Fire</option>
+                                <option value="Blood Strike">Blood Strike</option>
+                            </select>
+                        </div>
+                        <div id="admin-price-inputs-container" class="space-y-2 max-h-48 overflow-y-auto pr-1"></div>
+                        <button onclick="saveNewPrices()" class="w-full bg-gradient-to-r from-green-600 to-emerald-600 text-white font-black py-2.5 rounded-xl text-xs uppercase shadow">💾 Guardar y Actualizar Precios Globales</button>
+                    </div>
+                </div>
+
                 <div class="bg-nexoCard border border-nexoCyan/50 p-5 rounded-3xl space-y-3.5 shadow-xl">
                     <div class="flex items-center gap-2">
                         <span class="text-xl">🖼️</span>
@@ -930,7 +951,7 @@
                 <div class="bg-nexoCard border border-purple-500/40 p-5 rounded-3xl space-y-3.5 shadow-xl">
                     <div class="flex items-center gap-2">
                         <span class="text-xl">🎟️</span>
-                        <h3 class="text-sm font-black text-white">Crear / Eliminar Cupón</h3>
+                        <h3 class="text-sm font-black text-white">Crear / Eliminar Cupón (Descuentos)</h3>
                     </div>
                     <div>
                         <label class="text-[10px] font-bold text-gray-400 uppercase">Nombre del Código</label>
@@ -940,6 +961,9 @@
                         <div>
                             <label class="text-[10px] font-bold text-gray-400 uppercase">Descuento (%)</label>
                             <select id="new-coupon-discount" class="w-full mt-1 bg-nexoDark border border-gray-700 rounded-xl p-2.5 text-xs text-white focus:outline-none">
+                                <option value="3">3% OFF</option>
+                                <option value="5">5% OFF</option>
+                                <option value="7">7% OFF</option>
                                 <option value="10">10% OFF</option>
                                 <option value="20">20% OFF</option>
                                 <option value="30">30% OFF</option>
@@ -1025,6 +1049,23 @@
             "VERANO2026": { discount: 20, maxUses: 50, usedCount: 0 }
         };
 
+        let packsData = {
+            'Free Fire': [
+                { name: '110 Diamantes', price: 1500, units: 110 },
+                { name: '341 Diamantes', price: 4400, units: 341 },
+                { name: '572 Diamantes', price: 7200, units: 572 },
+                { name: '1.166 Diamantes', price: 14200, units: 1166 },
+                { name: '2.398 Diamantes', price: 28000, units: 2398 }
+            ],
+            'Blood Strike': [
+                { name: '105 Oro', price: 1412, units: 105 },
+                { name: '320 Oro', price: 4253, units: 320 },
+                { name: '540 Oro', price: 7095, units: 540 },
+                { name: '1100 Oro', price: 14209, units: 1100 },
+                { name: '2260 Oro', price: 27900, units: 2260 }
+            ]
+        };
+
         let missionsDB = [
             { id: 1, title: "Seguí a Nexo Store en TikTok (@nexop02)", reward: "110 Diamantes / 5 Coins", cupos: 5, maxCupos: 10, active: true, desc: "Seguí nuestra cuenta oficial @nexop02 en TikTok, dale me gusta a los últimos 3 videos y enviá tu usuario para verificar." },
             { id: 2, title: "Subí un video recomendando Nexo Store", reward: "341 Diamantes / 10 Coins", cupos: 3, maxCupos: 5, active: true, desc: "Grábate mostrando tu recarga o la página, etiquetá a @nexop02 y pegá el enlace acá." }
@@ -1060,6 +1101,7 @@
                     if (data.maintenanceMode !== undefined) globalMaintenanceMode = data.maintenanceMode;
                     if (data.banners) globalBanners = data.banners;
                     if (data.coupons) globalCoupons = data.coupons;
+                    if (data.packsData) packsData = data.packsData;
                     if (data.missions) missionsDB = data.missions;
                     if (data.coinKeys) globalCoinKeys = data.coinKeys;
                     if (data.chatMessages) globalChatMessages = data.chatMessages;
@@ -1074,10 +1116,14 @@
                     renderGlobalChat();
                     renderReviews();
                     renderTops();
+                    if (!document.getElementById('step-2').classList.contains('hidden')) {
+                        renderPacks();
+                    }
                     if (!document.getElementById('admin-dashboard-screen').classList.contains('hidden')) {
                         renderAdminCoupons();
                         renderAdminMissionsControl();
                         renderAdminBannersList();
+                        renderAdminPriceInputs();
                         updateBotToggleBtnUI();
                         updateMaintenanceToggleBtnUI();
                     }
@@ -1101,6 +1147,7 @@
                         maintenanceMode: globalMaintenanceMode,
                         banners: globalBanners,
                         coupons: globalCoupons,
+                        packsData: packsData,
                         missions: missionsDB,
                         coinKeys: globalCoinKeys,
                         chatMessages: globalChatMessages,
@@ -1297,6 +1344,42 @@
                     <button onclick="deleteGlobalBanner(${b.id})" class="bg-red-600/20 text-red-400 hover:bg-red-600 hover:text-white px-2.5 py-1 rounded-lg text-[10px] font-bold shrink-0 transition">🗑️ Quitar</button>
                 </div>
             `).join('');
+        }
+
+        // FUNCIONES DE GESTIÓN DE PRECIOS DESDE EL ADMIN
+        function renderAdminPriceInputs() {
+            const game = document.getElementById('admin-price-game').value;
+            const container = document.getElementById('admin-price-inputs-container');
+            if (!container) return;
+            const items = packsData[game];
+
+            container.innerHTML = items.map((p, idx) => `
+                <div class="bg-nexoDark border border-gray-800 p-2.5 rounded-xl flex items-center justify-between gap-2">
+                    <span class="font-bold text-white text-xs">${p.name}</span>
+                    <div class="flex items-center gap-1">
+                        <span class="text-[10px] text-gray-400">$</span>
+                        <input type="number" id="price-input-${game}-${idx}" value="${p.price}" class="w-24 bg-nexoCard border border-gray-700 rounded-lg p-1.5 text-xs text-white font-mono text-center focus:outline-none focus:border-green-500">
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        async function saveNewPrices() {
+            const game = document.getElementById('admin-price-game').value;
+            const items = packsData[game];
+            
+            items.forEach((p, idx) => {
+                const val = document.getElementById(`price-input-${game}-${idx}`).value;
+                if (val && !isNaN(val)) {
+                    p.price = parseInt(val);
+                }
+            });
+
+            await saveToCloud();
+            if(!document.getElementById('step-2').classList.contains('hidden')) {
+                renderPacks();
+            }
+            alert(`✅ ¡Precios de ${game} actualizados para todos los usuarios!`);
         }
 
         let currentAccountEmail = localStorage.getItem('nexo_active_email') || '';
@@ -1698,23 +1781,6 @@
             game: 'Free Fire', playerId: '', cart: {}, totalBasePrice: 0, finalPrice: 0, coinsEarned: 0, discountPercent: 0, couponUsed: 'Ninguno', clientName: '', clientPhone: ''
         };
 
-        const packsData = {
-            'Free Fire': [
-                { name: '110 Diamantes', price: 1500, units: 110 },
-                { name: '341 Diamantes', price: 4400, units: 341 },
-                { name: '572 Diamantes', price: 7200, units: 572 },
-                { name: '1.166 Diamantes', price: 14200, units: 1166 },
-                { name: '2.398 Diamantes', price: 28000, units: 2398 }
-            ],
-            'Blood Strike': [
-                { name: '105 Oro', price: 1412, units: 105 },
-                { name: '320 Oro', price: 4253, units: 320 },
-                { name: '540 Oro', price: 7095, units: 540 },
-                { name: '1100 Oro', price: 14209, units: 1100 },
-                { name: '2260 Oro', price: 27900, units: 2260 }
-            ]
-        };
-
         function selectGame(gameName, el) {
             storeState.game = gameName;
             storeState.cart = {};
@@ -1752,8 +1818,15 @@
         }
 
         function updateCart(name, price, units, delta) {
-            if(!storeState.cart[name]) storeState.cart[name] = { count: 0, price, units };
+            // Tomamos el precio actualizado directamente de la estructura global
+            const gameItems = packsData[storeState.game];
+            const currentItem = gameItems.find(x => x.name === name);
+            const actualPrice = currentItem ? currentItem.price : price;
+
+            if(!storeState.cart[name]) storeState.cart[name] = { count: 0, price: actualPrice, units };
+            storeState.cart[name].price = actualPrice;
             storeState.cart[name].count += delta;
+
             if(storeState.cart[name].count < 0) storeState.cart[name].count = 0;
             if(storeState.cart[name].count === 0) delete storeState.cart[name];
             
@@ -1771,7 +1844,8 @@
             storeState.totalBasePrice = total;
             storeState.finalPrice = total;
             storeState.coinsEarned = totalCoins;
-            document.getElementById('display-price').innerText = `$${total.toLocaleString('es-AR')} ARS`;
+            const displayPriceEl = document.getElementById('display-price');
+            if(displayPriceEl) displayPriceEl.innerText = `$${total.toLocaleString('es-AR')} ARS`;
         }
 
         async function validateCode() {
@@ -1832,6 +1906,7 @@
                 renderAdminCoupons();
                 renderAdminMissionsControl();
                 renderAdminBannersList();
+                renderAdminPriceInputs();
                 updateBotToggleBtnUI();
                 updateMaintenanceToggleBtnUI();
             } else {
