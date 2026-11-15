@@ -204,10 +204,10 @@
             </div>
         </div>
 
-        <!-- MODAL POP-UP DE COMUNIDAD / TIKTOK (@nexop02) -->
-        <div id="community-modal" class="fixed inset-0 bg-black/85 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-            <div class="bg-nexoCard border border-nexoPurple/50 rounded-3xl max-w-sm w-full overflow-hidden shadow-2xl relative">
-                <button onclick="closeModal()" class="absolute top-3 right-3 bg-black/60 hover:bg-black text-white w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold z-10 border border-gray-700">✕</button>
+        <!-- MODAL POP-UP DE COMUNIDAD / TIKTOK (@nexop02) - INICIALMENTE OCULTO O GESTIONADO PARA NO BLOQUEAR -->
+        <div id="community-modal" class="hidden fixed inset-0 bg-black/85 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+            <div class="bg-nexoCard border border-nexoPurple/50 rounded-3xl max-w-sm w-full overflow-hidden shadow-2xl relative pointer-events-auto">
+                <button onclick="closeCommunityModal()" class="absolute top-3 right-3 bg-black/60 hover:bg-black text-white w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold z-10 border border-gray-700 cursor-pointer">✕</button>
                 <div class="bg-gradient-to-b from-purple-900/80 via-nexoCard to-nexoCard pt-6 pb-2 px-5 text-center">
                     <div class="w-20 h-20 mx-auto rounded-full bg-gradient-to-tr from-nexoPurple to-nexoCyan p-1 shadow-lg mb-3">
                         <div class="w-full h-full bg-nexoDark rounded-full flex items-center justify-center text-3xl">👾</div>
@@ -217,13 +217,13 @@
                     <p class="text-xs text-gray-300 mt-1">Recibí promos exclusivas, sorteos diarios y ganá Nexo Coins canjeables.</p>
                 </div>
                 <div class="p-5 pt-2 space-y-2.5">
-                    <a href="https://www.tiktok.com/@nexop02" target="_blank" class="w-full bg-gradient-to-r from-pink-600 to-purple-600 hover:opacity-95 text-white font-black py-3 rounded-xl flex items-center justify-center gap-2 text-xs shadow-lg transition">
+                    <a href="https://www.tiktok.com/@nexop02" target="_blank" rel="noopener noreferrer" class="w-full bg-gradient-to-r from-pink-600 to-purple-600 hover:opacity-95 text-white font-black py-3 rounded-xl flex items-center justify-center gap-2 text-xs shadow-lg transition cursor-pointer">
                         🎵 SEGUIR EN TIKTOK (@nexop02) ➔
                     </a>
-                    <a href="https://whatsapp.com/channel/0029VbERrdHBlHpj60EPVh1k" target="_blank" class="w-full bg-gradient-to-r from-green-600 to-emerald-500 hover:opacity-95 text-white font-black py-3 rounded-xl flex items-center justify-center gap-2 text-xs shadow-lg transition">
+                    <a href="https://whatsapp.com/channel/0029VbERrdHBlHpj60EPVh1k" target="_blank" rel="noopener noreferrer" class="w-full bg-gradient-to-r from-green-600 to-emerald-500 hover:opacity-95 text-white font-black py-3 rounded-xl flex items-center justify-center gap-2 text-xs shadow-lg transition cursor-pointer">
                         💬 CANAL DE WHATSAPP ➔
                     </a>
-                    <button onclick="closeModal()" class="w-full bg-nexoSurface hover:bg-gray-800 text-gray-200 font-bold py-2.5 rounded-xl text-xs border border-gray-700 transition">
+                    <button onclick="closeCommunityModal()" class="w-full bg-nexoSurface hover:bg-gray-800 text-gray-200 font-bold py-2.5 rounded-xl text-xs border border-gray-700 transition cursor-pointer">
                         Continuar a la tienda
                     </button>
                 </div>
@@ -553,7 +553,7 @@
                         <span class="text-[9px] text-nexoCyan font-semibold">100% SEGURO</span>
                     </div>
                 </div>
-                <button onclick="toggleProfileModal()" class="bg-nexoSurface border border-gray-700 px-3 py-1.5 rounded-xl text-xs font-bold text-gray-200 flex items-center gap-2 hover:border-nexoCyan transition">
+                <button onclick="toggleProfileModal()" class="bg-nexoSurface border border-gray-700 px-3 py-1.5 rounded-xl text-xs font-bold text-gray-200 flex items-center gap-2 hover:border-nexoCyan transition cursor-pointer">
                     <img id="nav-user-avatar" src="https://api.dicebear.com/7.x/bottts/svg?seed=NexoUser" class="w-5 h-5 rounded-full object-cover">
                     <span id="nav-user-name">Invitado</span>
                 </button>
@@ -564,7 +564,7 @@
         <main class="max-w-md mx-auto px-4 py-6 w-full flex-grow space-y-6 relative z-10">
 
             <!-- BANNERS DINÁMICOS -->
-            <div id="banners-wrapper" class="bg-nexoCard/95 border border-nexoPurple/40 rounded-2xl p-4 shadow-xl relative overflow-hidden select-none" ontouchstart="touchStart(event)" ontouchend="touchEnd(event)">
+            <div id="banners-wrapper" class="bg-nexoCard/95 border border-nexoPurple/40 rounded-2xl p-4 shadow-xl relative overflow-hidden select-none">
                 <div id="carousel-container" class="relative min-h-[120px] flex items-center"></div>
                 <div id="carousel-dots-container" class="flex justify-center items-center gap-1.5 mt-3"></div>
             </div>
@@ -616,7 +616,7 @@
                     </div>
                 </div>
 
-                <button onclick="goToStep(2)" class="w-full bg-gradient-to-r from-nexoPurple to-nexoCyan hover:opacity-90 text-white font-black py-3.5 rounded-xl shadow-lg transition text-xs uppercase tracking-wider">
+                <button onclick="goToStep(2)" class="w-full bg-gradient-to-r from-nexoPurple to-nexoCyan hover:opacity-90 text-white font-black py-3.5 rounded-xl shadow-lg transition text-xs uppercase tracking-wider cursor-pointer">
                     Siguiente: Elegir Paquete ➔
                 </button>
             </section>
@@ -638,8 +638,8 @@
                     <span id="display-price" class="text-base font-black text-nexoCyan">$0 ARS</span>
                 </div>
                 <div class="flex gap-2.5">
-                    <button onclick="goToStep(1)" class="w-1/3 bg-nexoSurface text-gray-300 font-bold py-3 rounded-xl text-xs border border-gray-700">← Atrás</button>
-                    <button onclick="goToStep(3)" class="w-2/3 bg-gradient-to-r from-nexoPurple to-nexoCyan text-white font-black py-3 rounded-xl text-xs uppercase">Siguiente: ID y Datos ➔</button>
+                    <button onclick="goToStep(1)" class="w-1/3 bg-nexoSurface text-gray-300 font-bold py-3 rounded-xl text-xs border border-gray-700 cursor-pointer">← Atrás</button>
+                    <button onclick="goToStep(3)" class="w-2/3 bg-gradient-to-r from-nexoPurple to-nexoCyan text-white font-black py-3 rounded-xl text-xs uppercase cursor-pointer">Siguiente: ID y Datos ➔</button>
                 </div>
             </section>
 
@@ -653,11 +653,11 @@
                     <div>
                         <div class="flex justify-between items-center mb-1">
                             <label class="text-xs font-bold text-gray-300">ID de Jugador (<span id="step3-game-label" class="text-nexoCyan">Free Fire</span>)</label>
-                            <button onclick="toggleHistory()" class="text-[10px] text-nexoCyan underline">Usar ID guardado</button>
+                            <button onclick="toggleHistory()" class="text-[10px] text-nexoCyan underline cursor-pointer">Usar ID guardado</button>
                         </div>
                         <div class="flex gap-2">
                             <input type="number" id="player-id" placeholder="Ingresá tu ID numérico real..." class="w-full bg-nexoDark border border-gray-700 rounded-xl p-3 text-sm text-white font-mono focus:outline-none focus:border-nexoCyan transition">
-                            <button onclick="verifyPlayerIdReal()" class="bg-nexoCyan text-nexoDark font-black px-3.5 rounded-xl text-xs">Verificar</button>
+                            <button onclick="verifyPlayerIdReal()" class="bg-nexoCyan text-nexoDark font-black px-3.5 rounded-xl text-xs cursor-pointer">Verificar</button>
                         </div>
                         
                         <div id="player-card-result" class="hidden mt-3 bg-gradient-to-r from-emerald-950/80 via-nexoDark to-nexoDark border border-green-500/40 rounded-2xl p-3.5 space-y-2.5 shadow-lg">
@@ -691,11 +691,11 @@
                     <div class="bg-nexoDark/80 border border-gray-800 p-3 rounded-xl">
                         <div class="flex justify-between items-center mb-1">
                             <label class="text-[11px] font-bold text-gray-300">🎟️ Código Promocional / Creador</label>
-                            <button onclick="toggleNinjaModal()" class="text-[10px] text-nexoPurple underline">Ver Rangos Ninja</button>
+                            <button onclick="toggleNinjaModal()" class="text-[10px] text-nexoPurple underline cursor-pointer">Ver Rangos Ninja</button>
                         </div>
                         <div class="flex gap-2">
                             <input type="text" id="promo-code" placeholder="Ej: VERANO2026" class="w-full bg-nexoCard border border-gray-700 rounded-lg px-3 py-2 text-xs uppercase text-white focus:outline-none focus:border-nexoPurple">
-                            <button onclick="validateCode()" class="bg-nexoPurple hover:bg-purple-600 px-4 rounded-lg text-xs font-bold transition">Aplicar</button>
+                            <button onclick="validateCode()" class="bg-nexoPurple hover:bg-purple-600 px-4 rounded-lg text-xs font-bold transition cursor-pointer">Aplicar</button>
                         </div>
                         <p id="code-feedback" class="text-[11px] mt-1.5 hidden"></p>
                     </div>
@@ -707,8 +707,8 @@
                     <input type="tel" id="client-phone" placeholder="Tu WhatsApp (Ej: 1123456789) *" class="w-full bg-nexoDark border border-gray-700 rounded-xl p-2.5 text-xs text-white focus:border-nexoCyan focus:outline-none">
                 </div>
                 <div class="flex gap-2.5">
-                    <button onclick="goToStep(2)" class="w-1/3 bg-nexoSurface text-gray-300 font-bold py-3 rounded-xl text-xs border border-gray-700">← Atrás</button>
-                    <button onclick="goToStep(4)" class="w-2/3 bg-gradient-to-r from-nexoPurple to-nexoCyan text-white font-black py-3 rounded-xl text-xs uppercase">Continuar al Pago ➔</button>
+                    <button onclick="goToStep(2)" class="w-1/3 bg-nexoSurface text-gray-300 font-bold py-3 rounded-xl text-xs border border-gray-700 cursor-pointer">← Atrás</button>
+                    <button onclick="goToStep(4)" class="w-2/3 bg-gradient-to-r from-nexoPurple to-nexoCyan text-white font-black py-3 rounded-xl text-xs uppercase cursor-pointer">Continuar al Pago ➔</button>
                 </div>
             </section>
 
@@ -738,7 +738,7 @@
                     </div>
                     <div class="flex items-center justify-between bg-nexoCard p-2 rounded-lg border border-gray-800">
                         <code class="text-xs font-bold text-white select-all">kevincabelier.mp</code>
-                        <button onclick="copyAlias()" class="bg-nexoPurple/20 hover:bg-nexoPurple/40 text-nexoPurple border border-nexoPurple/40 px-2.5 py-1 rounded text-[10px] font-bold transition">Copiar</button>
+                        <button onclick="copyAlias()" class="bg-nexoPurple/20 hover:bg-nexoPurple/40 text-nexoPurple border border-nexoPurple/40 px-2.5 py-1 rounded text-[10px] font-bold transition cursor-pointer">Copiar</button>
                     </div>
                 </div>
 
@@ -748,7 +748,7 @@
                         <span class="text-[9px] bg-cyan-500/20 text-cyan-300 px-2 py-0.5 rounded">Exigente</span>
                     </div>
                     <p class="text-[10px] text-gray-400">Subí la captura real de tu transferencia de Mercado Pago o banco para que la IA verifique que sea auténtica y sin editar.</p>
-                    <input type="file" id="receipt-file-input" accept="image/*" class="w-full text-xs text-gray-300 file:mr-2 file:py-2 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-cyan-500/20 file:text-cyan-300 hover:file:bg-cyan-500/30" onchange="analyzeReceiptStrict(event)">
+                    <input type="file" id="receipt-file-input" accept="image/*" class="w-full text-xs text-gray-300 file:mr-2 file:py-2 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-cyan-500/20 file:text-cyan-300 hover:file:bg-cyan-500/30">
                     <p id="receipt-ai-status" class="text-[11px] hidden font-bold text-center"></p>
                 </div>
 
@@ -757,10 +757,10 @@
                     <span class="text-[10px] text-gray-300 leading-tight">Acepto los <strong>Términos y Condiciones</strong>: Confirmo que el ID ingresado es correcto, que el comprobante es 100% legítimo y verdadero sin ediciones, y apruebo la <strong>política estricta de no reembolso</strong> (no hay devoluciones una vez procesada la recarga).</span>
                 </label>
 
-                <button onclick="sendOrderGmail()" class="w-full bg-gradient-to-r from-red-600 to-rose-600 hover:opacity-95 text-white font-black py-3.5 rounded-xl shadow-lg transition flex items-center justify-center gap-2 text-xs uppercase tracking-wide">
+                <button onclick="sendOrderGmail()" class="w-full bg-gradient-to-r from-red-600 to-rose-600 hover:opacity-95 text-white font-black py-3.5 rounded-xl shadow-lg transition flex items-center justify-center gap-2 text-xs uppercase tracking-wide cursor-pointer">
                     📧 Confirmar compra en Gmail
                 </button>
-                <button onclick="goToStep(3)" class="w-full text-center text-xs text-gray-400 hover:text-white py-1">← Modificar datos o ID</button>
+                <button onclick="goToStep(3)" class="w-full text-center text-xs text-gray-400 hover:text-white py-1 cursor-pointer">← Modificar datos o ID</button>
             </section>
 
             <!-- MENSAJE DE ÉXITO DINÁMICO TRAS COMPRAR -->
@@ -773,7 +773,7 @@
                 <div class="bg-nexoDark p-3 rounded-xl border border-gray-800 text-[11px] text-gray-400">
                     ID de Jugador: <span id="success-player-id" class="text-white font-mono font-bold">---</span> | Nickname: <span id="success-player-nick" class="text-yellow-400 font-bold">---</span>
                 </div>
-                <button onclick="location.reload()" class="w-full bg-nexoSurface text-white font-bold py-3 rounded-xl text-xs border border-gray-700">Volver al Inicio</button>
+                <button onclick="location.reload()" class="w-full bg-nexoSurface text-white font-bold py-3 rounded-xl text-xs border border-gray-700 cursor-pointer">Volver al Inicio</button>
             </div>
 
             <!-- FEED EN VIVO -->
@@ -805,14 +805,14 @@
                     </div>
                 </div>
                 <div class="flex gap-1.5 overflow-x-auto no-scrollbar pb-1">
-                    <button onclick="askAIQuick('¿Cuánto tarda la recarga?')" class="shrink-0 bg-nexoDark hover:border-nexoCyan border border-gray-700 text-[10px] text-gray-300 px-2.5 py-1 rounded-full transition">⏱️ ¿Cuánto tarda?</button>
-                    <button onclick="askAIQuick('¿Cómo funcionan los Nexo Coins?')" class="shrink-0 bg-nexoDark hover:border-nexoCyan border border-gray-700 text-[10px] text-gray-300 px-2.5 py-1 rounded-full transition">🟡 Nexo Coins</button>
-                    <button onclick="askAIQuick('Quiero hablar con un humano')" class="shrink-0 bg-nexoDark hover:border-nexoCyan border border-gray-700 text-[10px] text-gray-300 px-2.5 py-1 rounded-full transition">👤 Hablar con humano</button>
-                    <button onclick="askAIQuick('Volver con la IA')" class="shrink-0 bg-nexoDark hover:border-nexoCyan border border-gray-700 text-[10px] text-gray-300 px-2.5 py-1 rounded-full transition">🤖 Seguir con IA</button>
+                    <button onclick="askAIQuick('¿Cuánto tarda la recarga?')" class="shrink-0 bg-nexoDark hover:border-nexoCyan border border-gray-700 text-[10px] text-gray-300 px-2.5 py-1 rounded-full transition cursor-pointer">⏱️ ¿Cuánto tarda?</button>
+                    <button onclick="askAIQuick('¿Cómo funcionan los Nexo Coins?')" class="shrink-0 bg-nexoDark hover:border-nexoCyan border border-gray-700 text-[10px] text-gray-300 px-2.5 py-1 rounded-full transition cursor-pointer">🟡 Nexo Coins</button>
+                    <button onclick="askAIQuick('Quiero hablar con un humano')" class="shrink-0 bg-nexoDark hover:border-nexoCyan border border-gray-700 text-[10px] text-gray-300 px-2.5 py-1 rounded-full transition cursor-pointer">👤 Hablar con humano</button>
+                    <button onclick="askAIQuick('Volver con la IA')" class="shrink-0 bg-nexoDark hover:border-nexoCyan border border-gray-700 text-[10px] text-gray-300 px-2.5 py-1 rounded-full transition cursor-pointer">🤖 Seguir con IA</button>
                 </div>
                 <div class="flex gap-2">
                     <input type="text" id="ai-user-input" onkeypress="if(event.key==='Enter') sendAIMessage()" placeholder="Escribí cualquier consulta acá..." class="w-full bg-nexoDark border border-gray-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-nexoCyan">
-                    <button onclick="sendAIMessage()" class="bg-gradient-to-r from-nexoPurple to-nexoCyan text-white font-bold px-3.5 rounded-xl text-xs shadow">Enviar</button>
+                    <button onclick="sendAIMessage()" class="bg-gradient-to-r from-nexoPurple to-nexoCyan text-white font-bold px-3.5 rounded-xl text-xs shadow cursor-pointer">Enviar</button>
                 </div>
             </section>
 
@@ -831,22 +831,22 @@
     <!-- BARRA DE NAVEGACIÓN INFERIOR FIJA -->
     <nav id="bottom-nav-bar" class="fixed bottom-0 inset-x-0 bg-nexoCard/95 backdrop-blur-md border-t border-nexoPurple/30 z-40 px-2 py-2">
         <div class="max-w-md mx-auto flex justify-around items-center text-[10px] font-bold text-gray-400">
-            <button onclick="toggleGlobalChat()" class="flex flex-col items-center gap-0.5 hover:text-nexoCyan transition">
+            <button onclick="toggleGlobalChat()" class="flex flex-col items-center gap-0.5 hover:text-nexoCyan transition cursor-pointer">
                 <span class="text-base">💬</span>
                 <span>Chat</span>
             </button>
-            <button onclick="toggleReviewsModal()" class="flex flex-col items-center gap-0.5 hover:text-purple-400 transition">
+            <button onclick="toggleReviewsModal()" class="flex flex-col items-center gap-0.5 hover:text-purple-400 transition cursor-pointer">
                 <span class="text-base">⭐</span>
                 <span>Reseñas</span>
             </button>
-            <button onclick="toggleMissionsModal()" class="flex flex-col items-center justify-center -mt-5 bg-gradient-to-tr from-nexoPurple to-nexoCyan text-white w-12 h-12 rounded-full shadow-lg border-2 border-nexoDark">
+            <button onclick="toggleMissionsModal()" class="flex flex-col items-center justify-center -mt-5 bg-gradient-to-tr from-nexoPurple to-nexoCyan text-white w-12 h-12 rounded-full shadow-lg border-2 border-nexoDark cursor-pointer">
                 <span class="text-lg">🎯</span>
             </button>
-            <button onclick="toggleTopsModal()" class="flex flex-col items-center gap-0.5 hover:text-yellow-400 transition">
+            <button onclick="toggleTopsModal()" class="flex flex-col items-center gap-0.5 hover:text-yellow-400 transition cursor-pointer">
                 <span class="text-base">🏆</span>
                 <span>Tops</span>
             </button>
-            <button onclick="toggleHistory()" class="flex flex-col items-center gap-0.5 hover:text-nexoCyan transition">
+            <button onclick="toggleHistory()" class="flex flex-col items-center gap-0.5 hover:text-nexoCyan transition cursor-pointer">
                 <span class="text-base">📋</span>
                 <span>Mis IDs</span>
             </button>
@@ -863,7 +863,7 @@
                     <span class="text-[10px] bg-red-500/20 text-red-400 px-2.5 py-1 rounded-full font-bold uppercase">🔒 Panel de Control Admin</span>
                     <h2 class="text-xl font-black text-white mt-1">Gestión Nexo Store</h2>
                 </div>
-                <button onclick="exitAdminView()" class="bg-nexoSurface text-gray-300 hover:text-white px-3 py-2 rounded-xl text-xs font-bold border border-gray-700">← Volver a la Tienda</button>
+                <button onclick="exitAdminView()" class="bg-nexoSurface text-gray-300 hover:text-white px-3 py-2 rounded-xl text-xs font-bold border border-gray-700 cursor-pointer">← Volver a la Tienda</button>
             </div>
 
             <div id="admin-login-screen" class="bg-nexoCard border border-gray-800 p-6 rounded-3xl space-y-4 shadow-2xl">
@@ -873,7 +873,7 @@
                     <p class="text-xs text-gray-400">Ingresá tu contraseña de administrador para continuar.</p>
                 </div>
                 <input type="password" id="admin-password-field" placeholder="Contraseña..." class="w-full bg-nexoDark border border-gray-700 rounded-xl p-3 text-xs text-white focus:outline-none focus:border-red-500 text-center font-mono">
-                <button onclick="checkAdminPassword()" class="w-full bg-red-600 hover:bg-red-500 text-white font-black py-3 rounded-xl text-xs uppercase shadow">Entrar al Panel</button>
+                <button onclick="checkAdminPassword()" class="w-full bg-red-600 hover:bg-red-500 text-white font-black py-3 rounded-xl text-xs uppercase shadow cursor-pointer">Entrar al Panel</button>
                 <p id="admin-login-error" class="text-xs text-red-400 text-center font-bold hidden">Contraseña incorrecta.</p>
             </div>
 
@@ -886,7 +886,7 @@
                     <p class="text-[11px] text-gray-300">Activa el bloqueo de mantenimiento para todos los visitantes. Para quitarlo desde la pantalla bloqueada, tocá 3 veces el logo e ingresá <code class="text-purple-400 font-bold">varela</code>.</p>
                     <div class="flex items-center justify-between bg-nexoDark p-3 rounded-xl border border-gray-800 text-xs">
                         <span class="font-bold text-gray-300">Estado Actual:</span>
-                        <button onclick="toggleMaintenanceGlobal()" id="maintenance-toggle-btn" class="bg-gray-700 text-white font-bold px-3.5 py-1.5 rounded-lg text-xs">DESACTIVADO</button>
+                        <button onclick="toggleMaintenanceGlobal()" id="maintenance-toggle-btn" class="bg-gray-700 text-white font-bold px-3.5 py-1.5 rounded-lg text-xs cursor-pointer">DESACTIVADO</button>
                     </div>
                 </div>
 
@@ -904,7 +904,7 @@
                             <input type="text" id="new-banner-link" placeholder="Enlace URL" class="w-full bg-nexoCard border border-gray-700 rounded-xl p-2 text-xs text-white focus:outline-none">
                         </div>
                         <input type="file" id="new-banner-file" accept="image/*" class="w-full text-[11px] text-gray-300 file:mr-2 file:py-1.5 file:px-2.5 file:rounded-lg file:border-0 file:text-[10px] file:font-bold file:bg-nexoPurple/30 file:text-purple-300">
-                        <button onclick="addNewGlobalBanner()" class="w-full bg-gradient-to-r from-nexoPurple to-nexoCyan text-white font-black py-2.5 rounded-xl text-xs uppercase shadow">➕ Agregar Banner Global</button>
+                        <button onclick="addNewGlobalBanner()" class="w-full bg-gradient-to-r from-nexoPurple to-nexoCyan text-white font-black py-2.5 rounded-xl text-xs uppercase shadow cursor-pointer">➕ Agregar Banner Global</button>
                     </div>
                     <div id="admin-banners-list" class="space-y-2 max-h-44 overflow-y-auto"></div>
                 </div>
@@ -916,7 +916,7 @@
                     </div>
                     <div class="flex items-center justify-between bg-nexoDark p-3 rounded-xl border border-gray-800 text-xs">
                         <span class="font-bold text-gray-300">Estado de Bots:</span>
-                        <button onclick="toggleBotSystem()" id="bot-toggle-btn" class="bg-green-600 text-white font-bold px-3 py-1.5 rounded-lg text-xs">ACTIVADOS</button>
+                        <button onclick="toggleBotSystem()" id="bot-toggle-btn" class="bg-green-600 text-white font-bold px-3 py-1.5 rounded-lg text-xs cursor-pointer">ACTIVADOS</button>
                     </div>
                 </div>
 
@@ -931,7 +931,7 @@
                         <option value="10">10 Nexo Coins</option>
                         <option value="25">25 Nexo Coins</option>
                     </select>
-                    <button onclick="generateCoinKey()" class="w-full bg-gradient-to-r from-nexoPurple to-nexoCyan text-white font-black py-2.5 rounded-xl text-xs uppercase shadow">Generar Clave Única (Nube)</button>
+                    <button onclick="generateCoinKey()" class="w-full bg-gradient-to-r from-nexoPurple to-nexoCyan text-white font-black py-2.5 rounded-xl text-xs uppercase shadow cursor-pointer">Generar Clave Única (Nube)</button>
                     <div id="generated-key-result" class="hidden bg-nexoDark border border-green-500/50 p-3 rounded-xl text-center space-y-1">
                         <p class="text-[10px] text-green-400 font-bold">¡Clave guardada!</p>
                         <code id="key-output-text" class="text-sm font-black text-white select-all bg-black/40 px-3 py-1.5 rounded block tracking-wider font-mono"></code>
@@ -953,11 +953,11 @@
                         </select>
                         <input type="number" id="new-coupon-uses" value="10" class="w-full bg-nexoDark border border-gray-700 rounded-xl p-2.5 text-xs text-white">
                     </div>
-                    <button onclick="createNewCoupon()" class="w-full bg-gradient-to-r from-red-600 to-rose-600 text-white font-black py-2.5 rounded-xl text-xs uppercase shadow">Guardar Cupón</button>
+                    <button onclick="createNewCoupon()" class="w-full bg-gradient-to-r from-red-600 to-rose-600 text-white font-black py-2.5 rounded-xl text-xs uppercase shadow cursor-pointer">Guardar Cupón</button>
                     <div id="admin-coupons-list" class="space-y-1.5 max-h-32 overflow-y-auto"></div>
                 </div>
 
-                <button onclick="exitAdminView()" class="w-full bg-nexoSurface text-gray-400 hover:text-white py-2.5 rounded-xl text-xs border border-gray-700">Cerrar Sesión Admin</button>
+                <button onclick="exitAdminView()" class="w-full bg-nexoSurface text-gray-400 hover:text-white py-2.5 rounded-xl text-xs border border-gray-700 cursor-pointer">Cerrar Sesión Admin</button>
             </div>
         </div>
         <footer class="text-center p-4 text-[11px] text-gray-500 border-t border-gray-900 mt-4">
@@ -1056,7 +1056,7 @@
         function updateMaintenanceToggleBtnUI() {
             const btn = document.getElementById('maintenance-toggle-btn');
             if (!btn) return;
-            btn.className = globalMaintenanceMode ? 'bg-purple-600 text-white font-bold px-3.5 py-1.5 rounded-lg text-xs' : 'bg-gray-700 text-white font-bold px-3.5 py-1.5 rounded-lg text-xs';
+            btn.className = globalMaintenanceMode ? 'bg-purple-600 text-white font-bold px-3.5 py-1.5 rounded-lg text-xs cursor-pointer' : 'bg-gray-700 text-white font-bold px-3.5 py-1.5 rounded-lg text-xs cursor-pointer';
             btn.innerText = globalMaintenanceMode ? 'ACTIVADO' : 'DESACTIVADO';
         }
 
@@ -1088,8 +1088,8 @@
 
             container.innerHTML = globalBanners.map((b, idx) => {
                 let btnHtml = '';
-                if (b.actionType === 'ninja') btnHtml = `<button onclick="toggleNinjaModal()" class="mt-1 bg-gradient-to-r from-nexoPurple to-nexoCyan text-white text-[10px] font-black px-3 py-1.5 rounded-lg uppercase shadow">${b.btnText || 'Ver'}</button>`;
-                else if (b.actionType === 'roulette') btnHtml = `<button onclick="toggleRouletteModal()" class="mt-1 bg-yellow-500 text-nexoDark text-[10px] font-black px-3 py-1.5 rounded-lg uppercase shadow">${b.btnText || 'Girar'}</button>`;
+                if (b.actionType === 'ninja') btnHtml = `<button onclick="toggleNinjaModal()" class="mt-1 bg-gradient-to-r from-nexoPurple to-nexoCyan text-white text-[10px] font-black px-3 py-1.5 rounded-lg uppercase shadow cursor-pointer">${b.btnText || 'Ver'}</button>`;
+                else if (b.actionType === 'roulette') btnHtml = `<button onclick="toggleRouletteModal()" class="mt-1 bg-yellow-500 text-nexoDark text-[10px] font-black px-3 py-1.5 rounded-lg uppercase shadow cursor-pointer">${b.btnText || 'Girar'}</button>`;
                 
                 let mediaHtml = b.imgUrl ? `<img src="${b.imgUrl}" class="w-20 h-20 rounded-2xl object-cover border border-nexoCyan/50 shrink-0 shadow-lg">` : `<div class="w-20 h-20 rounded-2xl bg-gradient-to-tr from-purple-900 to-indigo-950 border border-nexoCyan/50 flex flex-col items-center justify-center shrink-0 shadow-lg"><span class="text-3xl">${b.emoji || '🔥'}</span></div>`;
 
@@ -1205,6 +1205,14 @@
             alert("✅ ¡Copiado!");
         }
 
+        // Función segura para cerrar el modal de TikTok/Comunidad y permitir continuar sin trabas
+        function closeCommunityModal() {
+            const cModal = document.getElementById('community-modal');
+            if (cModal) {
+                cModal.classList.add('hidden');
+            }
+        }
+
         function toggleGlobalChat() { document.getElementById('global-chat-modal').classList.toggle('hidden'); renderGlobalChat(); }
         async function sendGlobalMessage() {
             const input = document.getElementById('global-chat-input');
@@ -1274,7 +1282,6 @@
                 return;
             }
 
-            // Datos reales simulados por la IA al verificar
             const sampleNicks = ["✿Roxloy✿", "Shadow_FF", "Kira_LATAM", "ViperPro"];
             const nick = sampleNicks[parseInt(idVal.slice(-1)) % sampleNicks.length];
             const lvl = 45 + (parseInt(idVal.slice(-2)) % 30);
@@ -1311,7 +1318,6 @@
                 const w = img.width;
                 const h = img.height;
 
-                // IA Antifraude verifica proporción vertical y tamaño para evitar fotos editadas o falsas
                 if (file.size < 15000 || h <= w || w < 250) {
                     receiptUploadedValid = false;
                     status.className = 'text-[11px] text-red-400 font-bold';
@@ -1365,9 +1371,9 @@
                     <div class="border border-gray-800 bg-nexoDark/80 p-3 rounded-xl flex items-center justify-between">
                         <div><p class="font-black text-xs text-white">${p.name}</p><p class="text-[10px] text-nexoCyan">$${p.price.toLocaleString('es-AR')} ARS</p></div>
                         <div class="flex items-center gap-2">
-                            <button onclick="updateCart('${p.name}', ${p.price}, ${p.units}, -1)" class="w-7 h-7 bg-nexoSurface rounded-lg font-bold text-xs">-</button>
+                            <button onclick="updateCart('${p.name}', ${p.price}, ${p.units}, -1)" class="w-7 h-7 bg-nexoSurface rounded-lg font-bold text-xs cursor-pointer">-</button>
                             <span class="text-xs font-bold w-4 text-center">${count}</span>
-                            <button onclick="updateCart('${p.name}', ${p.price}, ${p.units}, 1)" class="w-7 h-7 bg-nexoPurple text-white rounded-lg font-bold text-xs">+</button>
+                            <button onclick="updateCart('${p.name}', ${p.price}, ${p.units}, 1)" class="w-7 h-7 bg-nexoPurple text-white rounded-lg font-bold text-xs cursor-pointer">+</button>
                         </div>
                     </div>
                 `;
@@ -1436,7 +1442,6 @@
 
         function copyAlias() { navigator.clipboard.writeText('kevincabelier.mp'); alert('Alias copiado'); }
 
-        // --- CONFIRMAR COMPRA: MUESTRA TEXTO EN PANTALLA Y ENVÍA CORREO GMAIL ---
         async function sendOrderGmail() {
             if (!receiptUploadedValid) {
                 alert('⚠️ Debes subir un comprobante válido verificado por la IA.');
@@ -1454,22 +1459,18 @@
             let packsList = Object.keys(storeState.cart).map(k => `${storeState.cart[k].count}x ${k}`).join(', ');
             const fechaActual = new Date().toLocaleString('es-AR');
 
-            // Formato exacto de correo tipo FormSubmit que pediste
             const mailSubject = encodeURIComponent(`NUEVO PEDIDO NEXO STORE - ${storeState.game}`);
             const mailBody = encodeURIComponent(`Someone just submitted your form on https://nexostore26.github.io/.\n\nHere's what they had to say:\n\nJuego: ${storeState.game}\nID_Jugador: ${storeState.playerId}\nNickname_Juego: ${storeState.playerNick}\nPaquetes: ${packsList}\nMonto_Pagado_ARS: $${storeState.finalPrice.toLocaleString('es-AR')}\nCodigo_Usado: ${storeState.couponUsed}\nNexo_Coins_Ganadas: ${storeState.coinsEarned} Coins\nCliente: ${storeState.clientName}\nContacto: ${storeState.clientPhone}\nTerminos_No_Reembolso: Aceptado por el cliente\nFecha: ${fechaActual}`);
 
-            // Ocultar paso 4 y mostrar mensaje de éxito en pantalla
             document.getElementById('step-4').classList.add('hidden');
             document.getElementById('success-game-name').innerText = storeState.game;
             document.getElementById('success-player-id').innerText = storeState.playerId;
             document.getElementById('success-player-nick').innerText = storeState.playerNick;
             document.getElementById('order-success-screen').classList.remove('hidden');
 
-            // Disparar correo hacia tu Gmail en privado
             window.open(`mailto:nexostoreoff14@gmail.com?subject=${mailSubject}&body=${mailBody}`, '_blank');
         }
 
-        // NexoBot IA soporte
         function askAIQuick(q) { document.getElementById('ai-user-input').value = q; sendAIMessage(); }
         let humanHandoffActive = false;
         function sendAIMessage() {
@@ -1482,7 +1483,7 @@
 
             let reply = "🤖 Recibido. Las recargas tardan menos de 5 minutos en acreditarse por WhatsApp.";
             if (text.toLowerCase().includes('humano')) {
-                reply = `👤 Podés hablar con un asesor humano acá: <a href="https://wa.me/541123779325" target="_blank" class="text-green-400 font-bold underline">WhatsApp Directo</a>`;
+                reply = `👤 Podés hablar con un asesor humano acá: <a href="https://wa.me/541123779325" target="_blank" rel="noopener noreferrer" class="text-green-400 font-bold underline">WhatsApp Directo</a>`;
             }
             setTimeout(() => {
                 chatBox.innerHTML += `<div class="bg-nexoSurface text-gray-200 p-2.5 rounded-xl">${reply}</div>`;
@@ -1505,7 +1506,17 @@
             }
         }
 
-        window.onload = async function() { updateAuthUI(); renderBannersCarousel(); await syncFromCloud(); };
+        window.onload = async function() { 
+            // Asegurar que el modal inicial no bloquee nada si no se requiere explícitamente abierto
+            const commModal = document.getElementById('community-modal');
+            if (commModal) {
+                commModal.classList.add('hidden');
+            }
+
+            updateAuthUI(); 
+            renderBannersCarousel(); 
+            await syncFromCloud(); 
+        };
     </script>
 </body>
 </html>
