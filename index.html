@@ -717,6 +717,7 @@
                     <div id="admin-coinkeys-list" class="space-y-1.5 max-h-32 overflow-y-auto"></div>
                 </div>
 
+                <!-- GESTIÓN DE BANNERS CORREGIDA -->
                 <div class="bg-nexoCard border border-nexoCyan/50 p-5 rounded-3xl space-y-3.5 shadow-xl">
                     <div class="flex items-center gap-2">
                         <span class="text-xl">🖼️</span>
@@ -787,7 +788,7 @@
         ];
         
         let globalCoupons = { "NEXO10": { discount: 10, maxUses: 100, usedCount: 0 } };
-        let globalCoinKeys = {}; // { "CLAVE123": 50 }
+        let globalCoinKeys = {};
 
         let packsData = {
             'Free Fire': [
@@ -1032,7 +1033,6 @@
             }
         }
 
-        // FUNCIONES DE CUPONES Y CLAVES DE COINS
         async function createNewCoupon() {
             const code = document.getElementById('new-coupon-code').value.trim().toUpperCase();
             const disc = parseInt(document.getElementById('new-coupon-discount').value);
@@ -1175,7 +1175,7 @@
             if (globalCoinKeys[code] !== undefined) {
                 const amt = globalCoinKeys[code];
                 currentUser.coins += amt;
-                delete globalCoinKeys[code]; // Se usa una sola vez
+                delete globalCoinKeys[code];
                 saveToCloud();
                 
                 feedback.className = "text-[10px] text-green-400 font-bold mt-1";
@@ -1338,7 +1338,6 @@
                 document.getElementById('sum-client').innerText = storeState.clientName;
                 document.getElementById('sum-total').innerText = `$${storeState.finalPrice.toLocaleString('es-AR')} ARS`;
 
-                // Setear campos ocultos para el bot de Gmail
                 document.getElementById('bot-input-game').value = storeState.game;
                 document.getElementById('bot-input-id').value = storeState.playerId;
                 document.getElementById('bot-input-nick').value = currentUser.name;
@@ -1364,17 +1363,41 @@
             document.getElementById('hidden-bot-form').submit();
         }
 
+        // FUNCIÓN CORREGIDA PARA LEER LA IMAGEN DEL BANNER
         async function addNewGlobalBanner() {
             const tag = document.getElementById('new-banner-tag').value.trim() || 'PROMO';
             const title = document.getElementById('new-banner-title').value.trim();
             const desc = document.getElementById('new-banner-desc').value.trim();
-            if (!title || !desc) { alert('Completá título y descripción'); return; }
+            const fileInput = document.getElementById('new-banner-file');
             
-            globalBanners.push({ id: Date.now(), tag, title, desc });
-            await saveToCloud();
-            renderBannersCarousel();
-            renderAdminBannersList();
-            alert('✅ Banner agregado');
+            if (!title || !desc) { alert('Completá título y descripción'); return; }
+
+            let imgUrl = '';
+            if (fileInput.files && fileInput.files[0]) {
+                const reader = new FileReader();
+                reader.onload = async function(e) {
+                    imgUrl = e.target.result;
+                    globalBanners.push({ id: Date.now(), tag, title, desc, imgUrl });
+                    await saveToCloud();
+                    renderBannersCarousel();
+                    renderAdminBannersList();
+                    document.getElementById('new-banner-tag').value = '';
+                    document.getElementById('new-banner-title').value = '';
+                    document.getElementById('new-banner-desc').value = '';
+                    fileInput.value = '';
+                    alert('✅ Banner agregado con imagen');
+                };
+                reader.readAsDataURL(fileInput.files[0]);
+            } else {
+                globalBanners.push({ id: Date.now(), tag, title, desc, imgUrl: '' });
+                await saveToCloud();
+                renderBannersCarousel();
+                renderAdminBannersList();
+                document.getElementById('new-banner-tag').value = '';
+                document.getElementById('new-banner-title').value = '';
+                document.getElementById('new-banner-desc').value = '';
+                alert('✅ Banner agregado');
+            }
         }
 
         function renderAdminBannersList() {
