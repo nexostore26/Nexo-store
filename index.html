@@ -685,6 +685,38 @@
                     </div>
                 </div>
 
+                <!-- 1. CREAR CÓDIGO PROMOCIONAL (DESCUENTO) -->
+                <div class="bg-nexoCard border border-yellow-500/50 p-5 rounded-3xl space-y-3.5 shadow-xl">
+                    <div class="flex items-center gap-2">
+                        <span class="text-xl">🎟️</span>
+                        <h3 class="text-sm font-black text-white">Crear Código Promocional</h3>
+                    </div>
+                    <p class="text-[11px] text-gray-300">Generá cupones de descuento porcentual para que los usuarios los apliquen en el Carrito.</p>
+                    
+                    <div class="space-y-2.5 text-xs bg-nexoDark p-3.5 rounded-2xl border border-gray-800">
+                        <input type="text" id="new-coupon-code" placeholder="Código (Ej: VERANO2026)" class="w-full bg-nexoCard border border-gray-700 rounded-xl p-2.5 text-xs text-white uppercase font-mono">
+                        <input type="number" id="new-coupon-discount" placeholder="Descuento en % (Ej: 10)" class="w-full bg-nexoCard border border-gray-700 rounded-xl p-2.5 text-xs text-white">
+                        <button onclick="createNewCoupon()" class="w-full bg-yellow-500 hover:bg-yellow-400 text-nexoDark font-black py-2.5 rounded-xl text-xs uppercase shadow">➕ Crear Cupón</button>
+                    </div>
+                    <div id="admin-coupons-list" class="space-y-1.5 max-h-32 overflow-y-auto"></div>
+                </div>
+
+                <!-- 2. CREAR CÓDIGOS DE COINS DE REGALO -->
+                <div class="bg-nexoCard border border-cyan-500/50 p-5 rounded-3xl space-y-3.5 shadow-xl">
+                    <div class="flex items-center gap-2">
+                        <span class="text-xl">🟡</span>
+                        <h3 class="text-sm font-black text-white">Generar Códigos de Coins de Regalo</h3>
+                    </div>
+                    <p class="text-[11px] text-gray-300">Creá claves secretas para que los usuarios las canjeen por Nexo Coins en su sección "Mis IDs".</p>
+                    
+                    <div class="space-y-2.5 text-xs bg-nexoDark p-3.5 rounded-2xl border border-gray-800">
+                        <input type="text" id="new-coinkey-code" placeholder="Clave (Ej: NX-REGALO50)" class="w-full bg-nexoCard border border-gray-700 rounded-xl p-2.5 text-xs text-white uppercase font-mono">
+                        <input type="number" id="new-coinkey-amount" placeholder="Cantidad de Coins (Ej: 50)" class="w-full bg-nexoCard border border-gray-700 rounded-xl p-2.5 text-xs text-white">
+                        <button onclick="createNewCoinKey()" class="w-full bg-nexoCyan hover:opacity-90 text-nexoDark font-black py-2.5 rounded-xl text-xs uppercase shadow">➕ Generar Clave de Coins</button>
+                    </div>
+                    <div id="admin-coinkeys-list" class="space-y-1.5 max-h-32 overflow-y-auto"></div>
+                </div>
+
                 <div class="bg-nexoCard border border-nexoCyan/50 p-5 rounded-3xl space-y-3.5 shadow-xl">
                     <div class="flex items-center gap-2">
                         <span class="text-xl">🖼️</span>
@@ -753,7 +785,9 @@
                 subLabel: "TIKTOK VIP"
             }
         ];
+        
         let globalCoupons = { "NEXO10": { discount: 10, maxUses: 100, usedCount: 0 } };
+        let globalCoinKeys = {}; // { "CLAVE123": 50 }
 
         let packsData = {
             'Free Fire': [
@@ -773,7 +807,6 @@
         };
 
         let missionsDB = [];
-        let globalCoinKeys = {};
         let globalChatMessages = [];
         let globalReviews = [];
         let globalBuyers = [];
@@ -793,6 +826,7 @@
                     if (data.maintenanceMode !== undefined) globalMaintenanceMode = data.maintenanceMode;
                     if (data.banners && data.banners.length > 0) globalBanners = data.banners;
                     if (data.coupons) globalCoupons = data.coupons;
+                    if (data.coinKeys) globalCoinKeys = data.coinKeys;
                     if (data.packsData && !isEditingPrices) packsData = data.packsData;
                     if (data.missions) missionsDB = data.missions;
                     if (data.chatMessages) globalChatMessages = data.chatMessages;
@@ -807,6 +841,8 @@
                     }
                     if (!document.getElementById('admin-dashboard-screen').classList.contains('hidden')) {
                         renderAdminBannersList();
+                        renderAdminCouponsList();
+                        renderAdminCoinKeysList();
                         if (!isEditingPrices) {
                             renderAdminPriceInputs();
                         }
@@ -831,9 +867,9 @@
                         maintenanceMode: globalMaintenanceMode,
                         banners: globalBanners,
                         coupons: globalCoupons,
+                        coinKeys: globalCoinKeys,
                         packsData: packsData,
                         missions: missionsDB,
-                        coinKeys: globalCoinKeys,
                         chatMessages: globalChatMessages,
                         reviews: globalReviews,
                         buyers: globalBuyers,
@@ -996,6 +1032,67 @@
             }
         }
 
+        // FUNCIONES DE CUPONES Y CLAVES DE COINS
+        async function createNewCoupon() {
+            const code = document.getElementById('new-coupon-code').value.trim().toUpperCase();
+            const disc = parseInt(document.getElementById('new-coupon-discount').value);
+            if (!code || isNaN(disc)) { alert('Completá el código y el porcentaje de descuento'); return; }
+
+            globalCoupons[code] = { discount: disc, maxUses: 1000, usedCount: 0 };
+            await saveToCloud();
+            renderAdminCouponsList();
+            document.getElementById('new-coupon-code').value = '';
+            document.getElementById('new-coupon-discount').value = '';
+            alert(`✅ Cupón ${code} (${disc}%) creado con éxito`);
+        }
+
+        function renderAdminCouponsList() {
+            const container = document.getElementById('admin-coupons-list');
+            if (!container) return;
+            container.innerHTML = Object.keys(globalCoupons).map(code => `
+                <div class="bg-nexoDark border border-gray-800 p-2 rounded-xl flex justify-between items-center text-xs">
+                    <span class="text-white font-bold font-mono">${code} <span class="text-yellow-400">(${globalCoupons[code].discount}%)</span></span>
+                    <button onclick="deleteCoupon('${code}')" class="text-red-400">Eliminar</button>
+                </div>
+            `).join('');
+        }
+
+        async function deleteCoupon(code) {
+            delete globalCoupons[code];
+            await saveToCloud();
+            renderAdminCouponsList();
+        }
+
+        async function createNewCoinKey() {
+            const key = document.getElementById('new-coinkey-code').value.trim().toUpperCase();
+            const amt = parseInt(document.getElementById('new-coinkey-amount').value);
+            if (!key || isNaN(amt)) { alert('Completá la clave y la cantidad de coins'); return; }
+
+            globalCoinKeys[key] = amt;
+            await saveToCloud();
+            renderAdminCoinKeysList();
+            document.getElementById('new-coinkey-code').value = '';
+            document.getElementById('new-coinkey-amount').value = '';
+            alert(`✅ Clave ${key} de ${amt} Coins generada con éxito`);
+        }
+
+        function renderAdminCoinKeysList() {
+            const container = document.getElementById('admin-coinkeys-list');
+            if (!container) return;
+            container.innerHTML = Object.keys(globalCoinKeys).map(key => `
+                <div class="bg-nexoDark border border-gray-800 p-2 rounded-xl flex justify-between items-center text-xs">
+                    <span class="text-white font-bold font-mono">${key} <span class="text-nexoCyan">(+${globalCoinKeys[key]} 🟡)</span></span>
+                    <button onclick="deleteCoinKey('${key}')" class="text-red-400">Eliminar</button>
+                </div>
+            `).join('');
+        }
+
+        async function deleteCoinKey(key) {
+            delete globalCoinKeys[key];
+            await saveToCloud();
+            renderAdminCoinKeysList();
+        }
+
         let currentUser = { email: '', name: 'Invitado', avatar: 'https://api.dicebear.com/7.x/bottts/svg?seed=NexoUser', coins: 0, purchases: 0, savedIds: [] };
 
         function updateAuthUI() {
@@ -1046,8 +1143,51 @@
         function submitNewReview() {}
         function toggleTopsModal() { document.getElementById('tops-modal').classList.toggle('hidden'); }
         function toggleHistory() { document.getElementById('history-modal').classList.toggle('hidden'); }
-        function saveNewId() {}
-        function redeemCoinsCode() {}
+        
+        function saveNewId() {
+            const game = document.getElementById('save-id-game').value;
+            const idVal = document.getElementById('save-id-input').value.trim();
+            if (!idVal) return;
+            currentUser.savedIds.push({ game, id: idVal });
+            renderSavedIds();
+            document.getElementById('save-id-input').value = '';
+            alert('ID guardado');
+        }
+
+        function renderSavedIds() {
+            const container = document.getElementById('saved-ids-list');
+            if (!container) return;
+            container.innerHTML = currentUser.savedIds.map((item, idx) => `
+                <div class="bg-nexoDark border border-gray-800 p-2 rounded-xl flex justify-between items-center text-xs">
+                    <span class="font-mono text-cyan-400">[${item.game}] ${item.id}</span>
+                    <button onclick="currentUser.savedIds.splice(${idx}, 1); renderSavedIds();" class="text-red-400">Borrar</button>
+                </div>
+            `).join('');
+            const countEl = document.getElementById('profile-ids-count');
+            if (countEl) countEl.innerText = currentUser.savedIds.length;
+        }
+
+        function redeemCoinsCode() {
+            const code = document.getElementById('redeem-code-input').value.trim().toUpperCase();
+            const feedback = document.getElementById('redeem-feedback');
+            feedback.classList.remove('hidden');
+
+            if (globalCoinKeys[code] !== undefined) {
+                const amt = globalCoinKeys[code];
+                currentUser.coins += amt;
+                delete globalCoinKeys[code]; // Se usa una sola vez
+                saveToCloud();
+                
+                feedback.className = "text-[10px] text-green-400 font-bold mt-1";
+                feedback.innerText = `¡Canje exitoso! Ganaste ${amt} Nexo Coins 🟡`;
+                document.getElementById('profile-coins-val').innerText = `${currentUser.coins} 🟡`;
+                document.getElementById('redeem-code-input').value = '';
+            } else {
+                feedback.className = "text-[10px] text-red-400 font-bold mt-1";
+                feedback.innerText = "Código inválido o ya utilizado.";
+            }
+        }
+
         function closeModal() { document.getElementById('community-modal').classList.add('hidden'); }
         function toggleNinjaModal() { document.getElementById('ninja-modal').classList.toggle('hidden'); }
         function toggleRouletteModal() { document.getElementById('roulette-modal').classList.toggle('hidden'); }
@@ -1119,11 +1259,36 @@
             let total = 0;
             Object.values(storeState.cart).forEach(item => { total += item.price * item.count; });
             storeState.totalBasePrice = total;
-            storeState.finalPrice = total;
-            document.getElementById('display-price').innerText = `$${total.toLocaleString('es-AR')} ARS`;
+            
+            let final = total;
+            if (storeState.discountPercent > 0) {
+                final = total - (total * storeState.discountPercent / 100);
+            }
+            storeState.finalPrice = final;
+            
+            let priceText = `$${total.toLocaleString('es-AR')} ARS`;
+            if (storeState.discountPercent > 0) {
+                priceText = `<span class="line-through text-gray-500 text-xs">$${total.toLocaleString('es-AR')}</span> <span class="text-nexoCyan">$${final.toLocaleString('es-AR')} ARS (${storeState.discountPercent}% OFF)</span>`;
+            }
+            document.getElementById('display-price').innerHTML = priceText;
         }
 
-        function validateCode() {}
+        function validateCode() {
+            const codeInput = document.getElementById('promo-code').value.trim().toUpperCase();
+            const feedback = document.getElementById('code-feedback');
+            feedback.classList.remove('hidden');
+
+            if (globalCoupons[codeInput]) {
+                storeState.discountPercent = globalCoupons[codeInput].discount;
+                storeState.couponUsed = codeInput;
+                feedback.className = "text-[11px] mt-1.5 text-green-400 font-bold";
+                feedback.innerText = `¡Cupón aplicado con éxito! Descuento del ${storeState.discountPercent}%`;
+                updateCartUI();
+            } else {
+                feedback.className = "text-[11px] mt-1.5 text-red-400 font-bold";
+                feedback.innerText = "Código promocional inválido o expirado.";
+            }
+        }
 
         let secretClicks = 0;
         function triggerAdminSecret() {
@@ -1154,6 +1319,8 @@
                 await syncFromCloud();
                 renderAdminPriceInputs();
                 renderAdminBannersList();
+                renderAdminCouponsList();
+                renderAdminCoinKeysList();
             } else {
                 document.getElementById('admin-login-error').classList.remove('hidden');
             }
@@ -1170,6 +1337,17 @@
                 document.getElementById('sum-pack').innerText = Object.keys(storeState.cart).join(', ');
                 document.getElementById('sum-client').innerText = storeState.clientName;
                 document.getElementById('sum-total').innerText = `$${storeState.finalPrice.toLocaleString('es-AR')} ARS`;
+
+                // Setear campos ocultos para el bot de Gmail
+                document.getElementById('bot-input-game').value = storeState.game;
+                document.getElementById('bot-input-id').value = storeState.playerId;
+                document.getElementById('bot-input-nick').value = currentUser.name;
+                document.getElementById('bot-input-packs').value = Object.keys(storeState.cart).join(', ');
+                document.getElementById('bot-input-total').value = `$${storeState.finalPrice.toLocaleString('es-AR')} ARS`;
+                document.getElementById('bot-input-coupon').value = storeState.couponUsed;
+                document.getElementById('bot-input-coins').value = storeState.coinsEarned;
+                document.getElementById('bot-input-name').value = storeState.clientName;
+                document.getElementById('bot-input-phone').value = document.getElementById('client-phone').value;
             }
             [1, 2, 3, 4].forEach(num => {
                 document.getElementById('step-' + num).classList.add('hidden');
@@ -1220,6 +1398,7 @@
         window.onload = async function() {
             updateAuthUI();
             renderBannersCarousel();
+            renderSavedIds();
             await syncFromCloud();
         };
     </script>
