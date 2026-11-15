@@ -662,26 +662,26 @@
                     </div>
                 </div>
 
-                <!-- MODIFICAR PRECIOS (ESTILO MANUAL CON TUS NUEVOS INPUTS) -->
+                <!-- MODIFICAR PRECIOS MANUALMENTE -->
                 <div class="bg-nexoCard border border-green-500/50 p-5 rounded-3xl space-y-3.5 shadow-xl">
                     <div class="flex items-center gap-2">
                         <span class="text-xl">💲</span>
                         <h3 class="text-sm font-black text-white">Modificar Precios y Arma tu Carrito</h3>
                     </div>
-                    <p class="text-[11px] text-gray-300">Modificá manualmente los precios en ARS de cada paquete para todos los clientes en tiempo real.</p>
+                    <p class="text-[11px] text-gray-300">Escribí el nuevo precio en ARS para cada paquete y tocá Guardar (o Enter) para cambiarlo en toda la tienda.</p>
                     
                     <div class="space-y-3 text-xs">
-                        <select id="admin-price-game" onchange="renderAdminPriceInputs()" class="w-full bg-nexoDark border border-gray-700 rounded-xl p-2.5 text-xs text-white focus:outline-none">
+                        <select id="admin-price-game" onchange="isEditingPrices = false; renderAdminPriceInputs()" class="w-full bg-nexoDark border border-gray-700 rounded-xl p-2.5 text-xs text-white focus:outline-none">
                             <option value="Free Fire">Free Fire</option>
                             <option value="Blood Strike">Blood Strike</option>
                         </select>
                         
-                        <!-- CONTENEDOR DE INPUTS MANUALES -->
                         <div id="admin-price-inputs-container" class="space-y-2.5 max-h-60 overflow-y-auto pr-1"></div>
 
-                        <button onclick="saveNewPrices()" class="w-full bg-gradient-to-r from-green-600 to-emerald-600 text-white font-black py-3 rounded-xl text-xs uppercase shadow">
+                        <button onclick="saveNewPrices()" class="w-full bg-gradient-to-r from-green-600 to-emerald-600 hover:opacity-95 text-white font-black py-3 rounded-xl text-xs uppercase shadow">
                             💾 GUARDAR Y ACTUALIZAR PRECIOS GLOBALES
                         </button>
+                        <p id="price-save-feedback" class="text-[11px] text-center font-bold text-green-400 hidden"></p>
                     </div>
                 </div>
 
@@ -714,6 +714,7 @@
         const FIREBASE_DB_URL = "https://nexo-store-bcec3-default-rtdb.firebaseio.com/"; 
 
         let globalMaintenanceMode = false;
+        let isEditingPrices = false;
         let globalBanners = [
             {
                 id: 1,
@@ -792,7 +793,7 @@
                     if (data.maintenanceMode !== undefined) globalMaintenanceMode = data.maintenanceMode;
                     if (data.banners && data.banners.length > 0) globalBanners = data.banners;
                     if (data.coupons) globalCoupons = data.coupons;
-                    if (data.packsData) packsData = data.packsData;
+                    if (data.packsData && !isEditingPrices) packsData = data.packsData;
                     if (data.missions) missionsDB = data.missions;
                     if (data.chatMessages) globalChatMessages = data.chatMessages;
                     if (data.reviews) globalReviews = data.reviews;
@@ -806,7 +807,9 @@
                     }
                     if (!document.getElementById('admin-dashboard-screen').classList.contains('hidden')) {
                         renderAdminBannersList();
-                        renderAdminPriceInputs();
+                        if (!isEditingPrices) {
+                            renderAdminPriceInputs();
+                        }
                     }
                 } else {
                     await saveToCloud();
@@ -953,7 +956,15 @@
                         <p class="text-[10px] text-gray-400">Actual: $${p.price.toLocaleString('es-AR')} ARS</p>
                     </div>
                     <div class="flex items-center gap-1">
-                        <input type="number" id="price-input-${game}-${idx}" value="${p.price}" class="w-28 bg-nexoCard border border-cyan-500/50 rounded-lg p-1.5 text-xs text-white font-mono text-center focus:outline-none">
+                        <span class="text-gray-400 text-xs font-bold">$</span>
+                        <input type="number" 
+                               id="price-input-${idx}" 
+                               data-idx="${idx}" 
+                               value="${p.price}" 
+                               onfocus="isEditingPrices = true"
+                               oninput="isEditingPrices = true"
+                               onkeydown="if(event.key === 'Enter'){ event.preventDefault(); saveNewPrices(); }"
+                               class="admin-price-field w-28 bg-nexoCard border border-cyan-500/50 rounded-lg p-1.5 text-xs text-white font-mono text-center focus:outline-none focus:border-green-400">
                     </div>
                 </div>
             `).join('');
@@ -962,22 +973,27 @@
         async function saveNewPrices() {
             const game = document.getElementById('admin-price-game').value;
             const items = packsData[game];
+            const inputs = document.querySelectorAll('.admin-price-field');
             
-            items.forEach((p, idx) => {
-                const inputEl = document.getElementById(`price-input-${game}-${idx}`);
-                if (inputEl) {
-                    const val = parseInt(inputEl.value);
-                    if (!isNaN(val)) {
-                        p.price = val;
-                    }
+            inputs.forEach((inputEl) => {
+                const idx = parseInt(inputEl.getAttribute('data-idx'));
+                const val = parseInt(inputEl.value);
+                if (!isNaN(val) && val >= 0 && items[idx]) {
+                    items[idx].price = val;
                 }
             });
 
             await saveToCloud();
-            if(!document.getElementById('step-2').classList.contains('hidden')) {
-                renderPacks();
+            isEditingPrices = false;
+            renderAdminPriceInputs();
+            renderPacks();
+
+            const fb = document.getElementById('price-save-feedback');
+            if (fb) {
+                fb.innerText = `✅ ¡Precios de ${game} actualizados para todos!`;
+                fb.classList.remove('hidden');
+                setTimeout(() => fb.classList.add('hidden'), 4000);
             }
-            alert(`✅ ¡Precios de ${game} actualizados y sincronizados globalmente para todos los clientes!`);
         }
 
         let currentUser = { email: '', name: 'Invitado', avatar: 'https://api.dicebear.com/7.x/bottts/svg?seed=NexoUser', coins: 0, purchases: 0, savedIds: [] };
@@ -1121,6 +1137,7 @@
         }
 
         function exitAdminView() {
+            isEditingPrices = false;
             document.getElementById('view-admin').classList.add('hidden');
             document.getElementById('view-store').classList.remove('hidden');
             document.getElementById('admin-login-screen').classList.remove('hidden');
