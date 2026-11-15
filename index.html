@@ -662,7 +662,7 @@
                     </div>
                 </div>
 
-                <!-- MODIFICAR PRECIOS (ESTILO IGUAL A LA SEGUNDA IMAGEN) -->
+                <!-- MODIFICAR PRECIOS (ESTILO MANUAL CON TUS NUEVOS INPUTS) -->
                 <div class="bg-nexoCard border border-green-500/50 p-5 rounded-3xl space-y-3.5 shadow-xl">
                     <div class="flex items-center gap-2">
                         <span class="text-xl">💲</span>
@@ -676,7 +676,7 @@
                             <option value="Blood Strike">Blood Strike</option>
                         </select>
                         
-                        <!-- CONTENEDOR DONDE APARECEN TODOS LOS PAQUETES CON SU INPUT MANUAL -->
+                        <!-- CONTENEDOR DE INPUTS MANUALES -->
                         <div id="admin-price-inputs-container" class="space-y-2.5 max-h-60 overflow-y-auto pr-1"></div>
 
                         <button onclick="saveNewPrices()" class="w-full bg-gradient-to-r from-green-600 to-emerald-600 text-white font-black py-3 rounded-xl text-xs uppercase shadow">
@@ -714,7 +714,44 @@
         const FIREBASE_DB_URL = "https://nexo-store-bcec3-default-rtdb.firebaseio.com/"; 
 
         let globalMaintenanceMode = false;
-        let globalBanners = [];
+        let globalBanners = [
+            {
+                id: 1,
+                tag: "Nuevo • Mini Influencers",
+                title: "Hacete viral con tu código",
+                desc: "Creá tu código y ganá diamantes conquistando los rangos ninja.",
+                btnText: "Ver Rangos ➔",
+                actionType: "ninja",
+                linkUrl: "",
+                imgUrl: "",
+                emoji: "🥷",
+                subLabel: "NEXO CREATOR"
+            },
+            {
+                id: 2,
+                tag: "Minijuegos • Ruleta Mágica",
+                title: "Convertí tus Coins en premios",
+                desc: "Girá la ruleta con tus Nexo Coins y ganá diamantes u oro al instante.",
+                btnText: "Girar ahora ➔",
+                actionType: "roulette",
+                linkUrl: "",
+                imgUrl: "",
+                emoji: "🎡",
+                subLabel: "PREMIOS VIP"
+            },
+            {
+                id: 3,
+                tag: "Comunidad • TikTok Oficial",
+                title: "Seguinos en @nexop02",
+                desc: "Enterate de todas las recargas en tiempo real y sorteos exclusivos.",
+                btnText: "Ir a TikTok ➔",
+                actionType: "link",
+                linkUrl: "https://www.tiktok.com/@nexop02",
+                imgUrl: "",
+                emoji: "🎵",
+                subLabel: "TIKTOK VIP"
+            }
+        ];
         let globalCoupons = { "NEXO10": { discount: 10, maxUses: 100, usedCount: 0 } };
 
         let packsData = {
@@ -753,7 +790,7 @@
                 const data = await res.json();
                 if (data) {
                     if (data.maintenanceMode !== undefined) globalMaintenanceMode = data.maintenanceMode;
-                    if (data.banners) globalBanners = data.banners;
+                    if (data.banners && data.banners.length > 0) globalBanners = data.banners;
                     if (data.coupons) globalCoupons = data.coupons;
                     if (data.packsData) packsData = data.packsData;
                     if (data.missions) missionsDB = data.missions;
@@ -844,18 +881,63 @@
 
         let currentSlide = 0;
         function renderBannersCarousel() {
+            const wrapper = document.getElementById('banners-wrapper');
             const container = document.getElementById('carousel-container');
             const dotsContainer = document.getElementById('carousel-dots-container');
-            if (!container || !globalBanners.length) return;
-            container.innerHTML = globalBanners.map((b, idx) => `
-                <div class="carousel-slide w-full flex items-center justify-between gap-3 ${idx !== currentSlide ? 'hidden' : ''}">
-                    <div class="space-y-1.5 flex-1">
-                        <span class="bg-nexoPurple/20 text-nexoPurple text-[9px] font-bold px-2 py-0.5 rounded-full">${b.tag}</span>
-                        <h3 class="text-sm font-black text-white">${b.title}</h3>
-                        <p class="text-[11px] text-gray-300">${b.desc}</p>
+            if (!container || !dotsContainer || !globalBanners.length) return;
+            if (wrapper) wrapper.classList.remove('hidden');
+            if (currentSlide >= globalBanners.length) currentSlide = 0;
+
+            container.innerHTML = globalBanners.map((b, idx) => {
+                let btnHtml = '';
+                if (b.actionType === 'ninja') {
+                    btnHtml = `<button onclick="toggleNinjaModal()" class="mt-1 bg-gradient-to-r from-nexoPurple to-nexoCyan text-white text-[10px] font-black px-3 py-1.5 rounded-lg uppercase shadow">${b.btnText || 'Ver Más'}</button>`;
+                } else if (b.actionType === 'roulette') {
+                    btnHtml = `<button onclick="toggleRouletteModal()" class="mt-1 bg-yellow-500 text-nexoDark text-[10px] font-black px-3 py-1.5 rounded-lg uppercase shadow">${b.btnText || 'Girar'}</button>`;
+                } else if (b.linkUrl) {
+                    btnHtml = `<a href="${b.linkUrl}" target="_blank" class="inline-block mt-1 bg-nexoCyan text-nexoDark text-[10px] font-black px-3 py-1.5 rounded-lg uppercase shadow">${b.btnText || 'Abrir ➔'}</a>`;
+                }
+
+                let mediaHtml = b.imgUrl ? `<img src="${b.imgUrl}" class="w-20 h-20 rounded-2xl object-cover border border-nexoCyan/50 shrink-0 shadow-lg">` : `
+                    <div class="w-20 h-20 rounded-2xl bg-gradient-to-tr from-purple-900 to-indigo-950 border border-nexoCyan/50 flex flex-col items-center justify-center shrink-0 shadow-lg">
+                        <span class="text-3xl">${b.emoji || '🔥'}</span>
+                        <span class="text-[8px] font-black text-nexoCyan mt-1 text-center px-1">${b.subLabel || 'NEXO VIP'}</span>
                     </div>
-                </div>
+                `;
+
+                return `
+                    <div class="carousel-slide w-full flex items-center justify-between gap-3 ${idx !== currentSlide ? 'hidden' : ''}">
+                        <div class="space-y-1.5 flex-1">
+                            <span class="bg-nexoPurple/20 text-nexoPurple border border-nexoPurple/40 text-[9px] font-bold px-2 py-0.5 rounded-full uppercase">${b.tag || 'Nexo Store'}</span>
+                            <h3 class="text-sm font-black text-white leading-tight">${b.title}</h3>
+                            <p class="text-[11px] text-gray-300 leading-snug">${b.desc}</p>
+                            ${btnHtml}
+                        </div>
+                        ${mediaHtml}
+                    </div>
+                `;
+            }).join('');
+
+            dotsContainer.innerHTML = globalBanners.map((_, i) => `
+                <span class="carousel-dot h-1.5 rounded-full transition-all duration-300 ${i === currentSlide ? 'bg-nexoCyan w-4' : 'bg-gray-600 w-1.5'}"></span>
             `).join('');
+        }
+
+        setInterval(() => {
+            if (globalBanners && globalBanners.length > 1) {
+                currentSlide = (currentSlide + 1) % globalBanners.length;
+                renderBannersCarousel();
+            }
+        }, 3500);
+
+        let touchstartX = 0;
+        let touchendX = 0;
+        function touchStart(e) { touchstartX = e.changedTouches[0].screenX; }
+        function touchEnd(e) {
+            touchendX = e.changedTouches[0].screenX;
+            if (!globalBanners || globalBanners.length <= 1) return;
+            if (touchendX < touchstartX - 40) { currentSlide = (currentSlide + 1) % globalBanners.length; renderBannersCarousel(); }
+            if (touchendX > touchstartX + 40) { currentSlide = (currentSlide - 1 + globalBanners.length) % globalBanners.length; renderBannersCarousel(); }
         }
 
         function renderAdminPriceInputs() {
@@ -868,7 +950,7 @@
                 <div class="bg-nexoDark border border-gray-800 p-2.5 rounded-xl flex items-center justify-between gap-2">
                     <div>
                         <p class="font-black text-white text-xs">${p.name}</p>
-                        <p class="text-[10px] text-gray-400">$${p.price.toLocaleString('es-AR')} ARS</p>
+                        <p class="text-[10px] text-gray-400">Actual: $${p.price.toLocaleString('es-AR')} ARS</p>
                     </div>
                     <div class="flex items-center gap-1">
                         <input type="number" id="price-input-${game}-${idx}" value="${p.price}" class="w-28 bg-nexoCard border border-cyan-500/50 rounded-lg p-1.5 text-xs text-white font-mono text-center focus:outline-none">
@@ -882,9 +964,12 @@
             const items = packsData[game];
             
             items.forEach((p, idx) => {
-                const val = document.getElementById(`price-input-${game}-${idx}`).value;
-                if (val && !isNaN(val)) {
-                    p.price = parseInt(val);
+                const inputEl = document.getElementById(`price-input-${game}-${idx}`);
+                if (inputEl) {
+                    const val = parseInt(inputEl.value);
+                    if (!isNaN(val)) {
+                        p.price = val;
+                    }
                 }
             });
 
@@ -892,7 +977,7 @@
             if(!document.getElementById('step-2').classList.contains('hidden')) {
                 renderPacks();
             }
-            alert(`✅ ¡Precios de ${game} actualizados globalmente para todos los clientes!`);
+            alert(`✅ ¡Precios de ${game} actualizados y sincronizados globalmente para todos los clientes!`);
         }
 
         let currentUser = { email: '', name: 'Invitado', avatar: 'https://api.dicebear.com/7.x/bottts/svg?seed=NexoUser', coins: 0, purchases: 0, savedIds: [] };
@@ -918,7 +1003,7 @@
         function logoutAccount() { location.reload(); }
 
         function copyCreatorPromoText() {
-            navigator.clipboard.writeText("¡Recargá en Nexo Store con mi código!");
+            navigator.clipboard.writeText("🔥 ¡Recargá tus diamantes de Free Fire y oro de Blood Strike súper rápido y seguro en Nexo Store! Usá mi código de creador para obtener descuentos exclusivos. 💎⚡");
             alert("¡Copiado!");
         }
 
@@ -1051,6 +1136,7 @@
                 document.getElementById('admin-dashboard-screen').classList.remove('hidden');
                 await syncFromCloud();
                 renderAdminPriceInputs();
+                renderAdminBannersList();
             } else {
                 document.getElementById('admin-login-error').classList.remove('hidden');
             }
@@ -1083,8 +1169,36 @@
             document.getElementById('hidden-bot-form').submit();
         }
 
-        function addNewGlobalBanner() {}
-        function renderAdminBannersList() {}
+        async function addNewGlobalBanner() {
+            const tag = document.getElementById('new-banner-tag').value.trim() || 'PROMO';
+            const title = document.getElementById('new-banner-title').value.trim();
+            const desc = document.getElementById('new-banner-desc').value.trim();
+            if (!title || !desc) { alert('Completá título y descripción'); return; }
+            
+            globalBanners.push({ id: Date.now(), tag, title, desc });
+            await saveToCloud();
+            renderBannersCarousel();
+            renderAdminBannersList();
+            alert('✅ Banner agregado');
+        }
+
+        function renderAdminBannersList() {
+            const container = document.getElementById('admin-banners-list');
+            if(!container) return;
+            container.innerHTML = globalBanners.map(b => `
+                <div class="bg-nexoDark border border-gray-800 p-2 rounded-xl flex justify-between items-center text-xs">
+                    <span class="text-white font-bold">${b.title}</span>
+                    <button onclick="deleteBanner(${b.id})" class="text-red-400">Eliminar</button>
+                </div>
+            `).join('');
+        }
+
+        async function deleteBanner(id) {
+            globalBanners = globalBanners.filter(b => b.id !== id);
+            await saveToCloud();
+            renderBannersCarousel();
+            renderAdminBannersList();
+        }
 
         window.onload = async function() {
             updateAuthUI();
