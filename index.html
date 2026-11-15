@@ -1274,7 +1274,6 @@
                 return;
             }
 
-            // Datos reales simulados por la IA al verificar
             const sampleNicks = ["✿Roxloy✿", "Shadow_FF", "Kira_LATAM", "ViperPro"];
             const nick = sampleNicks[parseInt(idVal.slice(-1)) % sampleNicks.length];
             const lvl = 45 + (parseInt(idVal.slice(-2)) % 30);
@@ -1311,7 +1310,6 @@
                 const w = img.width;
                 const h = img.height;
 
-                // IA Antifraude verifica proporción vertical y tamaño para evitar fotos editadas o falsas
                 if (file.size < 15000 || h <= w || w < 250) {
                     receiptUploadedValid = false;
                     status.className = 'text-[11px] text-red-400 font-bold';
@@ -1436,7 +1434,6 @@
 
         function copyAlias() { navigator.clipboard.writeText('kevincabelier.mp'); alert('Alias copiado'); }
 
-        // --- CONFIRMAR COMPRA: MUESTRA TEXTO EN PANTALLA Y ENVÍA CORREO GMAIL ---
         async function sendOrderGmail() {
             if (!receiptUploadedValid) {
                 alert('⚠️ Debes subir un comprobante válido verificado por la IA.');
@@ -1454,22 +1451,18 @@
             let packsList = Object.keys(storeState.cart).map(k => `${storeState.cart[k].count}x ${k}`).join(', ');
             const fechaActual = new Date().toLocaleString('es-AR');
 
-            // Formato exacto de correo tipo FormSubmit que pediste
             const mailSubject = encodeURIComponent(`NUEVO PEDIDO NEXO STORE - ${storeState.game}`);
             const mailBody = encodeURIComponent(`Someone just submitted your form on https://nexostore26.github.io/.\n\nHere's what they had to say:\n\nJuego: ${storeState.game}\nID_Jugador: ${storeState.playerId}\nNickname_Juego: ${storeState.playerNick}\nPaquetes: ${packsList}\nMonto_Pagado_ARS: $${storeState.finalPrice.toLocaleString('es-AR')}\nCodigo_Usado: ${storeState.couponUsed}\nNexo_Coins_Ganadas: ${storeState.coinsEarned} Coins\nCliente: ${storeState.clientName}\nContacto: ${storeState.clientPhone}\nTerminos_No_Reembolso: Aceptado por el cliente\nFecha: ${fechaActual}`);
 
-            // Ocultar paso 4 y mostrar mensaje de éxito en pantalla
             document.getElementById('step-4').classList.add('hidden');
             document.getElementById('success-game-name').innerText = storeState.game;
             document.getElementById('success-player-id').innerText = storeState.playerId;
             document.getElementById('success-player-nick').innerText = storeState.playerNick;
             document.getElementById('order-success-screen').classList.remove('hidden');
 
-            // Disparar correo hacia tu Gmail en privado
             window.open(`mailto:nexostoreoff14@gmail.com?subject=${mailSubject}&body=${mailBody}`, '_blank');
         }
 
-        // NexoBot IA soporte
         function askAIQuick(q) { document.getElementById('ai-user-input').value = q; sendAIMessage(); }
         let humanHandoffActive = false;
         function sendAIMessage() {
@@ -1505,7 +1498,15 @@
             }
         }
 
-        window.onload = async function() { updateAuthUI(); renderBannersCarousel(); await syncFromCloud(); };
+        window.onload = async function() { 
+            // Cerrar por defecto el modal de comunidad al iniciar para que no bloquee clics
+            const commModal = document.getElementById('community-modal');
+            if (commModal) commModal.classList.add('hidden');
+
+            updateAuthUI(); 
+            renderBannersCarousel(); 
+            await syncFromCloud(); 
+        };
     </script>
 </body>
 </html>
