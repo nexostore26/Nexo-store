@@ -685,21 +685,21 @@
                     </div>
                 </div>
 
-                <!-- 1. CREAR CÓDIGO PROMOCIONAL (DESCUENTO) -->
+                <!-- 1. CREAR CÓDIGO PROMOCIONAL (DESCUENTO ILIMITADO CON SCROLL) -->
                 <div class="bg-nexoCard border border-yellow-500/50 p-5 rounded-3xl space-y-3.5 shadow-xl">
                     <div class="flex items-center gap-2">
                         <span class="text-xl">🎟️</span>
                         <h3 class="text-sm font-black text-white">Crear Código Promocional</h3>
                     </div>
-                    <p class="text-[11px] text-gray-300">Generá cupones de descuento porcentual para que los usuarios los apliquen en el Carrito.</p>
+                    <p class="text-[11px] text-gray-300">Generá cupones de descuento porcentual ilimitados para que los usuarios los apliquen en el Carrito.</p>
                     
                     <div class="space-y-2.5 text-xs bg-nexoDark p-3.5 rounded-2xl border border-gray-800">
                         <input type="text" id="new-coupon-code" placeholder="Código (Ej: VERANO2026)" class="w-full bg-nexoCard border border-gray-700 rounded-xl p-2.5 text-xs text-white uppercase font-mono">
                         <input type="number" id="new-coupon-discount" placeholder="Descuento en % (Ej: 10)" class="w-full bg-nexoCard border border-gray-700 rounded-xl p-2.5 text-xs text-white">
                         <button onclick="createNewCoupon()" class="w-full bg-yellow-500 hover:bg-yellow-400 text-nexoDark font-black py-2.5 rounded-xl text-xs uppercase shadow">➕ Crear Cupón</button>
                     </div>
-                    <!-- LISTA CON SCROLL FLUIDO VERTICAL (PERMITE VER Y MOVER HACIA ARRIBA/ABAJO) -->
-                    <div id="admin-coupons-list" class="space-y-1.5 max-h-40 overflow-y-auto pr-1"></div>
+                    <!-- CONTENEDOR CON SCROLL VERTICAL FLUIDO PARA LISTA ILIMITADA DE CÓDIGOS Y BOTÓN DE ELIMINAR -->
+                    <div id="admin-coupons-list" class="space-y-1.5 max-h-48 overflow-y-auto pr-1"></div>
                 </div>
 
                 <!-- 2. CREAR CÓDIGOS DE COINS DE REGALO -->
@@ -1043,17 +1043,17 @@
             await saveToCloud();
             renderAdminCouponsList();
             document.getElementById('new-coupon-code').value = '';
-            document.getElementById('new-coupon-discount').value = '';
-            alert(`✅ Cupón ${codeInput} (${disc}%) creado y guardado para todos en la nube`);
+            document.getElementById('new-coupon-discount-input') ? document.getElementById('new-coupon-discount-input').value = '' : document.getElementById('new-coupon-discount').value = '';
+            alert(`✅ Cupón ${codeInput} (${disc}%) creado y guardado ilimitadamente`);
         }
 
         function renderAdminCouponsList() {
             const container = document.getElementById('admin-coupons-list');
             if (!container) return;
             container.innerHTML = Object.keys(globalCoupons).map(code => `
-                <div class="bg-nexoDark border border-gray-800 p-2 rounded-xl flex justify-between items-center text-xs">
+                <div class="bg-nexoDark border border-gray-800 p-2.5 rounded-xl flex justify-between items-center text-xs">
                     <span class="text-white font-bold font-mono">${code} <span class="text-yellow-400">(${globalCoupons[code].discount}%)</span></span>
-                    <button onclick="deleteCoupon('${code}')" class="text-red-400">Eliminar</button>
+                    <button onclick="deleteCoupon('${code}')" class="text-red-400 hover:text-red-300 font-bold px-2 py-1">Eliminar</button>
                 </div>
             `).join('');
         }
