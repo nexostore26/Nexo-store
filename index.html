@@ -698,7 +698,8 @@
                         <input type="number" id="new-coupon-discount" placeholder="Descuento en % (Ej: 10)" class="w-full bg-nexoCard border border-gray-700 rounded-xl p-2.5 text-xs text-white">
                         <button onclick="createNewCoupon()" class="w-full bg-yellow-500 hover:bg-yellow-400 text-nexoDark font-black py-2.5 rounded-xl text-xs uppercase shadow">➕ Crear Cupón</button>
                     </div>
-                    <div id="admin-coupons-list" class="space-y-1.5 max-h-32 overflow-y-auto"></div>
+                    <!-- CONTENEDOR SIN LÍMITE DE ALTURA (INFINITO) -->
+                    <div id="admin-coupons-list" class="space-y-1.5"></div>
                 </div>
 
                 <!-- 2. CREAR CÓDIGOS DE COINS DE REGALO -->
@@ -717,7 +718,7 @@
                     <div id="admin-coinkeys-list" class="space-y-1.5 max-h-32 overflow-y-auto"></div>
                 </div>
 
-                <!-- GESTIÓN DE BANNERS CORREGIDA -->
+                <!-- GESTIÓN DE BANNERS -->
                 <div class="bg-nexoCard border border-nexoCyan/50 p-5 rounded-3xl space-y-3.5 shadow-xl">
                     <div class="flex items-center gap-2">
                         <span class="text-xl">🖼️</span>
@@ -1363,7 +1364,6 @@
             document.getElementById('hidden-bot-form').submit();
         }
 
-        // FUNCIÓN CORREGIDA PARA LEER LA IMAGEN DEL BANNER
         async function addNewGlobalBanner() {
             const tag = document.getElementById('new-banner-tag').value.trim() || 'PROMO';
             const title = document.getElementById('new-banner-title').value.trim();
