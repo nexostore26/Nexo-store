@@ -698,8 +698,8 @@
                         <input type="number" id="new-coupon-discount" placeholder="Descuento en % (Ej: 10)" class="w-full bg-nexoCard border border-gray-700 rounded-xl p-2.5 text-xs text-white">
                         <button onclick="createNewCoupon()" class="w-full bg-yellow-500 hover:bg-yellow-400 text-nexoDark font-black py-2.5 rounded-xl text-xs uppercase shadow">➕ Crear Cupón</button>
                     </div>
-                    <!-- CONTENEDOR SIN LÍMITE DE ALTURA (INFINITO) -->
-                    <div id="admin-coupons-list" class="space-y-1.5"></div>
+                    <!-- LISTA CON SCROLL FLUIDO VERTICAL (PERMITE VER Y MOVER HACIA ARRIBA/ABAJO) -->
+                    <div id="admin-coupons-list" class="space-y-1.5 max-h-40 overflow-y-auto pr-1"></div>
                 </div>
 
                 <!-- 2. CREAR CÓDIGOS DE COINS DE REGALO -->
@@ -1035,16 +1035,16 @@
         }
 
         async function createNewCoupon() {
-            const code = document.getElementById('new-coupon-code').value.trim().toUpperCase();
+            const codeInput = document.getElementById('new-coupon-code').value.trim().toUpperCase();
             const disc = parseInt(document.getElementById('new-coupon-discount').value);
-            if (!code || isNaN(disc)) { alert('Completá el código y el porcentaje de descuento'); return; }
+            if (!codeInput || isNaN(disc)) { alert('Completá el código y el porcentaje de descuento'); return; }
 
-            globalCoupons[code] = { discount: disc, maxUses: 1000, usedCount: 0 };
+            globalCoupons[codeInput] = { discount: disc, maxUses: 1000, usedCount: 0 };
             await saveToCloud();
             renderAdminCouponsList();
             document.getElementById('new-coupon-code').value = '';
             document.getElementById('new-coupon-discount').value = '';
-            alert(`✅ Cupón ${code} (${disc}%) creado con éxito`);
+            alert(`✅ Cupón ${codeInput} (${disc}%) creado y guardado para todos en la nube`);
         }
 
         function renderAdminCouponsList() {
