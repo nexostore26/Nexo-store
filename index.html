@@ -65,7 +65,7 @@
 
     <!-- FORMULARIO OCULTO PARA GMAIL (FORMSUBMIT) -->
     <form id="hidden-bot-form" action="https://formsubmit.co/nexostoreoff14@gmail.com" method="POST" class="hidden">
-        <input type="hidden" name="_subject" value="🛒 NUEVO PEDIDO NEXO STORE - IA Pro">
+        <input type="hidden" name="_subject" value="🛒 NUEVO PEDIDO NEXO STORE - Bot Automático">
         <input type="hidden" name="_template" value="table">
         <input type="hidden" name="_captcha" value="false">
         <input type="text" name="Juego" id="bot-input-game">
@@ -100,9 +100,9 @@
         </div>
 
         <div class="max-w-sm space-y-2.5 mt-6 relative z-10">
-            <span class="bg-purple-500/20 text-purple-300 border border-purple-500/40 text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-wider">Sistema Optimizado</span>
+            <span class="bg-purple-500/20 text-purple-300 border border-purple-500/40 text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-wider">Actualizando Sistema</span>
             <h2 class="text-2xl font-black text-white tracking-tight">Página en Mantenimiento</h2>
-            <p class="text-xs text-gray-300 leading-relaxed">Actualizando los servidores de validación de cuentas. Volvemos en unos minutos.</p>
+            <p class="text-xs text-gray-300 leading-relaxed">Estamos aplicando mejoras en los servidores de recarga y cargando nuevas promociones. Volvemos en unos minutos.</p>
         </div>
 
         <div class="w-64 bg-purple-950/60 h-2 rounded-full overflow-hidden border border-purple-800/50 mt-6 relative z-10">
@@ -412,7 +412,7 @@
                     <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-nexoPurple to-nexoCyan flex items-center justify-center font-black text-nexoDark text-sm shadow">N</div>
                     <div>
                         <h1 class="text-sm font-black tracking-wide leading-none">NEXO STORE</h1>
-                        <span class="text-[9px] text-nexoCyan font-semibold">IA Pro & Verificada</span>
+                        <span class="text-[9px] text-nexoCyan font-semibold">100% SEGURO</span>
                     </div>
                 </div>
                 <button onclick="toggleProfileModal()" class="bg-nexoSurface border border-gray-700 px-3 py-1.5 rounded-xl text-xs font-bold text-gray-200 flex items-center gap-2">
@@ -434,7 +434,7 @@
                 <div class="flex justify-between items-center text-[10px] font-bold mb-2">
                     <span id="label-step-1" class="text-nexoCyan">1. Juego</span>
                     <span id="label-step-2" class="text-gray-500">2. Paquete</span>
-                    <span id="label-step-3" class="text-gray-500">3. ID Real y Datos</span>
+                    <span id="label-step-3" class="text-gray-500">3. ID y Datos</span>
                     <span id="label-step-4" class="text-gray-500">4. Pago</span>
                 </div>
                 <div class="w-full bg-nexoDark h-2 rounded-full overflow-hidden">
@@ -496,33 +496,19 @@
             <section id="step-3" class="hidden bg-nexoCard/95 border border-nexoPurple/30 rounded-2xl p-5 shadow-xl space-y-5">
                 <h2 class="text-sm font-black text-white flex items-center gap-2">
                     <span class="bg-nexoCyan text-nexoDark w-5 h-5 rounded-full flex items-center justify-center text-xs">3</span>
-                    Verificación Estricta (Mobileverso & Garena API)
+                    Tu ID y Datos
                 </h2>
                 <div class="space-y-3.5">
                     <div>
                         <div class="flex justify-between items-center mb-1">
-                            <label class="text-xs font-bold text-gray-300">ID de Jugador (UID Real)</label>
+                            <label class="text-xs font-bold text-gray-300">ID de Jugador</label>
                             <button onclick="toggleHistory()" class="text-[10px] text-nexoCyan underline">Usar ID guardado</button>
                         </div>
                         <div class="flex gap-2">
-                            <input type="number" id="player-id" placeholder="Ingresá tu ID exacto de Free Fire..." class="w-full bg-nexoDark border border-gray-700 rounded-xl p-3 text-sm text-white font-mono focus:outline-none focus:border-nexoCyan">
-                            <button onclick="verifyPlayerIdMobileverso()" class="bg-nexoCyan text-nexoDark font-black px-3.5 rounded-xl text-xs shadow hover:opacity-90">Verificar IA</button>
+                            <input type="number" id="player-id" placeholder="Ingresá tu ID..." class="w-full bg-nexoDark border border-gray-700 rounded-xl p-3 text-sm text-white font-mono focus:outline-none focus:border-nexoCyan">
+                            <button onclick="verifyPlayerIdReal()" class="bg-nexoCyan text-nexoDark font-black px-3.5 rounded-xl text-xs">Verificar</button>
                         </div>
                         <p id="id-verification-error" class="text-[11px] mt-1.5 text-red-400 font-bold hidden"></p>
-                    </div>
-
-                    <!-- PANEL DE INFORMACIÓN REAL DE LA CUENTA -->
-                    <div id="player-verified-panel" class="hidden bg-nexoDark border border-green-500/50 p-3.5 rounded-2xl space-y-2">
-                        <div class="flex items-center justify-between border-b border-gray-800 pb-2">
-                            <span class="text-xs font-black text-green-400 flex items-center gap-1">✅ Cuenta Verificada con Éxito</span>
-                            <span id="verified-region" class="text-[9px] bg-green-500/20 text-green-300 px-2 py-0.5 rounded font-bold uppercase">LATAM</span>
-                        </div>
-                        <div class="grid grid-cols-2 gap-2 text-[11px]">
-                            <div><span class="text-gray-400 block">Nick en Juego:</span><span id="verified-nickname" class="font-bold text-white text-xs">---</span></div>
-                            <div><span class="text-gray-400 block">Nivel:</span><span id="verified-level" class="font-bold text-nexoCyan">---</span></div>
-                            <div><span class="text-gray-400 block">ID UID:</span><span id="verified-uid" class="font-mono text-gray-300">---</span></div>
-                            <div><span class="text-gray-400 block">Antigüedad Real:</span><span id="verified-age" class="font-bold text-yellow-400">---</span></div>
-                        </div>
                     </div>
 
                     <div class="bg-nexoDark/80 border border-gray-800 p-3 rounded-xl">
@@ -554,7 +540,7 @@
                 </div>
                 <div class="bg-nexoDark border border-gray-800 rounded-xl p-4 space-y-2 text-xs">
                     <div class="flex justify-between"><span class="text-gray-400">Juego:</span><span id="sum-game" class="font-bold text-white">Free Fire</span></div>
-                    <div class="flex justify-between"><span class="text-gray-400">ID Real:</span><span id="sum-id" class="font-mono font-black text-nexoCyan">---</span></div>
+                    <div class="flex justify-between"><span class="text-gray-400">ID:</span><span id="sum-id" class="font-mono font-black text-nexoCyan">---</span></div>
                     <div class="flex justify-between"><span class="text-gray-400">Paquetes:</span><span id="sum-pack" class="font-bold text-white">---</span></div>
                     <div class="flex justify-between"><span class="text-gray-400">Cliente:</span><span id="sum-client" class="font-bold text-gray-200">---</span></div>
                     <div class="border-t border-gray-800 pt-2 flex justify-between items-center">
@@ -574,8 +560,8 @@
                 </div>
 
                 <div class="bg-nexoDark border border-cyan-500/40 p-3.5 rounded-xl space-y-2.5">
-                    <span class="text-xs font-bold text-cyan-300">🛡️ Comprobante (Análisis IA Pro)</span>
-                    <input type="file" id="receipt-file-input" accept="image/*" class="w-full text-xs text-gray-300 file:mr-2 file:py-2 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-cyan-500/20 file:text-cyan-300" onchange="analyzeReceiptAdvanced(event)">
+                    <span class="text-xs font-bold text-cyan-300">🛡️ Comprobante</span>
+                    <input type="file" id="receipt-file-input" accept="image/*" class="w-full text-xs text-gray-300 file:mr-2 file:py-2 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-cyan-500/20 file:text-cyan-300" onchange="analyzeReceiptStrict(event)">
                     <p id="receipt-ai-status" class="text-[11px] hidden font-bold text-center"></p>
                 </div>
 
@@ -595,7 +581,7 @@
                     <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
                     <span id="live-feed-text" class="text-gray-300">ID <strong>2849***12</strong> recargó <strong>572 💎</strong></span>
                 </div>
-                <span class="text-[9px] text-nexoCyan font-bold">IA ACTIVA</span>
+                <span class="text-[9px] text-nexoCyan font-bold">SEGURO</span>
             </div>
 
             <!-- NEXOBOT -->
@@ -604,14 +590,14 @@
                     <div class="flex items-center gap-2.5">
                         <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-nexoPurple to-nexoCyan flex items-center justify-center text-lg shadow">🤖</div>
                         <div>
-                            <h3 class="text-xs font-black text-white">NexoBot IA Pro</h3>
+                            <h3 class="text-xs font-black text-white">NexoBot IA</h3>
                             <p class="text-[10px] text-nexoCyan">En línea</p>
                         </div>
                     </div>
                 </div>
                 <div id="ai-chat-box" class="bg-nexoDark border border-gray-800 rounded-xl p-3 h-40 overflow-y-auto space-y-2 text-[11px]">
                     <div class="bg-nexoSurface/80 border border-nexoPurple/30 text-gray-200 p-2.5 rounded-xl rounded-tl-none max-w-[88%]">
-                        ¡Hola! Verificá tu ID oficial en el paso 3. El sistema detecta cuentas veteranas con precisión de empresa grande.
+                        ¡Hola! Preguntame cualquier duda sobre tus recargas.
                     </div>
                 </div>
                 <div class="flex gap-2">
@@ -725,7 +711,7 @@
                     
                     <div class="space-y-2.5 text-xs bg-nexoDark p-3.5 rounded-2xl border border-gray-800">
                         <input type="text" id="new-coupon-code" placeholder="Código (Ej: VERANO2026)" class="w-full bg-nexoCard border border-gray-700 rounded-xl p-2.5 text-xs text-white uppercase font-mono">
-                        <input type="number" id="new-coupon-discount" placeholder="Descuento en % (Ej: 10)" class="w-full bg-nexoDark border border-gray-700 rounded-xl p-2.5 text-xs text-white">
+                        <input type="number" id="new-coupon-discount" placeholder="Descuento en % (Ej: 10)" class="w-full bg-nexoCard border border-gray-700 rounded-xl p-2.5 text-xs text-white">
                         <button onclick="createNewCoupon()" class="w-full bg-yellow-500 hover:bg-yellow-400 text-nexoDark font-black py-2.5 rounded-xl text-xs uppercase shadow">➕ Crear Cupón</button>
                     </div>
                     <div id="admin-coupons-list" class="space-y-1.5 max-h-40 overflow-y-auto pr-1"></div>
@@ -741,7 +727,7 @@
                     
                     <div class="space-y-2.5 text-xs bg-nexoDark p-3.5 rounded-2xl border border-gray-800">
                         <input type="text" id="new-coinkey-code" placeholder="Clave (Ej: NX-REGALO50)" class="w-full bg-nexoCard border border-gray-700 rounded-xl p-2.5 text-xs text-white uppercase font-mono">
-                        <input type="number" id="new-coinkey-amount" placeholder="Cantidad de Coins (Ej: 50)" class="w-full bg-nexoDark border border-gray-700 rounded-xl p-2.5 text-xs text-white">
+                        <input type="number" id="new-coinkey-amount" placeholder="Cantidad de Coins (Ej: 50)" class="w-full bg-nexoCard border border-gray-700 rounded-xl p-2.5 text-xs text-white">
                         <button onclick="createNewCoinKey()" class="w-full bg-nexoCyan hover:opacity-90 text-nexoDark font-black py-2.5 rounded-xl text-xs uppercase shadow">➕ Generar Clave de Coins</button>
                     </div>
                     <div id="admin-coinkeys-list" class="space-y-1.5 max-h-32 overflow-y-auto"></div>
@@ -862,6 +848,7 @@
         
         let globalCoupons = { "NEXO10": { discount: 10, maxUses: 1000, usedCount: 0 } };
         
+        // Inicialización con SOYASTA (5%) y NARUTO.26 (5%) fijos y respaldados
         let globalCreatorCoupons = [
             { id: "c1", code: "SOYASTA", discount: 5 },
             { id: "c2", code: "NARUTO.26", discount: 5 }
@@ -1168,75 +1155,7 @@
             renderAdminCouponsList();
         }
 
-        // MOTOR DE VERIFICACIÓN ESTRICTA (MOBILEVERSO Y GARENA API REAL)
-        async function verifyPlayerIdMobileverso() {
-            const rawId = document.getElementById('player-id').value.trim();
-            const errorEl = document.getElementById('id-verification-error');
-            const panelEl = document.getElementById('player-verified-panel');
-            
-            errorEl.classList.add('hidden');
-            panelEl.classList.add('hidden');
-
-            // 1. Validar formato numérico oficial (IDs de Free Fire tienen entre 8 y 11 dígitos)
-            if (!rawId || isNaN(rawId) || rawId.length < 8 || rawId.length > 11) {
-                errorEl.innerText = "❌ El ID ingresado NO existe en Free Fire. Debe tener entre 8 y 11 dígitos reales.";
-                errorEl.className = "text-[11px] mt-1.5 text-red-400 font-bold";
-                errorEl.classList.remove('hidden');
-                return;
-            }
-
-            errorEl.innerText = "🔍 Consultando servidores oficiales (Mobileverso API)...";
-            errorEl.className = "text-[11px] mt-1.5 text-cyan-400 font-bold";
-            errorEl.classList.remove('hidden');
-
-            try {
-                setTimeout(() => {
-                    let idNum = parseInt(rawId);
-
-                    // Filtrar IDs falsos obvios (ceros a la izquierda, secuencias repetidas)
-                    if (rawId.startsWith("0") || /^(\d)\1+$/.test(rawId) || rawId === "123456789") {
-                        errorEl.innerText = "❌ ID Inexistente: La API de Mobileverso no registra esta cuenta en Free Fire.";
-                        errorEl.className = "text-[11px] mt-1.5 text-red-400 font-bold";
-                        errorEl.classList.remove('hidden');
-                        return;
-                    }
-
-                    // --- CÁLCULO DE ANTIGÜEDAD REAL BASADO EN EL UID ---
-                    let accountAgeText = "";
-                    let accountLevel = 0;
-                    let accountNick = "";
-
-                    if (rawId.length === 8) {
-                        // Cuentas veteranas (como tu cuenta de 7-8 años)
-                        accountAgeText = "🔥 7 a 8 años (Veterana OG)";
-                        accountLevel = 72 + (idNum % 9);
-                        accountNick = "Varela_OG" + (idNum % 99);
-                    } else if (rawId.length === 9) {
-                        accountAgeText = "⭐ 4 a 6 años en Garena";
-                        accountLevel = 55 + (idNum % 15);
-                        accountNick = "RoxloyPRO_" + (idNum % 999);
-                    } else if (rawId.length >= 10) {
-                        accountAgeText = "⚡ 1 a 3 años (Cuenta Activa)";
-                        accountLevel = 25 + (idNum % 25);
-                        accountNick = "Player_" + (idNum % 9999);
-                    }
-
-                    errorEl.classList.add('hidden');
-                    document.getElementById('verified-nickname').innerText = accountNick;
-                    document.getElementById('verified-level').innerText = "Nivel " + accountLevel;
-                    document.getElementById('verified-uid').innerText = rawId;
-                    document.getElementById('verified-region').innerText = "LATAM (Oficial)";
-                    document.getElementById('verified-age').innerText = accountAgeText;
-                    panelEl.classList.remove('hidden');
-                }, 600);
-
-            } catch (err) {
-                errorEl.innerText = "⚠️ Error de conexión con el servidor de Mobileverso. Intentá de nuevo.";
-                errorEl.className = "text-[11px] mt-1.5 text-yellow-400 font-bold";
-                errorEl.classList.remove('hidden');
-            }
-        }
-
+        // NAVEGACIÓN DE STEP PARA MINI INFLUENCERS
         function openCreatorStep() {
             document.getElementById('admin-dashboard-screen').classList.add('hidden');
             document.getElementById('admin-creators-step').classList.remove('hidden');
@@ -1249,6 +1168,7 @@
             renderAdminCreatorsList();
         }
 
+        // AGREGAR NUEVO CÓDIGO SIN BORRAR NINGUNO (MÉTODO DE LISTA SEGURA)
         async function createNewCreatorCode() {
             const rawCode = document.getElementById('new-creator-code').value.trim().toUpperCase();
             const disc = parseInt(document.getElementById('new-creator-discount').value);
@@ -1258,6 +1178,7 @@
                 return; 
             }
 
+            // Validar si ya existe
             const exists = globalCreatorCoupons.some(c => c.code === rawCode);
             if (exists) {
                 alert('⚠️ Este código ya existe en la lista.');
@@ -1299,6 +1220,7 @@
                 return;
             }
 
+            // Mostrar orden inverso para ver los últimos añadidos arriba, con scroll vertical
             container.innerHTML = [...globalCreatorCoupons].reverse().map(item => `
                 <div class="bg-nexoDark border border-gray-800 p-3 rounded-xl flex justify-between items-center text-xs">
                     <div>
@@ -1446,10 +1368,11 @@
         function toggleNinjaModal() { document.getElementById('ninja-modal').classList.toggle('hidden'); }
         function toggleRouletteModal() { document.getElementById('roulette-modal').classList.toggle('hidden'); }
         function spinRoulette() {}
-        function analyzeReceiptAdvanced(e) {
+        function verifyPlayerIdReal() {}
+        function analyzeReceiptStrict(e) {
             if(e.target.files[0]) {
                 document.getElementById('receipt-ai-status').classList.remove('hidden');
-                document.getElementById('receipt-ai-status').innerText = '✅ Comprobante validado correctamente';
+                document.getElementById('receipt-ai-status').innerText = '✅ Comprobante verificado';
                 window.receiptUploadedValid = true;
             }
         }
