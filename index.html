@@ -685,24 +685,41 @@
                     </div>
                 </div>
 
-                <!-- 1. CREAR CÓDIGO PROMOCIONAL (DESCUENTO ILIMITADO CON SCROLL) -->
+                <!-- 1. CÓDIGOS PROMOCIONALES NORMALES -->
                 <div class="bg-nexoCard border border-yellow-500/50 p-5 rounded-3xl space-y-3.5 shadow-xl">
                     <div class="flex items-center gap-2">
                         <span class="text-xl">🎟️</span>
                         <h3 class="text-sm font-black text-white">Crear Código Promocional</h3>
                     </div>
-                    <p class="text-[11px] text-gray-300">Generá cupones de descuento porcentual ilimitados para que los usuarios los apliquen en el Carrito.</p>
+                    <p class="text-[11px] text-gray-300">Generá cupones de descuento porcentual para que los usuarios los apliquen en el Carrito.</p>
                     
                     <div class="space-y-2.5 text-xs bg-nexoDark p-3.5 rounded-2xl border border-gray-800">
                         <input type="text" id="new-coupon-code" placeholder="Código (Ej: VERANO2026)" class="w-full bg-nexoCard border border-gray-700 rounded-xl p-2.5 text-xs text-white uppercase font-mono">
                         <input type="number" id="new-coupon-discount" placeholder="Descuento en % (Ej: 10)" class="w-full bg-nexoCard border border-gray-700 rounded-xl p-2.5 text-xs text-white">
                         <button onclick="createNewCoupon()" class="w-full bg-yellow-500 hover:bg-yellow-400 text-nexoDark font-black py-2.5 rounded-xl text-xs uppercase shadow">➕ Crear Cupón</button>
                     </div>
-                    <!-- CONTENEDOR CON SCROLL VERTICAL FLUIDO PARA LISTA ILIMITADA DE CÓDIGOS Y BOTÓN DE ELIMINAR -->
-                    <div id="admin-coupons-list" class="space-y-1.5 max-h-48 overflow-y-auto pr-1"></div>
+                    <div id="admin-coupons-list" class="space-y-1.5 max-h-40 overflow-y-auto pr-1"></div>
                 </div>
 
-                <!-- 2. CREAR CÓDIGOS DE COINS DE REGALO -->
+                <!-- 2. CÓDIGOS PROMOCIONALES MINI INFLUENCERS / CREADORES (ILIMITADO CON SCROLL Y LÍMITE DE USOS) -->
+                <div class="bg-nexoCard border border-fuchsia-500/60 p-5 rounded-3xl space-y-3.5 shadow-xl">
+                    <div class="flex items-center gap-2">
+                        <span class="text-xl">🥷</span>
+                        <h3 class="text-sm font-black text-white">Códigos Promocionales Mini Influencer</h3>
+                    </div>
+                    <p class="text-[11px] text-gray-300">Creación infinita de códigos de creadores con límite de usos en Firebase Data.</p>
+                    
+                    <div class="space-y-2.5 text-xs bg-nexoDark p-3.5 rounded-2xl border border-gray-800">
+                        <input type="text" id="new-creator-code" placeholder="Código Creador (Ej: ROXLOY)" class="w-full bg-nexoCard border border-gray-700 rounded-xl p-2.5 text-xs text-white uppercase font-mono">
+                        <input type="number" id="new-creator-uses" placeholder="Límite de Usos (Ej: 20)" class="w-full bg-nexoCard border border-gray-700 rounded-xl p-2.5 text-xs text-white">
+                        <input type="number" id="new-creator-discount" placeholder="Descuento en % (Ej: 5)" class="w-full bg-nexoCard border border-gray-700 rounded-xl p-2.5 text-xs text-white">
+                        <button onclick="createNewCreatorCode()" class="w-full bg-gradient-to-r from-purple-600 to-fuchsia-600 hover:opacity-90 text-white font-black py-2.5 rounded-xl text-xs uppercase shadow">➕ Crear Código de Creador</button>
+                    </div>
+                    <!-- CONTENEDOR CON SCROLL VERTICAL FLUIDO PARA LISTA INFINITA Y BOTÓN DE ELIMINAR -->
+                    <div id="admin-creators-list" class="space-y-1.5 max-h-48 overflow-y-auto pr-1"></div>
+                </div>
+
+                <!-- 3. CREAR CÓDIGOS DE COINS DE REGALO -->
                 <div class="bg-nexoCard border border-cyan-500/50 p-5 rounded-3xl space-y-3.5 shadow-xl">
                     <div class="flex items-center gap-2">
                         <span class="text-xl">🟡</span>
@@ -788,7 +805,8 @@
             }
         ];
         
-        let globalCoupons = { "NEXO10": { discount: 10, maxUses: 100, usedCount: 0 } };
+        let globalCoupons = { "NEXO10": { discount: 10, maxUses: 1000, usedCount: 0 } };
+        let globalCreatorCoupons = {}; // Almacenamiento infinito para Mini Influencers
         let globalCoinKeys = {};
 
         let packsData = {
@@ -828,6 +846,7 @@
                     if (data.maintenanceMode !== undefined) globalMaintenanceMode = data.maintenanceMode;
                     if (data.banners && data.banners.length > 0) globalBanners = data.banners;
                     if (data.coupons) globalCoupons = data.coupons;
+                    if (data.creatorCoupons) globalCreatorCoupons = data.creatorCoupons;
                     if (data.coinKeys) globalCoinKeys = data.coinKeys;
                     if (data.packsData && !isEditingPrices) packsData = data.packsData;
                     if (data.missions) missionsDB = data.missions;
@@ -844,6 +863,7 @@
                     if (!document.getElementById('admin-dashboard-screen').classList.contains('hidden')) {
                         renderAdminBannersList();
                         renderAdminCouponsList();
+                        renderAdminCreatorsList();
                         renderAdminCoinKeysList();
                         if (!isEditingPrices) {
                             renderAdminPriceInputs();
@@ -869,6 +889,7 @@
                         maintenanceMode: globalMaintenanceMode,
                         banners: globalBanners,
                         coupons: globalCoupons,
+                        creatorCoupons: globalCreatorCoupons,
                         coinKeys: globalCoinKeys,
                         packsData: packsData,
                         missions: missionsDB,
@@ -1043,8 +1064,8 @@
             await saveToCloud();
             renderAdminCouponsList();
             document.getElementById('new-coupon-code').value = '';
-            document.getElementById('new-coupon-discount-input') ? document.getElementById('new-coupon-discount-input').value = '' : document.getElementById('new-coupon-discount').value = '';
-            alert(`✅ Cupón ${codeInput} (${disc}%) creado y guardado ilimitadamente`);
+            document.getElementById('new-coupon-discount').value = '';
+            alert(`✅ Cupón ${codeInput} (${disc}%) creado con éxito`);
         }
 
         function renderAdminCouponsList() {
@@ -1062,6 +1083,43 @@
             delete globalCoupons[code];
             await saveToCloud();
             renderAdminCouponsList();
+        }
+
+        async function createNewCreatorCode() {
+            const codeInput = document.getElementById('new-creator-code').value.trim().toUpperCase();
+            const maxU = parseInt(document.getElementById('new-creator-uses').value);
+            const disc = parseInt(document.getElementById('new-creator-discount').value);
+
+            if (!codeInput || isNaN(maxU) || isNaN(disc)) { alert('Completá todos los campos del código de creador'); return; }
+
+            globalCreatorCoupons[codeInput] = { discount: disc, maxUses: maxU, usedCount: 0 };
+            await saveToCloud();
+            renderAdminCreatorsList();
+            
+            document.getElementById('new-creator-code').value = '';
+            document.getElementById('new-creator-uses').value = '';
+            document.getElementById('new-creator-discount').value = '';
+            alert(`✅ Código de Creador ${codeInput} (${disc}%, máx ${maxU} usos) creado y guardado en Firebase`);
+        }
+
+        function renderAdminCreatorsList() {
+            const container = document.getElementById('admin-creators-list');
+            if (!container) return;
+            container.innerHTML = Object.keys(globalCreatorCoupons).map(code => `
+                <div class="bg-nexoDark border border-gray-800 p-2.5 rounded-xl flex justify-between items-center text-xs">
+                    <div>
+                        <span class="text-white font-bold font-mono">${code}</span>
+                        <span class="text-fuchsia-400 block text-[10px]">Desc: ${globalCreatorCoupons[code].discount}% | Usos: ${globalCreatorCoupons[code].usedCount}/${globalCreatorCoupons[code].maxUses}</span>
+                    </div>
+                    <button onclick="deleteCreatorCoupon('${code}')" class="text-red-400 hover:text-red-300 font-bold px-2 py-1">Eliminar</button>
+                </div>
+            `).join('');
+        }
+
+        async function deleteCreatorCoupon(code) {
+            delete globalCreatorCoupons[code];
+            await saveToCloud();
+            renderAdminCreatorsList();
         }
 
         async function createNewCoinKey() {
@@ -1279,8 +1337,26 @@
             const feedback = document.getElementById('code-feedback');
             feedback.classList.remove('hidden');
 
+            // Buscar en cupones normales o en cupones de creadores
+            let activeCoupon = null;
             if (globalCoupons[codeInput]) {
-                storeState.discountPercent = globalCoupons[codeInput].discount;
+                activeCoupon = globalCoupons[codeInput];
+            } else if (globalCreatorCoupons[codeInput]) {
+                let cObj = globalCreatorCoupons[codeInput];
+                if (cObj.usedCount < cObj.maxUses) {
+                    activeCoupon = cObj;
+                    // Incrementar el uso en tiempo real y actualizar en Firebase
+                    cObj.usedCount++;
+                    saveToCloud();
+                } else {
+                    feedback.className = "text-[11px] mt-1.5 text-red-400 font-bold";
+                    feedback.innerText = "Este código de creador ya alcanzó su límite máximo de usos.";
+                    return;
+                }
+            }
+
+            if (activeCoupon) {
+                storeState.discountPercent = activeCoupon.discount;
                 storeState.couponUsed = codeInput;
                 feedback.className = "text-[11px] mt-1.5 text-green-400 font-bold";
                 feedback.innerText = `¡Cupón aplicado con éxito! Descuento del ${storeState.discountPercent}%`;
@@ -1321,6 +1397,7 @@
                 renderAdminPriceInputs();
                 renderAdminBannersList();
                 renderAdminCouponsList();
+                renderAdminCreatorsList();
                 renderAdminCoinKeysList();
             } else {
                 document.getElementById('admin-login-error').classList.remove('hidden');
