@@ -701,17 +701,16 @@
                     <div id="admin-coupons-list" class="space-y-1.5 max-h-40 overflow-y-auto pr-1"></div>
                 </div>
 
-                <!-- 2. CÓDIGOS PROMOCIONALES MINI INFLUENCERS / CREADORES (ILIMITADO CON SCROLL Y LÍMITE DE USOS) -->
+                <!-- 2. CÓDIGOS PROMOCIONALES MINI INFLUENCER / CREADORES (ILIMITADOS, SIN LÍMITE DE USOS) -->
                 <div class="bg-nexoCard border border-fuchsia-500/60 p-5 rounded-3xl space-y-3.5 shadow-xl">
                     <div class="flex items-center gap-2">
                         <span class="text-xl">🥷</span>
                         <h3 class="text-sm font-black text-white">Códigos Promocionales Mini Influencer</h3>
                     </div>
-                    <p class="text-[11px] text-gray-300">Creación infinita de códigos de creadores con límite de usos en Firebase Data.</p>
+                    <p class="text-[11px] text-gray-300">Creación infinita de códigos de creadores con uso ilimitado en Firebase Data.</p>
                     
                     <div class="space-y-2.5 text-xs bg-nexoDark p-3.5 rounded-2xl border border-gray-800">
                         <input type="text" id="new-creator-code" placeholder="Código Creador (Ej: ROXLOY)" class="w-full bg-nexoCard border border-gray-700 rounded-xl p-2.5 text-xs text-white uppercase font-mono">
-                        <input type="number" id="new-creator-uses" placeholder="Límite de Usos (Ej: 20)" class="w-full bg-nexoCard border border-gray-700 rounded-xl p-2.5 text-xs text-white">
                         <input type="number" id="new-creator-discount" placeholder="Descuento en % (Ej: 5)" class="w-full bg-nexoCard border border-gray-700 rounded-xl p-2.5 text-xs text-white">
                         <button onclick="createNewCreatorCode()" class="w-full bg-gradient-to-r from-purple-600 to-fuchsia-600 hover:opacity-90 text-white font-black py-2.5 rounded-xl text-xs uppercase shadow">➕ Crear Código de Creador</button>
                     </div>
@@ -1087,19 +1086,17 @@
 
         async function createNewCreatorCode() {
             const codeInput = document.getElementById('new-creator-code').value.trim().toUpperCase();
-            const maxU = parseInt(document.getElementById('new-creator-uses').value);
             const disc = parseInt(document.getElementById('new-creator-discount').value);
 
-            if (!codeInput || isNaN(maxU) || isNaN(disc)) { alert('Completá todos los campos del código de creador'); return; }
+            if (!codeInput || isNaN(disc)) { alert('Completá el código y el descuento'); return; }
 
-            globalCreatorCoupons[codeInput] = { discount: disc, maxUses: maxU, usedCount: 0 };
+            globalCreatorCoupons[codeInput] = { discount: disc, usedCount: 0 };
             await saveToCloud();
             renderAdminCreatorsList();
             
             document.getElementById('new-creator-code').value = '';
-            document.getElementById('new-creator-uses').value = '';
             document.getElementById('new-creator-discount').value = '';
-            alert(`✅ Código de Creador ${codeInput} (${disc}%, máx ${maxU} usos) creado y guardado en Firebase`);
+            alert(`✅ Código de Creador ${codeInput} (${disc}%, ilimitado) creado en Firebase`);
         }
 
         function renderAdminCreatorsList() {
@@ -1109,7 +1106,7 @@
                 <div class="bg-nexoDark border border-gray-800 p-2.5 rounded-xl flex justify-between items-center text-xs">
                     <div>
                         <span class="text-white font-bold font-mono">${code}</span>
-                        <span class="text-fuchsia-400 block text-[10px]">Desc: ${globalCreatorCoupons[code].discount}% | Usos: ${globalCreatorCoupons[code].usedCount}/${globalCreatorCoupons[code].maxUses}</span>
+                        <span class="text-fuchsia-400 block text-[10px]">Desc: ${globalCreatorCoupons[code].discount}% | Usos ilimitados</span>
                     </div>
                     <button onclick="deleteCreatorCoupon('${code}')" class="text-red-400 hover:text-red-300 font-bold px-2 py-1">Eliminar</button>
                 </div>
@@ -1337,22 +1334,11 @@
             const feedback = document.getElementById('code-feedback');
             feedback.classList.remove('hidden');
 
-            // Buscar en cupones normales o en cupones de creadores
             let activeCoupon = null;
             if (globalCoupons[codeInput]) {
                 activeCoupon = globalCoupons[codeInput];
             } else if (globalCreatorCoupons[codeInput]) {
-                let cObj = globalCreatorCoupons[codeInput];
-                if (cObj.usedCount < cObj.maxUses) {
-                    activeCoupon = cObj;
-                    // Incrementar el uso en tiempo real y actualizar en Firebase
-                    cObj.usedCount++;
-                    saveToCloud();
-                } else {
-                    feedback.className = "text-[11px] mt-1.5 text-red-400 font-bold";
-                    feedback.innerText = "Este código de creador ya alcanzó su límite máximo de usos.";
-                    return;
-                }
+                activeCoupon = globalCreatorCoupons[codeInput]; // Usos ilimitados
             }
 
             if (activeCoupon) {
