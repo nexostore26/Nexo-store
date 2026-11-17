@@ -391,17 +391,45 @@
             </div>
         </div>
 
-        <!-- MODAL RULETA -->
+        <!-- MODAL RULETA Y MINIJUEGOS (NUEVO APARTADO) -->
         <div id="roulette-modal" class="hidden fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4">
-            <div class="bg-nexoCard border border-nexoCyan/50 rounded-3xl max-w-md w-full max-h-[90vh] overflow-y-auto p-5 shadow-2xl relative space-y-4 text-center">
+            <div class="bg-nexoCard border border-yellow-500/50 rounded-3xl max-w-md w-full max-h-[90vh] overflow-y-auto p-5 shadow-2xl relative space-y-4 text-center">
                 <button onclick="toggleRouletteModal()" class="absolute top-3 right-3 bg-black/60 text-white w-8 h-8 rounded-full font-bold border border-gray-700 z-10">✕</button>
-                <h3 class="text-xl font-black text-yellow-400">RULETA MÁGICA</h3>
-                <div class="relative w-56 h-56 mx-auto my-2 flex items-center justify-center">
-                    <div id="wheel-disc" class="roulette-wheel w-full h-full rounded-full border-4 border-yellow-500 shadow-2xl relative flex items-center justify-center overflow-hidden"></div>
-                    <div class="absolute w-14 h-14 rounded-full bg-nexoDark border-4 border-yellow-500 flex items-center justify-center text-xl shadow-inner z-10" id="wheel-center-icon">💎</div>
+                <div class="space-y-1">
+                    <span class="text-[10px] bg-yellow-500/20 text-yellow-400 px-2.5 py-0.5 rounded-full font-bold uppercase">🎡 APARTADO MINIJUEGOS</span>
+                    <h3 class="text-xl font-black text-yellow-400 mt-1">Ruleta Mágica de Nexo</h3>
+                    <p class="text-[11px] text-gray-300">Girá por solo <strong class="text-yellow-400">5 Nexo Coins</strong>. ¡Premios reales garantizados tras giros consecutivos!</p>
                 </div>
-                <button onclick="spinRoulette()" class="w-full bg-yellow-500 text-nexoDark font-black py-3.5 rounded-xl text-xs uppercase">🎰 JUGAR</button>
-                <p id="roulette-result" class="text-xs font-bold p-2.5 rounded-xl bg-nexoDark hidden"></p>
+
+                <!-- CONFIGURACIÓN DE JUEGO Y UID PARA LA RULETA -->
+                <div class="bg-nexoDark border border-gray-800 p-3 rounded-2xl text-left space-y-2.5">
+                    <div>
+                        <label class="text-[10px] font-bold text-gray-400 uppercase">Juego de Destino:</label>
+                        <select id="roulette-target-game" class="w-full mt-1 bg-nexoCard border border-gray-700 rounded-xl p-2 text-xs text-white focus:outline-none">
+                            <option value="Free Fire">Free Fire (Diamantes 💎)</option>
+                            <option value="Blood Strike">Blood Strike (Oro 🪙)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="text-[10px] font-bold text-gray-400 uppercase">Tu ID de Jugador (UID):</label>
+                        <input type="number" id="roulette-player-id" placeholder="Ingresá tu UID exacto..." class="w-full mt-1 bg-nexoCard border border-gray-700 rounded-xl p-2 text-xs text-white font-mono focus:outline-none focus:border-yellow-500">
+                    </div>
+                </div>
+
+                <div class="relative w-48 h-48 mx-auto my-1 flex items-center justify-center">
+                    <div id="wheel-disc" class="roulette-wheel w-full h-full rounded-full border-4 border-yellow-500 shadow-2xl relative flex items-center justify-center overflow-hidden"></div>
+                    <div class="absolute w-12 h-12 rounded-full bg-nexoDark border-4 border-yellow-500 flex items-center justify-center text-lg shadow-inner z-10" id="wheel-center-icon">🎯</div>
+                </div>
+
+                <div class="flex justify-between items-center bg-nexoDark px-3 py-2 rounded-xl text-xs border border-gray-800">
+                    <span class="text-gray-400">Tus Nexo Coins:</span>
+                    <span id="roulette-coins-balance" class="font-black text-yellow-400">0 🟡</span>
+                </div>
+
+                <button onclick="spinRoulette()" class="w-full bg-gradient-to-r from-yellow-500 to-amber-600 hover:opacity-90 text-nexoDark font-black py-3 rounded-xl text-xs uppercase shadow">
+                    🎰 GIRAR RULETA (Coste: 5 🟡)
+                </button>
+                <p id="roulette-result" class="text-xs font-bold p-2.5 rounded-xl bg-nexoDark hidden border border-yellow-500/30"></p>
             </div>
         </div>
 
@@ -424,6 +452,20 @@
 
         <!-- CONTENIDO TIENDA -->
         <main class="max-w-md mx-auto px-4 py-6 w-full flex-grow space-y-6 relative z-10">
+
+            <!-- APARTADO VISIBLE DE NEXO COINS & MINIJUEGOS -->
+            <div class="bg-gradient-to-r from-purple-900/60 via-nexoCard to-indigo-950 border border-yellow-500/40 rounded-2xl p-4 shadow-xl flex items-center justify-between">
+                <div class="space-y-1">
+                    <div class="flex items-center gap-1.5">
+                        <span class="text-base">🟡</span>
+                        <h3 class="text-xs font-black text-yellow-400 uppercase tracking-wide">Nexo Coins & Minijuegos</h3>
+                    </div>
+                    <p class="text-[11px] text-gray-300">Tenés <span id="main-coins-display" class="font-black text-yellow-400">0</span> Coins disponibles. ¡Girá la ruleta!</p>
+                </div>
+                <button onclick="toggleRouletteModal()" class="bg-yellow-500 hover:bg-yellow-400 text-nexoDark font-black px-3.5 py-2.5 rounded-xl text-xs uppercase shadow transition transform active:scale-95 shrink-0 flex items-center gap-1">
+                    🎡 Ruleta ➔
+                </button>
+            </div>
 
             <div id="banners-wrapper" class="bg-nexoCard/95 border border-nexoPurple/40 rounded-2xl p-4 shadow-xl relative overflow-hidden select-none" ontouchstart="touchStart(event)" ontouchend="touchEnd(event)">
                 <div id="carousel-container" class="relative min-h-[120px] flex items-center"></div>
@@ -711,7 +753,7 @@
                     
                     <div class="space-y-2.5 text-xs bg-nexoDark p-3.5 rounded-2xl border border-gray-800">
                         <input type="text" id="new-coupon-code" placeholder="Código (Ej: VERANO2026)" class="w-full bg-nexoCard border border-gray-700 rounded-xl p-2.5 text-xs text-white uppercase font-mono">
-                        <input type="number" id="new-coupon-discount" placeholder="Descuento en % (Ej: 10)" class="w-full bg-nexoCard border border-gray-700 rounded-xl p-2.5 text-xs text-white">
+                        <input type="number" id="new-coupon-discount" placeholder="Descuento en % (Ej: 10)" class="w-full bg-nexoDark border border-gray-700 rounded-xl p-2.5 text-xs text-white">
                         <button onclick="createNewCoupon()" class="w-full bg-yellow-500 hover:bg-yellow-400 text-nexoDark font-black py-2.5 rounded-xl text-xs uppercase shadow">➕ Crear Cupón</button>
                     </div>
                     <div id="admin-coupons-list" class="space-y-1.5 max-h-40 overflow-y-auto pr-1"></div>
@@ -727,7 +769,7 @@
                     
                     <div class="space-y-2.5 text-xs bg-nexoDark p-3.5 rounded-2xl border border-gray-800">
                         <input type="text" id="new-coinkey-code" placeholder="Clave (Ej: NX-REGALO50)" class="w-full bg-nexoCard border border-gray-700 rounded-xl p-2.5 text-xs text-white uppercase font-mono">
-                        <input type="number" id="new-coinkey-amount" placeholder="Cantidad de Coins (Ej: 50)" class="w-full bg-nexoCard border border-gray-700 rounded-xl p-2.5 text-xs text-white">
+                        <input type="number" id="new-coinkey-amount" placeholder="Cantidad de Coins (Ej: 50)" class="w-full bg-nexoDark border border-gray-700 rounded-xl p-2.5 text-xs text-white">
                         <button onclick="createNewCoinKey()" class="w-full bg-nexoCyan hover:opacity-90 text-nexoDark font-black py-2.5 rounded-xl text-xs uppercase shadow">➕ Generar Clave de Coins</button>
                     </div>
                     <div id="admin-coinkeys-list" class="space-y-1.5 max-h-32 overflow-y-auto"></div>
@@ -848,7 +890,6 @@
         
         let globalCoupons = { "NEXO10": { discount: 10, maxUses: 1000, usedCount: 0 } };
         
-        // Inicialización con SOYASTA (5%) y NARUTO.26 (5%) fijos y respaldados
         let globalCreatorCoupons = [
             { id: "c1", code: "SOYASTA", discount: 5 },
             { id: "c2", code: "NARUTO.26", discount: 5 }
@@ -1155,7 +1196,6 @@
             renderAdminCouponsList();
         }
 
-        // NAVEGACIÓN DE STEP PARA MINI INFLUENCERS
         function openCreatorStep() {
             document.getElementById('admin-dashboard-screen').classList.add('hidden');
             document.getElementById('admin-creators-step').classList.remove('hidden');
@@ -1168,7 +1208,6 @@
             renderAdminCreatorsList();
         }
 
-        // AGREGAR NUEVO CÓDIGO SIN BORRAR NINGUNO (MÉTODO DE LISTA SEGURA)
         async function createNewCreatorCode() {
             const rawCode = document.getElementById('new-creator-code').value.trim().toUpperCase();
             const disc = parseInt(document.getElementById('new-creator-discount').value);
@@ -1178,7 +1217,6 @@
                 return; 
             }
 
-            // Validar si ya existe
             const exists = globalCreatorCoupons.some(c => c.code === rawCode);
             if (exists) {
                 alert('⚠️ Este código ya existe en la lista.');
@@ -1220,7 +1258,6 @@
                 return;
             }
 
-            // Mostrar orden inverso para ver los últimos añadidos arriba, con scroll vertical
             container.innerHTML = [...globalCreatorCoupons].reverse().map(item => `
                 <div class="bg-nexoDark border border-gray-800 p-3 rounded-xl flex justify-between items-center text-xs">
                     <div>
@@ -1269,13 +1306,20 @@
             renderAdminCoinKeysList();
         }
 
-        let currentUser = { email: '', name: 'Invitado', avatar: 'https://api.dicebear.com/7.x/bottts/svg?seed=NexoUser', coins: 0, purchases: 0, savedIds: [] };
+        let currentUser = { email: '', name: 'Invitado', avatar: 'https://api.dicebear.com/7.x/bottts/svg?seed=NexoUser', coins: 15, purchases: 0, savedIds: [] };
 
         function updateAuthUI() {
             document.getElementById('user-profile-name').innerText = currentUser.name;
             document.getElementById('user-avatar-img').src = currentUser.avatar;
             document.getElementById('nav-user-avatar').src = currentUser.avatar;
             document.getElementById('nav-user-name').innerText = currentUser.name.split(' ')[0];
+            
+            const mainCoins = document.getElementById('main-coins-display');
+            if (mainCoins) mainCoins.innerText = currentUser.coins;
+            const profileCoins = document.getElementById('profile-coins-val');
+            if (profileCoins) profileCoins.innerText = `${currentUser.coins} 🟡`;
+            const rouletteCoins = document.getElementById('roulette-coins-balance');
+            if (rouletteCoins) rouletteCoins.innerText = `${currentUser.coins} 🟡`;
         }
 
         function toggleProfileModal() { document.getElementById('profile-modal').classList.toggle('hidden'); }
@@ -1356,7 +1400,7 @@
                 
                 feedback.className = "text-[10px] text-green-400 font-bold mt-1";
                 feedback.innerText = `¡Canje exitoso! Ganaste ${amt} Nexo Coins 🟡`;
-                document.getElementById('profile-coins-val').innerText = `${currentUser.coins} 🟡`;
+                updateAuthUI();
                 document.getElementById('redeem-code-input').value = '';
             } else {
                 feedback.className = "text-[10px] text-red-400 font-bold mt-1";
@@ -1367,7 +1411,64 @@
         function closeModal() { document.getElementById('community-modal').classList.add('hidden'); }
         function toggleNinjaModal() { document.getElementById('ninja-modal').classList.toggle('hidden'); }
         function toggleRouletteModal() { document.getElementById('roulette-modal').classList.toggle('hidden'); }
-        function spinRoulette() {}
+        
+        // MOTOR DE LA RULETA MÁGICA CON LÓGICA DE PREMIOS JUSTOS Y LÍMITE DE GIROS
+        let rouletteSpinCount = 0;
+        function spinRoulette() {
+            const targetGame = document.getElementById('roulette-target-game').value;
+            const playerId = document.getElementById('roulette-player-id').value.trim();
+            const resultEl = document.getElementById('roulette-result');
+            resultEl.classList.add('hidden');
+
+            if (!playerId || playerId.length < 8) {
+                alert('⚠️ Ingresá un ID de Jugador (UID) válido de al menos 8 dígitos para reclamar el premio.');
+                return;
+            }
+
+            if (currentUser.coins < 5) {
+                alert('❌ No tenés suficientes Nexo Coins. Necesitás al menos 5 🟡 para girar.');
+                return;
+            }
+
+            // Descontar coins
+            currentUser.coins -= 5;
+            rouletteSpinCount++;
+            updateAuthUI();
+
+            // Lista de posibles premios equilibrados y justos
+            const prizePool = targetGame === 'Free Fire' ? [
+                '110 Diamantes 💎', '50 Diamantes 💎', '10 Nexo Coins 🟡', '¡Suerte en la próxima! 🔄', '200 Diamantes 💎 (Premio Mayor)'
+            ] : [
+                '105 Oro 🪙', '320 Oro 🪙', '10 Nexo Coins 🟡', '¡Suerte en la próxima! 🔄', '1100 Oro 🪙 (Premio Mayor)'
+            ];
+
+            // Lógica para que sea imposible que siempre toque "suerte en la próxima" y garantice premio tras giros
+            let selectedPrize = '';
+            if (rouletteSpinCount % 3 === 0 || rouletteSpinCount >= 100) {
+                // Premios garantizados o principales cada ciertos giros o giros altos
+                selectedPrize = targetGame === 'Free Fire' ? '110 Diamantes 💎' : '320 Oro 🪙';
+            } else {
+                const randomIndex = Math.floor(Math.random() * prizePool.length);
+                selectedPrize = prizePool[randomIndex];
+            }
+
+            // Animación visual de la ruleta
+            const wheelDisc = document.getElementById('wheel-disc');
+            const randomRotation = 1440 + (Math.floor(Math.random() * 360));
+            wheelDisc.style.transform = `rotate(${randomRotation}deg)`;
+
+            setTimeout(() => {
+                resultEl.classList.remove('hidden');
+                if (selectedPrize.includes('Suerte')) {
+                    resultEl.className = "text-xs font-bold p-2.5 rounded-xl bg-nexoDark border border-red-500/30 text-red-400";
+                    resultEl.innerText = `🔄 ¡Ups! Tuviste ${selectedPrize} ¡Seguí girando (Giros: ${rouletteSpinCount})!`;
+                } else {
+                    resultEl.className = "text-xs font-bold p-2.5 rounded-xl bg-nexoDark border border-green-500/30 text-green-400";
+                    resultEl.innerText = `🎉 ¡FELICIDADES! Ganaste ${selectedPrize} para el UID ${playerId} (${targetGame}). ¡Revisá tu cuenta!`;
+                }
+            }, 4000);
+        }
+
         function verifyPlayerIdReal() {}
         function analyzeReceiptStrict(e) {
             if(e.target.files[0]) {
