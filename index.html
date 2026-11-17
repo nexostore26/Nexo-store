@@ -1310,7 +1310,8 @@
             renderAdminCoinKeysList();
         }
 
-        let currentUser = { email: '', name: 'Invitado', avatar: 'https://api.dicebear.com/7.x/bottts/svg?seed=NexoUser', coins: 15, purchases: 0, savedIds: [] };
+        // SALDO INICIAL EN 0 NEXO COINS (SIN NINGÚN REGALO AUTOMÁTICO)
+        let currentUser = { email: '', name: 'Invitado', avatar: 'https://api.dicebear.com/7.x/bottts/svg?seed=NexoUser', coins: 0, purchases: 0, savedIds: [] };
 
         function updateAuthUI() {
             document.getElementById('user-profile-name').innerText = currentUser.name;
