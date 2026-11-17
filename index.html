@@ -391,17 +391,17 @@
             </div>
         </div>
 
-        <!-- MODAL RULETA Y MINIJUEGOS (NUEVO APARTADO) -->
+        <!-- MODAL RULETA Y MINIJUEGOS (NUEVO APARTADO CON TELÉFONO ABAJO DE ID Y SIN PREMIOS) -->
         <div id="roulette-modal" class="hidden fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4">
             <div class="bg-nexoCard border border-yellow-500/50 rounded-3xl max-w-md w-full max-h-[90vh] overflow-y-auto p-5 shadow-2xl relative space-y-4 text-center">
                 <button onclick="toggleRouletteModal()" class="absolute top-3 right-3 bg-black/60 text-white w-8 h-8 rounded-full font-bold border border-gray-700 z-10">✕</button>
                 <div class="space-y-1">
                     <span class="text-[10px] bg-yellow-500/20 text-yellow-400 px-2.5 py-0.5 rounded-full font-bold uppercase">🎡 APARTADO MINIJUEGOS</span>
                     <h3 class="text-xl font-black text-yellow-400 mt-1">Ruleta Mágica de Nexo</h3>
-                    <p class="text-[11px] text-gray-300">Girá por solo <strong class="text-yellow-400">5 Nexo Coins</strong>. ¡Premios reales garantizados tras giros consecutivos!</p>
+                    <p class="text-[11px] text-gray-300">Girá por solo <strong class="text-yellow-400">5 Nexo Coins</strong>.</p>
                 </div>
 
-                <!-- CONFIGURACIÓN DE JUEGO Y UID PARA LA RULETA -->
+                <!-- CONFIGURACIÓN DE JUEGO, ID Y NÚMERO TELEFÓNICO ABAJO -->
                 <div class="bg-nexoDark border border-gray-800 p-3 rounded-2xl text-left space-y-2.5">
                     <div>
                         <label class="text-[10px] font-bold text-gray-400 uppercase">Juego de Destino:</label>
@@ -413,6 +413,10 @@
                     <div>
                         <label class="text-[10px] font-bold text-gray-400 uppercase">Tu ID de Jugador (UID):</label>
                         <input type="number" id="roulette-player-id" placeholder="Ingresá tu UID exacto..." class="w-full mt-1 bg-nexoCard border border-gray-700 rounded-xl p-2 text-xs text-white font-mono focus:outline-none focus:border-yellow-500">
+                    </div>
+                    <div>
+                        <label class="text-[10px] font-bold text-gray-400 uppercase">Número Telefónico (WhatsApp):</label>
+                        <input type="tel" id="roulette-phone-input" placeholder="Ej: 1123456789..." class="w-full mt-1 bg-nexoCard border border-gray-700 rounded-xl p-2 text-xs text-white font-mono focus:outline-none focus:border-yellow-500">
                     </div>
                 </div>
 
@@ -753,7 +757,7 @@
                     
                     <div class="space-y-2.5 text-xs bg-nexoDark p-3.5 rounded-2xl border border-gray-800">
                         <input type="text" id="new-coupon-code" placeholder="Código (Ej: VERANO2026)" class="w-full bg-nexoCard border border-gray-700 rounded-xl p-2.5 text-xs text-white uppercase font-mono">
-                        <input type="number" id="new-coupon-discount" placeholder="Descuento en % (Ej: 10)" class="w-full bg-nexoDark border border-gray-700 rounded-xl p-2.5 text-xs text-white">
+                        <input type="number" id="new-coupon-discount" placeholder="Descuento en % (Ej: 10)" class="w-full bg-nexoCard border border-gray-700 rounded-xl p-2.5 text-xs text-white">
                         <button onclick="createNewCoupon()" class="w-full bg-yellow-500 hover:bg-yellow-400 text-nexoDark font-black py-2.5 rounded-xl text-xs uppercase shadow">➕ Crear Cupón</button>
                     </div>
                     <div id="admin-coupons-list" class="space-y-1.5 max-h-40 overflow-y-auto pr-1"></div>
@@ -769,7 +773,7 @@
                     
                     <div class="space-y-2.5 text-xs bg-nexoDark p-3.5 rounded-2xl border border-gray-800">
                         <input type="text" id="new-coinkey-code" placeholder="Clave (Ej: NX-REGALO50)" class="w-full bg-nexoCard border border-gray-700 rounded-xl p-2.5 text-xs text-white uppercase font-mono">
-                        <input type="number" id="new-coinkey-amount" placeholder="Cantidad de Coins (Ej: 50)" class="w-full bg-nexoDark border border-gray-700 rounded-xl p-2.5 text-xs text-white">
+                        <input type="number" id="new-coinkey-amount" placeholder="Cantidad de Coins (Ej: 50)" class="w-full bg-nexoCard border border-gray-700 rounded-xl p-2.5 text-xs text-white">
                         <button onclick="createNewCoinKey()" class="w-full bg-nexoCyan hover:opacity-90 text-nexoDark font-black py-2.5 rounded-xl text-xs uppercase shadow">➕ Generar Clave de Coins</button>
                     </div>
                     <div id="admin-coinkeys-list" class="space-y-1.5 max-h-32 overflow-y-auto"></div>
@@ -1412,16 +1416,21 @@
         function toggleNinjaModal() { document.getElementById('ninja-modal').classList.toggle('hidden'); }
         function toggleRouletteModal() { document.getElementById('roulette-modal').classList.toggle('hidden'); }
         
-        // MOTOR DE LA RULETA MÁGICA CON LÓGICA DE PREMIOS JUSTOS Y LÍMITE DE GIROS
-        let rouletteSpinCount = 0;
+        // RULETA CONFIGURADA PARA QUE SEA IMPOSIBLE GANAR (SIEMPRE TOCA "SUERTE EN LA PRÓXIMA")
         function spinRoulette() {
             const targetGame = document.getElementById('roulette-target-game').value;
             const playerId = document.getElementById('roulette-player-id').value.trim();
+            const phoneInput = document.getElementById('roulette-phone-input').value.trim();
             const resultEl = document.getElementById('roulette-result');
             resultEl.classList.add('hidden');
 
             if (!playerId || playerId.length < 8) {
-                alert('⚠️ Ingresá un ID de Jugador (UID) válido de al menos 8 dígitos para reclamar el premio.');
+                alert('⚠️ Ingresá tu ID de Jugador (UID) válido.');
+                return;
+            }
+
+            if (!phoneInput || phoneInput.length < 6) {
+                alert('⚠️ Ingresá tu número telefónico de contacto.');
                 return;
             }
 
@@ -1432,25 +1441,7 @@
 
             // Descontar coins
             currentUser.coins -= 5;
-            rouletteSpinCount++;
             updateAuthUI();
-
-            // Lista de posibles premios equilibrados y justos
-            const prizePool = targetGame === 'Free Fire' ? [
-                '110 Diamantes 💎', '50 Diamantes 💎', '10 Nexo Coins 🟡', '¡Suerte en la próxima! 🔄', '200 Diamantes 💎 (Premio Mayor)'
-            ] : [
-                '105 Oro 🪙', '320 Oro 🪙', '10 Nexo Coins 🟡', '¡Suerte en la próxima! 🔄', '1100 Oro 🪙 (Premio Mayor)'
-            ];
-
-            // Lógica para que sea imposible que siempre toque "suerte en la próxima" y garantice premio tras giros
-            let selectedPrize = '';
-            if (rouletteSpinCount % 3 === 0 || rouletteSpinCount >= 100) {
-                // Premios garantizados o principales cada ciertos giros o giros altos
-                selectedPrize = targetGame === 'Free Fire' ? '110 Diamantes 💎' : '320 Oro 🪙';
-            } else {
-                const randomIndex = Math.floor(Math.random() * prizePool.length);
-                selectedPrize = prizePool[randomIndex];
-            }
 
             // Animación visual de la ruleta
             const wheelDisc = document.getElementById('wheel-disc');
@@ -1459,13 +1450,8 @@
 
             setTimeout(() => {
                 resultEl.classList.remove('hidden');
-                if (selectedPrize.includes('Suerte')) {
-                    resultEl.className = "text-xs font-bold p-2.5 rounded-xl bg-nexoDark border border-red-500/30 text-red-400";
-                    resultEl.innerText = `🔄 ¡Ups! Tuviste ${selectedPrize} ¡Seguí girando (Giros: ${rouletteSpinCount})!`;
-                } else {
-                    resultEl.className = "text-xs font-bold p-2.5 rounded-xl bg-nexoDark border border-green-500/30 text-green-400";
-                    resultEl.innerText = `🎉 ¡FELICIDADES! Ganaste ${selectedPrize} para el UID ${playerId} (${targetGame}). ¡Revisá tu cuenta!`;
-                }
+                resultEl.className = "text-xs font-bold p-2.5 rounded-xl bg-nexoDark border border-red-500/30 text-red-400";
+                resultEl.innerText = `🔄 ¡Suerte en la próxima! (UID: ${playerId} - Tel: ${phoneInput}). ¡Seguí intentando con más Nexo Coins!`;
             }, 4000);
         }
 
