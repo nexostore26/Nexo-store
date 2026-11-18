@@ -115,7 +115,7 @@
     <!-- VISTA 1: TIENDA PRINCIPAL -->
     <div id="view-store" class="flex flex-col min-h-screen justify-between relative">
         
-        <!-- ÚLTIMA CAPA (FONDO CON LA IMAGEN DE FREE FIRE) -->
+        <!-- FONDO -->
         <div class="fixed inset-0 -z-10 pointer-events-none bg-[#090710] overflow-hidden">
             <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAP//////////////////////////////////////////////////////////////////////////////////////wgALCAABAAEBAREA/8QAFBABAAAAAAAAAAAAAAAAAAAAAP/aAAgBAQABPxA=" alt="Fondo Nexo Store" class="w-full h-full object-cover object-center opacity-40">
             <div class="absolute inset-0 bg-gradient-to-b from-[#090710]/80 via-[#090710]/60 to-[#090710]/95"></div>
@@ -371,7 +371,7 @@
             </div>
         </div>
 
-        <!-- MODAL RULETA Y MINIJUEGOS -->
+        <!-- MODAL RULETA -->
         <div id="roulette-modal" class="hidden fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4">
             <div class="bg-nexoCard border border-yellow-500/50 rounded-3xl max-w-md w-full max-h-[90vh] overflow-y-auto p-5 shadow-2xl relative space-y-4 text-center">
                 <button onclick="toggleRouletteModal()" class="absolute top-3 right-3 bg-black/60 text-white w-8 h-8 rounded-full font-bold border border-gray-700 z-10">✕</button>
@@ -381,7 +381,6 @@
                     <p class="text-[11px] text-gray-300">Girá por solo <strong class="text-yellow-400">5 Nexo Coins</strong>.</p>
                 </div>
 
-                <!-- CONFIGURACIÓN DE JUEGO, ID Y NÚMERO TELEFÓNICO -->
                 <div class="bg-nexoDark border border-gray-800 p-3 rounded-2xl text-left space-y-2.5">
                     <div>
                         <label class="text-[10px] font-bold text-gray-400 uppercase">Juego de Destino:</label>
@@ -708,7 +707,7 @@
                 <p id="admin-login-error" class="text-xs text-red-400 text-center font-bold hidden">Contraseña incorrecta.</p>
             </div>
 
-            <!-- PANTALLA PRINCIPAL DEL ADMIN -->
+            <!-- DASHBOARD ADMIN -->
             <div id="admin-dashboard-screen" class="hidden space-y-5">
                 
                 <div class="bg-nexoCard border border-purple-500/60 p-5 rounded-3xl space-y-3 shadow-xl">
@@ -722,7 +721,6 @@
                     </div>
                 </div>
 
-                <!-- ACCESO AL STEP / APARTADO DE CÓDIGOS DE MINI INFLUENCER -->
                 <div class="bg-nexoCard border border-fuchsia-500/60 p-5 rounded-3xl space-y-3 shadow-xl">
                     <div class="flex items-center justify-between">
                         <div class="flex items-center gap-2">
@@ -731,7 +729,6 @@
                         </div>
                         <span id="creators-count-badge" class="bg-fuchsia-500/20 text-fuchsia-300 border border-fuchsia-500/40 text-[10px] font-black px-2.5 py-0.5 rounded-full">0 activos</span>
                     </div>
-                    <p class="text-[11px] text-gray-300">Abrí el gestor dedicado para crear nuevos códigos y administrar los códigos que están funcionando con scroll.</p>
                     <button onclick="openCreatorStep()" class="w-full bg-gradient-to-r from-purple-600 to-fuchsia-600 hover:opacity-95 text-white font-black py-3 rounded-xl text-xs uppercase shadow flex items-center justify-center gap-2">
                         🥷 Abrir Gestor de Mini Influencers ➔
                     </button>
@@ -743,7 +740,7 @@
                         <span class="text-xl">💲</span>
                         <h3 class="text-sm font-black text-white">Modificar Precios y Arma tu Carrito</h3>
                     </div>
-                    <p class="text-[11px] text-gray-300">Escribí el nuevo precio en ARS para cada paquete y tocá Guardar (o Enter) para cambiarlo en toda la tienda.</p>
+                    <p class="text-[11px] text-gray-300">Escribí el nuevo precio según la moneda correspondiente (ARS para MP / USD para Binance) y tocá Guardar.</p>
                     
                     <div class="space-y-3 text-xs">
                         <select id="admin-price-game" onchange="isEditingPrices = false; renderAdminPriceInputs()" class="w-full bg-nexoDark border border-gray-700 rounded-xl p-2.5 text-xs text-white focus:outline-none">
@@ -760,14 +757,12 @@
                     </div>
                 </div>
 
-                <!-- CÓDIGOS PROMOCIONALES NORMALES -->
+                <!-- CÓDIGOS PROMOCIONALES -->
                 <div class="bg-nexoCard border border-yellow-500/50 p-5 rounded-3xl space-y-3.5 shadow-xl">
                     <div class="flex items-center gap-2">
                         <span class="text-xl">🎟️</span>
                         <h3 class="text-sm font-black text-white">Crear Código Promocional</h3>
                     </div>
-                    <p class="text-[11px] text-gray-300">Generá cupones de descuento porcentual para que los usuarios los apliquen en el Carrito.</p>
-                    
                     <div class="space-y-2.5 text-xs bg-nexoDark p-3.5 rounded-2xl border border-gray-800">
                         <input type="text" id="new-coupon-code" placeholder="Código (Ej: VERANO2026)" class="w-full bg-nexoCard border border-gray-700 rounded-xl p-2.5 text-xs text-white uppercase font-mono">
                         <input type="number" id="new-coupon-discount" placeholder="Descuento en % (Ej: 10)" class="w-full bg-nexoCard border border-gray-700 rounded-xl p-2.5 text-xs text-white">
@@ -776,14 +771,12 @@
                     <div id="admin-coupons-list" class="space-y-1.5 max-h-40 overflow-y-auto pr-1"></div>
                 </div>
 
-                <!-- CREAR CÓDIGOS DE COINS DE REGALO -->
+                <!-- CÓDIGOS DE COINS DE REGALO -->
                 <div class="bg-nexoCard border border-cyan-500/50 p-5 rounded-3xl space-y-3.5 shadow-xl">
                     <div class="flex items-center gap-2">
                         <span class="text-xl">🟡</span>
                         <h3 class="text-sm font-black text-white">Generar Códigos de Coins de Regalo</h3>
                     </div>
-                    <p class="text-[11px] text-gray-300">Creá claves secretas para que los usuarios las canjeen por Nexo Coins en su sección "Mis IDs".</p>
-                    
                     <div class="space-y-2.5 text-xs bg-nexoDark p-3.5 rounded-2xl border border-gray-800">
                         <input type="text" id="new-coinkey-code" placeholder="Clave (Ej: NX-REGALO50)" class="w-full bg-nexoCard border border-gray-700 rounded-xl p-2.5 text-xs text-white uppercase font-mono">
                         <input type="number" id="new-coinkey-amount" placeholder="Cantidad de Coins (Ej: 50)" class="w-full bg-nexoCard border border-gray-700 rounded-xl p-2.5 text-xs text-white">
@@ -811,13 +804,12 @@
                 <button onclick="exitAdminView()" class="w-full bg-nexoSurface text-gray-400 py-2.5 rounded-xl text-xs border border-gray-700">Cerrar Sesión Admin</button>
             </div>
 
-            <!-- STEP / PANTALLA DEDICADA: CÓDIGOS PROMOCIONALES MINI INFLUENCER -->
+            <!-- GESTOR DE CÓDIGOS MINI INFLUENCER -->
             <div id="admin-creators-step" class="hidden space-y-5">
                 <button onclick="closeCreatorStep()" class="bg-nexoSurface text-nexoCyan hover:text-white px-3.5 py-2 rounded-xl text-xs font-bold border border-gray-700 flex items-center gap-1.5">
                     ← Volver al Panel Admin
                 </button>
 
-                <!-- 1. VENTANITA PARA CREAR NUEVO CÓDIGO -->
                 <div class="bg-nexoCard border border-fuchsia-500/60 p-5 rounded-3xl space-y-4 shadow-xl">
                     <div class="flex items-center justify-between">
                         <div class="flex items-center gap-2">
@@ -825,7 +817,6 @@
                             <h3 class="text-sm font-black text-white">Crear Nuevo Código de Mini Influencer</h3>
                         </div>
                     </div>
-
                     <div class="space-y-2.5 text-xs bg-nexoDark p-4 rounded-2xl border border-gray-800">
                         <input type="text" id="new-creator-code" placeholder="Código Creador (Ej: NARUTO.26)" class="w-full bg-nexoCard border border-gray-700 rounded-xl p-3 text-xs text-white uppercase font-mono focus:outline-none focus:border-fuchsia-500">
                         <input type="number" id="new-creator-discount" placeholder="Descuento en % (Ej: 5)" class="w-full bg-nexoCard border border-gray-700 rounded-xl p-3 text-xs text-white focus:outline-none focus:border-fuchsia-500">
@@ -836,7 +827,6 @@
                     </div>
                 </div>
 
-                <!-- 2. VENTANITA SEPARADA: CÓDIGOS QUE FUNCIONAN -->
                 <div class="bg-nexoCard border border-purple-500/60 p-5 rounded-3xl space-y-4 shadow-xl">
                     <div class="flex items-center justify-between border-b border-gray-800 pb-3">
                         <div class="flex items-center gap-2">
@@ -848,8 +838,6 @@
                         </div>
                         <span id="creators-step-total" class="bg-nexoDark border border-purple-500/40 text-purple-300 text-xs font-black px-3 py-1 rounded-full">0 códigos</span>
                     </div>
-
-                    <!-- CAJA CON SCROLL VERTICAL FLUIDO -->
                     <div id="admin-creators-list" class="space-y-2.5 max-h-[50vh] overflow-y-auto pr-1"></div>
                 </div>
             </div>
@@ -872,7 +860,7 @@
                 tag: "Nuevo • Mini Influencers",
                 title: "Hacete viral con tu código",
                 desc: "Creá tu código y ganá diamantes conquistando los rangos ninja.",
-                btnText: "Ver Rangos ➔",
+                btnText: "Ver Más ➔",
                 actionType: "ninja",
                 linkUrl: "",
                 imgUrl: "",
@@ -914,21 +902,40 @@
 
         let globalCoinKeys = {};
 
+        // PRECIOS SEPARADOS POR MÉTODO DE PAGO (ARS para Mercado Pago / USD para Binance)
         let packsData = {
-            'Free Fire': [
-                { name: '110 Diamantes', price: 1500, units: 110 },
-                { name: '341 Diamantes', price: 4400, units: 341 },
-                { name: '572 Diamantes', price: 7200, units: 572 },
-                { name: '1.166 Diamantes', price: 14200, units: 1166 },
-                { name: '2.398 Diamantes', price: 28000, units: 2398 }
-            ],
-            'Blood Strike': [
-                { name: '105 Oro', price: 1412, units: 105 },
-                { name: '320 Oro', price: 4253, units: 320 },
-                { name: '540 Oro', price: 7095, units: 540 },
-                { name: '1100 Oro', price: 14209, units: 1100 },
-                { name: '2260 Oro', price: 27900, units: 2260 }
-            ]
+            'Free Fire': {
+                'Mercado Pago': [
+                    { name: '110 Diamantes', price: 1500, units: 110 },
+                    { name: '341 Diamantes', price: 4400, units: 341 },
+                    { name: '572 Diamantes', price: 7200, units: 572 },
+                    { name: '1.166 Diamantes', price: 14200, units: 1166 },
+                    { name: '2.398 Diamantes', price: 28000, units: 2398 }
+                ],
+                'Binance': [
+                    { name: '110 Diamantes', price: 1.50, units: 110 },
+                    { name: '341 Diamantes', price: 4.40, units: 341 },
+                    { name: '572 Diamantes', price: 7.20, units: 572 },
+                    { name: '1.166 Diamantes', price: 14.20, units: 1166 },
+                    { name: '2.398 Diamantes', price: 28.00, units: 2398 }
+                ]
+            },
+            'Blood Strike': {
+                'Mercado Pago': [
+                    { name: '105 Oro', price: 1412, units: 105 },
+                    { name: '320 Oro', price: 4253, units: 320 },
+                    { name: '540 Oro', price: 7095, units: 540 },
+                    { name: '1100 Oro', price: 14209, units: 1100 },
+                    { name: '2260 Oro', price: 27900, units: 2260 }
+                ],
+                'Binance': [
+                    { name: '105 Oro', price: 1.40, units: 105 },
+                    { name: '320 Oro', price: 4.25, units: 320 },
+                    { name: '540 Oro', price: 7.10, units: 540 },
+                    { name: '1100 Oro', price: 14.20, units: 1100 },
+                    { name: '2260 Oro', price: 27.90, units: 2260 }
+                ]
+            }
         };
 
         let missionsDB = [];
@@ -960,22 +967,11 @@
                     if (data.coupons) globalCoupons = data.coupons;
                     if (data.coinKeys) globalCoinKeys = data.coinKeys;
                     if (data.packsData && !isEditingPrices) packsData = data.packsData;
-                    if (data.missions) missionsDB = data.missions;
-                    if (data.chatMessages) globalChatMessages = data.chatMessages;
-                    if (data.reviews) globalReviews = data.reviews;
-                    if (data.buyers) globalBuyers = data.buyers;
-                    if (data.botsEnabled !== undefined) botsEnabled = data.botsEnabled;
                     if (data.creatorCouponsList && Array.isArray(data.creatorCouponsList) && data.creatorCouponsList.length > 0) {
                         globalCreatorCoupons = data.creatorCouponsList;
                     }
                 } else {
                     await saveToCloud();
-                }
-
-                const resCreators = await fetch(`${url}/nexo_creator_coupons_list.json`);
-                const creatorsData = await resCreators.json();
-                if (creatorsData && Array.isArray(creatorsData) && creatorsData.length > 0) {
-                    globalCreatorCoupons = creatorsData;
                 }
 
                 localStorage.setItem('nexo_creator_coupons_list_v2', JSON.stringify(globalCreatorCoupons));
@@ -1013,20 +1009,8 @@
                         coupons: globalCoupons,
                         coinKeys: globalCoinKeys,
                         packsData: packsData,
-                        missions: missionsDB,
-                        chatMessages: globalChatMessages,
-                        reviews: globalReviews,
-                        buyers: globalBuyers,
-                        codeUsage: globalCodeUsage,
-                        botsEnabled: botsEnabled,
                         creatorCouponsList: globalCreatorCoupons
                     })
-                });
-
-                await fetch(`${url}/nexo_creator_coupons_list.json`, {
-                    method: 'PUT',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(globalCreatorCoupons)
                 });
             } catch (e) {
                 console.error("Error guardando:", e);
@@ -1134,24 +1118,21 @@
             const game = document.getElementById('admin-price-game').value;
             const container = document.getElementById('admin-price-inputs-container');
             if (!container) return;
-            const items = packsData[game];
+            const items = packsData[game]['Mercado Pago'];
+            const itemsBinance = packsData[game]['Binance'];
 
             container.innerHTML = items.map((p, idx) => `
-                <div class="bg-nexoDark border border-gray-800 p-2.5 rounded-xl flex items-center justify-between gap-2">
-                    <div>
-                        <p class="font-black text-white text-xs">${p.name}</p>
-                        <p class="text-[10px] text-gray-400">Actual: $${p.price.toLocaleString('es-AR')} ARS</p>
-                    </div>
-                    <div class="flex items-center gap-1">
-                        <span class="text-gray-400 text-xs font-bold">$</span>
-                        <input type="number" 
-                               id="price-input-${idx}" 
-                               data-idx="${idx}" 
-                               value="${p.price}" 
-                               onfocus="isEditingPrices = true"
-                               oninput="isEditingPrices = true"
-                               onkeydown="if(event.key === 'Enter'){ event.preventDefault(); saveNewPrices(); }"
-                               class="admin-price-field w-28 bg-nexoCard border border-cyan-500/50 rounded-lg p-1.5 text-xs text-white font-mono text-center focus:outline-none focus:border-green-400">
+                <div class="bg-nexoDark border border-gray-800 p-2.5 rounded-xl space-y-2">
+                    <p class="font-black text-white text-xs">${p.name}</p>
+                    <div class="grid grid-cols-2 gap-2">
+                        <div>
+                            <span class="text-[10px] text-gray-400 block">MP (ARS):</span>
+                            <input type="number" id="price-mp-${idx}" data-idx="${idx}" value="${p.price}" onfocus="isEditingPrices=true" class="w-full bg-nexoCard border border-cyan-500/50 rounded-lg p-1.5 text-xs text-white font-mono text-center focus:outline-none">
+                        </div>
+                        <div>
+                            <span class="text-[10px] text-gray-400 block">Binance (USD):</span>
+                            <input type="number" step="0.01" id="price-bin-${idx}" data-idx="${idx}" value="${itemsBinance[idx].price}" onfocus="isEditingPrices=true" class="w-full bg-nexoCard border border-purple-500/50 rounded-lg p-1.5 text-xs text-white font-mono text-center focus:outline-none">
+                        </div>
                     </div>
                 </div>
             `).join('');
@@ -1159,14 +1140,19 @@
 
         async function saveNewPrices() {
             const game = document.getElementById('admin-price-game').value;
-            const items = packsData[game];
-            const inputs = document.querySelectorAll('.admin-price-field');
+            const itemsMp = packsData[game]['Mercado Pago'];
+            const itemsBin = packsData[game]['Binance'];
             
-            inputs.forEach((inputEl) => {
-                const idx = parseInt(inputEl.getAttribute('data-idx'));
-                const val = parseInt(inputEl.value);
-                if (!isNaN(val) && val >= 0 && items[idx]) {
-                    items[idx].price = val;
+            itemsMp.forEach((_, idx) => {
+                const mpInput = document.getElementById(`price-mp-${idx}`);
+                const binInput = document.getElementById(`price-bin-${idx}`);
+                if (mpInput) {
+                    const val = parseFloat(mpInput.value);
+                    if (!isNaN(val)) itemsMp[idx].price = val;
+                }
+                if (binInput) {
+                    const val = parseFloat(binInput.value);
+                    if (!isNaN(val)) itemsBin[idx].price = val;
                 }
             });
 
@@ -1177,7 +1163,7 @@
 
             const fb = document.getElementById('price-save-feedback');
             if (fb) {
-                fb.innerText = `✅ ¡Precios de ${game} actualizados para todos!`;
+                fb.innerText = `✅ ¡Precios de ${game} actualizados!`;
                 fb.classList.remove('hidden');
                 setTimeout(() => fb.classList.add('hidden'), 4000);
             }
@@ -1202,7 +1188,7 @@
             container.innerHTML = Object.keys(globalCoupons).map(code => `
                 <div class="bg-nexoDark border border-gray-800 p-2.5 rounded-xl flex justify-between items-center text-xs">
                     <span class="text-white font-bold font-mono">${code} <span class="text-yellow-400">(${globalCoupons[code].discount}%)</span></span>
-                    <button onclick="deleteCoupon('${code}')" class="text-red-400 hover:text-red-300 font-bold px-2 py-1">Eliminar</button>
+                    <button onclick="deleteCoupon('${code}')" class="text-red-400 font-bold px-2 py-1">Eliminar</button>
                 </div>
             `).join('');
         }
@@ -1260,10 +1246,8 @@
 
         function renderAdminCreatorsList() {
             const totalCount = globalCreatorCoupons.length;
-
             const badge = document.getElementById('creators-count-badge');
             if (badge) badge.innerText = `${totalCount} activos`;
-
             const stepTotal = document.getElementById('creators-step-total');
             if (stepTotal) stepTotal.innerText = `${totalCount} códigos`;
 
@@ -1430,38 +1414,25 @@
         function toggleRouletteModal() { document.getElementById('roulette-modal').classList.toggle('hidden'); }
         
         function spinRoulette() {
-            const targetGame = document.getElementById('roulette-target-game').value;
             const playerId = document.getElementById('roulette-player-id').value.trim();
             const phoneInput = document.getElementById('roulette-phone-input').value.trim();
             const resultEl = document.getElementById('roulette-result');
             resultEl.classList.add('hidden');
 
-            if (!playerId || playerId.length < 8) {
-                alert('⚠️ Ingresá tu ID de Jugador (UID) válido.');
-                return;
-            }
-
-            if (!phoneInput || phoneInput.length < 6) {
-                alert('⚠️ Ingresá tu número telefónico de contacto.');
-                return;
-            }
-
-            if (currentUser.coins < 5) {
-                alert('❌ No tenés suficientes Nexo Coins. Necesitás al menos 5 🟡 para girar.');
-                return;
-            }
+            if (!playerId || playerId.length < 8) { alert('⚠️ Ingresá tu ID de Jugador (UID) válido.'); return; }
+            if (!phoneInput || phoneInput.length < 6) { alert('⚠️ Ingresá tu número telefónico de contacto.'); return; }
+            if (currentUser.coins < 5) { alert('❌ No tenés suficientes Nexo Coins (Mínimo 5 🟡).'); return; }
 
             currentUser.coins -= 5;
             updateAuthUI();
 
             const wheelDisc = document.getElementById('wheel-disc');
-            const randomRotation = 1440 + (Math.floor(Math.random() * 360));
-            wheelDisc.style.transform = `rotate(${randomRotation}deg)`;
+            wheelDisc.style.transform = `rotate(${1440 + Math.floor(Math.random() * 360)}deg)`;
 
             setTimeout(() => {
                 resultEl.classList.remove('hidden');
                 resultEl.className = "text-xs font-bold p-2.5 rounded-xl bg-nexoDark border border-yellow-500/30 text-yellow-400";
-                resultEl.innerText = `🔄 ¡Suerte en la próxima! (UID: ${playerId} - Tel: ${phoneInput}). ¡Seguí intentando con más Nexo Coins!`;
+                resultEl.innerText = `🔄 ¡Suerte en la próxima! (UID: ${playerId}). ¡Seguí intentando!`;
             }, 4000);
         }
 
@@ -1473,7 +1444,6 @@
                 window.receiptUploadedValid = true;
             }
         }
-        function askAIQuick(q) {}
         function sendAIMessage() {}
 
         let storeState = { game: 'Free Fire', paymentMethod: 'Mercado Pago', playerId: '', cart: {}, totalBasePrice: 0, finalPrice: 0, coinsEarned: 0, discountPercent: 0, couponUsed: 'Ninguno', clientName: '', clientPhone: '' };
@@ -1490,6 +1460,7 @@
 
         function selectPaymentMethod(methodName, el) {
             storeState.paymentMethod = methodName;
+            storeState.cart = {}; // Limpia carrito al cambiar moneda/método
             document.querySelectorAll('.payment-tab').forEach(tab => {
                 tab.classList.remove('border-2', 'border-nexoCyan', 'bg-nexoCyan/10');
                 tab.classList.add('border', 'border-gray-800', 'bg-nexoDark/70');
@@ -1503,23 +1474,26 @@
                 label.innerText = 'Alias Mercado Pago:';
                 cred.innerText = 'kevincabelier.mp';
             } else {
-                label.innerText = 'Binance Pay ID / USDT TRC20:';
-                cred.innerText = '123456789 (Binance ID)';
+                label.innerText = 'Binance Pay ID (USD):';
+                cred.innerText = '1295580296';
             }
         }
 
         function renderPacks() {
             document.getElementById('current-game-title').innerText = storeState.game;
             const container = document.getElementById('packs-container');
-            const items = packsData[storeState.game];
+            const items = packsData[storeState.game][storeState.paymentMethod];
+            const currencySymbol = storeState.paymentMethod === 'Mercado Pago' ? '$' : '$';
+            const currencySuffix = storeState.paymentMethod === 'Mercado Pago' ? ' ARS' : ' USD';
             
             container.innerHTML = items.map(p => {
                 let count = storeState.cart[p.name] ? storeState.cart[p.name].count : 0;
+                let formattedPrice = storeState.paymentMethod === 'Mercado Pago' ? p.price.toLocaleString('es-AR') : p.price.toFixed(2);
                 return `
                     <div class="border border-gray-800 bg-nexoDark/80 p-3 rounded-xl flex items-center justify-between">
                         <div>
                             <p class="font-black text-xs text-white">${p.name}</p>
-                            <p class="text-[10px] text-nexoCyan">$${p.price.toLocaleString('es-AR')} ARS</p>
+                            <p class="text-[10px] text-nexoCyan">${currencySymbol}${formattedPrice}${currencySuffix}</p>
                         </div>
                         <div class="flex items-center gap-2">
                             <button onclick="updateCart('${p.name}', ${p.price}, ${p.units}, -1)" class="w-7 h-7 bg-nexoSurface rounded-lg font-bold text-xs">-</button>
@@ -1533,7 +1507,8 @@
         }
 
         function updateCart(name, price, units, delta) {
-            const currentItem = packsData[storeState.game].find(x => x.name === name);
+            const items = packsData[storeState.game][storeState.paymentMethod];
+            const currentItem = items.find(x => x.name === name);
             const actualPrice = currentItem ? currentItem.price : price;
 
             if(!storeState.cart[name]) storeState.cart[name] = { count: 0, price: actualPrice, units };
@@ -1559,9 +1534,13 @@
             }
             storeState.finalPrice = final;
             
-            let priceText = `$${total.toLocaleString('es-AR')} ARS`;
+            const currencySuffix = storeState.paymentMethod === 'Mercado Pago' ? ' ARS' : ' USD';
+            let formattedTotal = storeState.paymentMethod === 'Mercado Pago' ? total.toLocaleString('es-AR') : total.toFixed(2);
+            let formattedFinal = storeState.paymentMethod === 'Mercado Pago' ? final.toLocaleString('es-AR') : final.toFixed(2);
+
+            let priceText = `$${formattedTotal}${currencySuffix}`;
             if (storeState.discountPercent > 0) {
-                priceText = `<span class="line-through text-gray-500 text-xs">$${total.toLocaleString('es-AR')}</span> <span class="text-nexoCyan">$${final.toLocaleString('es-AR')} ARS (${storeState.discountPercent}% OFF)</span>`;
+                priceText = `<span class="line-through text-gray-500 text-xs">$${formattedTotal}</span> <span class="text-nexoCyan">$${formattedFinal}${currencySuffix} (${storeState.discountPercent}% OFF)</span>`;
             }
             document.getElementById('display-price').innerHTML = priceText;
         }
@@ -1583,11 +1562,11 @@
                 storeState.discountPercent = activeCoupon.discount;
                 storeState.couponUsed = rawInput;
                 feedback.className = "text-[11px] mt-1.5 text-green-400 font-bold";
-                feedback.innerText = `¡Cupón aplicado con éxito! Descuento del ${storeState.discountPercent}%`;
+                feedback.innerText = `¡Cupón aplicado! Descuento del ${storeState.discountPercent}%`;
                 updateCartUI();
             } else {
                 feedback.className = "text-[11px] mt-1.5 text-red-400 font-bold";
-                feedback.innerText = "Código promocional inválido o expirado.";
+                feedback.innerText = "Código inválido o expirado.";
             }
         }
 
@@ -1641,14 +1620,17 @@
                 document.getElementById('sum-id').innerText = storeState.playerId;
                 document.getElementById('sum-pack').innerText = Object.keys(storeState.cart).join(', ');
                 document.getElementById('sum-client').innerText = storeState.clientName;
-                document.getElementById('sum-total').innerText = `$${storeState.finalPrice.toLocaleString('es-AR')} ARS`;
+                
+                const currencySuffix = storeState.paymentMethod === 'Mercado Pago' ? ' ARS' : ' USD';
+                let formattedFinal = storeState.paymentMethod === 'Mercado Pago' ? storeState.finalPrice.toLocaleString('es-AR') : storeState.finalPrice.toFixed(2);
+                document.getElementById('sum-total').innerText = `$${formattedFinal}${currencySuffix}`;
 
                 document.getElementById('bot-input-game').value = storeState.game;
                 document.getElementById('bot-input-payment').value = storeState.paymentMethod;
                 document.getElementById('bot-input-id').value = storeState.playerId;
                 document.getElementById('bot-input-nick').value = currentUser.name;
                 document.getElementById('bot-input-packs').value = Object.keys(storeState.cart).join(', ');
-                document.getElementById('bot-input-total').value = `$${storeState.finalPrice.toLocaleString('es-AR')} ARS`;
+                document.getElementById('bot-input-total').value = `$${formattedFinal}${currencySuffix}`;
                 document.getElementById('bot-input-coupon').value = storeState.couponUsed;
                 document.getElementById('bot-input-coins').value = storeState.coinsEarned;
                 document.getElementById('bot-input-name').value = storeState.clientName;
