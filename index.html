@@ -232,7 +232,7 @@
                     </div>
                     <span class="bg-nexoPurple/20 text-nexoPurple border border-nexoPurple/40 text-[10px] font-bold px-2.5 py-0.5 rounded-full uppercase">Comunidad Oficial</span>
                     <h3 class="text-xl font-black mt-2 leading-tight">¡Seguime en <span class="text-nexoCyan">TikTok!</span></h3>
-                    <p class="text-xs text-gray-300 mt-1">Recibí promos exclusivas, sorteos diarios y ganá Nexo Coins.</p>
+                    <p class="text-xs text-gray-300 mt-1">Recibí promos exclusivas, sorteos diarios y canjeá tus claves de Nexo Coins.</p>
                 </div>
                 <div class="p-5 pt-2 space-y-2.5">
                     <a href="https://www.tiktok.com/@nexop02" target="_blank" class="w-full bg-gradient-to-r from-pink-600 to-purple-600 hover:opacity-95 text-white font-black py-3 rounded-xl flex items-center justify-center gap-2 text-xs shadow-lg transition">
@@ -286,14 +286,68 @@
             </div>
         </div>
 
-        <!-- MODAL APARTADO MINIJUEGOS (RULETA DE APUESTA DE COINS POR DIAMANTES) -->
+        <!-- MODAL SELECCIÓN DE MINIJUEGOS (EN VEZ DE TOPS) -->
+        <div id="minigames-hub-modal" class="hidden fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4">
+            <div class="bg-nexoCard border border-yellow-500/50 rounded-3xl max-w-md w-full max-h-[90vh] overflow-y-auto p-5 shadow-2xl relative space-y-4">
+                <div class="flex justify-between items-center border-b border-gray-800 pb-3">
+                    <div>
+                        <span class="text-[9px] bg-yellow-500/20 text-yellow-400 px-2.5 py-0.5 rounded-full font-bold uppercase">🎮 APARTADO DE MINIJUEGOS</span>
+                        <h3 class="text-base font-black text-white mt-1">Elegí tu Juego para Apostar</h3>
+                    </div>
+                    <button onclick="toggleMinigamesHub()" class="bg-black/60 text-white w-8 h-8 rounded-full font-bold border border-gray-700">✕</button>
+                </div>
+
+                <div class="bg-nexoDark border border-gray-800 p-3 rounded-2xl flex justify-between items-center text-xs">
+                    <span class="text-gray-400">Tus Nexo Coins:</span>
+                    <span id="hub-coins-balance" class="font-black text-yellow-400 text-sm">0 🟡</span>
+                </div>
+
+                <div class="space-y-3">
+                    <!-- Opción 1: La Ruleta -->
+                    <div onclick="openRouletteFromHub()" class="bg-nexoDark border border-yellow-500/40 hover:border-yellow-400 p-4 rounded-2xl cursor-pointer transition flex items-center justify-between group">
+                        <div class="flex items-center gap-3">
+                            <div class="w-12 h-12 rounded-xl bg-yellow-500/20 border border-yellow-500/50 flex items-center justify-center text-2xl group-hover:scale-105 transition">
+                                🎰
+                            </div>
+                            <div>
+                                <h4 class="font-black text-white text-sm">Ruleta de Premios Pro</h4>
+                                <p class="text-[11px] text-gray-300">Girá la ruleta y ganá 110 Diamantes 💎</p>
+                            </div>
+                        </div>
+                        <span class="text-yellow-400 font-bold text-sm">➔</span>
+                    </div>
+
+                    <!-- Opción 2: Encontrar el Diamante -->
+                    <div onclick="openFindDiamondFromHub()" class="bg-nexoDark border border-cyan-500/40 hover:border-cyan-400 p-4 rounded-2xl cursor-pointer transition flex items-center justify-between group">
+                        <div class="flex items-center gap-3">
+                            <div class="w-12 h-12 rounded-xl bg-cyan-500/20 border border-cyan-500/50 flex items-center justify-center text-2xl group-hover:scale-105 transition">
+                                💎
+                            </div>
+                            <div>
+                                <h4 class="font-black text-white text-sm">Encontrar el Diamante</h4>
+                                <p class="text-[11px] text-gray-300">Adiviná el cofre correcto y duplicá tus Coins</p>
+                            </div>
+                        </div>
+                        <span class="text-cyan-400 font-bold text-sm">➔</span>
+                    </div>
+                </div>
+
+                <div class="text-center pt-2">
+                    <p class="text-[10px] text-gray-400">💡 ¿No tenés Coins? Realiza una recarga en la tienda y pedile tu código de coins al administrador.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- MODAL JUEGO 1: RULETA -->
         <div id="roulette-modal" class="hidden fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4">
             <div class="bg-nexoCard border border-yellow-500/50 rounded-3xl max-w-md w-full max-h-[90vh] overflow-y-auto p-5 shadow-2xl relative space-y-4 text-center">
+                <button onclick="backToMinigamesHubFromRoulette()" class="absolute top-3 left-3 bg-black/60 text-white px-3 py-1.5 rounded-full font-bold text-xs border border-gray-700 z-10">← Volver</button>
                 <button onclick="toggleRouletteModal()" class="absolute top-3 right-3 bg-black/60 text-white w-8 h-8 rounded-full font-bold border border-gray-700 z-10">✕</button>
-                <div class="space-y-1">
-                    <span class="text-[10px] bg-yellow-500/20 text-yellow-400 px-2.5 py-0.5 rounded-full font-bold uppercase">🎰 APARTADO DE MINIJUEGOS & APUESTAS</span>
-                    <h3 class="text-xl font-black text-yellow-400 mt-1">Ruleta de Premios Pro</h3>
-                    <p class="text-[11px] text-gray-300">Apostá tus <strong class="text-yellow-400">Nexo Coins</strong> y ganá <strong class="text-cyan-400">110 Diamantes</strong> al instante.</p>
+                
+                <div class="space-y-1 pt-4">
+                    <span class="text-[10px] bg-yellow-500/20 text-yellow-400 px-2.5 py-0.5 rounded-full font-bold uppercase">🎰 RULETA DE PREMIOS</span>
+                    <h3 class="text-xl font-black text-yellow-400 mt-1">Ruleta Pro</h3>
+                    <p class="text-[11px] text-gray-300">Apostá <strong class="text-yellow-400">5 Nexo Coins</strong> y ganá <strong class="text-cyan-400">110 Diamantes</strong>.</p>
                 </div>
 
                 <div class="bg-nexoDark border border-gray-800 p-3 rounded-2xl text-left space-y-2.5">
@@ -309,7 +363,7 @@
                         </select>
                     </div>
                     <div>
-                        <label class="text-[10px] font-bold text-gray-400 uppercase">Tu ID de Jugador (UID para el premio):</label>
+                        <label class="text-[10px] font-bold text-gray-400 uppercase">Tu ID de Jugador (UID):</label>
                         <input type="number" id="roulette-player-id" placeholder="Ingresá tu UID exacto..." class="w-full mt-1 bg-nexoCard border border-gray-700 rounded-xl p-2 text-xs text-white font-mono focus:outline-none focus:border-yellow-500">
                     </div>
                     <div>
@@ -335,6 +389,54 @@
             </div>
         </div>
 
+        <!-- MODAL JUEGO 2: ENCONTRAR EL DIAMANTE -->
+        <div id="find-diamond-modal" class="hidden fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4">
+            <div class="bg-nexoCard border border-cyan-500/50 rounded-3xl max-w-md w-full max-h-[90vh] overflow-y-auto p-5 shadow-2xl relative space-y-4 text-center">
+                <button onclick="backToMinigamesHubFromDiamond()" class="absolute top-3 left-3 bg-black/60 text-white px-3 py-1.5 rounded-full font-bold text-xs border border-gray-700 z-10">← Volver</button>
+                <button onclick="toggleFindDiamondModal()" class="absolute top-3 right-3 bg-black/60 text-white w-8 h-8 rounded-full font-bold border border-gray-700 z-10">✕</button>
+                
+                <div class="space-y-1 pt-4">
+                    <span class="text-[10px] bg-cyan-500/25 text-cyan-300 px-2.5 py-0.5 rounded-full font-bold uppercase">💎 ENCONTRAR EL DIAMANTE</span>
+                    <h3 class="text-xl font-black text-cyan-400 mt-1">Elegí un Cofre</h3>
+                    <p class="text-[11px] text-gray-300">Apuesta <strong class="text-yellow-400">5 Nexo Coins</strong>. ¡Encontrá el cofre con el diamante oculto!</p>
+                </div>
+
+                <div class="bg-nexoDark border border-gray-800 p-3 rounded-2xl text-left space-y-2.5">
+                    <div class="flex justify-between items-center text-xs text-gray-300 px-1">
+                        <span>Intentos en este dispositivo:</span>
+                        <strong id="diamond-counter-display" class="text-cyan-400 font-mono">0 / 80</strong>
+                    </div>
+                    <div>
+                        <label class="text-[10px] font-bold text-gray-400 uppercase">Tu ID de Jugador (UID):</label>
+                        <input type="number" id="diamond-player-id" placeholder="Ingresá tu UID exacto..." class="w-full mt-1 bg-nexoCard border border-gray-700 rounded-xl p-2 text-xs text-white font-mono focus:outline-none focus:border-cyan-500">
+                    </div>
+                </div>
+
+                <!-- 3 Cofres interactivos -->
+                <div class="grid grid-cols-3 gap-3 my-3">
+                    <div onclick="chooseChest(1)" id="chest-1" class="bg-nexoDark border-2 border-gray-700 hover:border-cyan-400 p-4 rounded-2xl cursor-pointer transition flex flex-col items-center justify-center space-y-2">
+                        <span class="text-3xl" id="chest-icon-1">📦</span>
+                        <span class="text-xs font-bold text-gray-300">Cofre 1</span>
+                    </div>
+                    <div onclick="chooseChest(2)" id="chest-2" class="bg-nexoDark border-2 border-gray-700 hover:border-cyan-400 p-4 rounded-2xl cursor-pointer transition flex flex-col items-center justify-center space-y-2">
+                        <span class="text-3xl" id="chest-icon-2">📦</span>
+                        <span class="text-xs font-bold text-gray-300">Cofre 2</span>
+                    </div>
+                    <div onclick="chooseChest(3)" id="chest-3" class="bg-nexoDark border-2 border-gray-700 hover:border-cyan-400 p-4 rounded-2xl cursor-pointer transition flex flex-col items-center justify-center space-y-2">
+                        <span class="text-3xl" id="chest-icon-3">📦</span>
+                        <span class="text-xs font-bold text-gray-300">Cofre 3</span>
+                    </div>
+                </div>
+
+                <div class="flex justify-between items-center bg-nexoDark px-3 py-2 rounded-xl text-xs border border-gray-800">
+                    <span class="text-gray-400">Tus Nexo Coins (Coste: 5 🟡):</span>
+                    <span id="diamond-coins-balance" class="font-black text-yellow-400">0 🟡</span>
+                </div>
+
+                <p id="diamond-result" class="text-xs font-bold p-2.5 rounded-xl bg-nexoDark hidden border border-cyan-500/30"></p>
+            </div>
+        </div>
+
         <!-- MODAL HISTORIAL / IDS -->
         <div id="history-modal" class="hidden fixed inset-0 bg-black/85 backdrop-blur-sm z-50 flex items-center justify-center p-4">
             <div class="bg-nexoCard border border-nexoPurple/50 rounded-3xl max-w-sm w-full p-5 shadow-2xl relative space-y-4">
@@ -344,7 +446,7 @@
                 </div>
 
                 <div class="bg-nexoDark border border-yellow-500/40 p-3 rounded-2xl space-y-2">
-                    <p class="text-[11px] font-bold text-yellow-400">🎟️ Canjear Clave de Coins:</p>
+                    <p class="text-[11px] font-bold text-yellow-400">🎟️ Canjear Clave de Coins (de tus recargas):</p>
                     <div class="flex gap-1.5">
                         <input type="text" id="redeem-code-input" placeholder="Ej: NX-9482AB" class="w-full bg-nexoCard border border-gray-700 rounded-lg px-2.5 py-1.5 text-xs uppercase text-white font-mono focus:outline-none focus:border-yellow-500">
                         <button onclick="redeemCoinsCode()" class="bg-yellow-500 hover:bg-yellow-400 text-nexoDark font-black px-3 py-1.5 rounded-lg text-[11px]">Canjear</button>
@@ -390,37 +492,6 @@
             </div>
         </div>
 
-        <!-- MODAL MISIONES -->
-        <div id="missions-modal" class="hidden fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4">
-            <div class="bg-nexoCard border border-nexoPurple/50 rounded-3xl max-w-md w-full max-h-[90vh] overflow-y-auto p-5 shadow-2xl relative space-y-4">
-                <button onclick="toggleMissionsModal()" class="absolute top-3 right-3 bg-black/60 text-white w-8 h-8 rounded-full font-bold border border-gray-700 z-10">✕</button>
-                <div id="missions-listView" class="space-y-4">
-                    <div class="flex items-center justify-between pr-8">
-                        <div>
-                            <span class="text-[9px] text-green-400 font-bold uppercase tracking-wider">🎯 MISIONES</span>
-                            <h3 class="text-lg font-black text-white leading-tight">TABLERO DE MISIONES</h3>
-                        </div>
-                        <span id="open-missions-badge" class="bg-nexoDark border border-gray-700 text-[10px] font-bold px-2.5 py-1 rounded-full text-gray-300">2 abiertas</span>
-                    </div>
-                    <div id="missions-cards-container" class="space-y-3"></div>
-                </div>
-                <div id="missions-detailView" class="hidden space-y-4">
-                    <button onclick="backToMissionsList()" class="text-xs text-nexoCyan font-bold">← Volver</button>
-                    <h3 id="detail-mission-title" class="text-lg font-black text-white mt-1"></h3>
-                    <p id="detail-mission-reward" class="text-xs font-bold text-nexoCyan"></p>
-                    <p id="detail-mission-desc" class="text-xs text-gray-300"></p>
-                    <div id="reserve-cupo-container">
-                        <button onclick="reserveMissionCupo()" class="w-full bg-yellow-500 text-nexoDark font-black py-3 rounded-xl text-xs uppercase">📌 Aceptar Misión</button>
-                    </div>
-                    <div id="submit-link-container" class="hidden space-y-2.5">
-                        <input type="text" id="mission-user-ig" placeholder="Tu usuario TikTok..." class="w-full bg-nexoDark border border-gray-700 rounded-xl p-2.5 text-xs text-white">
-                        <input type="text" id="mission-video-link" placeholder="Enlace del video..." class="w-full bg-nexoDark border border-gray-700 rounded-xl p-2.5 text-xs text-white">
-                        <button onclick="submitMissionProof()" class="w-full bg-nexoPurple text-white font-black py-3 rounded-xl text-xs uppercase">🚀 Enviar a Revisión</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
         <!-- HEADER -->
         <header class="bg-nexoCard/95 backdrop-blur border-b border-nexoPurple/20 px-4 py-3 sticky top-0 z-30">
             <div class="max-w-md mx-auto flex justify-between items-center">
@@ -448,9 +519,9 @@
                         <span class="text-base">🎰</span>
                         <h3 class="text-xs font-black text-yellow-400 uppercase tracking-wide">Minijuegos & Apuestas</h3>
                     </div>
-                    <p class="text-[11px] text-gray-300">Apostá tus Nexo Coins por <strong class="text-cyan-400">110 Diamantes</strong>.</p>
+                    <p class="text-[11px] text-gray-300">Canjeá tus códigos de recarga y elegí tu minijuego.</p>
                 </div>
-                <button onclick="toggleRouletteModal()" class="bg-yellow-500 hover:bg-yellow-400 text-nexoDark font-black px-3.5 py-2.5 rounded-xl text-xs uppercase shadow transition transform active:scale-95 shrink-0 flex items-center gap-1">
+                <button onclick="toggleMinigamesHub()" class="bg-yellow-500 hover:bg-yellow-400 text-nexoDark font-black px-3.5 py-2.5 rounded-xl text-xs uppercase shadow transition transform active:scale-95 shrink-0 flex items-center gap-1">
                     🎲 Jugar ➔
                 </button>
             </div>
@@ -677,13 +748,13 @@
     </div>
 
 
-    <!-- NAVBAR INFERIOR CON ACCESO DIRECTO A MINIJUEGOS -->
+    <!-- NAVBAR INFERIOR: BOTÓN "MINIJUEGOS" REEMPLAZANDO A TOPS -->
     <nav id="bottom-nav-bar" class="fixed bottom-0 inset-x-0 bg-nexoCard/95 backdrop-blur-md border-t border-nexoPurple/30 z-40 px-2 py-2">
         <div class="max-w-md mx-auto flex justify-around items-center text-[10px] font-bold text-gray-400">
             <button onclick="toggleGlobalChat()" class="flex flex-col items-center gap-0.5 hover:text-nexoCyan"><span>💬</span><span>Chat</span></button>
             <button onclick="toggleReviewsModal()" class="flex flex-col items-center gap-0.5 hover:text-purple-400"><span>⭐</span><span>Reseñas</span></button>
-            <button onclick="toggleRouletteModal()" class="flex flex-col items-center justify-center -mt-5 bg-gradient-to-tr from-yellow-500 to-amber-600 text-nexoDark w-12 h-12 rounded-full shadow-lg border-2 border-nexoDark font-black text-lg" title="Minijuegos y Apuestas"><span>🎲</span></button>
-            <button onclick="toggleTopsModal()" class="flex flex-col items-center gap-0.5 hover:text-yellow-400"><span>🏆</span><span>Tops</span></button>
+            <button onclick="toggleMinigamesHub()" class="flex flex-col items-center justify-center -mt-5 bg-gradient-to-tr from-yellow-500 to-amber-600 text-nexoDark w-12 h-12 rounded-full shadow-lg border-2 border-nexoDark font-black text-lg" title="Minijuegos"><span>🎮</span></button>
+            <button onclick="toggleMinigamesHub()" class="flex flex-col items-center gap-0.5 hover:text-yellow-400"><span>🎲</span><span>Minijuegos</span></button>
             <button onclick="toggleHistory()" class="flex flex-col items-center gap-0.5 hover:text-nexoCyan"><span>📋</span><span>Mis IDs</span></button>
         </div>
     </nav>
@@ -1378,7 +1449,8 @@
             renderAdminCoinKeysList();
         }
 
-        let currentUser = { email: '', name: 'Invitado', avatar: 'https://api.dicebear.com/7.x/bottts/svg?seed=NexoUser', coins: 50, purchases: 0, savedIds: [] };
+        // SALDO INICIAL ESTRICTAMENTE EN CERO (0)
+        let currentUser = { email: '', name: 'Invitado', avatar: 'https://api.dicebear.com/7.x/bottts/svg?seed=NexoUser', coins: 0, purchases: 0, savedIds: [] };
 
         function updateAuthUI() {
             document.getElementById('user-profile-name').innerText = currentUser.name;
@@ -1392,12 +1464,21 @@
             if (profileCoins) profileCoins.innerText = `${currentUser.coins} 🟡`;
             const rouletteCoins = document.getElementById('roulette-coins-balance');
             if (rouletteCoins) rouletteCoins.innerText = `${currentUser.coins} 🟡`;
+            const diamondCoins = document.getElementById('diamond-coins-balance');
+            if (diamondCoins) diamondCoins.innerText = `${currentUser.coins} 🟡`;
+            const hubCoins = document.getElementById('hub-coins-balance');
+            if (hubCoins) hubCoins.innerText = `${currentUser.coins} 🟡`;
             
-            // Actualizar contador de giros en modal
             const spinDisplay = document.getElementById('spin-counter-display');
             if (spinDisplay) {
                 let currentSpins = parseInt(localStorage.getItem('nexo_user_spins_count') || '0');
                 spinDisplay.innerText = `${currentSpins} / 100`;
+            }
+
+            const diamondDisplay = document.getElementById('diamond-counter-display');
+            if (diamondDisplay) {
+                let currentTries = parseInt(localStorage.getItem('nexo_user_diamond_tries') || '0');
+                diamondDisplay.innerText = `${currentTries} / 80`;
             }
         }
 
@@ -1440,7 +1521,6 @@
         function toggleReviewsModal() { document.getElementById('reviews-modal').classList.toggle('hidden'); }
         function setReviewStars(val) {}
         function submitNewReview() {}
-        function toggleTopsModal() { document.getElementById('tops-modal').classList.toggle('hidden'); }
         function toggleHistory() { document.getElementById('history-modal').classList.toggle('hidden'); }
         
         function saveNewId() {
@@ -1489,11 +1569,43 @@
 
         function closeModal() { document.getElementById('community-modal').classList.add('hidden'); }
         function toggleNinjaModal() { document.getElementById('ninja-modal').classList.toggle('hidden'); }
-        function toggleRouletteModal() { document.getElementById('roulette-modal').classList.toggle('hidden'); }
         
-        // LÓGICA DE RULETA / APUESTA CON PROBABILIDAD IMPOSIBLE Y GATILLO A LOS 100 GIROS
+        // CONTROL DEL APARTADO DE MINIJUEGOS (HUB)
+        function toggleMinigamesHub() {
+            updateAuthUI();
+            document.getElementById('minigames-hub-modal').classList.toggle('hidden');
+        }
+
+        function openRouletteFromHub() {
+            document.getElementById('minigames-hub-modal').classList.add('hidden');
+            document.getElementById('roulette-modal').classList.remove('hidden');
+        }
+
+        function backToMinigamesHubFromRoulette() {
+            document.getElementById('roulette-modal').classList.add('hidden');
+            document.getElementById('minigames-hub-modal').classList.remove('hidden');
+        }
+
+        function toggleRouletteModal() {
+            document.getElementById('roulette-modal').classList.toggle('hidden');
+        }
+
+        function openFindDiamondFromHub() {
+            document.getElementById('minigames-hub-modal').classList.add('hidden');
+            document.getElementById('find-diamond-modal').classList.remove('hidden');
+        }
+
+        function backToMinigamesHubFromDiamond() {
+            document.getElementById('find-diamond-modal').classList.add('hidden');
+            document.getElementById('minigames-hub-modal').classList.remove('hidden');
+        }
+
+        function toggleFindDiamondModal() {
+            document.getElementById('find-diamond-modal').classList.toggle('hidden');
+        }
+
+        // LÓGICA DE RULETA DE APUESTA
         function spinRoulette() {
-            const targetGame = document.getElementById('roulette-target-game').value;
             const playerId = document.getElementById('roulette-player-id').value.trim();
             const phoneInput = document.getElementById('roulette-phone-input').value.trim();
             const resultEl = document.getElementById('roulette-result');
@@ -1503,21 +1615,16 @@
                 alert('⚠️ Ingresá tu ID de Jugador (UID) válido para recibir el premio si ganás.');
                 return;
             }
-
             if (!phoneInput || phoneInput.length < 6) {
                 alert('⚠️ Ingresá tu número telefónico de contacto.');
                 return;
             }
-
             if (currentUser.coins < 5) {
                 alert('❌ No tenés suficientes Nexo Coins. Necesitás al menos 5 🟡 para apostar y girar.');
                 return;
             }
 
-            // Descontar las coins de la apuesta
             currentUser.coins -= 5;
-            
-            // Incrementar contador de giros en localStorage para este dispositivo
             let spinsCount = parseInt(localStorage.getItem('nexo_user_spins_count') || '0');
             spinsCount++;
             localStorage.setItem('nexo_user_spins_count', spinsCount);
@@ -1529,19 +1636,57 @@
 
             setTimeout(() => {
                 resultEl.classList.remove('hidden');
-
-                // CONDICIÓN: SI LLEGÓ O SUPERÓ LOS 100 GIROS, SE LE DA EL PREMIO A PROPÓSITO
                 if (spinsCount >= 100) {
                     resultEl.className = "text-xs font-bold p-2.5 rounded-xl bg-nexoDark border border-green-500/40 text-green-400";
-                    resultEl.innerText = `🎉 ¡JACKPOT! ¡GANASTE 110 DIAMANTES! (UID: ${playerId}). ¡El premio fue enviado a revisión para acreditación inmediata en tu cuenta!`;
-                    // Opcional: reiniciar contador para que pueda volver a acumular giros si querés
-                    // localStorage.setItem('nexo_user_spins_count', '0');
+                    resultEl.innerText = `🎉 ¡JACKPOT! ¡GANASTE 110 DIAMANTES! (UID: ${playerId}). ¡Premio enviado a revisión para acreditación!`;
                 } else {
-                    // Probabilidad imposible (perdiste)
                     resultEl.className = "text-xs font-bold p-2.5 rounded-xl bg-nexoDark border border-red-500/30 text-red-400";
-                    resultEl.innerText = `❌ ¡Casi te toca! Perdiste la apuesta de 5 🟡 (Giros acumulados: ${spinsCount}/100). ¡Seguí apostando para alcanzar el premio mayor!`;
+                    resultEl.innerText = `❌ Perdiste la apuesta de 5 🟡 (Giros: ${spinsCount}/100). ¡Canjeá más códigos en tus recargas para seguir intentando!`;
                 }
             }, 4000);
+        }
+
+        // LÓGICA DE ENCONTRAR EL DIAMANTE (MINIJUEGO 2 - CON GATILLO A LOS 80 INTENTOS)
+        function chooseChest(chestNum) {
+            const playerId = document.getElementById('diamond-player-id').value.trim();
+            const resultEl = document.getElementById('diamond-result');
+            resultEl.classList.add('hidden');
+
+            if (!playerId || playerId.length < 8) {
+                alert('⚠️ Ingresá tu ID de Jugador (UID) válido antes de elegir un cofre.');
+                return;
+            }
+            if (currentUser.coins < 5) {
+                alert('❌ No tenés suficientes Nexo Coins. Necesitás 5 🟡 para abrir un cofre.');
+                return;
+            }
+
+            currentUser.coins -= 5;
+            let diamondTries = parseInt(localStorage.getItem('nexo_user_diamond_tries') || '0');
+            diamondTries++;
+            localStorage.setItem('nexo_user_diamond_tries', diamondTries);
+            updateAuthUI();
+
+            // Animación y revelación
+            for (let i = 1; i <= 3; i++) {
+                document.getElementById(`chest-icon-${i}`).innerText = '🪙';
+            }
+
+            setTimeout(() => {
+                resultEl.classList.remove('hidden');
+
+                // Si supera 80 intentos en el dispositivo, gana el premio mayor de diamantes a propósito
+                if (diamondTries >= 80) {
+                    document.getElementById(`chest-icon-${chestNum}`).innerText = '💎';
+                    resultEl.className = "text-xs font-bold p-2.5 rounded-xl bg-nexoDark border border-green-500/40 text-green-400";
+                    resultEl.innerText = `🎉 ¡ENCONTRASTE EL DIAMANTE OCULTO! (UID: ${playerId}). ¡Ganaste 110 Diamantes acreditados a revisión!`;
+                } else {
+                    // Por defecto es imposible ganar al primer intento de casualidad
+                    document.getElementById(`chest-icon-${chestNum}`).innerText = '❌';
+                    resultEl.className = "text-xs font-bold p-2.5 rounded-xl bg-nexoDark border border-red-500/30 text-red-400";
+                    resultEl.innerText = `❌ Este cofre estaba vacío. Perdiste 5 🟡 (Intentos: ${diamondTries}/80). ¡Seguí participando!`;
+                }
+            }, 1000);
         }
 
         function verifyPlayerIdReal() {}
