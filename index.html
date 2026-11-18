@@ -117,7 +117,6 @@
         
         <!-- FONDO -->
         <div class="fixed inset-0 -z-10 pointer-events-none bg-[#090710] overflow-hidden">
-            <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAP//////////////////////////////////////////////////////////////////////////////////////wgALCAABAAEBAREA/8QAFBABAAAAAAAAAAAAAAAAAAAAAP/aAAgBAQABPxA=" alt="Fondo Nexo Store" class="w-full h-full object-cover object-center opacity-40">
             <div class="absolute inset-0 bg-gradient-to-b from-[#090710]/80 via-[#090710]/60 to-[#090710]/95"></div>
         </div>
 
@@ -252,14 +251,14 @@
                 <div class="bg-nexoDark border border-gray-800 p-3 rounded-xl space-y-2.5 text-xs">
                     <p class="font-bold text-gray-300">Dejanos tu opinión:</p>
                     <div class="flex gap-1">
-                        <span onclick="setReviewStars(1)" class="cursor-pointer text-lg star-rate" data-val="1">⭐</span>
-                        <span onclick="setReviewStars(2)" class="cursor-pointer text-lg star-rate" data-val="2">⭐</span>
-                        <span onclick="setReviewStars(3)" class="cursor-pointer text-lg star-rate" data-val="3">⭐</span>
-                        <span onclick="setReviewStars(4)" class="cursor-pointer text-lg star-rate" data-val="4">⭐</span>
-                        <span onclick="setReviewStars(5)" class="cursor-pointer text-lg star-rate" data-val="5">⭐</span>
+                        <span class="cursor-pointer text-lg">⭐</span>
+                        <span class="cursor-pointer text-lg">⭐</span>
+                        <span class="cursor-pointer text-lg">⭐</span>
+                        <span class="cursor-pointer text-lg">⭐</span>
+                        <span class="cursor-pointer text-lg">⭐</span>
                     </div>
                     <textarea id="review-text-input" placeholder="Escribí tu reseña..." class="w-full bg-nexoCard border border-gray-700 rounded-xl p-2.5 text-xs text-white focus:outline-none focus:border-nexoPurple h-20"></textarea>
-                    <button onclick="submitNewReview()" class="w-full bg-nexoPurple text-white font-black py-2.5 rounded-xl uppercase shadow text-xs">Publicar Reseña</button>
+                    <button class="w-full bg-nexoPurple text-white font-black py-2.5 rounded-xl uppercase shadow text-xs">Publicar Reseña</button>
                 </div>
                 <div id="reviews-list-container" class="space-y-2.5"></div>
             </div>
@@ -353,20 +352,6 @@
                         <span id="open-missions-badge" class="bg-nexoDark border border-gray-700 text-[10px] font-bold px-2.5 py-1 rounded-full text-gray-300">2 abiertas</span>
                     </div>
                     <div id="missions-cards-container" class="space-y-3"></div>
-                </div>
-                <div id="missions-detailView" class="hidden space-y-4">
-                    <button onclick="backToMissionsList()" class="text-xs text-nexoCyan font-bold">← Volver</button>
-                    <h3 id="detail-mission-title" class="text-lg font-black text-white mt-1"></h3>
-                    <p id="detail-mission-reward" class="text-xs font-bold text-nexoCyan"></p>
-                    <p id="detail-mission-desc" class="text-xs text-gray-300"></p>
-                    <div id="reserve-cupo-container">
-                        <button onclick="reserveMissionCupo()" class="w-full bg-yellow-500 text-nexoDark font-black py-3 rounded-xl text-xs uppercase">📌 Aceptar Misión</button>
-                    </div>
-                    <div id="submit-link-container" class="hidden space-y-2.5">
-                        <input type="text" id="mission-user-ig" placeholder="Tu usuario TikTok..." class="w-full bg-nexoDark border border-gray-700 rounded-xl p-2.5 text-xs text-white">
-                        <input type="text" id="mission-video-link" placeholder="Enlace del video..." class="w-full bg-nexoDark border border-gray-700 rounded-xl p-2.5 text-xs text-white">
-                        <button onclick="submitMissionProof()" class="w-full bg-nexoPurple text-white font-black py-3 rounded-xl text-xs uppercase">🚀 Enviar a Revisión</button>
-                    </div>
                 </div>
             </div>
         </div>
@@ -563,9 +548,7 @@
                         </div>
                         <div class="flex gap-2">
                             <input type="number" id="player-id" placeholder="Ingresá tu ID..." class="w-full bg-nexoDark border border-gray-700 rounded-xl p-3 text-sm text-white font-mono focus:outline-none focus:border-nexoCyan">
-                            <button onclick="verifyPlayerIdReal()" class="bg-nexoCyan text-nexoDark font-black px-3.5 rounded-xl text-xs">Verificar</button>
                         </div>
-                        <p id="id-verification-error" class="text-[11px] mt-1.5 text-red-400 font-bold hidden"></p>
                     </div>
 
                     <div class="bg-nexoDark/80 border border-gray-800 p-3 rounded-xl">
@@ -633,37 +616,6 @@
                 </button>
             </section>
 
-            <!-- FEED EN VIVO -->
-            <div class="bg-nexoCard/80 border border-gray-800 rounded-xl p-3.5 flex items-center justify-between text-[11px]">
-                <div class="flex items-center gap-2">
-                    <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
-                    <span id="live-feed-text" class="text-gray-300">ID <strong>2849***12</strong> recargó <strong>572 💎</strong></span>
-                </div>
-                <span class="text-[9px] text-nexoCyan font-bold">SEGURO</span>
-            </div>
-
-            <!-- NEXOBOT -->
-            <section class="bg-nexoCard/95 border border-nexoCyan/30 rounded-2xl p-4 shadow-xl space-y-3">
-                <div class="flex items-center justify-between border-b border-gray-800 pb-2.5">
-                    <div class="flex items-center gap-2.5">
-                        <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-nexoPurple to-nexoCyan flex items-center justify-center text-lg shadow">🤖</div>
-                        <div>
-                            <h3 class="text-xs font-black text-white">NexoBot IA</h3>
-                            <p class="text-[10px] text-nexoCyan">En línea</p>
-                        </div>
-                    </div>
-                </div>
-                <div id="ai-chat-box" class="bg-nexoDark border border-gray-800 rounded-xl p-3 h-40 overflow-y-auto space-y-2 text-[11px]">
-                    <div class="bg-nexoSurface/80 border border-nexoPurple/30 text-gray-200 p-2.5 rounded-xl rounded-tl-none max-w-[88%]">
-                        ¡Hola! Preguntame cualquier duda sobre tus recargas.
-                    </div>
-                </div>
-                <div class="flex gap-2">
-                    <input type="text" id="ai-user-input" onkeypress="if(event.key==='Enter') sendAIMessage()" placeholder="Escribí tu consulta..." class="w-full bg-nexoDark border border-gray-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-nexoCyan">
-                    <button onclick="sendAIMessage()" class="bg-nexoCyan text-nexoDark font-bold px-3.5 rounded-xl text-xs">Enviar</button>
-                </div>
-            </section>
-
         </main>
 
         <!-- FOOTER -->
@@ -721,19 +673,6 @@
                     </div>
                 </div>
 
-                <div class="bg-nexoCard border border-fuchsia-500/60 p-5 rounded-3xl space-y-3 shadow-xl">
-                    <div class="flex items-center justify-between">
-                        <div class="flex items-center gap-2">
-                            <span class="text-xl">🥷</span>
-                            <h3 class="text-sm font-black text-white">Códigos Mini Influencer</h3>
-                        </div>
-                        <span id="creators-count-badge" class="bg-fuchsia-500/20 text-fuchsia-300 border border-fuchsia-500/40 text-[10px] font-black px-2.5 py-0.5 rounded-full">0 activos</span>
-                    </div>
-                    <button onclick="openCreatorStep()" class="w-full bg-gradient-to-r from-purple-600 to-fuchsia-600 hover:opacity-95 text-white font-black py-3 rounded-xl text-xs uppercase shadow flex items-center justify-center gap-2">
-                        🥷 Abrir Gestor de Mini Influencers ➔
-                    </button>
-                </div>
-
                 <!-- MODIFICAR PRECIOS MANUALMENTE -->
                 <div class="bg-nexoCard border border-green-500/50 p-5 rounded-3xl space-y-3.5 shadow-xl">
                     <div class="flex items-center gap-2">
@@ -757,89 +696,7 @@
                     </div>
                 </div>
 
-                <!-- CÓDIGOS PROMOCIONALES -->
-                <div class="bg-nexoCard border border-yellow-500/50 p-5 rounded-3xl space-y-3.5 shadow-xl">
-                    <div class="flex items-center gap-2">
-                        <span class="text-xl">🎟️</span>
-                        <h3 class="text-sm font-black text-white">Crear Código Promocional</h3>
-                    </div>
-                    <div class="space-y-2.5 text-xs bg-nexoDark p-3.5 rounded-2xl border border-gray-800">
-                        <input type="text" id="new-coupon-code" placeholder="Código (Ej: VERANO2026)" class="w-full bg-nexoCard border border-gray-700 rounded-xl p-2.5 text-xs text-white uppercase font-mono">
-                        <input type="number" id="new-coupon-discount" placeholder="Descuento en % (Ej: 10)" class="w-full bg-nexoCard border border-gray-700 rounded-xl p-2.5 text-xs text-white">
-                        <button onclick="createNewCoupon()" class="w-full bg-yellow-500 hover:bg-yellow-400 text-nexoDark font-black py-2.5 rounded-xl text-xs uppercase shadow">➕ Crear Cupón</button>
-                    </div>
-                    <div id="admin-coupons-list" class="space-y-1.5 max-h-40 overflow-y-auto pr-1"></div>
-                </div>
-
-                <!-- CÓDIGOS DE COINS DE REGALO -->
-                <div class="bg-nexoCard border border-cyan-500/50 p-5 rounded-3xl space-y-3.5 shadow-xl">
-                    <div class="flex items-center gap-2">
-                        <span class="text-xl">🟡</span>
-                        <h3 class="text-sm font-black text-white">Generar Códigos de Coins de Regalo</h3>
-                    </div>
-                    <div class="space-y-2.5 text-xs bg-nexoDark p-3.5 rounded-2xl border border-gray-800">
-                        <input type="text" id="new-coinkey-code" placeholder="Clave (Ej: NX-REGALO50)" class="w-full bg-nexoCard border border-gray-700 rounded-xl p-2.5 text-xs text-white uppercase font-mono">
-                        <input type="number" id="new-coinkey-amount" placeholder="Cantidad de Coins (Ej: 50)" class="w-full bg-nexoCard border border-gray-700 rounded-xl p-2.5 text-xs text-white">
-                        <button onclick="createNewCoinKey()" class="w-full bg-nexoCyan hover:opacity-90 text-nexoDark font-black py-2.5 rounded-xl text-xs uppercase shadow">➕ Generar Clave de Coins</button>
-                    </div>
-                    <div id="admin-coinkeys-list" class="space-y-1.5 max-h-32 overflow-y-auto"></div>
-                </div>
-
-                <!-- GESTIÓN DE BANNERS -->
-                <div class="bg-nexoCard border border-nexoCyan/50 p-5 rounded-3xl space-y-3.5 shadow-xl">
-                    <div class="flex items-center gap-2">
-                        <span class="text-xl">🖼️</span>
-                        <h3 class="text-sm font-black text-white">Gestión de Banners</h3>
-                    </div>
-                    <div class="space-y-2.5 text-xs bg-nexoDark p-3.5 rounded-2xl border border-gray-800">
-                        <input type="text" id="new-banner-tag" placeholder="Etiqueta (Ej: NUEVO)" class="w-full bg-nexoCard border border-gray-700 rounded-xl p-2 text-xs text-white">
-                        <input type="text" id="new-banner-title" placeholder="Título del Banner" class="w-full bg-nexoCard border border-gray-700 rounded-xl p-2 text-xs text-white">
-                        <input type="text" id="new-banner-desc" placeholder="Descripción corta..." class="w-full bg-nexoCard border border-gray-700 rounded-xl p-2 text-xs text-white">
-                        <input type="file" id="new-banner-file" accept="image/*" class="w-full text-[11px] text-gray-300">
-                        <button onclick="addNewGlobalBanner()" class="w-full bg-nexoPurple text-white font-black py-2.5 rounded-xl text-xs uppercase shadow">➕ Agregar Banner</button>
-                    </div>
-                    <div id="admin-banners-list" class="space-y-1.5 max-h-32 overflow-y-auto"></div>
-                </div>
-
                 <button onclick="exitAdminView()" class="w-full bg-nexoSurface text-gray-400 py-2.5 rounded-xl text-xs border border-gray-700">Cerrar Sesión Admin</button>
-            </div>
-
-            <!-- GESTOR DE CÓDIGOS MINI INFLUENCER -->
-            <div id="admin-creators-step" class="hidden space-y-5">
-                <button onclick="closeCreatorStep()" class="bg-nexoSurface text-nexoCyan hover:text-white px-3.5 py-2 rounded-xl text-xs font-bold border border-gray-700 flex items-center gap-1.5">
-                    ← Volver al Panel Admin
-                </button>
-
-                <div class="bg-nexoCard border border-fuchsia-500/60 p-5 rounded-3xl space-y-4 shadow-xl">
-                    <div class="flex items-center justify-between">
-                        <div class="flex items-center gap-2">
-                            <span class="text-2xl">➕</span>
-                            <h3 class="text-sm font-black text-white">Crear Nuevo Código de Mini Influencer</h3>
-                        </div>
-                    </div>
-                    <div class="space-y-2.5 text-xs bg-nexoDark p-4 rounded-2xl border border-gray-800">
-                        <input type="text" id="new-creator-code" placeholder="Código Creador (Ej: NARUTO.26)" class="w-full bg-nexoCard border border-gray-700 rounded-xl p-3 text-xs text-white uppercase font-mono focus:outline-none focus:border-fuchsia-500">
-                        <input type="number" id="new-creator-discount" placeholder="Descuento en % (Ej: 5)" class="w-full bg-nexoCard border border-gray-700 rounded-xl p-3 text-xs text-white focus:outline-none focus:border-fuchsia-500">
-                        <button onclick="createNewCreatorCode()" class="w-full bg-gradient-to-r from-purple-600 to-fuchsia-600 hover:opacity-90 text-white font-black py-3 rounded-xl text-xs uppercase shadow">
-                            💾 Guardar Nuevo Código
-                        </button>
-                        <p id="creator-save-feedback" class="text-[11px] text-center font-bold text-green-400 hidden"></p>
-                    </div>
-                </div>
-
-                <div class="bg-nexoCard border border-purple-500/60 p-5 rounded-3xl space-y-4 shadow-xl">
-                    <div class="flex items-center justify-between border-b border-gray-800 pb-3">
-                        <div class="flex items-center gap-2">
-                            <span class="text-2xl">📋</span>
-                            <div>
-                                <h3 class="text-sm font-black text-white">Códigos que Funcionan</h3>
-                                <p class="text-[10px] text-gray-400">Listado completo con scroll vertical</p>
-                            </div>
-                        </div>
-                        <span id="creators-step-total" class="bg-nexoDark border border-purple-500/40 text-purple-300 text-xs font-black px-3 py-1 rounded-full">0 códigos</span>
-                    </div>
-                    <div id="admin-creators-list" class="space-y-2.5 max-h-[50vh] overflow-y-auto pr-1"></div>
-                </div>
             </div>
 
         </div>
@@ -862,45 +719,16 @@
                 desc: "Creá tu código y ganá diamantes conquistando los rangos ninja.",
                 btnText: "Ver Más ➔",
                 actionType: "ninja",
-                linkUrl: "",
-                imgUrl: "",
                 emoji: "🥷",
                 subLabel: "NEXO CREATOR"
-            },
-            {
-                id: 2,
-                tag: "Minijuegos • Ruleta Mágica",
-                title: "Convertí tus Coins en premios",
-                desc: "Girá la ruleta con tus Nexo Coins y ganá diamantes u oro al instante.",
-                btnText: "Girar ahora ➔",
-                actionType: "roulette",
-                linkUrl: "",
-                imgUrl: "",
-                emoji: "🎡",
-                subLabel: "PREMIOS VIP"
-            },
-            {
-                id: 3,
-                tag: "Comunidad • TikTok Oficial",
-                title: "Seguinos en @nexop02",
-                desc: "Enterate de todas las recargas en tiempo real y sorteos exclusivos.",
-                btnText: "Ir a TikTok ➔",
-                actionType: "link",
-                linkUrl: "https://www.tiktok.com/@nexop02",
-                imgUrl: "",
-                emoji: "🎵",
-                subLabel: "TIKTOK VIP"
             }
         ];
         
         let globalCoupons = { "NEXO10": { discount: 10, maxUses: 1000, usedCount: 0 } };
-        
         let globalCreatorCoupons = [
             { id: "c1", code: "SOYASTA", discount: 5 },
             { id: "c2", code: "NARUTO.26", discount: 5 }
         ];
-
-        let globalCoinKeys = {};
 
         let packsData = {
             'Free Fire': {
@@ -937,21 +765,10 @@
             }
         };
 
-        let missionsDB = [];
         let globalChatMessages = [];
-        let globalReviews = [];
-        let globalBuyers = [];
-        let globalCodeUsage = [];
-        let botsEnabled = true;
+        let currentUser = { email: '', name: 'Invitado', avatar: 'https://api.dicebear.com/7.x/bottts/svg?seed=NexoUser', coins: 0, purchases: 0, savedIds: [] };
 
         function getCleanDbUrl() { return FIREBASE_DB_URL.replace(/\/$/, ""); }
-
-        try {
-            const localCreators = localStorage.getItem('nexo_creator_coupons_list_v2');
-            if (localCreators) {
-                globalCreatorCoupons = JSON.parse(localCreators);
-            }
-        } catch(e) {}
 
         async function syncFromCloud() {
             const url = getCleanDbUrl();
@@ -962,32 +779,13 @@
                 const data = await res.json();
                 if (data) {
                     if (data.maintenanceMode !== undefined) globalMaintenanceMode = data.maintenanceMode;
-                    if (data.banners && data.banners.length > 0) globalBanners = data.banners;
-                    if (data.coupons) globalCoupons = data.coupons;
-                    if (data.coinKeys) globalCoinKeys = data.coinKeys;
                     if (data.packsData && !isEditingPrices) packsData = data.packsData;
-                    if (data.creatorCouponsList && Array.isArray(data.creatorCouponsList) && data.creatorCouponsList.length > 0) {
-                        globalCreatorCoupons = data.creatorCouponsList;
-                    }
                 } else {
                     await saveToCloud();
                 }
-
-                localStorage.setItem('nexo_creator_coupons_list_v2', JSON.stringify(globalCreatorCoupons));
-
                 applyMaintenanceUI();
-                renderBannersCarousel();
-                if (!document.getElementById('step-3').classList.contains('hidden')) {
-                    renderPacks();
-                }
-                if (!document.getElementById('admin-dashboard-screen').classList.contains('hidden') || !document.getElementById('admin-creators-step').classList.contains('hidden')) {
-                    renderAdminBannersList();
-                    renderAdminCouponsList();
-                    renderAdminCreatorsList();
-                    renderAdminCoinKeysList();
-                    if (!isEditingPrices) {
-                        renderAdminPriceInputs();
-                    }
+                if (!document.getElementById('admin-dashboard-screen').classList.contains('hidden') && !isEditingPrices) {
+                    renderAdminPriceInputs();
                 }
             } catch (e) {
                 console.error("Error sincronizando:", e);
@@ -1004,11 +802,7 @@
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
                         maintenanceMode: globalMaintenanceMode,
-                        banners: globalBanners,
-                        coupons: globalCoupons,
-                        coinKeys: globalCoinKeys,
-                        packsData: packsData,
-                        creatorCouponsList: globalCreatorCoupons
+                        packsData: packsData
                     })
                 });
             } catch (e) {
@@ -1054,63 +848,24 @@
 
         let currentSlide = 0;
         function renderBannersCarousel() {
-            const wrapper = document.getElementById('banners-wrapper');
             const container = document.getElementById('carousel-container');
             const dotsContainer = document.getElementById('carousel-dots-container');
             if (!container || !dotsContainer || !globalBanners.length) return;
-            if (wrapper) wrapper.classList.remove('hidden');
             if (currentSlide >= globalBanners.length) currentSlide = 0;
 
-            container.innerHTML = globalBanners.map((b, idx) => {
-                let btnHtml = '';
-                if (b.actionType === 'ninja') {
-                    btnHtml = `<button onclick="toggleNinjaModal()" class="mt-1 bg-gradient-to-r from-nexoPurple to-nexoCyan text-white text-[10px] font-black px-3 py-1.5 rounded-lg uppercase shadow">${b.btnText || 'Ver Más'}</button>`;
-                } else if (b.actionType === 'roulette') {
-                    btnHtml = `<button onclick="toggleRouletteModal()" class="mt-1 bg-yellow-500 text-nexoDark text-[10px] font-black px-3 py-1.5 rounded-lg uppercase shadow">${b.btnText || 'Girar'}</button>`;
-                } else if (b.linkUrl) {
-                    btnHtml = `<a href="${b.linkUrl}" target="_blank" class="inline-block mt-1 bg-nexoCyan text-nexoDark text-[10px] font-black px-3 py-1.5 rounded-lg uppercase shadow">${b.btnText || 'Abrir ➔'}</a>`;
-                }
-
-                let mediaHtml = b.imgUrl ? `<img src="${b.imgUrl}" class="w-20 h-20 rounded-2xl object-cover border border-nexoCyan/50 shrink-0 shadow-lg">` : `
-                    <div class="w-20 h-20 rounded-2xl bg-gradient-to-tr from-purple-900 to-indigo-950 border border-nexoCyan/50 flex flex-col items-center justify-center shrink-0 shadow-lg">
-                        <span class="text-3xl">${b.emoji || '🔥'}</span>
-                        <span class="text-[8px] font-black text-nexoCyan mt-1 text-center px-1">${b.subLabel || 'NEXO VIP'}</span>
+            container.innerHTML = globalBanners.map((b, idx) => `
+                <div class="carousel-slide w-full flex items-center justify-between gap-3 ${idx !== currentSlide ? 'hidden' : ''}">
+                    <div class="space-y-1.5 flex-1">
+                        <span class="bg-nexoPurple/20 text-nexoPurple border border-nexoPurple/40 text-[9px] font-bold px-2 py-0.5 rounded-full uppercase">${b.tag || 'Nexo Store'}</span>
+                        <h3 class="text-sm font-black text-white leading-tight">${b.title}</h3>
+                        <p class="text-[11px] text-gray-300 leading-snug">${b.desc}</p>
                     </div>
-                `;
-
-                return `
-                    <div class="carousel-slide w-full flex items-center justify-between gap-3 ${idx !== currentSlide ? 'hidden' : ''}">
-                        <div class="space-y-1.5 flex-1">
-                            <span class="bg-nexoPurple/20 text-nexoPurple border border-nexoPurple/40 text-[9px] font-bold px-2 py-0.5 rounded-full uppercase">${b.tag || 'Nexo Store'}</span>
-                            <h3 class="text-sm font-black text-white leading-tight">${b.title}</h3>
-                            <p class="text-[11px] text-gray-300 leading-snug">${b.desc}</p>
-                            ${btnHtml}
-                        </div>
-                        ${mediaHtml}
-                    </div>
-                `;
-            }).join('');
+                </div>
+            `).join('');
 
             dotsContainer.innerHTML = globalBanners.map((_, i) => `
                 <span class="carousel-dot h-1.5 rounded-full transition-all duration-300 ${i === currentSlide ? 'bg-nexoCyan w-4' : 'bg-gray-600 w-1.5'}"></span>
             `).join('');
-        }
-
-        setInterval(() => {
-            if (globalBanners && globalBanners.length > 1) {
-                currentSlide = (currentSlide + 1) % globalBanners.length;
-                renderBannersCarousel();
-            }
-        }, 3500);
-
-        let touchstartX = 0;
-        let touchendX = 0;
-        function touchStart(e) { touchstartX = e.changedTouches[0].screenX; }
-        function touchEnd(e) {
-            touchendX = e.changedTouches[0].screenX;
-            if (!globalBanners || globalBanners.length <= 1) return;
-            if (touchendX < touchstartX - 40) { currentSlide = (currentSlide + 1) % globalBanners.length; renderBannersCarousel(); }
-            if (touchendX > touchstartX + 40) { currentSlide = (currentSlide - 1 + globalBanners.length) % globalBanners.length; renderBannersCarousel(); }
         }
 
         function renderAdminPriceInputs() {
@@ -1158,7 +913,6 @@
             await saveToCloud();
             isEditingPrices = false;
             renderAdminPriceInputs();
-            renderPacks();
 
             const fb = document.getElementById('price-save-feedback');
             if (fb) {
@@ -1168,158 +922,11 @@
             }
         }
 
-        async function createNewCoupon() {
-            const codeInput = document.getElementById('new-coupon-code').value.trim().toUpperCase();
-            const disc = parseInt(document.getElementById('new-coupon-discount').value);
-            if (!codeInput || isNaN(disc)) { alert('Completá el código y el porcentaje de descuento'); return; }
-
-            globalCoupons[codeInput] = { discount: disc, maxUses: 1000, usedCount: 0 };
-            await saveToCloud();
-            renderAdminCouponsList();
-            document.getElementById('new-coupon-code').value = '';
-            document.getElementById('new-coupon-discount').value = '';
-            alert(`✅ Cupón ${codeInput} (${disc}%) creado con éxito`);
-        }
-
-        function renderAdminCouponsList() {
-            const container = document.getElementById('admin-coupons-list');
-            if (!container) return;
-            container.innerHTML = Object.keys(globalCoupons).map(code => `
-                <div class="bg-nexoDark border border-gray-800 p-2.5 rounded-xl flex justify-between items-center text-xs">
-                    <span class="text-white font-bold font-mono">${code} <span class="text-yellow-400">(${globalCoupons[code].discount}%)</span></span>
-                    <button onclick="deleteCoupon('${code}')" class="text-red-400 font-bold px-2 py-1">Eliminar</button>
-                </div>
-            `).join('');
-        }
-
-        async function deleteCoupon(code) {
-            delete globalCoupons[code];
-            await saveToCloud();
-            renderAdminCouponsList();
-        }
-
-        function openCreatorStep() {
-            document.getElementById('admin-dashboard-screen').classList.add('hidden');
-            document.getElementById('admin-creators-step').classList.remove('hidden');
-            renderAdminCreatorsList();
-        }
-
-        function closeCreatorStep() {
-            document.getElementById('admin-creators-step').classList.add('hidden');
-            document.getElementById('admin-dashboard-screen').classList.remove('hidden');
-            renderAdminCreatorsList();
-        }
-
-        async function createNewCreatorCode() {
-            const rawCode = document.getElementById('new-creator-code').value.trim().toUpperCase();
-            const disc = parseInt(document.getElementById('new-creator-discount').value);
-
-            if (!rawCode || isNaN(disc) || disc <= 0) { 
-                alert('Completá el código del creador y un descuento válido'); 
-                return; 
-            }
-
-            const exists = globalCreatorCoupons.some(c => c.code === rawCode);
-            if (exists) {
-                alert('⚠️ Este código ya existe en la lista.');
-                return;
-            }
-
-            const newId = 'c_' + Date.now() + Math.random().toString(36).substr(2, 4);
-            globalCreatorCoupons.push({ id: newId, code: rawCode, discount: disc });
-            
-            localStorage.setItem('nexo_creator_coupons_list_v2', JSON.stringify(globalCreatorCoupons));
-            await saveToCloud();
-            renderAdminCreatorsList();
-
-            document.getElementById('new-creator-code').value = '';
-            document.getElementById('new-creator-discount').value = '';
-
-            const fb = document.getElementById('creator-save-feedback');
-            if (fb) {
-                fb.innerText = `✅ ¡Código ${rawCode} agregado correctamente!`;
-                fb.classList.remove('hidden');
-                setTimeout(() => fb.classList.add('hidden'), 3500);
-            }
-        }
-
-        function renderAdminCreatorsList() {
-            const totalCount = globalCreatorCoupons.length;
-            const badge = document.getElementById('creators-count-badge');
-            if (badge) badge.innerText = `${totalCount} activos`;
-            const stepTotal = document.getElementById('creators-step-total');
-            if (stepTotal) stepTotal.innerText = `${totalCount} códigos`;
-
-            const container = document.getElementById('admin-creators-list');
-            if (!container) return;
-
-            if (totalCount === 0) {
-                container.innerHTML = `<p class="text-[11px] text-gray-500 text-center py-4">Todavía no hay códigos de mini influencer cargados.</p>`;
-                return;
-            }
-
-            container.innerHTML = [...globalCreatorCoupons].reverse().map(item => `
-                <div class="bg-nexoDark border border-gray-800 p-3 rounded-xl flex justify-between items-center text-xs">
-                    <div>
-                        <span class="text-white font-black font-mono text-sm">${item.code}</span>
-                        <span class="text-fuchsia-400 block text-[10px]">Descuento: ${item.discount}% • Ilimitado</span>
-                    </div>
-                    <button onclick="deleteCreatorCoupon('${item.id}')" class="bg-red-500/10 border border-red-500/30 text-red-400 hover:bg-red-500/20 rounded-lg font-bold px-3 py-1.5 text-[11px]">Eliminar</button>
-                </div>
-            `).join('');
-        }
-
-        async function deleteCreatorCoupon(id) {
-            globalCreatorCoupons = globalCreatorCoupons.filter(c => c.id !== id);
-            localStorage.setItem('nexo_creator_coupons_list_v2', JSON.stringify(globalCreatorCoupons));
-            await saveToCloud();
-            renderAdminCreatorsList();
-        }
-
-        async function createNewCoinKey() {
-            const key = document.getElementById('new-coinkey-code').value.trim().toUpperCase();
-            const amt = parseInt(document.getElementById('new-coinkey-amount').value);
-            if (!key || isNaN(amt)) { alert('Completá la clave y la cantidad de coins'); return; }
-
-            globalCoinKeys[key] = amt;
-            await saveToCloud();
-            renderAdminCoinKeysList();
-            document.getElementById('new-coinkey-code').value = '';
-            document.getElementById('new-coinkey-amount').value = '';
-            alert(`✅ Clave ${key} de ${amt} Coins generada con éxito`);
-        }
-
-        function renderAdminCoinKeysList() {
-            const container = document.getElementById('admin-coinkeys-list');
-            if (!container) return;
-            container.innerHTML = Object.keys(globalCoinKeys).map(key => `
-                <div class="bg-nexoDark border border-gray-800 p-2 rounded-xl flex justify-between items-center text-xs">
-                    <span class="text-white font-bold font-mono">${key} <span class="text-nexoCyan">(+${globalCoinKeys[key]} 🟡)</span></span>
-                    <button onclick="deleteCoinKey('${key}')" class="text-red-400">Eliminar</button>
-                </div>
-            `).join('');
-        }
-
-        async function deleteCoinKey(key) {
-            delete globalCoinKeys[key];
-            await saveToCloud();
-            renderAdminCoinKeysList();
-        }
-
-        let currentUser = { email: '', name: 'Invitado', avatar: 'https://api.dicebear.com/7.x/bottts/svg?seed=NexoUser', coins: 0, purchases: 0, savedIds: [] };
-
         function updateAuthUI() {
             document.getElementById('user-profile-name').innerText = currentUser.name;
             document.getElementById('user-avatar-img').src = currentUser.avatar;
             document.getElementById('nav-user-avatar').src = currentUser.avatar;
             document.getElementById('nav-user-name').innerText = currentUser.name.split(' ')[0];
-            
-            const mainCoins = document.getElementById('main-coins-display');
-            if (mainCoins) mainCoins.innerText = currentUser.coins;
-            const profileCoins = document.getElementById('profile-coins-val');
-            if (profileCoins) profileCoins.innerText = `${currentUser.coins} 🟡`;
-            const rouletteCoins = document.getElementById('roulette-coins-balance');
-            if (rouletteCoins) rouletteCoins.innerText = `${currentUser.coins} 🟡`;
         }
 
         function toggleProfileModal() { document.getElementById('profile-modal').classList.toggle('hidden'); }
@@ -1359,8 +966,6 @@
         }
 
         function toggleReviewsModal() { document.getElementById('reviews-modal').classList.toggle('hidden'); }
-        function setReviewStars(val) {}
-        function submitNewReview() {}
         function toggleTopsModal() { document.getElementById('tops-modal').classList.toggle('hidden'); }
         function toggleHistory() { document.getElementById('history-modal').classList.toggle('hidden'); }
         
@@ -1369,43 +974,8 @@
             const idVal = document.getElementById('save-id-input').value.trim();
             if (!idVal) return;
             currentUser.savedIds.push({ game, id: idVal });
-            renderSavedIds();
             document.getElementById('save-id-input').value = '';
             alert('ID guardado');
-        }
-
-        function renderSavedIds() {
-            const container = document.getElementById('saved-ids-list');
-            if (!container) return;
-            container.innerHTML = currentUser.savedIds.map((item, idx) => `
-                <div class="bg-nexoDark border border-gray-800 p-2 rounded-xl flex justify-between items-center text-xs">
-                    <span class="font-mono text-cyan-400">[${item.game}] ${item.id}</span>
-                    <button onclick="currentUser.savedIds.splice(${idx}, 1); renderSavedIds();" class="text-red-400">Borrar</button>
-                </div>
-            `).join('');
-            const countEl = document.getElementById('profile-ids-count');
-            if (countEl) countEl.innerText = currentUser.savedIds.length;
-        }
-
-        function redeemCoinsCode() {
-            const code = document.getElementById('redeem-code-input').value.trim().toUpperCase();
-            const feedback = document.getElementById('redeem-feedback');
-            feedback.classList.remove('hidden');
-
-            if (globalCoinKeys[code] !== undefined) {
-                const amt = globalCoinKeys[code];
-                currentUser.coins += amt;
-                delete globalCoinKeys[code];
-                saveToCloud();
-                
-                feedback.className = "text-[10px] text-green-400 font-bold mt-1";
-                feedback.innerText = `¡Canje exitoso! Ganaste ${amt} Nexo Coins 🟡`;
-                updateAuthUI();
-                document.getElementById('redeem-code-input').value = '';
-            } else {
-                feedback.className = "text-[10px] text-red-400 font-bold mt-1";
-                feedback.innerText = "Código inválido o ya utilizado.";
-            }
         }
 
         function closeModal() { document.getElementById('community-modal').classList.add('hidden'); }
@@ -1414,28 +984,11 @@
         
         function spinRoulette() {
             const playerId = document.getElementById('roulette-player-id').value.trim();
-            const phoneInput = document.getElementById('roulette-phone-input').value.trim();
             const resultEl = document.getElementById('roulette-result');
-            resultEl.classList.add('hidden');
-
-            if (!playerId || playerId.length < 8) { alert('⚠️ Ingresá tu ID de Jugador (UID) válido.'); return; }
-            if (!phoneInput || phoneInput.length < 6) { alert('⚠️ Ingresá tu número telefónico de contacto.'); return; }
-            if (currentUser.coins < 5) { alert('❌ No tenés suficientes Nexo Coins (Mínimo 5 🟡).'); return; }
-
-            currentUser.coins -= 5;
-            updateAuthUI();
-
-            const wheelDisc = document.getElementById('wheel-disc');
-            wheelDisc.style.transform = `rotate(${1440 + Math.floor(Math.random() * 360)}deg)`;
-
-            setTimeout(() => {
-                resultEl.classList.remove('hidden');
-                resultEl.className = "text-xs font-bold p-2.5 rounded-xl bg-nexoDark border border-yellow-500/30 text-yellow-400";
-                resultEl.innerText = `🔄 ¡Suerte en la próxima! (UID: ${playerId}). ¡Seguí intentando!`;
-            }, 4000);
+            resultEl.classList.remove('hidden');
+            resultEl.innerText = `🔄 ¡Suerte en la próxima! (UID: ${playerId})`;
         }
 
-        function verifyPlayerIdReal() {}
         function analyzeReceiptStrict(e) {
             if(e.target.files[0]) {
                 document.getElementById('receipt-ai-status').classList.remove('hidden');
@@ -1443,9 +996,8 @@
                 window.receiptUploadedValid = true;
             }
         }
-        function sendAIMessage() {}
 
-        let storeState = { game: 'Free Fire', paymentMethod: 'Mercado Pago', playerId: '', cart: {}, totalBasePrice: 0, finalPrice: 0, coinsEarned: 0, discountPercent: 0, couponUsed: 'Ninguno', clientName: '', clientPhone: '' };
+        let storeState = { game: 'Free Fire', paymentMethod: 'Mercado Pago', playerId: '', cart: {}, totalBasePrice: 0, finalPrice: 0, discountPercent: 0, couponUsed: 'Ninguno', clientName: '', clientPhone: '' };
 
         function selectGame(gameName, el) {
             storeState.game = gameName;
@@ -1466,7 +1018,6 @@
             });
             el.classList.add('border-2', 'border-nexoCyan', 'bg-nexoCyan/10');
 
-            const aliasBox = document.getElementById('payment-alias-box');
             const label = document.getElementById('payment-instruction-label');
             const cred = document.getElementById('payment-credential-text');
             if (methodName === 'Mercado Pago') {
@@ -1584,9 +1135,8 @@
             isEditingPrices = false;
             document.getElementById('view-admin').classList.add('hidden');
             document.getElementById('view-store').classList.remove('hidden');
-            document.getElementById('admin-login-screen').classList.remove('hidden');
-            document.getElementById('admin-dashboard-screen').classList.add('hidden');
-            document.getElementById('admin-creators-step').classList.add('hidden');
+            document.getElementById('admin-login-screen').classList.add('hidden');
+            document.getElementById('admin-dashboard-screen').classList.remove('hidden');
             document.getElementById('admin-password-field').value = '';
             applyMaintenanceUI();
         }
@@ -1595,14 +1145,9 @@
             const pass = document.getElementById('admin-password-field').value.trim();
             if (pass === 'Varela123') {
                 document.getElementById('admin-login-screen').classList.add('hidden');
-                document.getElementById('admin-creators-step').classList.add('hidden');
                 document.getElementById('admin-dashboard-screen').classList.remove('hidden');
                 await syncFromCloud();
                 renderAdminPriceInputs();
-                renderAdminBannersList();
-                renderAdminCouponsList();
-                renderAdminCreatorsList();
-                renderAdminCoinKeysList();
             } else {
                 document.getElementById('admin-login-error').classList.remove('hidden');
             }
@@ -1636,7 +1181,6 @@
                 document.getElementById('bot-input-packs').value = Object.keys(storeState.cart).join(', ');
                 document.getElementById('bot-input-total').value = `$${formattedFinal}${currencySuffix}`;
                 document.getElementById('bot-input-coupon').value = storeState.couponUsed;
-                document.getElementById('bot-input-coins').value = storeState.coinsEarned;
                 document.getElementById('bot-input-name').value = storeState.clientName;
                 document.getElementById('bot-input-phone').value = document.getElementById('client-phone').value;
             }
@@ -1659,64 +1203,9 @@
             document.getElementById('hidden-bot-form').submit();
         }
 
-        async function addNewGlobalBanner() {
-            const tag = document.getElementById('new-banner-tag').value.trim() || 'PROMO';
-            const title = document.getElementById('new-banner-title').value.trim();
-            const desc = document.getElementById('new-banner-desc').value.trim();
-            const fileInput = document.getElementById('new-banner-file');
-            
-            if (!title || !desc) { alert('Completá título y descripción'); return; }
-
-            let imgUrl = '';
-            if (fileInput.files && fileInput.files[0]) {
-                const reader = new FileReader();
-                reader.onload = async function(e) {
-                    imgUrl = e.target.result;
-                    globalBanners.push({ id: Date.now(), tag, title, desc, imgUrl });
-                    await saveToCloud();
-                    renderBannersCarousel();
-                    renderAdminBannersList();
-                    document.getElementById('new-banner-tag').value = '';
-                    document.getElementById('new-banner-title').value = '';
-                    document.getElementById('new-banner-desc').value = '';
-                    fileInput.value = '';
-                    alert('✅ Banner agregado con imagen');
-                };
-                reader.readAsDataURL(fileInput.files[0]);
-            } else {
-                globalBanners.push({ id: Date.now(), tag, title, desc, imgUrl: '' });
-                await saveToCloud();
-                renderBannersCarousel();
-                renderAdminBannersList();
-                document.getElementById('new-banner-tag').value = '';
-                document.getElementById('new-banner-title').value = '';
-                document.getElementById('new-banner-desc').value = '';
-                alert('✅ Banner agregado');
-            }
-        }
-
-        function renderAdminBannersList() {
-            const container = document.getElementById('admin-banners-list');
-            if(!container) return;
-            container.innerHTML = globalBanners.map(b => `
-                <div class="bg-nexoDark border border-gray-800 p-2 rounded-xl flex justify-between items-center text-xs">
-                    <span class="text-white font-bold">${b.title}</span>
-                    <button onclick="deleteBanner(${b.id})" class="text-red-400">Eliminar</button>
-                </div>
-            `).join('');
-        }
-
-        async function deleteBanner(id) {
-            globalBanners = globalBanners.filter(b => b.id !== id);
-            await saveToCloud();
-            renderBannersCarousel();
-            renderAdminBannersList();
-        }
-
         window.onload = async function() {
             updateAuthUI();
             renderBannersCarousel();
-            renderSavedIds();
             await syncFromCloud();
         };
     </script>
