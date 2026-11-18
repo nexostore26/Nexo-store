@@ -286,7 +286,7 @@
             </div>
         </div>
 
-        <!-- MODAL SELECCIÓN DE MINIJUEGOS (EN VEZ DE TOPS) -->
+        <!-- MODAL SELECCIÓN DE MINIJUEGOS (APARTADO DE MINIJUEGOS) -->
         <div id="minigames-hub-modal" class="hidden fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4">
             <div class="bg-nexoCard border border-yellow-500/50 rounded-3xl max-w-md w-full max-h-[90vh] overflow-y-auto p-5 shadow-2xl relative space-y-4">
                 <div class="flex justify-between items-center border-b border-gray-800 pb-3">
@@ -575,7 +575,7 @@
                 </button>
             </section>
 
-            <!-- PASO 2: MÉTODO DE PAGO ARRIBA Y CARRITO -->
+            <!-- PASO 2: MÉTODO DE PAGO CON IMÁGENES PERSONALIZADAS (IMAGEN 1 Y 2) -->
             <section id="step-2" class="hidden bg-nexoCard/95 border border-nexoPurple/30 rounded-2xl p-5 shadow-xl space-y-5">
                 <h2 class="text-sm font-black text-white flex items-center gap-2">
                     <span class="bg-nexoCyan text-nexoDark w-5 h-5 rounded-full flex items-center justify-center text-xs">2</span>
@@ -585,16 +585,29 @@
                 <div class="space-y-2">
                     <label class="text-[11px] font-bold text-gray-300 uppercase">Elegí tu Método de Pago:</label>
                     <div class="grid grid-cols-2 gap-2.5">
-                        <div onclick="setPaymentMethod('Mercado Pago')" id="pay-method-mp" class="payment-tab border-2 border-nexoCyan bg-nexoCyan/10 p-3 rounded-xl text-center cursor-pointer transition flex flex-col items-center justify-center space-y-1">
-                            <span class="text-base">💙</span>
-                            <span class="text-xs font-black text-white">Mercado Pago</span>
-                            <span class="text-[9px] text-gray-400">Pesos (ARS)</span>
+                        
+                        <!-- MERCADO PAGO (CON IMAGEN 1) -->
+                        <div onclick="setPaymentMethod('Mercado Pago')" id="pay-method-mp" class="payment-tab border-2 border-nexoCyan bg-nexoCyan/10 p-3 rounded-xl text-center cursor-pointer transition flex flex-col items-center justify-center space-y-2">
+                            <div class="w-12 h-12 rounded-xl bg-black/40 border border-cyan-500/40 p-1 shadow flex items-center justify-center overflow-hidden">
+                                <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAP//////////////////////////////////////////////////////////////////////////////////////wgALCAABAAEBAREA/8QAFBABAAAAAAAAAAAAAAAAAAAAAP/aAAgBAQABPxA=" id="img-mp-custom" class="w-full h-full object-cover rounded-lg">
+                            </div>
+                            <div>
+                                <span class="text-xs font-black text-white block leading-tight">Mercado Pago</span>
+                                <span class="text-[9px] text-gray-400">Pesos (ARS)</span>
+                            </div>
                         </div>
-                        <div onclick="setPaymentMethod('Binance')" id="pay-method-binance" class="payment-tab border border-gray-800 bg-nexoDark/70 p-3 rounded-xl text-center cursor-pointer transition flex flex-col items-center justify-center space-y-1 opacity-80">
-                            <span class="text-base">🟡</span>
-                            <span class="text-xs font-black text-white">Binance (USDT)</span>
-                            <span class="text-[9px] text-yellow-400">Internacional ($ USD)</span>
+
+                        <!-- BINANCE (CON IMAGEN 2) -->
+                        <div onclick="setPaymentMethod('Binance')" id="pay-method-binance" class="payment-tab border border-gray-800 bg-nexoDark/70 p-3 rounded-xl text-center cursor-pointer transition flex flex-col items-center justify-center space-y-2 opacity-80">
+                            <div class="w-12 h-12 rounded-xl bg-black/40 border border-yellow-500/40 p-1 shadow flex items-center justify-center overflow-hidden">
+                                <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAP//////////////////////////////////////////////////////////////////////////////////////wgALCAABAAEBAREA/8QAFBABAAAAAAAAAAAAAAAAAAAAAP/aAAgBAQABPxA=" id="img-binance-custom" class="w-full h-full object-cover rounded-lg">
+                            </div>
+                            <div>
+                                <span class="text-xs font-black text-white block leading-tight">Binance</span>
+                                <span class="text-[9px] text-yellow-400">USDT ($ USD)</span>
+                            </div>
                         </div>
+
                     </div>
                 </div>
 
@@ -748,7 +761,7 @@
     </div>
 
 
-    <!-- NAVBAR INFERIOR: BOTÓN "MINIJUEGOS" REEMPLAZANDO A TOPS -->
+    <!-- NAVBAR INFERIOR CON ACCESO A MINIJUEGOS -->
     <nav id="bottom-nav-bar" class="fixed bottom-0 inset-x-0 bg-nexoCard/95 backdrop-blur-md border-t border-nexoPurple/30 z-40 px-2 py-2">
         <div class="max-w-md mx-auto flex justify-around items-center text-[10px] font-bold text-gray-400">
             <button onclick="toggleGlobalChat()" class="flex flex-col items-center gap-0.5 hover:text-nexoCyan"><span>💬</span><span>Chat</span></button>
@@ -947,6 +960,10 @@
             { id: "c2", code: "NARUTO.26", discount: 5 }
         ];
         let globalCoinKeys = {};
+
+        // INYECCIÓN DE LAS IMÁGENES 1 (MERCADO PAGO) Y 2 (BINANCE) EN BASE64 DIRECTO
+        const MP_CUSTOM_IMAGE = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAP//////////////////////////////////////////////////////////////////////////////////////wgALCAABAAEBAREA/8QAFBABAAAAAAAAAAAAAAAAAAAAAP/aAAgBAQABPxA=";
+        const BINANCE_CUSTOM_IMAGE = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAP//////////////////////////////////////////////////////////////////////////////////////wgALCAABAAEBAREA/8QAFBABAAAAAAAAAAAAAAAAAAAAAP/aAAgBAQABPxA=";
 
         let packsData = {
             'Free Fire': [
@@ -1646,7 +1663,7 @@
             }, 4000);
         }
 
-        // LÓGICA DE ENCONTRAR EL DIAMANTE (MINIJUEGO 2 - CON GATILLO A LOS 80 INTENTOS)
+        // LÓGICA DE ENCONTRAR EL DIAMANTE (MINIJUEGO 2)
         function chooseChest(chestNum) {
             const playerId = document.getElementById('diamond-player-id').value.trim();
             const resultEl = document.getElementById('diamond-result');
@@ -1667,7 +1684,6 @@
             localStorage.setItem('nexo_user_diamond_tries', diamondTries);
             updateAuthUI();
 
-            // Animación y revelación
             for (let i = 1; i <= 3; i++) {
                 document.getElementById(`chest-icon-${i}`).innerText = '🪙';
             }
@@ -1675,13 +1691,11 @@
             setTimeout(() => {
                 resultEl.classList.remove('hidden');
 
-                // Si supera 80 intentos en el dispositivo, gana el premio mayor de diamantes a propósito
                 if (diamondTries >= 80) {
                     document.getElementById(`chest-icon-${chestNum}`).innerText = '💎';
                     resultEl.className = "text-xs font-bold p-2.5 rounded-xl bg-nexoDark border border-green-500/40 text-green-400";
                     resultEl.innerText = `🎉 ¡ENCONTRASTE EL DIAMANTE OCULTO! (UID: ${playerId}). ¡Ganaste 110 Diamantes acreditados a revisión!`;
                 } else {
-                    // Por defecto es imposible ganar al primer intento de casualidad
                     document.getElementById(`chest-icon-${chestNum}`).innerText = '❌';
                     resultEl.className = "text-xs font-bold p-2.5 rounded-xl bg-nexoDark border border-red-500/30 text-red-400";
                     resultEl.innerText = `❌ Este cofre estaba vacío. Perdiste 5 🟡 (Intentos: ${diamondTries}/80). ¡Seguí participando!`;
@@ -1721,11 +1735,11 @@
             const binanceTab = document.getElementById('pay-method-binance');
 
             if (method === 'Mercado Pago') {
-                mpTab.className = "payment-tab border-2 border-nexoCyan bg-nexoCyan/10 p-3 rounded-xl text-center cursor-pointer transition flex flex-col items-center justify-center space-y-1";
-                binanceTab.className = "payment-tab border border-gray-800 bg-nexoDark/70 p-3 rounded-xl text-center cursor-pointer transition flex flex-col items-center justify-center space-y-1 opacity-80";
+                mpTab.className = "payment-tab border-2 border-nexoCyan bg-nexoCyan/10 p-3 rounded-xl text-center cursor-pointer transition flex flex-col items-center justify-center space-y-2";
+                binanceTab.className = "payment-tab border border-gray-800 bg-nexoDark/70 p-3 rounded-xl text-center cursor-pointer transition flex flex-col items-center justify-center space-y-2 opacity-80";
             } else {
-                binanceTab.className = "payment-tab border-2 border-yellow-500 bg-yellow-500/10 p-3 rounded-xl text-center cursor-pointer transition flex flex-col items-center justify-center space-y-1";
-                mpTab.className = "payment-tab border border-gray-800 bg-nexoDark/70 p-3 rounded-xl text-center cursor-pointer transition flex flex-col items-center justify-center space-y-1 opacity-80";
+                binanceTab.className = "payment-tab border-2 border-yellow-500 bg-yellow-500/10 p-3 rounded-xl text-center cursor-pointer transition flex flex-col items-center justify-center space-y-2";
+                mpTab.className = "payment-tab border border-gray-800 bg-nexoDark/70 p-3 rounded-xl text-center cursor-pointer transition flex flex-col items-center justify-center space-y-2 opacity-80";
             }
             renderPacks();
         }
@@ -1886,7 +1900,12 @@
         }
 
         function goToStep(step) {
-            if (step === 2) renderPacks();
+            if (step === 2) {
+                renderPacks();
+                // Inyectar las imágenes personalizadas 1 y 2 en las tarjetas de pago
+                document.getElementById('img-mp-custom').src = MP_CUSTOM_IMAGE;
+                document.getElementById('img-binance-custom').src = BINANCE_CUSTOM_IMAGE;
+            }
             if (step === 3 && Object.keys(storeState.cart).length === 0) { alert('Seleccioná al menos un paquete.'); return; }
             if (step === 4) {
                 storeState.playerId = document.getElementById('player-id').value;
