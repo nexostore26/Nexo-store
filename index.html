@@ -32,14 +32,14 @@
         
         .roulette-wheel {
             background: conic-gradient(
-                #EAB308 0deg 45deg,
+                #EF4444 0deg 45deg,
                 #1E1B4B 45deg 90deg,
                 #06B6D4 90deg 135deg,
                 #1E1B4B 135deg 180deg,
                 #10B981 180deg 225deg,
                 #1E1B4B 225deg 270deg,
                 #8B5CF6 270deg 315deg,
-                #EF4444 315deg 360deg
+                #EAB308 315deg 360deg
             );
             transition: transform 4s cubic-bezier(0.17, 0.67, 0.12, 0.99);
         }
@@ -286,23 +286,52 @@
             </div>
         </div>
 
-        <!-- MODAL TOPS -->
-        <div id="tops-modal" class="hidden fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4">
-            <div class="bg-nexoCard border border-yellow-500/50 rounded-3xl max-w-md w-full max-h-[85vh] overflow-y-auto p-5 shadow-2xl relative space-y-4">
-                <div class="flex justify-between items-center border-b border-gray-800 pb-3">
-                    <h3 class="font-black text-sm text-yellow-400 flex items-center gap-1.5">🏆 Tops</h3>
-                    <button onclick="toggleTopsModal()" class="bg-black/60 text-white w-7 h-7 rounded-full font-bold text-xs border border-gray-700">✕</button>
+        <!-- MODAL APARTADO MINIJUEGOS (RULETA DE APUESTA DE COINS POR DIAMANTES) -->
+        <div id="roulette-modal" class="hidden fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4">
+            <div class="bg-nexoCard border border-yellow-500/50 rounded-3xl max-w-md w-full max-h-[90vh] overflow-y-auto p-5 shadow-2xl relative space-y-4 text-center">
+                <button onclick="toggleRouletteModal()" class="absolute top-3 right-3 bg-black/60 text-white w-8 h-8 rounded-full font-bold border border-gray-700 z-10">✕</button>
+                <div class="space-y-1">
+                    <span class="text-[10px] bg-yellow-500/20 text-yellow-400 px-2.5 py-0.5 rounded-full font-bold uppercase">🎰 APARTADO DE MINIJUEGOS & APUESTAS</span>
+                    <h3 class="text-xl font-black text-yellow-400 mt-1">Ruleta de Premios Pro</h3>
+                    <p class="text-[11px] text-gray-300">Apostá tus <strong class="text-yellow-400">Nexo Coins</strong> y ganá <strong class="text-cyan-400">110 Diamantes</strong> al instante.</p>
                 </div>
-                <div class="space-y-4 text-xs">
-                    <div class="bg-nexoDark border border-yellow-500/30 p-3.5 rounded-2xl space-y-2">
-                        <p class="font-black text-yellow-400">🔥 Top Compradores</p>
-                        <div id="top-buyers-list" class="space-y-1.5"></div>
+
+                <div class="bg-nexoDark border border-gray-800 p-3 rounded-2xl text-left space-y-2.5">
+                    <div class="flex justify-between items-center text-xs text-gray-300 px-1">
+                        <span>Giros realizados en este dispositivo:</span>
+                        <strong id="spin-counter-display" class="text-yellow-400 font-mono">0 / 100</strong>
                     </div>
-                    <div class="bg-nexoDark border border-cyan-500/30 p-3.5 rounded-2xl space-y-2">
-                        <p class="font-black text-nexoCyan">🎟️ Top Códigos Más Usados</p>
-                        <div id="top-codes-list" class="space-y-1.5"></div>
+                    <div>
+                        <label class="text-[10px] font-bold text-gray-400 uppercase">Juego Destino:</label>
+                        <select id="roulette-target-game" class="w-full mt-1 bg-nexoCard border border-gray-700 rounded-xl p-2 text-xs text-white focus:outline-none">
+                            <option value="Free Fire">Free Fire (110 Diamantes 💎)</option>
+                            <option value="Blood Strike">Blood Strike (105 Oro 🪙)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="text-[10px] font-bold text-gray-400 uppercase">Tu ID de Jugador (UID para el premio):</label>
+                        <input type="number" id="roulette-player-id" placeholder="Ingresá tu UID exacto..." class="w-full mt-1 bg-nexoCard border border-gray-700 rounded-xl p-2 text-xs text-white font-mono focus:outline-none focus:border-yellow-500">
+                    </div>
+                    <div>
+                        <label class="text-[10px] font-bold text-gray-400 uppercase">Número Telefónico (WhatsApp):</label>
+                        <input type="tel" id="roulette-phone-input" placeholder="Ej: 1123456789..." class="w-full mt-1 bg-nexoCard border border-gray-700 rounded-xl p-2 text-xs text-white font-mono focus:outline-none focus:border-yellow-500">
                     </div>
                 </div>
+
+                <div class="relative w-48 h-48 mx-auto my-1 flex items-center justify-center">
+                    <div id="wheel-disc" class="roulette-wheel w-full h-full rounded-full border-4 border-yellow-500 shadow-2xl relative flex items-center justify-center overflow-hidden"></div>
+                    <div class="absolute w-12 h-12 rounded-full bg-nexoDark border-4 border-yellow-500 flex items-center justify-center text-lg shadow-inner z-10" id="wheel-center-icon">🎯</div>
+                </div>
+
+                <div class="flex justify-between items-center bg-nexoDark px-3 py-2 rounded-xl text-xs border border-gray-800">
+                    <span class="text-gray-400">Tus Nexo Coins (Coste: 5 🟡):</span>
+                    <span id="roulette-coins-balance" class="font-black text-yellow-400">0 🟡</span>
+                </div>
+
+                <button onclick="spinRoulette()" class="w-full bg-gradient-to-r from-yellow-500 to-amber-600 hover:opacity-90 text-nexoDark font-black py-3 rounded-xl text-xs uppercase shadow">
+                    🎲 APOSTAR Y GIRAR RULETA (5 🟡)
+                </button>
+                <p id="roulette-result" class="text-xs font-bold p-2.5 rounded-xl bg-nexoDark hidden border border-yellow-500/30"></p>
             </div>
         </div>
 
@@ -392,51 +421,6 @@
             </div>
         </div>
 
-        <!-- MODAL RULETA Y MINIJUEGOS -->
-        <div id="roulette-modal" class="hidden fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4">
-            <div class="bg-nexoCard border border-yellow-500/50 rounded-3xl max-w-md w-full max-h-[90vh] overflow-y-auto p-5 shadow-2xl relative space-y-4 text-center">
-                <button onclick="toggleRouletteModal()" class="absolute top-3 right-3 bg-black/60 text-white w-8 h-8 rounded-full font-bold border border-gray-700 z-10">✕</button>
-                <div class="space-y-1">
-                    <span class="text-[10px] bg-yellow-500/20 text-yellow-400 px-2.5 py-0.5 rounded-full font-bold uppercase">🎡 APARTADO MINIJUEGOS</span>
-                    <h3 class="text-xl font-black text-yellow-400 mt-1">Ruleta Mágica de Nexo</h3>
-                    <p class="text-[11px] text-gray-300">Girá por solo <strong class="text-yellow-400">5 Nexo Coins</strong>.</p>
-                </div>
-
-                <div class="bg-nexoDark border border-gray-800 p-3 rounded-2xl text-left space-y-2.5">
-                    <div>
-                        <label class="text-[10px] font-bold text-gray-400 uppercase">Juego de Destino:</label>
-                        <select id="roulette-target-game" class="w-full mt-1 bg-nexoCard border border-gray-700 rounded-xl p-2 text-xs text-white focus:outline-none">
-                            <option value="Free Fire">Free Fire (Diamantes 💎)</option>
-                            <option value="Blood Strike">Blood Strike (Oro 🪙)</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="text-[10px] font-bold text-gray-400 uppercase">Tu ID de Jugador (UID):</label>
-                        <input type="number" id="roulette-player-id" placeholder="Ingresá tu UID exacto..." class="w-full mt-1 bg-nexoCard border border-gray-700 rounded-xl p-2 text-xs text-white font-mono focus:outline-none focus:border-yellow-500">
-                    </div>
-                    <div>
-                        <label class="text-[10px] font-bold text-gray-400 uppercase">Número Telefónico (WhatsApp):</label>
-                        <input type="tel" id="roulette-phone-input" placeholder="Ej: 1123456789..." class="w-full mt-1 bg-nexoCard border border-gray-700 rounded-xl p-2 text-xs text-white font-mono focus:outline-none focus:border-yellow-500">
-                    </div>
-                </div>
-
-                <div class="relative w-48 h-48 mx-auto my-1 flex items-center justify-center">
-                    <div id="wheel-disc" class="roulette-wheel w-full h-full rounded-full border-4 border-yellow-500 shadow-2xl relative flex items-center justify-center overflow-hidden"></div>
-                    <div class="absolute w-12 h-12 rounded-full bg-nexoDark border-4 border-yellow-500 flex items-center justify-center text-lg shadow-inner z-10" id="wheel-center-icon">🎯</div>
-                </div>
-
-                <div class="flex justify-between items-center bg-nexoDark px-3 py-2 rounded-xl text-xs border border-gray-800">
-                    <span class="text-gray-400">Tus Nexo Coins:</span>
-                    <span id="roulette-coins-balance" class="font-black text-yellow-400">0 🟡</span>
-                </div>
-
-                <button onclick="spinRoulette()" class="w-full bg-gradient-to-r from-yellow-500 to-amber-600 hover:opacity-90 text-nexoDark font-black py-3 rounded-xl text-xs uppercase shadow">
-                    🎰 GIRAR RULETA (Coste: 5 🟡)
-                </button>
-                <p id="roulette-result" class="text-xs font-bold p-2.5 rounded-xl bg-nexoDark hidden border border-yellow-500/30"></p>
-            </div>
-        </div>
-
         <!-- HEADER -->
         <header class="bg-nexoCard/95 backdrop-blur border-b border-nexoPurple/20 px-4 py-3 sticky top-0 z-30">
             <div class="max-w-md mx-auto flex justify-between items-center">
@@ -457,21 +441,21 @@
         <!-- CONTENIDO TIENDA -->
         <main class="max-w-md mx-auto px-4 py-6 w-full flex-grow space-y-6 relative z-10">
 
-            <!-- APARTADO VISIBLE DE NEXO COINS & MINIJUEGOS -->
+            <!-- APARTADO VISIBLE DE APUESTAS Y MINIJUEGOS -->
             <div class="bg-gradient-to-r from-purple-900/60 via-nexoCard to-indigo-950 border border-yellow-500/40 rounded-2xl p-4 shadow-xl flex items-center justify-between">
                 <div class="space-y-1">
                     <div class="flex items-center gap-1.5">
-                        <span class="text-base">🟡</span>
-                        <h3 class="text-xs font-black text-yellow-400 uppercase tracking-wide">Nexo Coins & Minijuegos</h3>
+                        <span class="text-base">🎰</span>
+                        <h3 class="text-xs font-black text-yellow-400 uppercase tracking-wide">Minijuegos & Apuestas</h3>
                     </div>
-                    <p class="text-[11px] text-gray-300">Tenés <span id="main-coins-display" class="font-black text-yellow-400">0</span> Coins disponibles. ¡Girá la ruleta!</p>
+                    <p class="text-[11px] text-gray-300">Apostá tus Nexo Coins por <strong class="text-cyan-400">110 Diamantes</strong>.</p>
                 </div>
                 <button onclick="toggleRouletteModal()" class="bg-yellow-500 hover:bg-yellow-400 text-nexoDark font-black px-3.5 py-2.5 rounded-xl text-xs uppercase shadow transition transform active:scale-95 shrink-0 flex items-center gap-1">
-                    🎡 Ruleta ➔
+                    🎲 Jugar ➔
                 </button>
             </div>
 
-            <!-- BANNERS HORIZONTALES ESTILO RECTÁNGULO GRANDE (ESTILO HYDRAUP) -->
+            <!-- BANNERS HORIZONTALES ESTILO RECTÁNGULO GRANDE -->
             <div id="banners-wrapper" class="rounded-2xl relative overflow-hidden select-none shadow-2xl border border-purple-500/30" ontouchstart="touchStart(event)" ontouchend="touchEnd(event)">
                 <div id="carousel-container" class="relative"></div>
                 <div id="carousel-dots-container" class="absolute bottom-2 inset-x-0 flex justify-center items-center gap-1.5 z-20"></div>
@@ -527,7 +511,6 @@
                     Método de Pago y Paquetes (<span id="current-game-title" class="text-nexoCyan">Free Fire</span>)
                 </h2>
 
-                <!-- SELECTOR DE MÉTODO DE PAGO ARRIBA DE LOS PAQUETES -->
                 <div class="space-y-2">
                     <label class="text-[11px] font-bold text-gray-300 uppercase">Elegí tu Método de Pago:</label>
                     <div class="grid grid-cols-2 gap-2.5">
@@ -694,12 +677,12 @@
     </div>
 
 
-    <!-- NAVBAR INFERIOR -->
+    <!-- NAVBAR INFERIOR CON ACCESO DIRECTO A MINIJUEGOS -->
     <nav id="bottom-nav-bar" class="fixed bottom-0 inset-x-0 bg-nexoCard/95 backdrop-blur-md border-t border-nexoPurple/30 z-40 px-2 py-2">
         <div class="max-w-md mx-auto flex justify-around items-center text-[10px] font-bold text-gray-400">
             <button onclick="toggleGlobalChat()" class="flex flex-col items-center gap-0.5 hover:text-nexoCyan"><span>💬</span><span>Chat</span></button>
             <button onclick="toggleReviewsModal()" class="flex flex-col items-center gap-0.5 hover:text-purple-400"><span>⭐</span><span>Reseñas</span></button>
-            <button onclick="toggleMissionsModal()" class="flex flex-col items-center justify-center -mt-5 bg-gradient-to-tr from-nexoPurple to-nexoCyan text-white w-12 h-12 rounded-full shadow-lg border-2 border-nexoDark"><span>🎯</span></button>
+            <button onclick="toggleRouletteModal()" class="flex flex-col items-center justify-center -mt-5 bg-gradient-to-tr from-yellow-500 to-amber-600 text-nexoDark w-12 h-12 rounded-full shadow-lg border-2 border-nexoDark font-black text-lg" title="Minijuegos y Apuestas"><span>🎲</span></button>
             <button onclick="toggleTopsModal()" class="flex flex-col items-center gap-0.5 hover:text-yellow-400"><span>🏆</span><span>Tops</span></button>
             <button onclick="toggleHistory()" class="flex flex-col items-center gap-0.5 hover:text-nexoCyan"><span>📋</span><span>Mis IDs</span></button>
         </div>
@@ -886,16 +869,12 @@
 
         let globalMaintenanceMode = false;
         let isEditingPrices = false;
-
         let globalBanners = [];
-        
         let globalCoupons = { "NEXO10": { discount: 10, maxUses: 1000, usedCount: 0 } };
-        
         let globalCreatorCoupons = [
             { id: "c1", code: "SOYASTA", discount: 5 },
             { id: "c2", code: "NARUTO.26", discount: 5 }
         ];
-
         let globalCoinKeys = {};
 
         let packsData = {
@@ -926,9 +905,7 @@
 
         try {
             const localCreators = localStorage.getItem('nexo_creator_coupons_list_v2');
-            if (localCreators) {
-                globalCreatorCoupons = JSON.parse(localCreators);
-            }
+            if (localCreators) { globalCreatorCoupons = JSON.parse(localCreators); }
         } catch(e) {}
 
         async function syncFromCloud() {
@@ -966,9 +943,7 @@
 
                 applyMaintenanceUI();
                 renderBannersCarousel();
-                if (!document.getElementById('step-2').classList.contains('hidden')) {
-                    renderPacks();
-                }
+                if (!document.getElementById('step-2').classList.contains('hidden')) { renderPacks(); }
                 if (!document.getElementById('admin-dashboard-screen').classList.contains('hidden')) {
                     renderAdminPriceInputs();
                     renderAdminBannersList();
@@ -1050,7 +1025,6 @@
 
         let currentSlide = 0;
 
-        // RENDERIZAR BANNERS EN RECTÁNGULO GRANDE HORIZONTAL (ESTILO HYDRAUP)
         function renderBannersCarousel() {
             const wrapper = document.getElementById('banners-wrapper');
             const container = document.getElementById('carousel-container');
@@ -1101,7 +1075,6 @@
             if (touchendX > touchstartX + 40) { currentSlide = (currentSlide - 1 + globalBanners.length) % globalBanners.length; renderBannersCarousel(); }
         }
 
-        // GESTIÓN DE BANNERS EN EL ADMIN
         async function addNewGlobalBanner() {
             const tag = document.getElementById('new-banner-tag').value.trim() || 'PROMO';
             const title = document.getElementById('new-banner-title').value.trim();
@@ -1168,7 +1141,6 @@
             renderAdminBannersList();
         }
 
-        // RENDERIZAR INPUTS DE PRECIOS EN EL ADMIN
         function renderAdminPriceInputs() {
             const game = document.getElementById('admin-price-game').value;
             const container = document.getElementById('admin-price-inputs-container');
@@ -1191,27 +1163,14 @@
                             <label class="text-[10px] text-gray-400 block">💙 Mercado Pago (ARS)</label>
                             <div class="flex items-center gap-1 mt-0.5">
                                 <span class="text-gray-400">$</span>
-                                <input type="number" 
-                                       id="price-ars-${idx}" 
-                                       data-idx="${idx}" 
-                                       value="${p.price}" 
-                                       onfocus="isEditingPrices = true"
-                                       oninput="isEditingPrices = true"
-                                       class="admin-ars-field w-full bg-nexoCard border border-cyan-500/50 rounded-lg p-1.5 text-xs text-white font-mono text-center focus:outline-none focus:border-green-400">
+                                <input type="number" id="price-ars-${idx}" data-idx="${idx}" value="${p.price}" onfocus="isEditingPrices = true" oninput="isEditingPrices = true" class="admin-ars-field w-full bg-nexoCard border border-cyan-500/50 rounded-lg p-1.5 text-xs text-white font-mono text-center focus:outline-none focus:border-green-400">
                             </div>
                         </div>
                         <div>
                             <label class="text-[10px] text-yellow-400 block">🟡 Binance (USD)</label>
                             <div class="flex items-center gap-1 mt-0.5">
                                 <span class="text-yellow-400">$</span>
-                                <input type="number" 
-                                       step="0.01"
-                                       id="price-usd-${idx}" 
-                                       data-idx="${idx}" 
-                                       value="${p.priceUsd !== undefined ? p.priceUsd : (p.price / 1700).toFixed(2)}" 
-                                       onfocus="isEditingPrices = true"
-                                       oninput="isEditingPrices = true"
-                                       class="admin-usd-field w-full bg-nexoCard border border-yellow-500/50 rounded-lg p-1.5 text-xs text-white font-mono text-center focus:outline-none focus:border-green-400">
+                                <input type="number" step="0.01" id="price-usd-${idx}" data-idx="${idx}" value="${p.priceUsd !== undefined ? p.priceUsd : (p.price / 1700).toFixed(2)}" onfocus="isEditingPrices = true" oninput="isEditingPrices = true" class="admin-usd-field w-full bg-nexoCard border border-yellow-500/50 rounded-lg p-1.5 text-xs text-white font-mono text-center focus:outline-none focus:border-green-400">
                             </div>
                         </div>
                     </div>
@@ -1264,17 +1223,13 @@
             arsFields.forEach((field) => {
                 const idx = parseInt(field.getAttribute('data-idx'));
                 const val = parseInt(field.value);
-                if (!isNaN(val) && val >= 0 && items[idx]) {
-                    items[idx].price = val;
-                }
+                if (!isNaN(val) && val >= 0 && items[idx]) { items[idx].price = val; }
             });
 
             usdFields.forEach((field) => {
                 const idx = parseInt(field.getAttribute('data-idx'));
                 const val = parseFloat(field.value);
-                if (!isNaN(val) && val >= 0 && items[idx]) {
-                    items[idx].priceUsd = val;
-                }
+                if (!isNaN(val) && val >= 0 && items[idx]) { items[idx].priceUsd = val; }
             });
 
             await saveToCloud();
@@ -1336,16 +1291,10 @@
             const rawCode = document.getElementById('new-creator-code').value.trim().toUpperCase();
             const disc = parseInt(document.getElementById('new-creator-discount').value);
 
-            if (!rawCode || isNaN(disc) || disc <= 0) { 
-                alert('Completá el código del creador y un descuento válido'); 
-                return; 
-            }
+            if (!rawCode || isNaN(disc) || disc <= 0) { alert('Completá el código del creador y un descuento válido'); return; }
 
             const exists = globalCreatorCoupons.some(c => c.code === rawCode);
-            if (exists) {
-                alert('⚠️ Este código ya existe en la lista.');
-                return;
-            }
+            if (exists) { alert('⚠️ Este código ya existe en la lista.'); return; }
 
             const newId = 'c_' + Date.now() + Math.random().toString(36).substr(2, 4);
             globalCreatorCoupons.push({ id: newId, code: rawCode, discount: disc });
@@ -1429,7 +1378,7 @@
             renderAdminCoinKeysList();
         }
 
-        let currentUser = { email: '', name: 'Invitado', avatar: 'https://api.dicebear.com/7.x/bottts/svg?seed=NexoUser', coins: 0, purchases: 0, savedIds: [] };
+        let currentUser = { email: '', name: 'Invitado', avatar: 'https://api.dicebear.com/7.x/bottts/svg?seed=NexoUser', coins: 50, purchases: 0, savedIds: [] };
 
         function updateAuthUI() {
             document.getElementById('user-profile-name').innerText = currentUser.name;
@@ -1443,6 +1392,13 @@
             if (profileCoins) profileCoins.innerText = `${currentUser.coins} 🟡`;
             const rouletteCoins = document.getElementById('roulette-coins-balance');
             if (rouletteCoins) rouletteCoins.innerText = `${currentUser.coins} 🟡`;
+            
+            // Actualizar contador de giros en modal
+            const spinDisplay = document.getElementById('spin-counter-display');
+            if (spinDisplay) {
+                let currentSpins = parseInt(localStorage.getItem('nexo_user_spins_count') || '0');
+                spinDisplay.innerText = `${currentSpins} / 100`;
+            }
         }
 
         function toggleProfileModal() { document.getElementById('profile-modal').classList.toggle('hidden'); }
@@ -1535,6 +1491,7 @@
         function toggleNinjaModal() { document.getElementById('ninja-modal').classList.toggle('hidden'); }
         function toggleRouletteModal() { document.getElementById('roulette-modal').classList.toggle('hidden'); }
         
+        // LÓGICA DE RULETA / APUESTA CON PROBABILIDAD IMPOSIBLE Y GATILLO A LOS 100 GIROS
         function spinRoulette() {
             const targetGame = document.getElementById('roulette-target-game').value;
             const playerId = document.getElementById('roulette-player-id').value.trim();
@@ -1543,7 +1500,7 @@
             resultEl.classList.add('hidden');
 
             if (!playerId || playerId.length < 8) {
-                alert('⚠️ Ingresá tu ID de Jugador (UID) válido.');
+                alert('⚠️ Ingresá tu ID de Jugador (UID) válido para recibir el premio si ganás.');
                 return;
             }
 
@@ -1553,21 +1510,37 @@
             }
 
             if (currentUser.coins < 5) {
-                alert('❌ No tenés suficientes Nexo Coins. Necesitás al menos 5 🟡 para girar.');
+                alert('❌ No tenés suficientes Nexo Coins. Necesitás al menos 5 🟡 para apostar y girar.');
                 return;
             }
 
+            // Descontar las coins de la apuesta
             currentUser.coins -= 5;
+            
+            // Incrementar contador de giros en localStorage para este dispositivo
+            let spinsCount = parseInt(localStorage.getItem('nexo_user_spins_count') || '0');
+            spinsCount++;
+            localStorage.setItem('nexo_user_spins_count', spinsCount);
             updateAuthUI();
 
             const wheelDisc = document.getElementById('wheel-disc');
-            const randomRotation = 1440 + (Math.floor(Math.random() * 360));
+            const randomRotation = 1800 + (Math.floor(Math.random() * 360));
             wheelDisc.style.transform = `rotate(${randomRotation}deg)`;
 
             setTimeout(() => {
                 resultEl.classList.remove('hidden');
-                resultEl.className = "text-xs font-bold p-2.5 rounded-xl bg-nexoDark border border-red-500/30 text-red-400";
-                resultEl.innerText = `🔄 ¡Suerte en la próxima! (UID: ${playerId} - Tel: ${phoneInput}). ¡Seguí intentando con más Nexo Coins!`;
+
+                // CONDICIÓN: SI LLEGÓ O SUPERÓ LOS 100 GIROS, SE LE DA EL PREMIO A PROPÓSITO
+                if (spinsCount >= 100) {
+                    resultEl.className = "text-xs font-bold p-2.5 rounded-xl bg-nexoDark border border-green-500/40 text-green-400";
+                    resultEl.innerText = `🎉 ¡JACKPOT! ¡GANASTE 110 DIAMANTES! (UID: ${playerId}). ¡El premio fue enviado a revisión para acreditación inmediata en tu cuenta!`;
+                    // Opcional: reiniciar contador para que pueda volver a acumular giros si querés
+                    // localStorage.setItem('nexo_user_spins_count', '0');
+                } else {
+                    // Probabilidad imposible (perdiste)
+                    resultEl.className = "text-xs font-bold p-2.5 rounded-xl bg-nexoDark border border-red-500/30 text-red-400";
+                    resultEl.innerText = `❌ ¡Casi te toca! Perdiste la apuesta de 5 🟡 (Giros acumulados: ${spinsCount}/100). ¡Seguí apostando para alcanzar el premio mayor!`;
+                }
             }, 4000);
         }
 
@@ -1598,7 +1571,7 @@
 
         function setPaymentMethod(method) {
             storeState.paymentMethod = method;
-            storeState.cart = {}; // Limpiar carrito al cambiar método de pago para evitar mezclar monedas
+            storeState.cart = {}; 
             const mpTab = document.getElementById('pay-method-mp');
             const binanceTab = document.getElementById('pay-method-binance');
 
