@@ -902,7 +902,6 @@
 
         let globalCoinKeys = {};
 
-        // PRECIOS SEPARADOS POR MÉTODO DE PAGO (ARS para Mercado Pago / USD para Binance)
         let packsData = {
             'Free Fire': {
                 'Mercado Pago': [
@@ -1460,7 +1459,7 @@
 
         function selectPaymentMethod(methodName, el) {
             storeState.paymentMethod = methodName;
-            storeState.cart = {}; // Limpia carrito al cambiar moneda/método
+            storeState.cart = {}; 
             document.querySelectorAll('.payment-tab').forEach(tab => {
                 tab.classList.remove('border-2', 'border-nexoCyan', 'bg-nexoCyan/10');
                 tab.classList.add('border', 'border-gray-800', 'bg-nexoDark/70');
@@ -1610,8 +1609,14 @@
         }
 
         function goToStep(step) {
-            if (step === 3) renderPacks();
-            if (step === 4 && Object.keys(storeState.cart).length === 0) { alert('Seleccioná al menos un paquete.'); return; }
+            // CORREGIDO: Eliminada cualquier validación restrictiva en el paso 2 para que avance sin trabarse al paso 3
+            if (step === 3) {
+                renderPacks();
+            }
+            if (step === 4 && Object.keys(storeState.cart).length === 0) { 
+                alert('Seleccioná al menos un paquete.'); 
+                return; 
+            }
             if (step === 5) {
                 storeState.playerId = document.getElementById('player-id').value;
                 storeState.clientName = document.getElementById('client-name').value + ' ' + document.getElementById('client-lastname').value;
