@@ -494,7 +494,7 @@
                     </div>
                 </div>
 
-                <button onclick="nextStep(1)" class="w-full bg-gradient-to-r from-nexoPurple to-nexoCyan hover:opacity-90 text-white font-black py-3.5 rounded-xl shadow-lg transition text-xs uppercase tracking-wider">
+                <button onclick="goToStep(2)" class="w-full bg-gradient-to-r from-nexoPurple to-nexoCyan hover:opacity-90 text-white font-black py-3.5 rounded-xl shadow-lg transition text-xs uppercase tracking-wider">
                     Siguiente ➔
                 </button>
             </section>
@@ -525,8 +525,8 @@
                 </div>
 
                 <div class="flex gap-2.5 pt-2">
-                    <button onclick="prevStep(2)" class="w-1/3 bg-nexoSurface text-gray-300 font-bold py-3 rounded-xl text-xs">← Atrás</button>
-                    <button onclick="nextStep(2)" class="w-2/3 bg-gradient-to-r from-nexoPurple to-nexoCyan text-white font-black py-3 rounded-xl text-xs uppercase">Siguiente ➔</button>
+                    <button onclick="goToStep(1)" class="w-1/3 bg-nexoSurface text-gray-300 font-bold py-3 rounded-xl text-xs">← Atrás</button>
+                    <button onclick="goToStep(3)" class="w-2/3 bg-gradient-to-r from-nexoPurple to-nexoCyan text-white font-black py-3 rounded-xl text-xs uppercase">Siguiente ➔</button>
                 </div>
             </section>
 
@@ -544,8 +544,8 @@
                     <span id="display-price" class="text-base font-black text-nexoCyan">$0 ARS</span>
                 </div>
                 <div class="flex gap-2.5">
-                    <button onclick="prevStep(3)" class="w-1/3 bg-nexoSurface text-gray-300 font-bold py-3 rounded-xl text-xs">← Atrás</button>
-                    <button onclick="nextStep(3)" class="w-2/3 bg-gradient-to-r from-nexoPurple to-nexoCyan text-white font-black py-3 rounded-xl text-xs uppercase">Siguiente ➔</button>
+                    <button onclick="goToStep(2)" class="w-1/3 bg-nexoSurface text-gray-300 font-bold py-3 rounded-xl text-xs">← Atrás</button>
+                    <button onclick="goToStep(4)" class="w-2/3 bg-gradient-to-r from-nexoPurple to-nexoCyan text-white font-black py-3 rounded-xl text-xs uppercase">Siguiente ➔</button>
                 </div>
             </section>
 
@@ -584,8 +584,8 @@
                     <input type="tel" id="client-phone" placeholder="WhatsApp (Ej: 1123456789) *" class="w-full bg-nexoDark border border-gray-700 rounded-xl p-2.5 text-xs text-white">
                 </div>
                 <div class="flex gap-2.5">
-                    <button onclick="prevStep(4)" class="w-1/3 bg-nexoSurface text-gray-300 font-bold py-3 rounded-xl text-xs">← Atrás</button>
-                    <button onclick="nextStep(4)" class="w-2/3 bg-gradient-to-r from-nexoPurple to-nexoCyan text-white font-black py-3 rounded-xl text-xs uppercase">Resumen ➔</button>
+                    <button onclick="goToStep(3)" class="w-1/3 bg-nexoSurface text-gray-300 font-bold py-3 rounded-xl text-xs">← Atrás</button>
+                    <button onclick="goToStep(5)" class="w-2/3 bg-gradient-to-r from-nexoPurple to-nexoCyan text-white font-black py-3 rounded-xl text-xs uppercase">Resumen ➔</button>
                 </div>
             </section>
 
@@ -1608,17 +1608,15 @@
             }
         }
 
-        // FUNCIONES DE NAVEGACIÓN EXACTAS Y SIMPLIFICADAS
-        function nextStep(current) {
-            let target = current + 1;
-            if (target === 3) {
+        function goToStep(step) {
+            if (step === 3) {
                 renderPacks();
             }
-            if (target === 4 && Object.keys(storeState.cart).length === 0) { 
+            if (step === 4 && Object.keys(storeState.cart).length === 0) { 
                 alert('Seleccioná al menos un paquete.'); 
                 return; 
             }
-            if (target === 5) {
+            if (step === 5) {
                 storeState.playerId = document.getElementById('player-id').value;
                 storeState.clientName = document.getElementById('client-name').value + ' ' + document.getElementById('client-lastname').value;
                 document.getElementById('sum-game').innerText = storeState.game;
@@ -1642,21 +1640,11 @@
                 document.getElementById('bot-input-name').value = storeState.clientName;
                 document.getElementById('bot-input-phone').value = document.getElementById('client-phone').value;
             }
-
             [1, 2, 3, 4, 5].forEach(num => {
                 document.getElementById('step-' + num).classList.add('hidden');
             });
-            document.getElementById('step-' + target).classList.remove('hidden');
-            document.getElementById('progress-bar').style.width = (target * 20) + '%';
-        }
-
-        function prevStep(current) {
-            let target = current - 1;
-            [1, 2, 3, 4, 5].forEach(num => {
-                document.getElementById('step-' + num).classList.add('hidden');
-            });
-            document.getElementById('step-' + target).classList.remove('hidden');
-            document.getElementById('progress-bar').style.width = (target * 20) + '%';
+            document.getElementById('step-' + step).classList.remove('hidden');
+            document.getElementById('progress-bar').style.width = (step * 20) + '%';
         }
 
         function copyAlias() { 
