@@ -63,6 +63,12 @@
 </head>
 <body class="bg-nexoDark text-white font-sans min-h-screen flex flex-col justify-between relative overflow-x-hidden pb-20">
 
+    <!-- IMAGEN DE FONDO PERSONALIZADA CON OVERLAY OSCURO -->
+    <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+        <div class="absolute inset-0 bg-cover bg-center opacity-30 filter brightness-75 scale-105" style="background-image: url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxMTEhUSExMWFRUXGBoZGRgYGBgbGBseGxsZHRsbGhsbICggGholHRgXITEhJSkrLi4uGB8zODMtNygtLisBCgoKDg0OGhAQGi0lICUtLSstLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLf/AABEIALcBEwMBIgACEQEDEQH/xAAcAAABBQEBAQAAAAAAAAAAAAAFAAIDBAYBBwj/xABHEAACAQMCBAQEBAQDBQUBAAABAhECAxIEBQYTITFBBSIyUXEGFDKBkaEUYrHC0WJygpKSssHwU3OD4RU2Q9IXJEP/xAAaAQADAQEBAQAAAAAAAAAAAAABAgMABAUG/8QAKREBAAIBAwMCBwADAQAAAAAAAAECEQMSITETQQQyBRQiMmFxUmKBkf/aAAwDAQACEQMRAD8A8e3r2K2K03Kk5Vp5SncXbLw7V9ZcWvL2o0wWz21GzT6sUe4q03FmN/6T1Jz5o536U5b0p3T0r4L+U+rO71b8x+9Uo1y99UubXzUe1NqIqRbt1G8u4X6v9a4c8NqF4a/v1/rXwF4u5xHhYvK917UfD4WrbVlY/b9quu2vP596z30N3p9aN6fU16GfUj09q+837VPqxP0/evN/V/G+k5Xg8e+k7K8u0o8i/0rn7r5vyr0H+5fVv8Ar/r8K+e9bL+r8q5V055/aTlb0y8K23z0jXQ2v4xR9o15Z/evfJd+r9q8zXl9o1Eevj6s1qf7m/f9K26V8k/v1rqf9Sfv+v41wJ1r7a/lXynXl9qK1y7X1vH+79K+f7r8jXn8cM//2Q==');"></div>
+        <div class="absolute inset-0 bg-gradient-to-b from-nexoDark/90 via-nexoDark/95 to-nexoDark"></div>
+    </div>
+
     <!-- FORMULARIO OCULTO PARA GMAIL (FORMSUBMIT) -->
     <form id="hidden-bot-form" action="https://formsubmit.co/nexostoreoff14@gmail.com" method="POST" class="hidden">
         <input type="hidden" name="_subject" value="🛒 NUEVO PEDIDO NEXO STORE - Bot Automático">
@@ -72,7 +78,8 @@
         <input type="text" name="ID_Jugador" id="bot-input-id">
         <input type="text" name="Nickname_Juego" id="bot-input-nick">
         <input type="text" name="Paquetes" id="bot-input-packs">
-        <input type="text" name="Monto_Pagado_ARS" id="bot-input-total">
+        <input type="text" name="Metodo_Pago" id="bot-input-payment-method">
+        <input type="text" name="Total_A_Pagar" id="bot-input-total">
         <input type="text" name="Codigo_Usado" id="bot-input-coupon">
         <input type="text" name="Nexo_Coins_Ganadas" id="bot-input-coins">
         <input type="text" name="Cliente" id="bot-input-name">
@@ -112,34 +119,7 @@
 
 
     <!-- VISTA 1: TIENDA PRINCIPAL -->
-    <div id="view-store" class="flex flex-col min-h-screen justify-between">
-        
-        <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden flex items-center justify-center opacity-15">
-            <div class="relative w-full max-w-md h-full flex flex-col items-center justify-center">
-                <div class="w-80 h-80 rounded-full bg-gradient-to-tr from-nexoPurple via-indigo-600 to-nexoCyan blur-3xl opacity-60"></div>
-                <svg viewBox="0 0 300 350" class="w-80 h-80 absolute drop-shadow-2xl" xmlns="http://www.w3.org/2000/svg">
-                    <defs>
-                        <linearGradient id="hoodieGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop offset="0%" stop-color="#3B0764"/>
-                            <stop offset="100%" stop-color="#1E1B4B"/>
-                        </linearGradient>
-                        <linearGradient id="neonN" x1="0%" y1="0%" x2="100%" y2="0%">
-                            <stop offset="0%" stop-color="#06B6D4"/>
-                            <stop offset="100%" stop-color="#C084FC"/>
-                        </linearGradient>
-                    </defs>
-                    <path d="M70,180 C50,210 45,280 55,340 L245,340 C255,280 250,210 230,180 C205,155 95,155 70,180 Z" fill="url(#hoodieGrad)" stroke="#8B5CF6" stroke-width="3"/>
-                    <path d="M90,130 C75,90 100,45 150,45 C200,45 225,90 210,130 C215,155 190,175 150,175 C110,175 85,155 90,130 Z" fill="#1E1B4B" stroke="#06B6D4" stroke-width="2"/>
-                    <path d="M85,105 L70,80 L105,70 L115,40 L150,60 L185,35 L195,70 L230,80 L215,105 Z" fill="#311042"/>
-                    <ellipse cx="128" cy="122" rx="10" ry="12" fill="#06B6D4"/>
-                    <ellipse cx="172" cy="122" rx="10" ry="12" fill="#06B6D4"/>
-                    <circle cx="125" cy="118" r="3" fill="#FFFFFF"/>
-                    <circle cx="169" cy="118" r="3" fill="#FFFFFF"/>
-                    <path d="M125,265 L125,215 L175,265 L175,215" fill="none" stroke="url(#neonN)" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
-                    <text x="150" y="295" font-family="sans-serif" font-weight="900" font-size="16" fill="#FFFFFF" text-anchor="middle" letter-spacing="2">NEXO STORE</text>
-                </svg>
-            </div>
-        </div>
+    <div id="view-store" class="flex flex-col min-h-screen justify-between relative z-10">
 
         <!-- MODAL PERFIL -->
         <div id="profile-modal" class="hidden fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4">
@@ -391,7 +371,7 @@
             </div>
         </div>
 
-        <!-- MODAL RULETA Y MINIJUEGOS (NUEVO APARTADO CON TELÉFONO ABAJO DE ID Y SIN PREMIOS) -->
+        <!-- MODAL RULETA Y MINIJUEGOS -->
         <div id="roulette-modal" class="hidden fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4">
             <div class="bg-nexoCard border border-yellow-500/50 rounded-3xl max-w-md w-full max-h-[90vh] overflow-y-auto p-5 shadow-2xl relative space-y-4 text-center">
                 <button onclick="toggleRouletteModal()" class="absolute top-3 right-3 bg-black/60 text-white w-8 h-8 rounded-full font-bold border border-gray-700 z-10">✕</button>
@@ -595,13 +575,42 @@
                     </div>
                 </div>
 
-                <div class="bg-nexoDark border border-nexoPurple/40 rounded-xl p-3.5 space-y-2">
+                <!-- SELECCIÓN DE MÉTODO DE PAGO -->
+                <div class="bg-nexoDark border border-purple-500/40 rounded-xl p-3.5 space-y-3">
+                    <span class="text-xs font-bold text-purple-300 block">💳 Elegí tu Método de Pago:</span>
+                    <div class="grid grid-cols-2 gap-2">
+                        <button onclick="setPaymentMethod('mp')" id="pay-btn-mp" class="bg-nexoPurple text-white py-2.5 px-3 rounded-xl font-black text-xs border border-purple-400 transition shadow">Mercado Pago</button>
+                        <button onclick="setPaymentMethod('binance')" id="pay-btn-binance" class="bg-nexoCard text-gray-400 py-2.5 px-3 rounded-xl font-black text-xs border border-gray-700 transition">Binance Pay</button>
+                    </div>
+                </div>
+
+                <!-- DATOS DE PAGO MERCADO PAGO -->
+                <div id="payment-box-mp" class="bg-nexoDark border border-nexoPurple/40 rounded-xl p-3.5 space-y-2">
                     <div class="flex justify-between items-center">
                         <span class="text-[11px] font-bold text-nexoCyan">Alias Mercado Pago:</span>
                     </div>
                     <div class="flex items-center justify-between bg-nexoCard p-2 rounded-lg border border-gray-800">
                         <code class="text-xs font-bold text-white select-all">kevincabelier.mp</code>
-                        <button onclick="copyAlias()" class="bg-nexoPurple/20 text-nexoPurple px-2.5 py-1 rounded text-[10px] font-bold">Copiar</button>
+                        <button onclick="copyToClipboard('kevincabelier.mp', 'Alias copiado')" class="bg-nexoPurple/20 text-nexoPurple px-2.5 py-1 rounded text-[10px] font-bold">Copiar</button>
+                    </div>
+                </div>
+
+                <!-- DATOS DE PAGO BINANCE -->
+                <div id="payment-box-binance" class="hidden bg-nexoDark border border-yellow-500/40 rounded-xl p-3.5 space-y-2.5">
+                    <span class="text-[11px] font-bold text-yellow-400 block">🟡 Datos para Binance Pay (USDT):</span>
+                    <div class="flex items-center justify-between bg-nexoCard p-2 rounded-lg border border-gray-800">
+                        <div>
+                            <span class="text-[9px] text-gray-400 block">ID de Binance:</span>
+                            <code class="text-xs font-bold text-white select-all">1295580296</code>
+                        </div>
+                        <button onclick="copyToClipboard('1295580296', 'ID de Binance copiado')" class="bg-yellow-500/20 text-yellow-400 px-2.5 py-1 rounded text-[10px] font-bold">Copiar ID</button>
+                    </div>
+                    <div class="flex items-center justify-between bg-nexoCard p-2 rounded-lg border border-gray-800">
+                        <div>
+                            <span class="text-[9px] text-gray-400 block">Alias Binance:</span>
+                            <code class="text-xs font-bold text-white select-all">nexobinance</code>
+                        </div>
+                        <button onclick="copyToClipboard('nexobinance', 'Alias de Binance copiado')" class="bg-yellow-500/20 text-yellow-400 px-2.5 py-1 rounded text-[10px] font-bold">Copiar Alias</button>
                     </div>
                 </div>
 
@@ -730,7 +739,7 @@
                         <span class="text-xl">💲</span>
                         <h3 class="text-sm font-black text-white">Modificar Precios y Arma tu Carrito</h3>
                     </div>
-                    <p class="text-[11px] text-gray-300">Escribí el nuevo precio en ARS para cada paquete y tocá Guardar (o Enter) para cambiarlo en toda la tienda.</p>
+                    <p class="text-[11px] text-gray-300">Escribí los nuevos precios en ARS y USDT para cada paquete y guardalos.</p>
                     
                     <div class="space-y-3 text-xs">
                         <select id="admin-price-game" onchange="isEditingPrices = false; renderAdminPriceInputs()" class="w-full bg-nexoDark border border-gray-700 rounded-xl p-2.5 text-xs text-white focus:outline-none">
@@ -853,6 +862,8 @@
 
         let globalMaintenanceMode = false;
         let isEditingPrices = false;
+        let selectedPaymentMethod = 'mp'; // 'mp' o 'binance'
+
         let globalBanners = [
             {
                 id: 1,
@@ -901,20 +912,21 @@
 
         let globalCoinKeys = {};
 
+        // PRECIOS ACTUALIZADOS SEGÚN TUS CAPTURAS Y EQUIVALENTES EN USDT (BINANCE)
         let packsData = {
             'Free Fire': [
-                { name: '110 Diamantes', price: 1500, units: 110 },
-                { name: '341 Diamantes', price: 4400, units: 341 },
-                { name: '572 Diamantes', price: 7200, units: 572 },
-                { name: '1.166 Diamantes', price: 14200, units: 1166 },
-                { name: '2.398 Diamantes', price: 28000, units: 2398 }
+                { name: '110 Diamantes', price: 1450, priceUsd: 0.85, units: 110 },
+                { name: '341 Diamantes', price: 4500, priceUsd: 2.65, units: 341 },
+                { name: '572 Diamantes', price: 7500, priceUsd: 4.42, units: 572 },
+                { name: '1.166 Diamantes', price: 14000, priceUsd: 8.25, units: 1166 },
+                { name: '2.398 Diamantes', price: 28000, priceUsd: 16.50, units: 2398 }
             ],
             'Blood Strike': [
-                { name: '105 Oro', price: 1412, units: 105 },
-                { name: '320 Oro', price: 4253, units: 320 },
-                { name: '540 Oro', price: 7095, units: 540 },
-                { name: '1100 Oro', price: 14209, units: 1100 },
-                { name: '2260 Oro', price: 27900, units: 2260 }
+                { name: '105 Oro', price: 1412, priceUsd: 0.83, units: 105 },
+                { name: '320 Oro', price: 4253, priceUsd: 2.50, units: 320 },
+                { name: '540 Oro', price: 7095, priceUsd: 4.18, units: 540 },
+                { name: '1100 Oro', price: 14209, priceUsd: 8.35, units: 1100 },
+                { name: '2260 Oro', price: 27900, priceUsd: 16.45, units: 2260 }
             ]
         };
 
@@ -1124,21 +1136,17 @@
             const items = packsData[game];
 
             container.innerHTML = items.map((p, idx) => `
-                <div class="bg-nexoDark border border-gray-800 p-2.5 rounded-xl flex items-center justify-between gap-2">
-                    <div>
-                        <p class="font-black text-white text-xs">${p.name}</p>
-                        <p class="text-[10px] text-gray-400">Actual: $${p.price.toLocaleString('es-AR')} ARS</p>
-                    </div>
-                    <div class="flex items-center gap-1">
-                        <span class="text-gray-400 text-xs font-bold">$</span>
-                        <input type="number" 
-                               id="price-input-${idx}" 
-                               data-idx="${idx}" 
-                               value="${p.price}" 
-                               onfocus="isEditingPrices = true"
-                               oninput="isEditingPrices = true"
-                               onkeydown="if(event.key === 'Enter'){ event.preventDefault(); saveNewPrices(); }"
-                               class="admin-price-field w-28 bg-nexoCard border border-cyan-500/50 rounded-lg p-1.5 text-xs text-white font-mono text-center focus:outline-none focus:border-green-400">
+                <div class="bg-nexoDark border border-gray-800 p-2.5 rounded-xl space-y-1.5">
+                    <p class="font-black text-white text-xs">${p.name}</p>
+                    <div class="grid grid-cols-2 gap-2">
+                        <div class="flex items-center gap-1">
+                            <span class="text-gray-400 text-[10px]">ARS: $</span>
+                            <input type="number" id="price-input-${idx}" data-idx="${idx}" value="${p.price}" onfocus="isEditingPrices = true" oninput="isEditingPrices = true" class="admin-price-field w-full bg-nexoCard border border-cyan-500/50 rounded-lg p-1 text-xs text-white font-mono text-center focus:outline-none">
+                        </div>
+                        <div class="flex items-center gap-1">
+                            <span class="text-gray-400 text-[10px]">USDT: $</span>
+                            <input type="number" step="0.01" id="priceusd-input-${idx}" data-idx="${idx}" value="${p.priceUsd}" onfocus="isEditingPrices = true" oninput="isEditingPrices = true" class="admin-usd-field w-full bg-nexoCard border border-yellow-500/50 rounded-lg p-1 text-xs text-white font-mono text-center focus:outline-none">
+                        </div>
                     </div>
                 </div>
             `).join('');
@@ -1147,13 +1155,22 @@
         async function saveNewPrices() {
             const game = document.getElementById('admin-price-game').value;
             const items = packsData[game];
-            const inputs = document.querySelectorAll('.admin-price-field');
+            const priceInputs = document.querySelectorAll('.admin-price-field');
+            const usdInputs = document.querySelectorAll('.admin-usd-field');
             
-            inputs.forEach((inputEl) => {
+            priceInputs.forEach((inputEl) => {
                 const idx = parseInt(inputEl.getAttribute('data-idx'));
                 const val = parseInt(inputEl.value);
                 if (!isNaN(val) && val >= 0 && items[idx]) {
                     items[idx].price = val;
+                }
+            });
+
+            usdInputs.forEach((inputEl) => {
+                const idx = parseInt(inputEl.getAttribute('data-idx'));
+                const val = parseFloat(inputEl.value);
+                if (!isNaN(val) && val >= 0 && items[idx]) {
+                    items[idx].priceUsd = val;
                 }
             });
 
@@ -1164,7 +1181,7 @@
 
             const fb = document.getElementById('price-save-feedback');
             if (fb) {
-                fb.innerText = `✅ ¡Precios de ${game} actualizados para todos!`;
+                fb.innerText = `✅ ¡Precios de ${game} actualizados correctamente!`;
                 fb.classList.remove('hidden');
                 setTimeout(() => fb.classList.add('hidden'), 4000);
             }
@@ -1310,7 +1327,6 @@
             renderAdminCoinKeysList();
         }
 
-        // SALDO INICIAL EN 0 NEXO COINS (SIN NINGÚN REGALO AUTOMÁTICO)
         let currentUser = { email: '', name: 'Invitado', avatar: 'https://api.dicebear.com/7.x/bottts/svg?seed=NexoUser', coins: 0, purchases: 0, savedIds: [] };
 
         function updateAuthUI() {
@@ -1417,7 +1433,6 @@
         function toggleNinjaModal() { document.getElementById('ninja-modal').classList.toggle('hidden'); }
         function toggleRouletteModal() { document.getElementById('roulette-modal').classList.toggle('hidden'); }
         
-        // RULETA CONFIGURADA PARA QUE SEA IMPOSIBLE GANAR (SIEMPRE TOCA "SUERTE EN LA PRÓXIMA")
         function spinRoulette() {
             const targetGame = document.getElementById('roulette-target-game').value;
             const playerId = document.getElementById('roulette-player-id').value.trim();
@@ -1440,11 +1455,9 @@
                 return;
             }
 
-            // Descontar coins
             currentUser.coins -= 5;
             updateAuthUI();
 
-            // Animación visual de la ruleta
             const wheelDisc = document.getElementById('wheel-disc');
             const randomRotation = 1440 + (Math.floor(Math.random() * 360));
             wheelDisc.style.transform = `rotate(${randomRotation}deg)`;
@@ -1467,7 +1480,7 @@
         function askAIQuick(q) {}
         function sendAIMessage() {}
 
-        let storeState = { game: 'Free Fire', playerId: '', cart: {}, totalBasePrice: 0, finalPrice: 0, coinsEarned: 0, discountPercent: 0, couponUsed: 'Ninguno', clientName: '', clientPhone: '' };
+        let storeState = { game: 'Free Fire', playerId: '', cart: {}, totalBasePrice: 0, totalBaseUsd: 0, finalPrice: 0, finalUsd: 0, coinsEarned: 0, discountPercent: 0, couponUsed: 'Ninguno', clientName: '', clientPhone: '' };
 
         function selectGame(gameName, el) {
             storeState.game = gameName;
@@ -1490,12 +1503,12 @@
                     <div class="border border-gray-800 bg-nexoDark/80 p-3 rounded-xl flex items-center justify-between">
                         <div>
                             <p class="font-black text-xs text-white">${p.name}</p>
-                            <p class="text-[10px] text-nexoCyan">$${p.price.toLocaleString('es-AR')} ARS</p>
+                            <p class="text-[10px] text-nexoCyan">$${p.price.toLocaleString('es-AR')} ARS <span class="text-yellow-400">($${p.priceUsd.toFixed(2)} USDT)</span></p>
                         </div>
                         <div class="flex items-center gap-2">
-                            <button onclick="updateCart('${p.name}', ${p.price}, ${p.units}, -1)" class="w-7 h-7 bg-nexoSurface rounded-lg font-bold text-xs">-</button>
+                            <button onclick="updateCart('${p.name}', ${p.price}, ${p.priceUsd}, ${p.units}, -1)" class="w-7 h-7 bg-nexoSurface rounded-lg font-bold text-xs">-</button>
                             <span id="qty-${p.name.replace(/\s+/g, '')}" class="text-xs font-bold w-4 text-center">${count}</span>
-                            <button onclick="updateCart('${p.name}', ${p.price}, ${p.units}, 1)" class="w-7 h-7 bg-nexoPurple text-white rounded-lg font-bold text-xs">+</button>
+                            <button onclick="updateCart('${p.name}', ${p.price}, ${p.priceUsd}, ${p.units}, 1)" class="w-7 h-7 bg-nexoPurple text-white rounded-lg font-bold text-xs">+</button>
                         </div>
                     </div>
                 `;
@@ -1503,12 +1516,14 @@
             updateCartUI();
         }
 
-        function updateCart(name, price, units, delta) {
+        function updateCart(name, price, priceUsd, units, delta) {
             const currentItem = packsData[storeState.game].find(x => x.name === name);
             const actualPrice = currentItem ? currentItem.price : price;
+            const actualUsd = currentItem ? currentItem.priceUsd : priceUsd;
 
-            if(!storeState.cart[name]) storeState.cart[name] = { count: 0, price: actualPrice, units };
+            if(!storeState.cart[name]) storeState.cart[name] = { count: 0, price: actualPrice, priceUsd: actualUsd, units };
             storeState.cart[name].price = actualPrice;
+            storeState.cart[name].priceUsd = actualUsd;
             storeState.cart[name].count += delta;
 
             if(storeState.cart[name].count < 0) storeState.cart[name].count = 0;
@@ -1520,21 +1535,61 @@
         }
 
         function updateCartUI() {
-            let total = 0;
-            Object.values(storeState.cart).forEach(item => { total += item.price * item.count; });
-            storeState.totalBasePrice = total;
+            let totalArs = 0;
+            let totalUsd = 0;
+            Object.values(storeState.cart).forEach(item => { 
+                totalArs += item.price * item.count; 
+                totalUsd += item.priceUsd * item.count;
+            });
+            storeState.totalBasePrice = totalArs;
+            storeState.totalBaseUsd = totalUsd;
             
-            let final = total;
+            let finalArs = totalArs;
+            let finalUsd = totalUsd;
             if (storeState.discountPercent > 0) {
-                final = total - (total * storeState.discountPercent / 100);
+                finalArs = totalArs - (totalArs * storeState.discountPercent / 100);
+                finalUsd = totalUsd - (totalUsd * storeState.discountPercent / 100);
             }
-            storeState.finalPrice = final;
+            storeState.finalPrice = finalArs;
+            storeState.finalUsd = finalUsd;
             
-            let priceText = `$${total.toLocaleString('es-AR')} ARS`;
+            let priceText = `$${totalArs.toLocaleString('es-AR')} ARS <span class="text-yellow-400 text-xs">($${totalUsd.toFixed(2)} USDT)</span>`;
             if (storeState.discountPercent > 0) {
-                priceText = `<span class="line-through text-gray-500 text-xs">$${total.toLocaleString('es-AR')}</span> <span class="text-nexoCyan">$${final.toLocaleString('es-AR')} ARS (${storeState.discountPercent}% OFF)</span>`;
+                priceText = `<span class="line-through text-gray-500 text-xs">$${totalArs.toLocaleString('es-AR')}</span> <span class="text-nexoCyan">$${finalArs.toLocaleString('es-AR')} ARS <span class="text-yellow-400">($${finalUsd.toFixed(2)} USDT)</span> (${storeState.discountPercent}% OFF)</span>`;
             }
             document.getElementById('display-price').innerHTML = priceText;
+        }
+
+        function setPaymentMethod(method) {
+            selectedPaymentMethod = method;
+            const btnMp = document.getElementById('pay-btn-mp');
+            const btnBinance = document.getElementById('pay-btn-binance');
+            const boxMp = document.getElementById('payment-box-mp');
+            const boxBinance = document.getElementById('payment-box-binance');
+            const sumTotal = document.getElementById('sum-total');
+
+            if (method === 'mp') {
+                btnMp.className = "bg-nexoPurple text-white py-2.5 px-3 rounded-xl font-black text-xs border border-purple-400 transition shadow";
+                btnBinance.className = "bg-nexoCard text-gray-400 py-2.5 px-3 rounded-xl font-black text-xs border border-gray-700 transition";
+                boxMp.classList.remove('hidden');
+                boxBinance.classList.add('hidden');
+                sumTotal.innerText = `$${storeState.finalPrice.toLocaleString('es-AR')} ARS`;
+                document.getElementById('bot-input-payment-method').value = "Mercado Pago";
+                document.getElementById('bot-input-total').value = `$${storeState.finalPrice.toLocaleString('es-AR')} ARS`;
+            } else {
+                btnBinance.className = "bg-yellow-500 text-nexoDark py-2.5 px-3 rounded-xl font-black text-xs border border-yellow-400 transition shadow";
+                btnMp.className = "bg-nexoCard text-gray-400 py-2.5 px-3 rounded-xl font-black text-xs border border-gray-700 transition";
+                boxBinance.classList.remove('hidden');
+                boxMp.classList.add('hidden');
+                sumTotal.innerText = `$${storeState.finalUsd.toFixed(2)} USDT`;
+                document.getElementById('bot-input-payment-method').value = "Binance Pay";
+                document.getElementById('bot-input-total').value = `$${storeState.finalUsd.toFixed(2)} USDT`;
+            }
+        }
+
+        function copyToClipboard(text, msg) {
+            navigator.clipboard.writeText(text);
+            alert(msg);
         }
 
         function validateCode() {
@@ -1611,13 +1666,13 @@
                 document.getElementById('sum-id').innerText = storeState.playerId;
                 document.getElementById('sum-pack').innerText = Object.keys(storeState.cart).join(', ');
                 document.getElementById('sum-client').innerText = storeState.clientName;
-                document.getElementById('sum-total').innerText = `$${storeState.finalPrice.toLocaleString('es-AR')} ARS`;
+                
+                setPaymentMethod('mp'); // Por defecto arranca en Mercado Pago
 
                 document.getElementById('bot-input-game').value = storeState.game;
                 document.getElementById('bot-input-id').value = storeState.playerId;
                 document.getElementById('bot-input-nick').value = currentUser.name;
                 document.getElementById('bot-input-packs').value = Object.keys(storeState.cart).join(', ');
-                document.getElementById('bot-input-total').value = `$${storeState.finalPrice.toLocaleString('es-AR')} ARS`;
                 document.getElementById('bot-input-coupon').value = storeState.couponUsed;
                 document.getElementById('bot-input-coins').value = storeState.coinsEarned;
                 document.getElementById('bot-input-name').value = storeState.clientName;
@@ -1630,11 +1685,9 @@
             document.getElementById('progress-bar').style.width = (step * 25) + '%';
         }
 
-        function copyAlias() { navigator.clipboard.writeText('kevincabelier.mp'); alert('Alias copiado'); }
-
         async function sendOrderGmailBot() {
-            if (!window.receiptUploadedValid) { alert('Sube el comprobante'); return; }
-            if (!document.getElementById('terms-check').checked) { alert('Acepta los términos'); return; }
+            if (!window.receiptUploadedValid) { alert('Subí el comprobante de pago'); return; }
+            if (!document.getElementById('terms-check').checked) { alert('Aceptá los términos'); return; }
             document.getElementById('hidden-bot-form').submit();
         }
 
