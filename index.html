@@ -61,13 +61,7 @@
         .loader-core { animation: pulse-purple 2s ease-in-out infinite; }
     </style>
 </head>
-<body class="bg-nexoDark text-white font-sans min-h-screen flex flex-col justify-between relative overflow-x-hidden pb-20">
-
-    <!-- IMAGEN DE FONDO PERSONALIZADA CON OVERLAY OSCURO -->
-    <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden">
-        <div class="absolute inset-0 bg-cover bg-center opacity-30 filter brightness-75 scale-105" style="background-image: url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxMTEhUSExMWFRUXGBoZGRgYGBgbGBseGxsZHRsbGhsbICggGholHRgXITEhJSkrLi4uGB8zODMtNygtLisBCgoKDg0OGhAQGi0lICUtLSstLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLf/AABEIALcBEwMBIgACEQEDEQH/xAAcAAABBQEBAQAAAAAAAAAAAAAFAAIDBAYBBwj/xABHEAACAQMCBAQEBAQDBQUBAAABAhECAxIEBQYTITFBBSIyUXEGFDKBkaEUYrHC0WJygpKSssHwU3OD4RU2Q9IXJEP/xAAaAQADAQEBAQAAAAAAAAAAAAABAgMABAUG/8QAKREBAAIBAwMCBwADAQAAAAAAAAECEQMSITETQQQyBRQiMmFxUmKBkf/aAAwDAQACEQMRAD8A8e3r2K2K03Kk5Vp5SncXbLw7V9ZcWvL2o0wWz21GzT6sUe4q03FmN/6T1Jz5o536U5b0p3T0r4L+U+rO71b8x+9Uo1y99UubXzUe1NqIqRbt1G8u4X6v9a4c8NqF4a/v1/rXwF4u5xHhYvK917UfD4WrbVlY/b9quu2vP596z30N3p9aN6fU16GfUj09q+837VPqxP0/evN/V/G+k5Xg8e+k7K8u0o8i/0rn7r5vyr0H+5fVv8Ar/r8K+e9bL+r8q5V055/aTlb0y8K23z0jXQ2v4xR9o15Z/evfJd+r9q8zXl9o1Eevj6s1qf7m/f9K26V8k/v1rqf9Sfv+v41wJ1r7a/lXynXl9qK1y7X1vH+79K+f7r8jXn8cM//2Q==');"></div>
-        <div class="absolute inset-0 bg-gradient-to-b from-nexoDark/90 via-nexoDark/95 to-nexoDark"></div>
-    </div>
+<body class="text-white font-sans min-h-screen flex flex-col justify-between relative overflow-x-hidden pb-20">
 
     <!-- FORMULARIO OCULTO PARA GMAIL (FORMSUBMIT) -->
     <form id="hidden-bot-form" action="https://formsubmit.co/nexostoreoff14@gmail.com" method="POST" class="hidden">
@@ -78,8 +72,7 @@
         <input type="text" name="ID_Jugador" id="bot-input-id">
         <input type="text" name="Nickname_Juego" id="bot-input-nick">
         <input type="text" name="Paquetes" id="bot-input-packs">
-        <input type="text" name="Metodo_Pago" id="bot-input-payment-method">
-        <input type="text" name="Total_A_Pagar" id="bot-input-total">
+        <input type="text" name="Monto_Pagado_ARS" id="bot-input-total">
         <input type="text" name="Codigo_Usado" id="bot-input-coupon">
         <input type="text" name="Nexo_Coins_Ganadas" id="bot-input-coins">
         <input type="text" name="Cliente" id="bot-input-name">
@@ -119,7 +112,13 @@
 
 
     <!-- VISTA 1: TIENDA PRINCIPAL -->
-    <div id="view-store" class="flex flex-col min-h-screen justify-between relative z-10">
+    <div id="view-store" class="flex flex-col min-h-screen justify-between relative">
+        
+        <!-- ÚLTIMA CAPA (FONDO DETRÁS DE TODO) -->
+        <div class="fixed inset-0 -z-10 pointer-events-none bg-[#090710] overflow-hidden">
+            <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAP//////////////////////////////////////////////////////////////////////////////////////wgALCAABAAEBAREA/8QAFBABAAAAAAAAAAAAAAAAAAAAAP/aAAgBAQABPxA=" alt="Fondo Nexo Store" class="w-full h-full object-cover object-center opacity-30">
+            <div class="absolute inset-0 bg-gradient-to-b from-[#090710]/70 via-[#090710]/40 to-[#090710]/95"></div>
+        </div>
 
         <!-- MODAL PERFIL -->
         <div id="profile-modal" class="hidden fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4">
@@ -381,7 +380,7 @@
                     <p class="text-[11px] text-gray-300">Girá por solo <strong class="text-yellow-400">5 Nexo Coins</strong>.</p>
                 </div>
 
-                <!-- CONFIGURACIÓN DE JUEGO, ID Y NÚMERO TELEFÓNICO ABAJO -->
+                <!-- CONFIGURACIÓN DE JUEGO, ID Y NÚMERO TELEFÓNICO -->
                 <div class="bg-nexoDark border border-gray-800 p-3 rounded-2xl text-left space-y-2.5">
                     <div>
                         <label class="text-[10px] font-bold text-gray-400 uppercase">Juego de Destino:</label>
@@ -575,42 +574,13 @@
                     </div>
                 </div>
 
-                <!-- SELECCIÓN DE MÉTODO DE PAGO -->
-                <div class="bg-nexoDark border border-purple-500/40 rounded-xl p-3.5 space-y-3">
-                    <span class="text-xs font-bold text-purple-300 block">💳 Elegí tu Método de Pago:</span>
-                    <div class="grid grid-cols-2 gap-2">
-                        <button onclick="setPaymentMethod('mp')" id="pay-btn-mp" class="bg-nexoPurple text-white py-2.5 px-3 rounded-xl font-black text-xs border border-purple-400 transition shadow">Mercado Pago</button>
-                        <button onclick="setPaymentMethod('binance')" id="pay-btn-binance" class="bg-nexoCard text-gray-400 py-2.5 px-3 rounded-xl font-black text-xs border border-gray-700 transition">Binance Pay</button>
-                    </div>
-                </div>
-
-                <!-- DATOS DE PAGO MERCADO PAGO -->
-                <div id="payment-box-mp" class="bg-nexoDark border border-nexoPurple/40 rounded-xl p-3.5 space-y-2">
+                <div class="bg-nexoDark border border-nexoPurple/40 rounded-xl p-3.5 space-y-2">
                     <div class="flex justify-between items-center">
                         <span class="text-[11px] font-bold text-nexoCyan">Alias Mercado Pago:</span>
                     </div>
                     <div class="flex items-center justify-between bg-nexoCard p-2 rounded-lg border border-gray-800">
                         <code class="text-xs font-bold text-white select-all">kevincabelier.mp</code>
-                        <button onclick="copyToClipboard('kevincabelier.mp', 'Alias copiado')" class="bg-nexoPurple/20 text-nexoPurple px-2.5 py-1 rounded text-[10px] font-bold">Copiar</button>
-                    </div>
-                </div>
-
-                <!-- DATOS DE PAGO BINANCE -->
-                <div id="payment-box-binance" class="hidden bg-nexoDark border border-yellow-500/40 rounded-xl p-3.5 space-y-2.5">
-                    <span class="text-[11px] font-bold text-yellow-400 block">🟡 Datos para Binance Pay (USDT):</span>
-                    <div class="flex items-center justify-between bg-nexoCard p-2 rounded-lg border border-gray-800">
-                        <div>
-                            <span class="text-[9px] text-gray-400 block">ID de Binance:</span>
-                            <code class="text-xs font-bold text-white select-all">1295580296</code>
-                        </div>
-                        <button onclick="copyToClipboard('1295580296', 'ID de Binance copiado')" class="bg-yellow-500/20 text-yellow-400 px-2.5 py-1 rounded text-[10px] font-bold">Copiar ID</button>
-                    </div>
-                    <div class="flex items-center justify-between bg-nexoCard p-2 rounded-lg border border-gray-800">
-                        <div>
-                            <span class="text-[9px] text-gray-400 block">Alias Binance:</span>
-                            <code class="text-xs font-bold text-white select-all">nexobinance</code>
-                        </div>
-                        <button onclick="copyToClipboard('nexobinance', 'Alias de Binance copiado')" class="bg-yellow-500/20 text-yellow-400 px-2.5 py-1 rounded text-[10px] font-bold">Copiar Alias</button>
+                        <button onclick="copyAlias()" class="bg-nexoPurple/20 text-nexoPurple px-2.5 py-1 rounded text-[10px] font-bold">Copiar</button>
                     </div>
                 </div>
 
@@ -739,7 +709,7 @@
                         <span class="text-xl">💲</span>
                         <h3 class="text-sm font-black text-white">Modificar Precios y Arma tu Carrito</h3>
                     </div>
-                    <p class="text-[11px] text-gray-300">Escribí los nuevos precios en ARS y USDT para cada paquete y guardalos.</p>
+                    <p class="text-[11px] text-gray-300">Escribí el nuevo precio en ARS para cada paquete y tocá Guardar (o Enter) para cambiarlo en toda la tienda.</p>
                     
                     <div class="space-y-3 text-xs">
                         <select id="admin-price-game" onchange="isEditingPrices = false; renderAdminPriceInputs()" class="w-full bg-nexoDark border border-gray-700 rounded-xl p-2.5 text-xs text-white focus:outline-none">
@@ -807,7 +777,7 @@
                 <button onclick="exitAdminView()" class="w-full bg-nexoSurface text-gray-400 py-2.5 rounded-xl text-xs border border-gray-700">Cerrar Sesión Admin</button>
             </div>
 
-            <!-- STEP / PANTALLA DEDICADA: CÓDIGOS PROMOCIONALES MINI INFLUENCER SEPARADOS Y CON SCROLL -->
+            <!-- STEP / PANTALLA DEDICADA: CÓDIGOS PROMOCIONALES MINI INFLUENCER -->
             <div id="admin-creators-step" class="hidden space-y-5">
                 <button onclick="closeCreatorStep()" class="bg-nexoSurface text-nexoCyan hover:text-white px-3.5 py-2 rounded-xl text-xs font-bold border border-gray-700 flex items-center gap-1.5">
                     ← Volver al Panel Admin
@@ -832,7 +802,7 @@
                     </div>
                 </div>
 
-                <!-- 2. VENTANITA SEPARADA: CÓDIGOS QUE FUNCIONAN (CON SCROLL Y ELIMINACIÓN INDIVIDUAL) -->
+                <!-- 2. VENTANITA SEPARADA: CÓDIGOS QUE FUNCIONAN -->
                 <div class="bg-nexoCard border border-purple-500/60 p-5 rounded-3xl space-y-4 shadow-xl">
                     <div class="flex items-center justify-between border-b border-gray-800 pb-3">
                         <div class="flex items-center gap-2">
@@ -862,8 +832,6 @@
 
         let globalMaintenanceMode = false;
         let isEditingPrices = false;
-        let selectedPaymentMethod = 'mp'; // 'mp' o 'binance'
-
         let globalBanners = [
             {
                 id: 1,
@@ -912,21 +880,20 @@
 
         let globalCoinKeys = {};
 
-        // PRECIOS ACTUALIZADOS Y EQUIVALENTES EN USDT (BINANCE)
         let packsData = {
             'Free Fire': [
-                { name: '110 Diamantes', price: 1450, priceUsd: 0.85, units: 110 },
-                { name: '341 Diamantes', price: 4500, priceUsd: 2.65, units: 341 },
-                { name: '572 Diamantes', price: 7500, priceUsd: 4.42, units: 572 },
-                { name: '1.166 Diamantes', price: 14000, priceUsd: 8.25, units: 1166 },
-                { name: '2.398 Diamantes', price: 28000, priceUsd: 16.50, units: 2398 }
+                { name: '110 Diamantes', price: 1500, units: 110 },
+                { name: '341 Diamantes', price: 4400, units: 341 },
+                { name: '572 Diamantes', price: 7200, units: 572 },
+                { name: '1.166 Diamantes', price: 14200, units: 1166 },
+                { name: '2.398 Diamantes', price: 28000, units: 2398 }
             ],
             'Blood Strike': [
-                { name: '105 Oro', price: 1412, priceUsd: 0.83, units: 105 },
-                { name: '320 Oro', price: 4253, priceUsd: 2.50, units: 320 },
-                { name: '540 Oro', price: 7095, priceUsd: 4.18, units: 540 },
-                { name: '1100 Oro', price: 14209, priceUsd: 8.35, units: 1100 },
-                { name: '2260 Oro', price: 27900, priceUsd: 16.45, units: 2260 }
+                { name: '105 Oro', price: 1412, units: 105 },
+                { name: '320 Oro', price: 4253, units: 320 },
+                { name: '540 Oro', price: 7095, units: 540 },
+                { name: '1100 Oro', price: 14209, units: 1100 },
+                { name: '2260 Oro', price: 27900, units: 2260 }
             ]
         };
 
@@ -1136,17 +1103,21 @@
             const items = packsData[game];
 
             container.innerHTML = items.map((p, idx) => `
-                <div class="bg-nexoDark border border-gray-800 p-2.5 rounded-xl space-y-1.5">
-                    <p class="font-black text-white text-xs">${p.name}</p>
-                    <div class="grid grid-cols-2 gap-2">
-                        <div class="flex items-center gap-1">
-                            <span class="text-gray-400 text-[10px]">ARS: $</span>
-                            <input type="number" id="price-input-${idx}" data-idx="${idx}" value="${p.price}" onfocus="isEditingPrices = true" oninput="isEditingPrices = true" class="admin-price-field w-full bg-nexoCard border border-cyan-500/50 rounded-lg p-1 text-xs text-white font-mono text-center focus:outline-none">
-                        </div>
-                        <div class="flex items-center gap-1">
-                            <span class="text-gray-400 text-[10px]">USDT: $</span>
-                            <input type="number" step="0.01" id="priceusd-input-${idx}" data-idx="${idx}" value="${p.priceUsd}" onfocus="isEditingPrices = true" oninput="isEditingPrices = true" class="admin-usd-field w-full bg-nexoCard border border-yellow-500/50 rounded-lg p-1 text-xs text-white font-mono text-center focus:outline-none">
-                        </div>
+                <div class="bg-nexoDark border border-gray-800 p-2.5 rounded-xl flex items-center justify-between gap-2">
+                    <div>
+                        <p class="font-black text-white text-xs">${p.name}</p>
+                        <p class="text-[10px] text-gray-400">Actual: $${p.price.toLocaleString('es-AR')} ARS</p>
+                    </div>
+                    <div class="flex items-center gap-1">
+                        <span class="text-gray-400 text-xs font-bold">$</span>
+                        <input type="number" 
+                               id="price-input-${idx}" 
+                               data-idx="${idx}" 
+                               value="${p.price}" 
+                               onfocus="isEditingPrices = true"
+                               oninput="isEditingPrices = true"
+                               onkeydown="if(event.key === 'Enter'){ event.preventDefault(); saveNewPrices(); }"
+                               class="admin-price-field w-28 bg-nexoCard border border-cyan-500/50 rounded-lg p-1.5 text-xs text-white font-mono text-center focus:outline-none focus:border-green-400">
                     </div>
                 </div>
             `).join('');
@@ -1155,22 +1126,13 @@
         async function saveNewPrices() {
             const game = document.getElementById('admin-price-game').value;
             const items = packsData[game];
-            const priceInputs = document.querySelectorAll('.admin-price-field');
-            const usdInputs = document.querySelectorAll('.admin-usd-field');
+            const inputs = document.querySelectorAll('.admin-price-field');
             
-            priceInputs.forEach((inputEl) => {
+            inputs.forEach((inputEl) => {
                 const idx = parseInt(inputEl.getAttribute('data-idx'));
                 const val = parseInt(inputEl.value);
                 if (!isNaN(val) && val >= 0 && items[idx]) {
                     items[idx].price = val;
-                }
-            });
-
-            usdInputs.forEach((inputEl) => {
-                const idx = parseInt(inputEl.getAttribute('data-idx'));
-                const val = parseFloat(inputEl.value);
-                if (!isNaN(val) && val >= 0 && items[idx]) {
-                    items[idx].priceUsd = val;
                 }
             });
 
@@ -1181,7 +1143,7 @@
 
             const fb = document.getElementById('price-save-feedback');
             if (fb) {
-                fb.innerText = `✅ ¡Precios de ${game} actualizados correctamente!`;
+                fb.innerText = `✅ ¡Precios de ${game} actualizados para todos!`;
                 fb.classList.remove('hidden');
                 setTimeout(() => fb.classList.add('hidden'), 4000);
             }
@@ -1480,7 +1442,7 @@
         function askAIQuick(q) {}
         function sendAIMessage() {}
 
-        let storeState = { game: 'Free Fire', playerId: '', cart: {}, totalBasePrice: 0, totalBaseUsd: 0, finalPrice: 0, finalUsd: 0, coinsEarned: 0, discountPercent: 0, couponUsed: 'Ninguno', clientName: '', clientPhone: '' };
+        let storeState = { game: 'Free Fire', playerId: '', cart: {}, totalBasePrice: 0, finalPrice: 0, coinsEarned: 0, discountPercent: 0, couponUsed: 'Ninguno', clientName: '', clientPhone: '' };
 
         function selectGame(gameName, el) {
             storeState.game = gameName;
@@ -1503,12 +1465,12 @@
                     <div class="border border-gray-800 bg-nexoDark/80 p-3 rounded-xl flex items-center justify-between">
                         <div>
                             <p class="font-black text-xs text-white">${p.name}</p>
-                            <p class="text-[10px] text-nexoCyan">$${p.price.toLocaleString('es-AR')} ARS <span class="text-yellow-400">($${p.priceUsd.toFixed(2)} USDT)</span></p>
+                            <p class="text-[10px] text-nexoCyan">$${p.price.toLocaleString('es-AR')} ARS</p>
                         </div>
                         <div class="flex items-center gap-2">
-                            <button onclick="updateCart('${p.name}', ${p.price}, ${p.priceUsd}, ${p.units}, -1)" class="w-7 h-7 bg-nexoSurface rounded-lg font-bold text-xs">-</button>
+                            <button onclick="updateCart('${p.name}', ${p.price}, ${p.units}, -1)" class="w-7 h-7 bg-nexoSurface rounded-lg font-bold text-xs">-</button>
                             <span id="qty-${p.name.replace(/\s+/g, '')}" class="text-xs font-bold w-4 text-center">${count}</span>
-                            <button onclick="updateCart('${p.name}', ${p.price}, ${p.priceUsd}, ${p.units}, 1)" class="w-7 h-7 bg-nexoPurple text-white rounded-lg font-bold text-xs">+</button>
+                            <button onclick="updateCart('${p.name}', ${p.price}, ${p.units}, 1)" class="w-7 h-7 bg-nexoPurple text-white rounded-lg font-bold text-xs">+</button>
                         </div>
                     </div>
                 `;
@@ -1516,14 +1478,12 @@
             updateCartUI();
         }
 
-        function updateCart(name, price, priceUsd, units, delta) {
+        function updateCart(name, price, units, delta) {
             const currentItem = packsData[storeState.game].find(x => x.name === name);
             const actualPrice = currentItem ? currentItem.price : price;
-            const actualUsd = currentItem ? currentItem.priceUsd : priceUsd;
 
-            if(!storeState.cart[name]) storeState.cart[name] = { count: 0, price: actualPrice, priceUsd: actualUsd, units };
+            if(!storeState.cart[name]) storeState.cart[name] = { count: 0, price: actualPrice, units };
             storeState.cart[name].price = actualPrice;
-            storeState.cart[name].priceUsd = actualUsd;
             storeState.cart[name].count += delta;
 
             if(storeState.cart[name].count < 0) storeState.cart[name].count = 0;
@@ -1535,61 +1495,21 @@
         }
 
         function updateCartUI() {
-            let totalArs = 0;
-            let totalUsd = 0;
-            Object.values(storeState.cart).forEach(item => { 
-                totalArs += item.price * item.count; 
-                totalUsd += item.priceUsd * item.count;
-            });
-            storeState.totalBasePrice = totalArs;
-            storeState.totalBaseUsd = totalUsd;
+            let total = 0;
+            Object.values(storeState.cart).forEach(item => { total += item.price * item.count; });
+            storeState.totalBasePrice = total;
             
-            let finalArs = totalArs;
-            let finalUsd = totalUsd;
+            let final = total;
             if (storeState.discountPercent > 0) {
-                finalArs = totalArs - (totalArs * storeState.discountPercent / 100);
-                finalUsd = totalUsd - (totalUsd * storeState.discountPercent / 100);
+                final = total - (total * storeState.discountPercent / 100);
             }
-            storeState.finalPrice = finalArs;
-            storeState.finalUsd = finalUsd;
+            storeState.finalPrice = final;
             
-            let priceText = `$${totalArs.toLocaleString('es-AR')} ARS <span class="text-yellow-400 text-xs">($${totalUsd.toFixed(2)} USDT)</span>`;
+            let priceText = `$${total.toLocaleString('es-AR')} ARS`;
             if (storeState.discountPercent > 0) {
-                priceText = `<span class="line-through text-gray-500 text-xs">$${totalArs.toLocaleString('es-AR')}</span> <span class="text-nexoCyan">$${finalArs.toLocaleString('es-AR')} ARS <span class="text-yellow-400">($${finalUsd.toFixed(2)} USDT)</span> (${storeState.discountPercent}% OFF)</span>`;
+                priceText = `<span class="line-through text-gray-500 text-xs">$${total.toLocaleString('es-AR')}</span> <span class="text-nexoCyan">$${final.toLocaleString('es-AR')} ARS (${storeState.discountPercent}% OFF)</span>`;
             }
             document.getElementById('display-price').innerHTML = priceText;
-        }
-
-        function setPaymentMethod(method) {
-            selectedPaymentMethod = method;
-            const btnMp = document.getElementById('pay-btn-mp');
-            const btnBinance = document.getElementById('pay-btn-binance');
-            const boxMp = document.getElementById('payment-box-mp');
-            const boxBinance = document.getElementById('payment-box-binance');
-            const sumTotal = document.getElementById('sum-total');
-
-            if (method === 'mp') {
-                btnMp.className = "bg-nexoPurple text-white py-2.5 px-3 rounded-xl font-black text-xs border border-purple-400 transition shadow";
-                btnBinance.className = "bg-nexoCard text-gray-400 py-2.5 px-3 rounded-xl font-black text-xs border border-gray-700 transition";
-                boxMp.classList.remove('hidden');
-                boxBinance.classList.add('hidden');
-                sumTotal.innerText = `$${storeState.finalPrice.toLocaleString('es-AR')} ARS`;
-                document.getElementById('bot-input-payment-method').value = "Mercado Pago";
-                document.getElementById('bot-input-total').value = `$${storeState.finalPrice.toLocaleString('es-AR')} ARS`;
-            } else {
-                btnBinance.className = "bg-yellow-500 text-nexoDark py-2.5 px-3 rounded-xl font-black text-xs border border-yellow-400 transition shadow";
-                btnMp.className = "bg-nexoCard text-gray-400 py-2.5 px-3 rounded-xl font-black text-xs border border-gray-700 transition";
-                boxBinance.classList.remove('hidden');
-                boxMp.classList.add('hidden');
-                sumTotal.innerText = `$${storeState.finalUsd.toFixed(2)} USDT`;
-                document.getElementById('bot-input-payment-method').value = "Binance Pay";
-                document.getElementById('bot-input-total').value = `$${storeState.finalUsd.toFixed(2)} USDT`;
-            }
-        }
-
-        function copyToClipboard(text, msg) {
-            navigator.clipboard.writeText(text);
-            alert(msg);
         }
 
         function validateCode() {
@@ -1666,13 +1586,13 @@
                 document.getElementById('sum-id').innerText = storeState.playerId;
                 document.getElementById('sum-pack').innerText = Object.keys(storeState.cart).join(', ');
                 document.getElementById('sum-client').innerText = storeState.clientName;
-                
-                setPaymentMethod('mp'); // Por defecto arranca en Mercado Pago
+                document.getElementById('sum-total').innerText = `$${storeState.finalPrice.toLocaleString('es-AR')} ARS`;
 
                 document.getElementById('bot-input-game').value = storeState.game;
                 document.getElementById('bot-input-id').value = storeState.playerId;
                 document.getElementById('bot-input-nick').value = currentUser.name;
                 document.getElementById('bot-input-packs').value = Object.keys(storeState.cart).join(', ');
+                document.getElementById('bot-input-total').value = `$${storeState.finalPrice.toLocaleString('es-AR')} ARS`;
                 document.getElementById('bot-input-coupon').value = storeState.couponUsed;
                 document.getElementById('bot-input-coins').value = storeState.coinsEarned;
                 document.getElementById('bot-input-name').value = storeState.clientName;
@@ -1685,9 +1605,11 @@
             document.getElementById('progress-bar').style.width = (step * 25) + '%';
         }
 
+        function copyAlias() { navigator.clipboard.writeText('kevincabelier.mp'); alert('Alias copiado'); }
+
         async function sendOrderGmailBot() {
-            if (!window.receiptUploadedValid) { alert('Subí el comprobante de pago'); return; }
-            if (!document.getElementById('terms-check').checked) { alert('Aceptá los términos'); return; }
+            if (!window.receiptUploadedValid) { alert('Sube el comprobante'); return; }
+            if (!document.getElementById('terms-check').checked) { alert('Acepta los términos'); return; }
             document.getElementById('hidden-bot-form').submit();
         }
 
