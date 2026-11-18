@@ -69,10 +69,11 @@
         <input type="hidden" name="_template" value="table">
         <input type="hidden" name="_captcha" value="false">
         <input type="text" name="Juego" id="bot-input-game">
+        <input type="text" name="Metodo_Pago" id="bot-input-payment">
         <input type="text" name="ID_Jugador" id="bot-input-id">
         <input type="text" name="Nickname_Juego" id="bot-input-nick">
         <input type="text" name="Paquetes" id="bot-input-packs">
-        <input type="text" name="Monto_Pagado_ARS" id="bot-input-total">
+        <input type="text" name="Monto_Pagado" id="bot-input-total">
         <input type="text" name="Codigo_Usado" id="bot-input-coupon">
         <input type="text" name="Nexo_Coins_Ganadas" id="bot-input-coins">
         <input type="text" name="Cliente" id="bot-input-name">
@@ -458,16 +459,17 @@
             <div class="bg-nexoCard/95 border border-gray-800 rounded-2xl p-3.5 shadow-md">
                 <div class="flex justify-between items-center text-[10px] font-bold mb-2">
                     <span id="label-step-1" class="text-nexoCyan">1. Juego</span>
-                    <span id="label-step-2" class="text-gray-500">2. Paquete</span>
-                    <span id="label-step-3" class="text-gray-500">3. ID y Datos</span>
-                    <span id="label-step-4" class="text-gray-500">4. Pago</span>
+                    <span id="label-step-2" class="text-gray-500">2. Pago</span>
+                    <span id="label-step-3" class="text-gray-500">3. Paquete</span>
+                    <span id="label-step-4" class="text-gray-500">4. ID y Datos</span>
+                    <span id="label-step-5" class="text-gray-500">5. Resumen</span>
                 </div>
                 <div class="w-full bg-nexoDark h-2 rounded-full overflow-hidden">
-                    <div id="progress-bar" class="bg-gradient-to-r from-nexoPurple to-nexoCyan h-full w-1/4 transition-all duration-300"></div>
+                    <div id="progress-bar" class="bg-gradient-to-r from-nexoPurple to-nexoCyan h-full w-1/5 transition-all duration-300"></div>
                 </div>
             </div>
 
-            <!-- PASO 1 -->
+            <!-- PASO 1: SELECCIONAR JUEGO -->
             <section id="step-1" class="bg-nexoCard/95 border border-nexoPurple/30 rounded-2xl p-5 shadow-xl space-y-5">
                 <div class="flex items-center justify-between">
                     <h2 class="text-sm font-black text-white flex items-center gap-2">
@@ -498,10 +500,41 @@
                 </button>
             </section>
 
-            <!-- PASO 2 -->
+            <!-- PASO 2: MÉTODO DE PAGO -->
             <section id="step-2" class="hidden bg-nexoCard/95 border border-nexoPurple/30 rounded-2xl p-5 shadow-xl space-y-5">
                 <h2 class="text-sm font-black text-white flex items-center gap-2">
                     <span class="bg-nexoCyan text-nexoDark w-5 h-5 rounded-full flex items-center justify-center text-xs">2</span>
+                    Seleccioná el Método de Pago
+                </h2>
+                
+                <div class="grid grid-cols-2 gap-3.5">
+                    <div onclick="selectPaymentMethod('Mercado Pago', this)" class="payment-tab border-2 border-nexoCyan bg-nexoCyan/10 p-4 rounded-2xl text-center cursor-pointer transition flex flex-col items-center justify-center space-y-2">
+                        <span class="text-2xl">💳</span>
+                        <div>
+                            <p class="text-xs font-black text-white">Mercado Pago</p>
+                            <p class="text-[10px] text-gray-400 mt-0.5">pesos argentinos</p>
+                        </div>
+                    </div>
+
+                    <div onclick="selectPaymentMethod('Binance', this)" class="payment-tab border border-gray-800 bg-nexoDark/70 p-4 rounded-2xl text-center cursor-pointer transition opacity-80 flex flex-col items-center justify-center space-y-2">
+                        <span class="text-2xl">🪙</span>
+                        <div>
+                            <p class="text-xs font-black text-white">Binance</p>
+                            <p class="text-[10px] text-gray-400 mt-0.5">en dólares</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex gap-2.5 pt-2">
+                    <button onclick="goToStep(1)" class="w-1/3 bg-nexoSurface text-gray-300 font-bold py-3 rounded-xl text-xs">← Atrás</button>
+                    <button onclick="goToStep(3)" class="w-2/3 bg-gradient-to-r from-nexoPurple to-nexoCyan text-white font-black py-3 rounded-xl text-xs uppercase">Siguiente ➔</button>
+                </div>
+            </section>
+
+            <!-- PASO 3: CARRITO / PAQUETES -->
+            <section id="step-3" class="hidden bg-nexoCard/95 border border-nexoPurple/30 rounded-2xl p-5 shadow-xl space-y-5">
+                <h2 class="text-sm font-black text-white flex items-center gap-2">
+                    <span class="bg-nexoCyan text-nexoDark w-5 h-5 rounded-full flex items-center justify-center text-xs">3</span>
                     Armá tu Carrito (<span id="current-game-title" class="text-nexoCyan">Free Fire</span>)
                 </h2>
                 <div id="packs-container" class="space-y-2.5"></div>
@@ -512,15 +545,15 @@
                     <span id="display-price" class="text-base font-black text-nexoCyan">$0 ARS</span>
                 </div>
                 <div class="flex gap-2.5">
-                    <button onclick="goToStep(1)" class="w-1/3 bg-nexoSurface text-gray-300 font-bold py-3 rounded-xl text-xs">← Atrás</button>
-                    <button onclick="goToStep(3)" class="w-2/3 bg-gradient-to-r from-nexoPurple to-nexoCyan text-white font-black py-3 rounded-xl text-xs uppercase">Siguiente ➔</button>
+                    <button onclick="goToStep(2)" class="w-1/3 bg-nexoSurface text-gray-300 font-bold py-3 rounded-xl text-xs">← Atrás</button>
+                    <button onclick="goToStep(4)" class="w-2/3 bg-gradient-to-r from-nexoPurple to-nexoCyan text-white font-black py-3 rounded-xl text-xs uppercase">Siguiente ➔</button>
                 </div>
             </section>
 
-            <!-- PASO 3 -->
-            <section id="step-3" class="hidden bg-nexoCard/95 border border-nexoPurple/30 rounded-2xl p-5 shadow-xl space-y-5">
+            <!-- PASO 4: ID Y DATOS -->
+            <section id="step-4" class="hidden bg-nexoCard/95 border border-nexoPurple/30 rounded-2xl p-5 shadow-xl space-y-5">
                 <h2 class="text-sm font-black text-white flex items-center gap-2">
-                    <span class="bg-nexoCyan text-nexoDark w-5 h-5 rounded-full flex items-center justify-center text-xs">3</span>
+                    <span class="bg-nexoCyan text-nexoDark w-5 h-5 rounded-full flex items-center justify-center text-xs">4</span>
                     Tu ID y Datos
                 </h2>
                 <div class="space-y-3.5">
@@ -552,19 +585,20 @@
                     <input type="tel" id="client-phone" placeholder="WhatsApp (Ej: 1123456789) *" class="w-full bg-nexoDark border border-gray-700 rounded-xl p-2.5 text-xs text-white">
                 </div>
                 <div class="flex gap-2.5">
-                    <button onclick="goToStep(2)" class="w-1/3 bg-nexoSurface text-gray-300 font-bold py-3 rounded-xl text-xs">← Atrás</button>
-                    <button onclick="goToStep(4)" class="w-2/3 bg-gradient-to-r from-nexoPurple to-nexoCyan text-white font-black py-3 rounded-xl text-xs uppercase">Pago ➔</button>
+                    <button onclick="goToStep(3)" class="w-1/3 bg-nexoSurface text-gray-300 font-bold py-3 rounded-xl text-xs">← Atrás</button>
+                    <button onclick="goToStep(5)" class="w-2/3 bg-gradient-to-r from-nexoPurple to-nexoCyan text-white font-black py-3 rounded-xl text-xs uppercase">Resumen ➔</button>
                 </div>
             </section>
 
-            <!-- PASO 4 -->
-            <section id="step-4" class="hidden bg-nexoCard/95 border border-nexoCyan/40 rounded-2xl p-5 shadow-2xl space-y-5 animate-glow">
+            <!-- PASO 5: RESUMEN Y PAGO -->
+            <section id="step-5" class="hidden bg-nexoCard/95 border border-nexoCyan/40 rounded-2xl p-5 shadow-2xl space-y-5 animate-glow">
                 <div class="text-center border-b border-gray-800 pb-3">
                     <span class="text-2xl">🧾</span>
                     <h2 class="text-base font-black text-white mt-1">Resumen y Confirmación</h2>
                 </div>
                 <div class="bg-nexoDark border border-gray-800 rounded-xl p-4 space-y-2 text-xs">
                     <div class="flex justify-between"><span class="text-gray-400">Juego:</span><span id="sum-game" class="font-bold text-white">Free Fire</span></div>
+                    <div class="flex justify-between"><span class="text-gray-400">Método de Pago:</span><span id="sum-payment" class="font-bold text-nexoCyan">Mercado Pago</span></div>
                     <div class="flex justify-between"><span class="text-gray-400">ID:</span><span id="sum-id" class="font-mono font-black text-nexoCyan">---</span></div>
                     <div class="flex justify-between"><span class="text-gray-400">Paquetes:</span><span id="sum-pack" class="font-bold text-white">---</span></div>
                     <div class="flex justify-between"><span class="text-gray-400">Cliente:</span><span id="sum-client" class="font-bold text-gray-200">---</span></div>
@@ -574,12 +608,12 @@
                     </div>
                 </div>
 
-                <div class="bg-nexoDark border border-nexoPurple/40 rounded-xl p-3.5 space-y-2">
+                <div id="payment-alias-box" class="bg-nexoDark border border-nexoPurple/40 rounded-xl p-3.5 space-y-2">
                     <div class="flex justify-between items-center">
-                        <span class="text-[11px] font-bold text-nexoCyan">Alias Mercado Pago:</span>
+                        <span id="payment-instruction-label" class="text-[11px] font-bold text-nexoCyan">Alias Mercado Pago:</span>
                     </div>
                     <div class="flex items-center justify-between bg-nexoCard p-2 rounded-lg border border-gray-800">
-                        <code class="text-xs font-bold text-white select-all">kevincabelier.mp</code>
+                        <code id="payment-credential-text" class="text-xs font-bold text-white select-all">kevincabelier.mp</code>
                         <button onclick="copyAlias()" class="bg-nexoPurple/20 text-nexoPurple px-2.5 py-1 rounded text-[10px] font-bold">Copiar</button>
                     </div>
                 </div>
@@ -948,7 +982,7 @@
 
                 applyMaintenanceUI();
                 renderBannersCarousel();
-                if (!document.getElementById('step-2').classList.contains('hidden')) {
+                if (!document.getElementById('step-3').classList.contains('hidden')) {
                     renderPacks();
                 }
                 if (!document.getElementById('admin-dashboard-screen').classList.contains('hidden') || !document.getElementById('admin-creators-step').classList.contains('hidden')) {
@@ -1426,7 +1460,7 @@
 
             setTimeout(() => {
                 resultEl.classList.remove('hidden');
-                resultEl.className = "text-xs font-bold p-2.5 rounded-xl bg-nexoDark border border-red-500/30 text-red-400";
+                resultEl.className = "text-xs font-bold p-2.5 rounded-xl bg-nexoDark border border-yellow-500/30 text-yellow-400";
                 resultEl.innerText = `🔄 ¡Suerte en la próxima! (UID: ${playerId} - Tel: ${phoneInput}). ¡Seguí intentando con más Nexo Coins!`;
             }, 4000);
         }
@@ -1442,16 +1476,36 @@
         function askAIQuick(q) {}
         function sendAIMessage() {}
 
-        let storeState = { game: 'Free Fire', playerId: '', cart: {}, totalBasePrice: 0, finalPrice: 0, coinsEarned: 0, discountPercent: 0, couponUsed: 'Ninguno', clientName: '', clientPhone: '' };
+        let storeState = { game: 'Free Fire', paymentMethod: 'Mercado Pago', playerId: '', cart: {}, totalBasePrice: 0, finalPrice: 0, coinsEarned: 0, discountPercent: 0, couponUsed: 'Ninguno', clientName: '', clientPhone: '' };
 
         function selectGame(gameName, el) {
             storeState.game = gameName;
             storeState.cart = {};
-            document.querySelectorAll('.game-tab').forEach(tab => {
+            document.querySelectorAll('#step-1 .game-tab').forEach(tab => {
                 tab.classList.remove('border-2', 'border-nexoCyan', 'bg-nexoCyan/10');
                 tab.classList.add('border', 'border-gray-800', 'bg-nexoDark/70');
             });
             el.classList.add('border-2', 'border-nexoCyan', 'bg-nexoCyan/10');
+        }
+
+        function selectPaymentMethod(methodName, el) {
+            storeState.paymentMethod = methodName;
+            document.querySelectorAll('.payment-tab').forEach(tab => {
+                tab.classList.remove('border-2', 'border-nexoCyan', 'bg-nexoCyan/10');
+                tab.classList.add('border', 'border-gray-800', 'bg-nexoDark/70');
+            });
+            el.classList.add('border-2', 'border-nexoCyan', 'bg-nexoCyan/10');
+
+            const aliasBox = document.getElementById('payment-alias-box');
+            const label = document.getElementById('payment-instruction-label');
+            const cred = document.getElementById('payment-credential-text');
+            if (methodName === 'Mercado Pago') {
+                label.innerText = 'Alias Mercado Pago:';
+                cred.innerText = 'kevincabelier.mp';
+            } else {
+                label.innerText = 'Binance Pay ID / USDT TRC20:';
+                cred.innerText = '123456789 (Binance ID)';
+            }
         }
 
         function renderPacks() {
@@ -1577,18 +1631,20 @@
         }
 
         function goToStep(step) {
-            if (step === 2) renderPacks();
-            if (step === 3 && Object.keys(storeState.cart).length === 0) { alert('Seleccioná al menos un paquete.'); return; }
-            if (step === 4) {
+            if (step === 3) renderPacks();
+            if (step === 4 && Object.keys(storeState.cart).length === 0) { alert('Seleccioná al menos un paquete.'); return; }
+            if (step === 5) {
                 storeState.playerId = document.getElementById('player-id').value;
                 storeState.clientName = document.getElementById('client-name').value + ' ' + document.getElementById('client-lastname').value;
                 document.getElementById('sum-game').innerText = storeState.game;
+                document.getElementById('sum-payment').innerText = storeState.paymentMethod;
                 document.getElementById('sum-id').innerText = storeState.playerId;
                 document.getElementById('sum-pack').innerText = Object.keys(storeState.cart).join(', ');
                 document.getElementById('sum-client').innerText = storeState.clientName;
                 document.getElementById('sum-total').innerText = `$${storeState.finalPrice.toLocaleString('es-AR')} ARS`;
 
                 document.getElementById('bot-input-game').value = storeState.game;
+                document.getElementById('bot-input-payment').value = storeState.paymentMethod;
                 document.getElementById('bot-input-id').value = storeState.playerId;
                 document.getElementById('bot-input-nick').value = currentUser.name;
                 document.getElementById('bot-input-packs').value = Object.keys(storeState.cart).join(', ');
@@ -1598,14 +1654,18 @@
                 document.getElementById('bot-input-name').value = storeState.clientName;
                 document.getElementById('bot-input-phone').value = document.getElementById('client-phone').value;
             }
-            [1, 2, 3, 4].forEach(num => {
+            [1, 2, 3, 4, 5].forEach(num => {
                 document.getElementById('step-' + num).classList.add('hidden');
             });
             document.getElementById('step-' + step).classList.remove('hidden');
-            document.getElementById('progress-bar').style.width = (step * 25) + '%';
+            document.getElementById('progress-bar').style.width = (step * 20) + '%';
         }
 
-        function copyAlias() { navigator.clipboard.writeText('kevincabelier.mp'); alert('Alias copiado'); }
+        function copyAlias() { 
+            const textToCopy = document.getElementById('payment-credential-text').innerText;
+            navigator.clipboard.writeText(textToCopy); 
+            alert('¡Dato de pago copiado!'); 
+        }
 
         async function sendOrderGmailBot() {
             if (!window.receiptUploadedValid) { alert('Sube el comprobante'); return; }
