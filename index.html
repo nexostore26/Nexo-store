@@ -551,8 +551,8 @@
             </div>
 
             <!-- BANNERS HORIZONTALES ESTILO RECTÁNGULO GRANDE -->
-            <div id="banners-wrapper" class="rounded-2xl relative overflow-hidden select-none shadow-2xl border border-purple-500/30" ontouchstart="touchStart(event)" ontouchend="touchEnd(event)">
-                <div id="carousel-container" class="relative"></div>
+            <div id="banners-wrapper" class="rounded-2xl relative overflow-hidden select-none shadow-2xl border border-purple-500/30 w-full aspect-[16/7] min-h-[150px]" ontouchstart="touchStart(event)" ontouchend="touchEnd(event)">
+                <div id="carousel-container" class="relative w-full h-full"></div>
                 <div id="carousel-dots-container" class="absolute bottom-2 inset-x-0 flex justify-center items-center gap-1.5 z-20"></div>
             </div>
 
@@ -980,10 +980,38 @@
         const WHATSAPP_COINS_NUMBER = "541123779325";
         const ACCOUNTS_DB_LOCAL_KEY = "nexo_accounts_db_v1";
         const ACTIVE_ACCOUNT_LOCAL_KEY = "nexo_active_account_key_v1";
+        const BANNERS_LOCAL_KEY = "nexo_banners_local_v1";
 
         let globalMaintenanceMode = false;
         let isEditingPrices = false;
         let globalBanners = [];
+        let lastBannerMutationTs = 0;
+
+        function loadBannersLocal() {
+            try {
+                const raw = localStorage.getItem(BANNERS_LOCAL_KEY);
+                if (raw) {
+                    const parsed = JSON.parse(raw);
+                    if (parsed && Array.isArray(parsed.items)) {
+                        globalBanners = parsed.items;
+                        lastBannerMutationTs = Number(parsed.updatedAt) || 0;
+                    }
+                }
+            } catch (e) {}
+        }
+
+        function saveBannersLocal() {
+            lastBannerMutationTs = Date.now();
+            try {
+                localStorage.setItem(BANNERS_LOCAL_KEY, JSON.stringify({
+                    updatedAt: lastBannerMutationTs,
+                    items: globalBanners
+                }));
+            } catch (e) {}
+        }
+
+        loadBannersLocal();
+
         let globalCoupons = { "NEXO10": { discount: 10, maxUses: 1000, usedCount: 0 } };
         let globalCreatorCoupons = [
             { id: "c1", code: "SOYASTA", discount: 5 },
@@ -1132,7 +1160,20 @@
                 const data = await res.json();
                 if (data) {
                     if (data.maintenanceMode !== undefined) globalMaintenanceMode = data.maintenanceMode;
-                    if (data.banners && Array.isArray(data.banners)) globalBanners = data.banners;
+                    const cloudBannerTs = Number(data.bannersUpdatedAt) || 0;
+                    const recentlyMutatedLocally = (Date.now() - lastBannerMutationTs) < 12000;
+                    if (data.banners && Array.isArray(data.banners) && !recentlyMutatedLocally) {
+                        if (cloudBannerTs >= lastBannerMutationTs || globalBanners.length === 0) {
+                            globalBanners = data.banners;
+                            if (cloudBannerTs > 0) lastBannerMutationTs = cloudBannerTs;
+                            try {
+                                localStorage.setItem(BANNERS_LOCAL_KEY, JSON.stringify({
+                                    updatedAt: lastBannerMutationTs,
+                                    items: globalBanners
+                                }));
+                            } catch (e) {}
+                        }
+                    }
                     if (data.coupons) globalCoupons = data.coupons;
                     if (data.coinKeys) globalCoinKeys = data.coinKeys;
                     if (data.packsData && !isEditingPrices) packsData = data.packsData;
@@ -1194,6 +1235,7 @@
                     body: JSON.stringify({
                         maintenanceMode: globalMaintenanceMode,
                         banners: globalBanners,
+                        bannersUpdatedAt: lastBannerMutationTs || Date.now(),
                         coupons: globalCoupons,
                         coinKeys: globalCoinKeys,
                         packsData: packsData,
@@ -1271,14 +1313,19 @@
             if (currentSlide >= globalBanners.length) currentSlide = 0;
 
             container.innerHTML = globalBanners.map((b, idx) => {
-                let bgStyle = b.imgUrl ? `background-image: linear-gradient(to right, rgba(9, 7, 16, 0.95), rgba(9, 7, 16, 0.6)), url('${b.imgUrl}'); background-size: cover; background-position: center;` : `background: linear-gradient(135deg, #1e1b4b, #3b0764);`;
+                const safeImg = b.imgUrl ? String(b.imgUrl).replace(/'/g, "%27") : '';
+                const hasImg = Boolean(safeImg);
+                const bgStyle = hasImg
+                    ? `background-image: linear-gradient(to right, rgba(9, 7, 16, 0.88), rgba(9, 7, 16, 0.35)), url('${safeImg}'); background-size: 100% 100%; background-position: center center; background-repeat: no-repeat;`
+                    : `background: linear-gradient(135deg, #1e1b4b, #3b0764);`;
 
                 return `
-                    <div class="carousel-slide w-full p-5 min-h-[140px] flex flex-col justify-center relative ${idx !== currentSlide ? 'hidden' : ''}" style="${bgStyle}">
-                        <div class="space-y-1.5 max-w-[75%] relative z-10">
+                    <div class="carousel-slide w-full h-full p-5 flex flex-col justify-center relative ${idx !== currentSlide ? 'hidden' : ''}" style="${bgStyle}">
+                        ${hasImg ? `<img src="${safeImg}" alt="${b.title || 'Banner'}" class="w-full h-full object-cover object-center opacity-0 pointer-events-none absolute inset-0">` : ''}
+                        <div class="space-y-1.5 max-w-[78%] relative z-10">
                             <span class="bg-nexoPurple/30 text-nexoCyan border border-nexoCyan/40 text-[9px] font-black px-2.5 py-0.5 rounded-full uppercase tracking-wider">${b.tag || 'NEXO STORE'}</span>
-                            <h3 class="text-base font-black text-white leading-tight">${b.title}</h3>
-                            <p class="text-xs text-gray-200 leading-snug">${b.desc}</p>
+                            <h3 class="text-base font-black text-white leading-tight drop-shadow">${b.title}</h3>
+                            <p class="text-xs text-gray-200 leading-snug drop-shadow">${b.desc}</p>
                         </div>
                     </div>
                 `;
@@ -1306,6 +1353,42 @@
             if (touchendX > touchstartX + 40) { currentSlide = (currentSlide - 1 + globalBanners.length) % globalBanners.length; renderBannersCarousel(); }
         }
 
+        function compressBannerToRectangle(file) {
+            return new Promise((resolve) => {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = new Image();
+                    img.onload = function() {
+                        const targetW = 800;
+                        const targetH = 350;
+                        const canvas = document.createElement('canvas');
+                        canvas.width = targetW;
+                        canvas.height = targetH;
+                        const ctx = canvas.getContext('2d');
+
+                        const srcRatio = img.width / img.height;
+                        const dstRatio = targetW / targetH;
+                        let sx = 0, sy = 0, sw = img.width, sh = img.height;
+
+                        if (srcRatio > dstRatio) {
+                            sw = img.height * dstRatio;
+                            sx = (img.width - sw) / 2;
+                        } else if (srcRatio < dstRatio) {
+                            sh = img.width / dstRatio;
+                            sy = (img.height - sh) / 2;
+                        }
+
+                        ctx.drawImage(img, sx, sy, sw, sh, 0, 0, targetW, targetH);
+                        resolve(canvas.toDataURL('image/jpeg', 0.78));
+                    };
+                    img.onerror = () => resolve(e.target.result);
+                    img.src = e.target.result;
+                };
+                reader.onerror = () => resolve('');
+                reader.readAsDataURL(file);
+            });
+        }
+
         async function addNewGlobalBanner() {
             const tag = document.getElementById('new-banner-tag').value.trim() || 'PROMO';
             const title = document.getElementById('new-banner-title').value.trim();
@@ -1316,30 +1399,21 @@
 
             let imgUrl = '';
             if (fileInput.files && fileInput.files[0]) {
-                const reader = new FileReader();
-                reader.onload = async function(e) {
-                    imgUrl = e.target.result;
-                    globalBanners.push({ id: Date.now(), tag, title, desc, imgUrl });
-                    await saveToCloud();
-                    renderBannersCarousel();
-                    renderAdminBannersList();
-                    document.getElementById('new-banner-tag').value = '';
-                    document.getElementById('new-banner-title').value = '';
-                    document.getElementById('new-banner-desc').value = '';
-                    fileInput.value = '';
-                    alert('✅ Banner agregado con imagen');
-                };
-                reader.readAsDataURL(fileInput.files[0]);
-            } else {
-                globalBanners.push({ id: Date.now(), tag, title, desc, imgUrl: '' });
-                await saveToCloud();
-                renderBannersCarousel();
-                renderAdminBannersList();
-                document.getElementById('new-banner-tag').value = '';
-                document.getElementById('new-banner-title').value = '';
-                document.getElementById('new-banner-desc').value = '';
-                alert('✅ Banner agregado');
+                imgUrl = await compressBannerToRectangle(fileInput.files[0]);
             }
+
+            globalBanners.push({ id: Date.now(), tag, title, desc, imgUrl });
+            currentSlide = globalBanners.length - 1;
+            saveBannersLocal();
+            renderBannersCarousel();
+            renderAdminBannersList();
+            await saveToCloud();
+
+            document.getElementById('new-banner-tag').value = '';
+            document.getElementById('new-banner-title').value = '';
+            document.getElementById('new-banner-desc').value = '';
+            fileInput.value = '';
+            alert('✅ Banner agregado');
         }
 
         function renderAdminBannersList() {
@@ -1367,9 +1441,10 @@
 
         async function deleteBanner(id) {
             globalBanners = globalBanners.filter(b => b.id !== id);
-            await saveToCloud();
+            saveBannersLocal();
             renderBannersCarousel();
             renderAdminBannersList();
+            await saveToCloud();
         }
 
         function renderAdminPriceInputs() {
@@ -2158,7 +2233,6 @@
             const h = canvas.height;
             const imgData = ctx.getImageData(0, 0, w, h).data;
 
-            // Calcular contraste local por bloques (grilla 4x4) para detectar parches pegados/editados
             const cols = 4;
             const rows = 4;
             const cellW = Math.floor(w / cols);
@@ -2197,7 +2271,6 @@
             const maxEdge = Math.max(...blockEdges);
             const minEdge = Math.min(...blockEdges);
 
-            // Si un bloque tiene un pico extremo frente al promedio, suele indicar recorte/montaje o texto pegado
             if (avgEdge > 0 && maxEdge > avgEdge * 2.85 && (maxEdge - minEdge) > 22) {
                 return "Se detectaron irregularidades visuales o posibles zonas editadas/pegadas en el comprobante.";
             }
@@ -2205,7 +2278,6 @@
         }
 
         function isRealReceiptContent(ocrNormText, width, height) {
-            // Evitar fotos genéricas o selfies/paisajes sin datos de transferencia/comprobante
             const receiptKeywords = [
                 'comprobante', 'transferencia', 'enviaste', 'recibiste', 'operacion',
                 'motivo', 'alias', 'cbu', 'cvu', 'fecha', 'hora', 'total', 'monto',
@@ -2257,7 +2329,6 @@
             try {
                 const arrayBuffer = await file.arrayBuffer();
                 const bytes = new Uint8Array(arrayBuffer);
-                // Leer muestra de metadatos/bytes en ASCII para detectar marcas de IA / SynthID / C2PA
                 const chunkSize = Math.min(bytes.length, 300000);
                 let asciiSample = "";
                 for (let i = 0; i < chunkSize; i++) {
@@ -2300,7 +2371,6 @@
                 const ctx = canvas.getContext('2d');
                 ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
-                // 1) Revisar señales de edición en canvas
                 const editAnomaly = detectEditingAnomalies(canvas, ctx);
                 if (editAnomaly) {
                     statusEl.className = "text-[11px] font-bold text-center text-red-400";
@@ -2309,13 +2379,11 @@
                     return;
                 }
 
-                // 2) Ejecutar OCR para leer texto, comprobar que sea un comprobante y verificar destinatario
                 const TesseractLib = await loadTesseractJs();
                 const ocrRes = await TesseractLib.recognize(canvas, 'spa+eng');
                 const extractedText = (ocrRes && ocrRes.data && ocrRes.data.text) ? ocrRes.data.text : '';
                 const ocrNorm = normalizeTextStrict(extractedText);
 
-                // 3) Verificar SynthID / marcas IA en bytes, nombre o texto
                 const aiMarkerError = checkAiOrSynthIdMarkers(rawAsciiLower, fileNameLower, ocrNorm);
                 if (aiMarkerError) {
                     statusEl.className = "text-[11px] font-bold text-center text-red-400";
@@ -2324,7 +2392,6 @@
                     return;
                 }
 
-                // 4) Verificar que sea un comprobante verdadero y no una foto cualquiera
                 if (!isRealReceiptContent(ocrNorm, img.width, img.height)) {
                     statusEl.className = "text-[11px] font-bold text-center text-red-400";
                     statusEl.innerText = "❌ Rechazado: esto no parece un comprobante de pago válido sino una foto cualquiera o incompleta.";
@@ -2332,7 +2399,6 @@
                     return;
                 }
 
-                // 5) Verificar que el destinatario sea Kevin Eloy Cabelier
                 if (!hasRecipientKevinEloyCabelier(ocrNorm)) {
                     statusEl.className = "text-[11px] font-bold text-center text-red-400";
                     statusEl.innerText = "❌ Rechazado: el comprobante debe figurar a nombre de Kevin Eloy Cabelier.";
@@ -2611,6 +2677,7 @@
         }
 
         window.onload = async function() {
+            loadBannersLocal();
             loadAccountsLocal();
             updateAuthUI();
             renderBannersCarousel();
