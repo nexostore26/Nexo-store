@@ -155,21 +155,19 @@
                     </div>
                     <div>
                         <h3 id="user-profile-name" class="font-black text-sm text-white">Invitado</h3>
-                        <p id="user-profile-email" class="text-[10px] text-gray-400">Modo Invitado — Sin cuenta activa</p>
+                        <p id="user-profile-email" class="text-[10px] text-gray-400">Sin iniciar sesión</p>
                     </div>
                 </div>
 
-                <!-- ACCIONES DE CUENTA (SOLO MUESTRA CERRAR SESIÓN SI HAY CUENTA INICIADA) -->
-                <div id="account-actions-logged-in" class="hidden flex gap-2 pt-1 border-t border-gray-800">
+                <!-- CUANDO HAY CUENTA INICIADA: MOSTRAR CAMBIAR CUENTA Y CERRAR SESIÓN -->
+                <div id="profile-logged-actions" class="hidden flex gap-2 pt-1 border-t border-gray-800">
                     <button onclick="openAccountSelector()" class="w-1/2 bg-white text-gray-900 font-bold py-2 rounded-xl text-xs flex items-center justify-center gap-1 shadow">🔄 Cambiar Cuenta</button>
                     <button onclick="logoutAccount()" class="w-1/2 bg-red-600/20 text-red-400 border border-red-600/40 font-bold py-2 rounded-xl text-xs flex items-center justify-center gap-1">Cerrar Sesión</button>
                 </div>
 
-                <div id="account-actions-guest" class="pt-1 border-t border-gray-800 space-y-2">
-                    <p class="text-[10px] text-yellow-300 text-center font-semibold">Iniciá sesión para guardar tus Nexo Coins, recargar o jugar.</p>
-                    <button onclick="openAccountSelector()" class="w-full bg-gradient-to-r from-nexoPurple to-nexoCyan text-white font-black py-2.5 rounded-xl text-xs uppercase flex items-center justify-center gap-1.5 shadow">
-                        🔐 Iniciar Sesión / Crear Cuenta
-                    </button>
+                <!-- CUANDO ESTÁ EN INVITADO: SOLO MOSTRAR INICIAR SESIÓN -->
+                <div id="profile-guest-actions" class="pt-1 border-t border-gray-800">
+                    <button onclick="openAccountSelector()" class="w-full bg-gradient-to-r from-nexoPurple to-nexoCyan text-white font-black py-2.5 rounded-xl text-xs uppercase flex items-center justify-center gap-1.5 shadow">🔐 Iniciar Sesión / Crear Cuenta</button>
                 </div>
 
                 <div class="bg-nexoDark border border-purple-500/40 p-3 rounded-2xl space-y-2 text-xs">
@@ -185,7 +183,7 @@
 
                 <div class="bg-nexoDark border border-gray-800 p-3 rounded-2xl space-y-2 text-xs">
                     <div class="flex justify-between items-center">
-                        <span class="text-gray-400">Nexo Coins de esta cuenta:</span>
+                        <span class="text-gray-400">Nexo Coins disponibles:</span>
                         <span id="profile-coins-val" class="font-black text-yellow-400 text-sm">0 🟡</span>
                     </div>
                     <div class="flex justify-between items-center">
@@ -195,28 +193,21 @@
                 </div>
 
                 <!-- APARTADO EXCLUSIVO PARA COMPRAR NEXO COINS (POR WHATSAPP) -->
-                <div class="bg-nexoDark border border-yellow-500/50 p-3.5 rounded-2xl space-y-3 text-xs">
+                <div class="bg-nexoDark border border-yellow-500/40 p-3.5 rounded-2xl space-y-2.5 text-xs">
                     <div class="flex items-center justify-between">
-                        <span class="font-black text-yellow-400 flex items-center gap-1.5">🪙 Comprar Nexo Coins</span>
-                        <span class="text-[9px] bg-green-500/20 text-green-300 border border-green-500/40 px-2 py-0.5 rounded-full font-bold">WhatsApp Directo</span>
+                        <span class="font-black text-yellow-400">🪙 Comprar Nexo Coins</span>
+                        <span class="text-[10px] text-green-400 font-bold">WhatsApp</span>
                     </div>
-                    <p class="text-[10px] text-gray-300 leading-snug">Elegí cuántos Nexo Coins querés comprar y te llevamos directo al WhatsApp de Nexo Store.</p>
-
+                    <p class="text-[10px] text-gray-300">Elegí o escribí cuántos Nexo Coins querés comprar y te lleva directo a WhatsApp.</p>
                     <div class="grid grid-cols-3 gap-1.5">
-                        <button type="button" onclick="selectBuyCoinsPack(5, this)" class="buy-coins-preset border border-yellow-500/40 bg-nexoCard hover:border-yellow-400 text-white font-bold py-2 rounded-xl text-[11px] transition">5 🟡</button>
-                        <button type="button" onclick="selectBuyCoinsPack(10, this)" class="buy-coins-preset border border-yellow-500/40 bg-nexoCard hover:border-yellow-400 text-white font-bold py-2 rounded-xl text-[11px] transition">10 🟡</button>
-                        <button type="button" onclick="selectBuyCoinsPack(25, this)" class="buy-coins-preset border border-yellow-500/40 bg-nexoCard hover:border-yellow-400 text-white font-bold py-2 rounded-xl text-[11px] transition">25 🟡</button>
+                        <button onclick="setBuyCoinsAmount(5)" class="bg-nexoCard hover:bg-nexoSurface border border-gray-700 text-yellow-300 font-bold py-1.5 rounded-lg text-[11px]">5 🟡</button>
+                        <button onclick="setBuyCoinsAmount(10)" class="bg-nexoCard hover:bg-nexoSurface border border-gray-700 text-yellow-300 font-bold py-1.5 rounded-lg text-[11px]">10 🟡</button>
+                        <button onclick="setBuyCoinsAmount(25)" class="bg-nexoCard hover:bg-nexoSurface border border-gray-700 text-yellow-300 font-bold py-1.5 rounded-lg text-[11px]">25 🟡</button>
                     </div>
-
-                    <div>
-                        <label class="text-[10px] font-bold text-gray-400 uppercase block mb-1">Cantidad de Nexo Coins:</label>
-                        <input type="number" id="buy-coins-amount-input" min="1" placeholder="Ej: 15" oninput="clearBuyCoinsPresetHighlight()" class="w-full bg-nexoCard border border-gray-700 rounded-xl p-2 text-xs text-white font-mono focus:outline-none focus:border-yellow-400">
-                    </div>
-
-                    <button type="button" onclick="buyNexoCoinsWhatsapp()" class="w-full bg-gradient-to-r from-green-600 to-emerald-500 hover:opacity-95 text-white font-black py-2.5 rounded-xl text-xs uppercase shadow flex items-center justify-center gap-1.5">
-                        💬 Comprar Nexo Coins por WhatsApp ➔
+                    <input type="number" id="buy-coins-amount-input" min="1" placeholder="Cantidad de Nexo Coins (Ej: 15)" class="w-full bg-nexoCard border border-gray-700 rounded-xl p-2 text-xs text-white font-mono focus:outline-none focus:border-yellow-400">
+                    <button onclick="buyNexoCoinsWhatsapp()" class="w-full bg-gradient-to-r from-green-600 to-emerald-500 hover:opacity-95 text-white font-black py-2.5 rounded-xl text-xs uppercase shadow flex items-center justify-center gap-1.5">
+                        💬 Comprar por WhatsApp ➔
                     </button>
-                    <p id="buy-coins-feedback" class="text-[10px] text-red-400 font-bold hidden text-center"></p>
                 </div>
 
                 <button onclick="toggleProfileModal()" class="w-full bg-nexoSurface text-white py-2.5 rounded-xl font-bold text-xs border border-gray-700">Cerrar Perfil</button>
@@ -227,14 +218,14 @@
         <div id="account-selector-modal" class="hidden fixed inset-0 bg-black/90 backdrop-blur-md z-50 flex items-center justify-center p-4">
             <div class="bg-nexoCard border border-nexoPurple/50 rounded-3xl max-w-sm w-full p-5 shadow-2xl relative space-y-4">
                 <div class="flex justify-between items-center border-b border-gray-800 pb-3">
-                    <h3 class="font-black text-sm text-white">🔐 Iniciar Sesión / Cuenta</h3>
+                    <h3 class="font-black text-sm text-white">🔐 Acceso y Cloud</h3>
                     <button onclick="document.getElementById('account-selector-modal').classList.add('hidden')" class="bg-black/60 text-white w-7 h-7 rounded-full font-bold text-xs border border-gray-700">✕</button>
                 </div>
 
                 <div class="space-y-3 text-xs">
                     <div>
-                        <label class="text-[10px] font-bold text-gray-400 uppercase">Correo de Gmail o Usuario</label>
-                        <input type="text" id="auth-email-input" placeholder="pepito2@gmail.com o pepito2" class="w-full mt-1 bg-nexoDark border border-gray-700 rounded-xl p-2.5 text-xs text-white focus:outline-none focus:border-nexoCyan">
+                        <label class="text-[10px] font-bold text-gray-400 uppercase">Correo o Usuario de Cuenta</label>
+                        <input type="text" id="auth-email-input" placeholder="Ej: pepito2@gmail.com o pepito2" class="w-full mt-1 bg-nexoDark border border-gray-700 rounded-xl p-2.5 text-xs text-white focus:outline-none focus:border-nexoCyan">
                     </div>
                     <div>
                         <label class="text-[10px] font-bold text-gray-400 uppercase">Apodo de Jugador</label>
@@ -249,7 +240,7 @@
                 </div>
 
                 <div class="border-t border-gray-800 pt-3 space-y-1.5">
-                    <p class="text-[10px] font-bold text-gray-400 uppercase">Cuentas en este dispositivo:</p>
+                    <p class="text-[10px] font-bold text-gray-400 uppercase">Cuentas Guardadas:</p>
                     <div id="saved-accounts-device-list" class="space-y-1.5 max-h-28 overflow-y-auto"></div>
                 </div>
             </div>
@@ -331,7 +322,7 @@
                 </div>
 
                 <div class="bg-nexoDark border border-gray-800 p-3 rounded-2xl flex justify-between items-center text-xs">
-                    <span class="text-gray-400">Nexo Coins (<span id="hub-account-label" class="text-cyan-400 font-bold">Invitado</span>):</span>
+                    <span class="text-gray-400">Tus Nexo Coins:</span>
                     <span id="hub-coins-balance" class="font-black text-yellow-400 text-sm">0 🟡</span>
                 </div>
 
@@ -358,7 +349,7 @@
                             </div>
                             <div>
                                 <h4 class="font-black text-white text-sm">Encontrar el Diamante</h4>
-                                <p class="text-[11px] text-gray-300">Adiviná el cofre correcto y ganá premios</p>
+                                <p class="text-[11px] text-gray-300">Adiviná el cofre correcto y duplicá tus Coins</p>
                             </div>
                         </div>
                         <span class="text-cyan-400 font-bold text-sm">➔</span>
@@ -366,7 +357,7 @@
                 </div>
 
                 <div class="text-center pt-2">
-                    <p class="text-[10px] text-gray-400">💡 ¿No tenés Coins? Podés comprar Nexo Coins desde tu <button onclick="toggleMinigamesHub(); toggleProfileModal();" class="text-yellow-400 underline font-bold">Perfil</button> o canjear tu clave.</p>
+                    <p class="text-[10px] text-gray-400">💡 ¿No tenés Coins? Realiza una recarga en la tienda o comprá Nexo Coins en tu perfil.</p>
                 </div>
             </div>
         </div>
@@ -552,7 +543,7 @@
                         <span class="text-base">🎰</span>
                         <h3 class="text-xs font-black text-yellow-400 uppercase tracking-wide">Minijuegos & Apuestas</h3>
                     </div>
-                    <p class="text-[11px] text-gray-300">Iniciá sesión, usá tus Nexo Coins y elegí tu minijuego.</p>
+                    <p class="text-[11px] text-gray-300">Canjeá tus códigos de recarga y elegí tu minijuego.</p>
                 </div>
                 <button onclick="toggleMinigamesHub()" class="bg-yellow-500 hover:bg-yellow-400 text-nexoDark font-black px-3.5 py-2.5 rounded-xl text-xs uppercase shadow transition transform active:scale-95 shrink-0 flex items-center gap-1">
                     🎲 Jugar ➔
@@ -806,7 +797,7 @@
     </nav>
 
 
-    <!-- VISTA 2: PANEL ADMIN -->
+    <!-- VISTA 2: PANEL ADMIN (TAL CUAL TU CÓDIGO ORIGINAL) -->
     <div id="view-admin" class="hidden flex-col min-h-screen justify-between bg-nexoDark p-4">
         <div class="max-w-md mx-auto w-full pt-8 space-y-6">
             
@@ -984,8 +975,8 @@
     <script>
         const FIREBASE_DB_URL = "https://nexo-store-bcec3-default-rtdb.firebaseio.com/"; 
         const WHATSAPP_COINS_NUMBER = "541123779325";
-        const ACCOUNTS_STORAGE_KEY = "nexo_accounts_db_v1";
-        const ACTIVE_ACCOUNT_KEY = "nexo_active_account_key_v1";
+        const ACCOUNTS_DB_LOCAL_KEY = "nexo_accounts_db_v1";
+        const ACTIVE_ACCOUNT_LOCAL_KEY = "nexo_active_account_key_v1";
 
         let globalMaintenanceMode = false;
         let isEditingPrices = false;
@@ -1025,18 +1016,19 @@
         let globalCodeUsage = [];
         let botsEnabled = true;
 
-        // ============================================================
-        // GESTIÓN DE CUENTAS AISLADAS (CADA CUENTA GUARDA SUS COINS/IDS)
-        // ============================================================
-        let accountsRegistry = {};
+        // ========================================================
+        // BASE DE CUENTAS AISLADAS (CADA CUENTA GUARDA SUS COINS)
+        // ========================================================
+        let accountsDB = {};
         let activeAccountKey = "";
+        let pendingAuthCallback = null;
 
-        function normalizeAccountKey(rawIdOrEmail, fallbackNick = "") {
-            const cleaned = (rawIdOrEmail || fallbackNick || "").trim().toLowerCase();
-            return cleaned.replace(/[^a-z0-9._@-]/g, "_");
+        function makeAccountKey(identifier, fallbackNick = "") {
+            const base = (identifier || fallbackNick || "").trim().toLowerCase();
+            return base.replace(/[^a-z0-9._@-]/g, "_");
         }
 
-        function createDefaultAccountState(key = "", email = "", name = "Invitado") {
+        function defaultAccountRecord(key = "", email = "", name = "Invitado") {
             return {
                 key: key,
                 email: email,
@@ -1051,44 +1043,46 @@
             };
         }
 
-        function loadAccountsFromLocal() {
+        function loadAccountsLocal() {
             try {
-                const raw = localStorage.getItem(ACCOUNTS_STORAGE_KEY);
+                const raw = localStorage.getItem(ACCOUNTS_DB_LOCAL_KEY);
                 if (raw) {
-                    const parsed = JSON.parse(raw);
-                    if (parsed && typeof parsed === "object") {
-                        accountsRegistry = parsed;
-                    }
+                    const obj = JSON.parse(raw);
+                    if (obj && typeof obj === "object") accountsDB = obj;
                 }
             } catch (e) {
-                accountsRegistry = {};
+                accountsDB = {};
             }
 
-            const savedActiveKey = localStorage.getItem(ACTIVE_ACCOUNT_KEY) || "";
-            if (savedActiveKey && accountsRegistry[savedActiveKey]) {
-                activeAccountKey = savedActiveKey;
-                currentUser = { ...createDefaultAccountState(savedActiveKey), ...accountsRegistry[savedActiveKey] };
+            const savedKey = localStorage.getItem(ACTIVE_ACCOUNT_LOCAL_KEY) || "";
+            if (savedKey && accountsDB[savedKey]) {
+                activeAccountKey = savedKey;
+                currentUser = { ...defaultAccountRecord(savedKey), ...accountsDB[savedKey] };
             } else {
                 activeAccountKey = "";
-                currentUser = createDefaultAccountState("", "", "Invitado");
+                currentUser = defaultAccountRecord("", "", "Invitado");
             }
         }
 
-        function saveAccountsToLocal() {
+        function saveAccountsLocal() {
             try {
-                localStorage.setItem(ACCOUNTS_STORAGE_KEY, JSON.stringify(accountsRegistry));
+                localStorage.setItem(ACCOUNTS_DB_LOCAL_KEY, JSON.stringify(accountsDB));
                 if (activeAccountKey) {
-                    localStorage.setItem(ACTIVE_ACCOUNT_KEY, activeAccountKey);
+                    localStorage.setItem(ACTIVE_ACCOUNT_LOCAL_KEY, activeAccountKey);
                 } else {
-                    localStorage.removeItem(ACTIVE_ACCOUNT_KEY);
+                    localStorage.removeItem(ACTIVE_ACCOUNT_LOCAL_KEY);
                 }
             } catch (e) {}
         }
 
-        function persistCurrentAccountState() {
+        function isLoggedIn() {
+            return Boolean(activeAccountKey && accountsDB[activeAccountKey]);
+        }
+
+        function syncCurrentAccountToStorage() {
             if (!activeAccountKey) return;
-            const prev = accountsRegistry[activeAccountKey] || createDefaultAccountState(activeAccountKey);
-            accountsRegistry[activeAccountKey] = {
+            const prev = accountsDB[activeAccountKey] || defaultAccountRecord(activeAccountKey);
+            accountsDB[activeAccountKey] = {
                 ...prev,
                 key: activeAccountKey,
                 email: currentUser.email || prev.email || activeAccountKey,
@@ -1101,24 +1095,18 @@
                 spinsCount: Number(currentUser.spinsCount) || 0,
                 diamondTries: Number(currentUser.diamondTries) || 0
             };
-            saveAccountsToLocal();
+            saveAccountsLocal();
             saveToCloud();
         }
 
-        function isUserLoggedIn() {
-            return Boolean(activeAccountKey && accountsRegistry[activeAccountKey]);
-        }
-
-        let pendingAuthAction = null;
-
-        function requireLoginForAction(actionCallback, message = "Tenés que iniciar sesión para usar esta función.") {
-            if (isUserLoggedIn()) {
-                actionCallback();
+        function requireLogin(cb, msg = "Tenés que iniciar sesión para continuar.") {
+            if (isLoggedIn()) {
+                if (typeof cb === "function") cb();
                 return true;
             }
-            pendingAuthAction = actionCallback;
-            alert("⚠️ " + message);
-            openAccountSelector(message);
+            pendingAuthCallback = cb || null;
+            alert("⚠️ " + msg);
+            openAccountSelector(msg);
             return false;
         }
 
@@ -1129,7 +1117,8 @@
             if (localCreators) { globalCreatorCoupons = JSON.parse(localCreators); }
         } catch(e) {}
 
-        loadAccountsFromLocal();
+        let currentUser = defaultAccountRecord("", "", "Invitado");
+        loadAccountsLocal();
 
         async function syncFromCloud() {
             const url = getCleanDbUrl();
@@ -1153,22 +1142,17 @@
                         globalCreatorCoupons = data.creatorCouponsList;
                     }
                     if (data.accountsDB && typeof data.accountsDB === "object") {
-                        Object.keys(data.accountsDB).forEach((accKey) => {
-                            const cloudAcc = data.accountsDB[accKey];
-                            const localAcc = accountsRegistry[accKey];
-                            if (!localAcc) {
-                                accountsRegistry[accKey] = { ...createDefaultAccountState(accKey), ...cloudAcc };
-                            } else {
-                                // Conservamos los datos locales si son de la cuenta activa recién modificada
-                                if (accKey !== activeAccountKey) {
-                                    accountsRegistry[accKey] = { ...localAcc, ...cloudAcc };
-                                }
+                        Object.keys(data.accountsDB).forEach((k) => {
+                            if (k !== activeAccountKey) {
+                                accountsDB[k] = { ...defaultAccountRecord(k), ...accountsDB[k], ...data.accountsDB[k] };
+                            } else if (!accountsDB[k]) {
+                                accountsDB[k] = { ...defaultAccountRecord(k), ...data.accountsDB[k] };
                             }
                         });
-                        if (activeAccountKey && accountsRegistry[activeAccountKey]) {
-                            currentUser = { ...createDefaultAccountState(activeAccountKey), ...accountsRegistry[activeAccountKey] };
+                        if (activeAccountKey && accountsDB[activeAccountKey]) {
+                            currentUser = { ...defaultAccountRecord(activeAccountKey), ...accountsDB[activeAccountKey] };
                         }
-                        saveAccountsToLocal();
+                        saveAccountsLocal();
                     }
                 } else {
                     await saveToCloud();
@@ -1217,7 +1201,7 @@
                         codeUsage: globalCodeUsage,
                         botsEnabled: botsEnabled,
                         creatorCouponsList: globalCreatorCoupons,
-                        accountsDB: accountsRegistry
+                        accountsDB: accountsDB
                     })
                 });
 
@@ -1622,108 +1606,103 @@
             renderAdminCoinKeysList();
         }
 
-        // ESTADO ACTUAL DEL USUARIO (INVITADO POR DEFECTO, CON 0 COINS)
-        let currentUser = createDefaultAccountState("", "", "Invitado");
-
+        // ========================================================
+        // PERFIL, CUENTAS, NEXO COINS Y COMPRA POR WHATSAPP
+        // ========================================================
         function updateAuthUI() {
-            const loggedIn = isUserLoggedIn();
-            const displayName = loggedIn ? (currentUser.name || activeAccountKey) : "Invitado";
-            const displayEmail = loggedIn ? (currentUser.email || activeAccountKey) : "Modo Invitado — Sin cuenta activa";
-            const currentCoins = loggedIn ? (Number(currentUser.coins) || 0) : 0;
-            const currentSpins = loggedIn ? (Number(currentUser.spinsCount) || 0) : 0;
-            const currentDiamondTries = loggedIn ? (Number(currentUser.diamondTries) || 0) : 0;
+            const logged = isLoggedIn();
+            const nameText = logged ? (currentUser.name || activeAccountKey) : 'Invitado';
+            const emailText = logged ? (currentUser.email || activeAccountKey) : 'Sin iniciar sesión';
+            const coinsVal = logged ? (Number(currentUser.coins) || 0) : 0;
+            const spinsVal = logged ? (Number(currentUser.spinsCount) || 0) : 0;
+            const diamondVal = logged ? (Number(currentUser.diamondTries) || 0) : 0;
+            const purchasesVal = logged ? (Number(currentUser.purchases) || 0) : 0;
 
-            document.getElementById('user-profile-name').innerText = displayName;
-            document.getElementById('user-profile-email').innerText = displayEmail;
-            document.getElementById('user-avatar-img').src = currentUser.avatar || "https://api.dicebear.com/7.x/bottts/svg?seed=NexoUser";
-            document.getElementById('nav-user-avatar').src = currentUser.avatar || "https://api.dicebear.com/7.x/bottts/svg?seed=NexoUser";
-            document.getElementById('nav-user-name').innerText = displayName.split(' ')[0];
+            document.getElementById('user-profile-name').innerText = nameText;
+            document.getElementById('user-profile-email').innerText = emailText;
+            document.getElementById('user-avatar-img').src = currentUser.avatar || 'https://api.dicebear.com/7.x/bottts/svg?seed=NexoUser';
+            document.getElementById('nav-user-avatar').src = currentUser.avatar || 'https://api.dicebear.com/7.x/bottts/svg?seed=NexoUser';
+            document.getElementById('nav-user-name').innerText = nameText.split(' ')[0];
 
-            // Mostrar "Cerrar Sesión" SOLO si hay una cuenta iniciada (nunca en Invitado)
-            const loggedInActions = document.getElementById('account-actions-logged-in');
-            const guestActions = document.getElementById('account-actions-guest');
-            if (loggedInActions && guestActions) {
-                if (loggedIn) {
-                    loggedInActions.classList.remove('hidden');
-                    guestActions.classList.add('hidden');
+            const loggedBox = document.getElementById('profile-logged-actions');
+            const guestBox = document.getElementById('profile-guest-actions');
+            if (loggedBox && guestBox) {
+                if (logged) {
+                    loggedBox.classList.remove('hidden');
+                    guestBox.classList.add('hidden');
                 } else {
-                    loggedInActions.classList.add('hidden');
-                    guestActions.classList.remove('hidden');
+                    loggedBox.classList.add('hidden');
+                    guestBox.classList.remove('hidden');
                 }
             }
 
-            const purchasesCount = loggedIn ? (Number(currentUser.purchases) || 0) : 0;
-            const purchasesEl = document.getElementById('profile-purchases-count');
-            if (purchasesEl) purchasesEl.innerText = `${purchasesCount} / 10 Compras`;
-            const progressBar = document.getElementById('loyalty-progress-bar');
-            if (progressBar) progressBar.style.width = `${Math.min(100, purchasesCount * 10)}%`;
+            const pCount = document.getElementById('profile-purchases-count');
+            if (pCount) pCount.innerText = `${purchasesVal} / 10 Compras`;
+            const pBar = document.getElementById('loyalty-progress-bar');
+            if (pBar) pBar.style.width = `${Math.min(100, purchasesVal * 10)}%`;
 
             const mainCoins = document.getElementById('main-coins-display');
-            if (mainCoins) mainCoins.innerText = currentCoins;
+            if (mainCoins) mainCoins.innerText = coinsVal;
             const profileCoins = document.getElementById('profile-coins-val');
-            if (profileCoins) profileCoins.innerText = `${currentCoins} 🟡`;
+            if (profileCoins) profileCoins.innerText = `${coinsVal} 🟡`;
             const rouletteCoins = document.getElementById('roulette-coins-balance');
-            if (rouletteCoins) rouletteCoins.innerText = `${currentCoins} 🟡`;
+            if (rouletteCoins) rouletteCoins.innerText = `${coinsVal} 🟡`;
             const diamondCoins = document.getElementById('diamond-coins-balance');
-            if (diamondCoins) diamondCoins.innerText = `${currentCoins} 🟡`;
+            if (diamondCoins) diamondCoins.innerText = `${coinsVal} 🟡`;
             const hubCoins = document.getElementById('hub-coins-balance');
-            if (hubCoins) hubCoins.innerText = `${currentCoins} 🟡`;
-            const hubAccountLabel = document.getElementById('hub-account-label');
-            if (hubAccountLabel) hubAccountLabel.innerText = displayName;
+            if (hubCoins) hubCoins.innerText = `${coinsVal} 🟡`;
 
             const spinDisplay = document.getElementById('spin-counter-display');
-            if (spinDisplay) spinDisplay.innerText = `${currentSpins} / 100`;
+            if (spinDisplay) spinDisplay.innerText = `${spinsVal} / 100`;
 
             const diamondDisplay = document.getElementById('diamond-counter-display');
-            if (diamondDisplay) diamondDisplay.innerText = `${currentDiamondTries} / 80`;
+            if (diamondDisplay) diamondDisplay.innerText = `${diamondVal} / 80`;
 
-            const idsCountEl = document.getElementById('profile-ids-count');
-            if (idsCountEl) idsCountEl.innerText = loggedIn && Array.isArray(currentUser.savedIds) ? currentUser.savedIds.length : 0;
+            const idsCount = document.getElementById('profile-ids-count');
+            if (idsCount) idsCount.innerText = logged && Array.isArray(currentUser.savedIds) ? currentUser.savedIds.length : 0;
 
             renderSavedAccountsList();
         }
 
         function renderSavedAccountsList() {
-            const container = document.getElementById('saved-accounts-device-list');
-            if (!container) return;
-
-            const keys = Object.keys(accountsRegistry);
+            const box = document.getElementById('saved-accounts-device-list');
+            if (!box) return;
+            const keys = Object.keys(accountsDB);
             if (keys.length === 0) {
-                container.innerHTML = `<p class="text-[10px] text-gray-500 text-center py-1">No hay cuentas guardadas todavía.</p>`;
+                box.innerHTML = `<p class="text-[10px] text-gray-500 text-center py-1">No hay cuentas guardadas.</p>`;
                 return;
             }
-
-            container.innerHTML = keys.map((k) => {
-                const acc = accountsRegistry[k];
-                const isCurrent = k === activeAccountKey;
+            box.innerHTML = keys.map((k) => {
+                const acc = accountsDB[k];
+                const active = k === activeAccountKey;
                 return `
-                    <div class="bg-nexoDark border ${isCurrent ? 'border-nexoCyan' : 'border-gray-800'} p-2 rounded-xl flex justify-between items-center text-[11px]">
+                    <div class="bg-nexoDark border ${active ? 'border-nexoCyan' : 'border-gray-800'} p-2 rounded-xl flex justify-between items-center text-[11px]">
                         <div>
                             <span class="font-bold text-white block">${acc.name || acc.email || k}</span>
                             <span class="text-[10px] text-yellow-400 font-mono">${Number(acc.coins) || 0} 🟡</span>
                         </div>
-                        <button type="button" onclick="switchToAccount('${k}')" class="${isCurrent ? 'bg-nexoCyan/20 text-nexoCyan border border-nexoCyan/40' : 'bg-nexoPurple text-white'} px-2.5 py-1 rounded-lg font-bold text-[10px]">
-                            ${isCurrent ? 'Activa' : 'Entrar'}
+                        <button type="button" onclick="selectSavedAccount('${k}')" class="${active ? 'bg-nexoCyan/20 text-nexoCyan border border-nexoCyan/40' : 'bg-nexoPurple text-white'} px-2.5 py-1 rounded-lg font-bold text-[10px]">
+                            ${active ? 'Activa' : 'Entrar'}
                         </button>
                     </div>
                 `;
             }).join('');
         }
 
-        function switchToAccount(accKey) {
-            if (!accountsRegistry[accKey]) return;
+        function selectSavedAccount(key) {
+            if (!accountsDB[key]) return;
             if (activeAccountKey) {
-                persistCurrentAccountState();
+                syncCurrentAccountToStorage();
             }
-            activeAccountKey = accKey;
-            currentUser = { ...createDefaultAccountState(accKey), ...accountsRegistry[accKey] };
-            saveAccountsToLocal();
+            activeAccountKey = key;
+            currentUser = { ...defaultAccountRecord(key), ...accountsDB[key] };
+            saveAccountsLocal();
             updateAuthUI();
             renderSavedIds();
             document.getElementById('account-selector-modal').classList.add('hidden');
-            if (typeof pendingAuthAction === "function") {
-                const fn = pendingAuthAction;
-                pendingAuthAction = null;
+            if (typeof pendingAuthCallback === "function") {
+                const fn = pendingAuthCallback;
+                pendingAuthCallback = null;
                 fn();
             }
         }
@@ -1734,12 +1713,12 @@
             document.getElementById('profile-modal').classList.toggle('hidden');
         }
 
-        function openAccountSelector(customMsg = "") {
+        function openAccountSelector(notice = "") {
             const fb = document.getElementById('auth-feedback');
             if (fb) {
-                if (customMsg) {
+                if (notice) {
                     fb.className = "text-[11px] text-center font-bold text-yellow-300";
-                    fb.innerText = customMsg;
+                    fb.innerText = notice;
                     fb.classList.remove('hidden');
                 } else {
                     fb.classList.add('hidden');
@@ -1750,12 +1729,12 @@
         }
 
         function loginOrRegisterAccount() {
-            const rawEmailOrUser = document.getElementById('auth-email-input').value.trim();
-            const rawNickname = document.getElementById('auth-nickname-input').value.trim();
-            const rawPass = document.getElementById('auth-pass-input').value.trim();
+            const emailOrUser = document.getElementById('auth-email-input').value.trim();
+            const nickname = document.getElementById('auth-nickname-input').value.trim();
+            const pass = document.getElementById('auth-pass-input').value.trim();
             const fb = document.getElementById('auth-feedback');
 
-            if (!rawEmailOrUser && !rawNickname) {
+            if (!emailOrUser && !nickname) {
                 if (fb) {
                     fb.className = "text-[11px] text-center font-bold text-red-400";
                     fb.innerText = "Ingresá un correo o usuario y un apodo.";
@@ -1764,16 +1743,16 @@
                 return;
             }
 
-            const accKey = normalizeAccountKey(rawEmailOrUser || rawNickname, rawNickname);
-            if (!accKey) return;
+            const key = makeAccountKey(emailOrUser || nickname, nickname);
+            if (!key) return;
 
-            if (activeAccountKey && activeAccountKey !== accKey) {
-                persistCurrentAccountState();
+            if (activeAccountKey && activeAccountKey !== key) {
+                syncCurrentAccountToStorage();
             }
 
-            const existing = accountsRegistry[accKey];
+            const existing = accountsDB[key];
             if (existing) {
-                if (existing.password && rawPass && existing.password !== rawPass) {
+                if (existing.password && pass && existing.password !== pass) {
                     if (fb) {
                         fb.className = "text-[11px] text-center font-bold text-red-400";
                         fb.innerText = "Contraseña incorrecta para esta cuenta.";
@@ -1781,29 +1760,25 @@
                     }
                     return;
                 }
-                activeAccountKey = accKey;
+                activeAccountKey = key;
                 currentUser = {
-                    ...createDefaultAccountState(accKey),
+                    ...defaultAccountRecord(key),
                     ...existing,
-                    email: rawEmailOrUser || existing.email || accKey,
-                    name: rawNickname || existing.name || accKey,
-                    password: rawPass || existing.password || ""
+                    email: emailOrUser || existing.email || key,
+                    name: nickname || existing.name || key,
+                    password: pass || existing.password || ""
                 };
             } else {
-                activeAccountKey = accKey;
+                activeAccountKey = key;
                 currentUser = {
-                    ...createDefaultAccountState(
-                        accKey,
-                        rawEmailOrUser || accKey,
-                        rawNickname || rawEmailOrUser || accKey
-                    ),
-                    password: rawPass,
+                    ...defaultAccountRecord(key, emailOrUser || key, nickname || emailOrUser || key),
+                    password: pass,
                     coins: 0
                 };
             }
 
-            accountsRegistry[accKey] = { ...currentUser };
-            saveAccountsToLocal();
+            accountsDB[key] = { ...currentUser };
+            saveAccountsLocal();
             saveToCloud();
             updateAuthUI();
             renderSavedIds();
@@ -1811,20 +1786,20 @@
             document.getElementById('auth-pass-input').value = '';
             document.getElementById('account-selector-modal').classList.add('hidden');
 
-            if (typeof pendingAuthAction === "function") {
-                const fn = pendingAuthAction;
-                pendingAuthAction = null;
+            if (typeof pendingAuthCallback === "function") {
+                const fn = pendingAuthCallback;
+                pendingAuthCallback = null;
                 fn();
             }
         }
 
         function logoutAccount() {
             if (activeAccountKey) {
-                persistCurrentAccountState();
+                syncCurrentAccountToStorage();
             }
             activeAccountKey = "";
-            localStorage.removeItem(ACTIVE_ACCOUNT_KEY);
-            currentUser = createDefaultAccountState("", "", "Invitado");
+            localStorage.removeItem(ACTIVE_ACCOUNT_LOCAL_KEY);
+            currentUser = defaultAccountRecord("", "", "Invitado");
             storeState.cart = {};
             storeState.discountPercent = 0;
             storeState.couponUsed = 'Ninguno';
@@ -1833,53 +1808,22 @@
             goToStep(1);
         }
 
-        // ============================================================
-        // COMPRAR NEXO COINS DESDE EL PERFIL -> WHATSAPP 541123779325
-        // ============================================================
-        let selectedBuyCoinsAmount = 0;
-
-        function selectBuyCoinsPack(amount, el) {
-            selectedBuyCoinsAmount = Number(amount) || 0;
+        function setBuyCoinsAmount(amount) {
             const input = document.getElementById('buy-coins-amount-input');
-            if (input) input.value = selectedBuyCoinsAmount;
-            document.querySelectorAll('.buy-coins-preset').forEach((btn) => {
-                btn.classList.remove('border-2', 'border-yellow-400', 'bg-yellow-500/20', 'text-yellow-300');
-                btn.classList.add('border', 'border-yellow-500/40', 'bg-nexoCard', 'text-white');
-            });
-            if (el) {
-                el.classList.remove('border', 'border-yellow-500/40', 'bg-nexoCard', 'text-white');
-                el.classList.add('border-2', 'border-yellow-400', 'bg-yellow-500/20', 'text-yellow-300');
-            }
-            const fb = document.getElementById('buy-coins-feedback');
-            if (fb) fb.classList.add('hidden');
-        }
-
-        function clearBuyCoinsPresetHighlight() {
-            selectedBuyCoinsAmount = 0;
-            document.querySelectorAll('.buy-coins-preset').forEach((btn) => {
-                btn.classList.remove('border-2', 'border-yellow-400', 'bg-yellow-500/20', 'text-yellow-300');
-                btn.classList.add('border', 'border-yellow-500/40', 'bg-nexoCard', 'text-white');
-            });
+            if (input) input.value = amount;
         }
 
         function buyNexoCoinsWhatsapp() {
             const input = document.getElementById('buy-coins-amount-input');
-            const fb = document.getElementById('buy-coins-feedback');
-            const amount = parseInt(input ? input.value : selectedBuyCoinsAmount, 10);
-
+            const amount = parseInt(input ? input.value : '0', 10);
             if (isNaN(amount) || amount <= 0) {
-                if (fb) {
-                    fb.innerText = "⚠️ Elegí o escribí cuántos Nexo Coins querés comprar.";
-                    fb.classList.remove('hidden');
-                }
+                alert('⚠️ Ingresá o elegí cuántos Nexo Coins querés comprar.');
                 return;
             }
-
-            if (fb) fb.classList.add('hidden');
-            const accountLabel = isUserLoggedIn() ? `${currentUser.name} (${currentUser.email || activeAccountKey})` : "Invitado";
-            const msg = `Hola Nexo Store! Quiero comprar ${amount} Nexo Coins 🟡 para mi cuenta: ${accountLabel}.`;
-            const waUrl = `https://wa.me/${WHATSAPP_COINS_NUMBER}?text=${encodeURIComponent(msg)}`;
-            window.open(waUrl, "_blank");
+            const userLabel = isLoggedIn() ? `${currentUser.name} (${currentUser.email || activeAccountKey})` : 'Invitado';
+            const texto = `Hola! Quiero comprar ${amount} Nexo Coins 🟡 para mi cuenta: ${userLabel}.`;
+            const url = `https://wa.me/${WHATSAPP_COINS_NUMBER}?text=${encodeURIComponent(texto)}`;
+            window.open(url, '_blank');
         }
 
         function copyCreatorPromoText() {
@@ -1914,28 +1858,28 @@
         }
         
         function saveNewId() {
-            requireLoginForAction(() => {
+            requireLogin(() => {
                 const game = document.getElementById('save-id-game').value;
                 const idVal = document.getElementById('save-id-input').value.trim();
                 if (!idVal) return;
                 if (!Array.isArray(currentUser.savedIds)) currentUser.savedIds = [];
                 currentUser.savedIds.push({ game, id: idVal });
-                persistCurrentAccountState();
+                syncCurrentAccountToStorage();
                 renderSavedIds();
                 updateAuthUI();
                 document.getElementById('save-id-input').value = '';
-                alert('ID guardado en tu cuenta');
-            }, "Iniciá sesión para guardar tus IDs en tu cuenta.");
+                alert('ID guardado');
+            }, "Tenés que iniciar sesión para guardar IDs.");
         }
 
         function renderSavedIds() {
             const container = document.getElementById('saved-ids-list');
             if (!container) return;
-            const list = isUserLoggedIn() && Array.isArray(currentUser.savedIds) ? currentUser.savedIds : [];
+            const list = isLoggedIn() && Array.isArray(currentUser.savedIds) ? currentUser.savedIds : [];
             container.innerHTML = list.map((item, idx) => `
                 <div class="bg-nexoDark border border-gray-800 p-2 rounded-xl flex justify-between items-center text-xs">
                     <span class="font-mono text-cyan-400">[${item.game}] ${item.id}</span>
-                    <button onclick="currentUser.savedIds.splice(${idx}, 1); persistCurrentAccountState(); renderSavedIds(); updateAuthUI();" class="text-red-400">Borrar</button>
+                    <button onclick="currentUser.savedIds.splice(${idx}, 1); syncCurrentAccountToStorage(); renderSavedIds(); updateAuthUI();" class="text-red-400">Borrar</button>
                 </div>
             `).join('');
             const countEl = document.getElementById('profile-ids-count');
@@ -1943,7 +1887,7 @@
         }
 
         function redeemCoinsCode() {
-            requireLoginForAction(() => {
+            requireLogin(() => {
                 const code = document.getElementById('redeem-code-input').value.trim().toUpperCase();
                 const feedback = document.getElementById('redeem-feedback');
                 feedback.classList.remove('hidden');
@@ -1952,17 +1896,17 @@
                     const amt = Number(globalCoinKeys[code]) || 0;
                     currentUser.coins = (Number(currentUser.coins) || 0) + amt;
                     delete globalCoinKeys[code];
-                    persistCurrentAccountState();
+                    syncCurrentAccountToStorage();
                     
                     feedback.className = "text-[10px] text-green-400 font-bold mt-1";
-                    feedback.innerText = `¡Canje exitoso! Ganaste ${amt} Nexo Coins 🟡 en ${currentUser.name}`;
+                    feedback.innerText = `¡Canje exitoso! Ganaste ${amt} Nexo Coins 🟡`;
                     updateAuthUI();
                     document.getElementById('redeem-code-input').value = '';
                 } else {
                     feedback.className = "text-[10px] text-red-400 font-bold mt-1";
                     feedback.innerText = "Código inválido o ya utilizado.";
                 }
-            }, "Iniciá sesión para canjear y guardar tus Nexo Coins.");
+            }, "Tenés que iniciar sesión para canjear códigos de Coins.");
         }
 
         function closeModal() { document.getElementById('community-modal').classList.add('hidden'); }
@@ -1970,19 +1914,19 @@
         
         // CONTROL DEL APARTADO DE MINIJUEGOS (EXIGE INICIAR SESIÓN)
         function toggleMinigamesHub() {
-            const hubModal = document.getElementById('minigames-hub-modal');
-            if (!hubModal.classList.contains('hidden')) {
-                hubModal.classList.add('hidden');
+            const hub = document.getElementById('minigames-hub-modal');
+            if (!hub.classList.contains('hidden')) {
+                hub.classList.add('hidden');
                 return;
             }
-            requireLoginForAction(() => {
+            requireLogin(() => {
                 updateAuthUI();
-                hubModal.classList.remove('hidden');
-            }, "Tenés que iniciar sesión para entrar a los minijuegos y apostar tus Nexo Coins.");
+                hub.classList.remove('hidden');
+            }, "Tenés que iniciar sesión para entrar a los minijuegos.");
         }
 
         function openRouletteFromHub() {
-            requireLoginForAction(() => {
+            requireLogin(() => {
                 document.getElementById('minigames-hub-modal').classList.add('hidden');
                 updateAuthUI();
                 document.getElementById('roulette-modal').classList.remove('hidden');
@@ -2001,18 +1945,18 @@
                 modal.classList.add('hidden');
                 return;
             }
-            requireLoginForAction(() => {
+            requireLogin(() => {
                 updateAuthUI();
                 modal.classList.remove('hidden');
             }, "Tenés que iniciar sesión para girar la ruleta.");
         }
 
         function openFindDiamondFromHub() {
-            requireLoginForAction(() => {
+            requireLogin(() => {
                 document.getElementById('minigames-hub-modal').classList.add('hidden');
                 updateAuthUI();
                 document.getElementById('find-diamond-modal').classList.remove('hidden');
-            }, "Tenés que iniciar sesión para jugar a encontrar el diamante.");
+            }, "Tenés que iniciar sesión para jugar.");
         }
 
         function backToMinigamesHubFromDiamond() {
@@ -2027,16 +1971,16 @@
                 modal.classList.add('hidden');
                 return;
             }
-            requireLoginForAction(() => {
+            requireLogin(() => {
                 updateAuthUI();
                 modal.classList.remove('hidden');
-            }, "Tenés que iniciar sesión para jugar a encontrar el diamante.");
+            }, "Tenés que iniciar sesión para jugar.");
         }
 
-        // LÓGICA DE RULETA DE APUESTA (COINS Y GIROS AISLADOS POR CUENTA)
+        // LÓGICA DE RULETA DE APUESTA (AISLADA POR CUENTA)
         function spinRoulette() {
-            if (!isUserLoggedIn()) {
-                requireLoginForAction(() => {}, "Tenés que iniciar sesión para girar la ruleta.");
+            if (!isLoggedIn()) {
+                requireLogin(() => {}, "Tenés que iniciar sesión para girar la ruleta.");
                 return;
             }
 
@@ -2055,14 +1999,14 @@
             }
             const userCoins = Number(currentUser.coins) || 0;
             if (userCoins < 5) {
-                alert('❌ No tenés suficientes Nexo Coins en esta cuenta. Necesitás al menos 5 🟡 para apostar y girar.');
+                alert('❌ No tenés suficientes Nexo Coins. Necesitás al menos 5 🟡 para apostar y girar.');
                 return;
             }
 
             currentUser.coins = userCoins - 5;
             currentUser.spinsCount = (Number(currentUser.spinsCount) || 0) + 1;
             const spinsCount = currentUser.spinsCount;
-            persistCurrentAccountState();
+            syncCurrentAccountToStorage();
             updateAuthUI();
 
             const wheelDisc = document.getElementById('wheel-disc');
@@ -2081,10 +2025,10 @@
             }, 4000);
         }
 
-        // LÓGICA DE ENCONTRAR EL DIAMANTE (COINS E INTENTOS AISLADOS POR CUENTA)
+        // LÓGICA DE ENCONTRAR EL DIAMANTE (AISLADA POR CUENTA)
         function chooseChest(chestNum) {
-            if (!isUserLoggedIn()) {
-                requireLoginForAction(() => {}, "Tenés que iniciar sesión para jugar.");
+            if (!isLoggedIn()) {
+                requireLogin(() => {}, "Tenés que iniciar sesión para jugar.");
                 return;
             }
 
@@ -2098,14 +2042,14 @@
             }
             const userCoins = Number(currentUser.coins) || 0;
             if (userCoins < 5) {
-                alert('❌ No tenés suficientes Nexo Coins en esta cuenta. Necesitás 5 🟡 para abrir un cofre.');
+                alert('❌ No tenés suficientes Nexo Coins. Necesitás 5 🟡 para abrir un cofre.');
                 return;
             }
 
             currentUser.coins = userCoins - 5;
             currentUser.diamondTries = (Number(currentUser.diamondTries) || 0) + 1;
             const diamondTries = currentUser.diamondTries;
-            persistCurrentAccountState();
+            syncCurrentAccountToStorage();
             updateAuthUI();
 
             for (let i = 1; i <= 3; i++) {
@@ -2324,11 +2268,10 @@
         }
 
         function goToStep(step) {
-            // Exigir inicio de sesión obligatorio para recargar (entrar al paso 2 o avanzar en la compra)
-            if (step >= 2 && !isUserLoggedIn()) {
-                requireLoginForAction(() => {
+            if (step >= 2 && !isLoggedIn()) {
+                requireLogin(() => {
                     goToStep(step);
-                }, "Tenés que iniciar sesión para recargar diamantes u oro.");
+                }, "Tenés que iniciar sesión para recargar.");
                 return;
             }
 
@@ -2385,19 +2328,19 @@
         function copyBinanceId() { navigator.clipboard.writeText('1295580296'); alert('Binance ID copiado'); }
 
         async function sendOrderGmailBot() {
-            if (!isUserLoggedIn()) {
-                requireLoginForAction(() => {}, "Tenés que iniciar sesión para enviar un pedido de recarga.");
+            if (!isLoggedIn()) {
+                requireLogin(() => {}, "Tenés que iniciar sesión para enviar un pedido.");
                 return;
             }
             if (!window.receiptUploadedValid) { alert('Sube el comprobante'); return; }
             if (!document.getElementById('terms-check').checked) { alert('Acepta los términos'); return; }
             currentUser.purchases = (Number(currentUser.purchases) || 0) + 1;
-            persistCurrentAccountState();
+            syncCurrentAccountToStorage();
             document.getElementById('hidden-bot-form').submit();
         }
 
         window.onload = async function() {
-            loadAccountsFromLocal();
+            loadAccountsLocal();
             updateAuthUI();
             renderBannersCarousel();
             renderSavedIds();
