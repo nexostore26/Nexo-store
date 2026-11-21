@@ -694,7 +694,7 @@
                 </button>
             </section>
 
-            <!-- PASO 2: MÉTODO DE PAGO CON IMÁGENES PERSONALIZADAS (IMAGEN 1 Y 2) -->
+            <!-- PASO 2: MÉTODO DE PAGO CON IMÁGENES PERSONALIZADAS -->
             <section id="step-2" class="hidden bg-nexoCard/95 border border-nexoPurple/30 rounded-2xl p-5 shadow-xl space-y-5">
                 <h2 class="text-sm font-black text-white flex items-center gap-2">
                     <span class="bg-nexoCyan text-nexoDark w-5 h-5 rounded-full flex items-center justify-center text-xs">2</span>
@@ -705,10 +705,10 @@
                     <label class="text-[11px] font-bold text-gray-300 uppercase">Elegí tu Método de Pago:</label>
                     <div class="grid grid-cols-2 gap-2.5">
                         
-                        <!-- MERCADO PAGO (CON IMAGEN 1) -->
+                        <!-- MERCADO PAGO -->
                         <div onclick="setPaymentMethod('Mercado Pago')" id="pay-method-mp" class="payment-tab border-2 border-nexoCyan bg-nexoCyan/10 p-3 rounded-xl text-center cursor-pointer transition flex flex-col items-center justify-center space-y-2">
                             <div class="w-12 h-12 rounded-xl bg-black/40 border border-cyan-500/40 p-1 shadow flex items-center justify-center overflow-hidden">
-                                <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAP//////////////////////////////////////////////////////////////////////////////////////wgALCAABAAEBAREA/8QAFBABAAAAAAAAAAAAAAAAAAAAAP/aAAgBAQABPxA=" id="img-mp-custom" class="w-full h-full object-cover rounded-lg">
+                                <img src="https://cdn.shopify.com/app-store/listing_images/4f3dc60a0ef8beee2a168713fe20181f/icon/CIHzwOjZsI0DEAE=.png" id="img-mp-custom" class="w-full h-full object-cover rounded-lg">
                             </div>
                             <div>
                                 <span class="text-xs font-black text-white block leading-tight">Mercado Pago</span>
@@ -716,10 +716,10 @@
                             </div>
                         </div>
 
-                        <!-- BINANCE (CON IMAGEN 2) -->
+                        <!-- BINANCE -->
                         <div onclick="setPaymentMethod('Binance')" id="pay-method-binance" class="payment-tab border border-gray-800 bg-nexoDark/70 p-3 rounded-xl text-center cursor-pointer transition flex flex-col items-center justify-center space-y-2 opacity-80">
                             <div class="w-12 h-12 rounded-xl bg-black/40 border border-yellow-500/40 p-1 shadow flex items-center justify-center overflow-hidden">
-                                <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAP//////////////////////////////////////////////////////////////////////////////////////wgALCAABAAEBAREA/8QAFBABAAAAAAAAAAAAAAAAAAAAAP/aAAgBAQABPxA=" id="img-binance-custom" class="w-full h-full object-cover rounded-lg">
+                                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQDKPkujx4Wbp8pC3eLbl8YcLthHMt1NZ67nb1XbBpIASvz0L6Qgoz3jUw&s=10" id="img-binance-custom" class="w-full h-full object-cover rounded-lg">
                             </div>
                             <div>
                                 <span class="text-xs font-black text-white block leading-tight">Binance</span>
@@ -1155,9 +1155,9 @@
         ];
         let globalCoinKeys = {};
 
-        // INYECCIÓN DE LAS IMÁGENES 1 (MERCADO PAGO) Y 2 (BINANCE) EN BASE64 DIRECTO
-        const MP_CUSTOM_IMAGE = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAP//////////////////////////////////////////////////////////////////////////////////////wgALCAABAAEBAREA/8QAFBABAAAAAAAAAAAAAAAAAAAAAP/aAAgBAQABPxA=";
-        const BINANCE_CUSTOM_IMAGE = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAP//////////////////////////////////////////////////////////////////////////////////////wgALCAABAAEBAREA/8QAFBABAAAAAAAAAAAAAAAAAAAAAP/aAAgBAQABPxA=";
+        // IMÁGENES DE MERCADO PAGO Y BINANCE
+        const MP_CUSTOM_IMAGE = "https://cdn.shopify.com/app-store/listing_images/4f3dc60a0ef8beee2a168713fe20181f/icon/CIHzwOjZsI0DEAE=.png";
+        const BINANCE_CUSTOM_IMAGE = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQDKPkujx4Wbp8pC3eLbl8YcLthHMt1NZ67nb1XbBpIASvz0L6Qgoz3jUw&s=10";
 
         let packsData = {
             'Free Fire': [
@@ -2901,7 +2901,7 @@
 
             if (step === 2) {
                 renderPacks();
-                // Inyectar las imágenes personalizadas 1 y 2 en las tarjetas de pago
+                // Inyectar las imágenes personalizadas de Mercado Pago y Binance
                 document.getElementById('img-mp-custom').src = MP_CUSTOM_IMAGE;
                 document.getElementById('img-binance-custom').src = BINANCE_CUSTOM_IMAGE;
             }
