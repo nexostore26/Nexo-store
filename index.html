@@ -279,6 +279,10 @@
                         <span id="profile-coins-val" class="font-black text-yellow-400 text-sm">0 🟡</span>
                     </div>
                     <div class="flex justify-between items-center">
+                        <span class="text-gray-400">Diamantes de regalo canjeados:</span>
+                        <span id="profile-claimed-diamonds" class="font-black text-cyan-400 text-sm">0 💎</span>
+                    </div>
+                    <div class="flex justify-between items-center">
                         <span class="text-gray-400">IDs guardados:</span>
                         <span id="profile-ids-count" class="font-black text-cyan-400 text-sm">0</span>
                     </div>
@@ -348,7 +352,7 @@
                     </div>
                     <span class="bg-nexoPurple/20 text-nexoPurple border border-nexoPurple/40 text-[10px] font-bold px-2.5 py-0.5 rounded-full uppercase">Comunidad Oficial</span>
                     <h3 class="text-xl font-black mt-2 leading-tight">¡Seguime en <span class="text-nexoCyan">TikTok!</span></h3>
-                    <p class="text-xs text-gray-300 mt-1">Recibí promos exclusivas, sorteos diarios y canjeá tus claves de Nexo Coins.</p>
+                    <p class="text-xs text-gray-300 mt-1">Recibí promos exclusivas, sorteos diarios y canjeá tus claves de regalo.</p>
                 </div>
                 <div class="p-5 pt-2 space-y-2.5">
                     <a href="https://www.tiktok.com/@nexop02" target="_blank" class="w-full bg-gradient-to-r from-pink-600 to-purple-600 hover:opacity-95 text-white font-black py-3 rounded-xl flex items-center justify-center gap-2 text-xs shadow-lg transition">
@@ -553,19 +557,20 @@
             </div>
         </div>
 
-        <!-- MODAL HISTORIAL / IDS -->
+        <!-- MODAL HISTORIAL / IDS / CANJEAR CÓDIGO DE REGALO -->
         <div id="history-modal" class="hidden fixed inset-0 bg-black/85 backdrop-blur-sm z-50 flex items-center justify-center p-4">
             <div class="bg-nexoCard border border-nexoPurple/50 rounded-3xl max-w-sm w-full p-5 shadow-2xl relative space-y-4">
                 <div class="flex justify-between items-center border-b border-gray-800 pb-3">
-                    <h3 class="font-black text-sm text-nexoCyan flex items-center gap-1.5">📋 Mis IDs y Coins</h3>
+                    <h3 class="font-black text-sm text-nexoCyan flex items-center gap-1.5">📋 Mis IDs y Canjes</h3>
                     <button onclick="toggleHistory()" class="bg-black/60 text-white w-7 h-7 rounded-full font-bold text-xs border border-gray-700">✕</button>
                 </div>
 
                 <div class="bg-nexoDark border border-yellow-500/40 p-3 rounded-2xl space-y-2">
-                    <p class="text-[11px] font-bold text-yellow-400">🎟️ Canjear Clave de Coins (requiere ID guardado):</p>
+                    <p class="text-[11px] font-bold text-yellow-400">🎁 Canjear Código de Regalo (Coins o Diamantes):</p>
+                    <p class="text-[10px] text-gray-400">Requiere sesión iniciada y al menos 1 ID guardado.</p>
                     <div class="flex gap-1.5">
-                        <input type="text" id="redeem-code-input" placeholder="Ej: NX-9482AB" class="w-full bg-nexoCard border border-gray-700 rounded-lg px-2.5 py-1.5 text-xs uppercase text-white font-mono focus:outline-none focus:border-yellow-500">
-                        <button onclick="redeemCoinsCode()" class="bg-yellow-500 hover:bg-yellow-400 text-nexoDark font-black px-3 py-1.5 rounded-lg text-[11px]">Canjear</button>
+                        <input type="text" id="redeem-code-input" placeholder="Ej: NX-9482AB o DIA-572" class="w-full bg-nexoCard border border-gray-700 rounded-lg px-2.5 py-1.5 text-xs uppercase text-white font-mono focus:outline-none focus:border-yellow-500">
+                        <button onclick="redeemGiftCode()" class="bg-yellow-500 hover:bg-yellow-400 text-nexoDark font-black px-3 py-1.5 rounded-lg text-[11px]">Canjear</button>
                     </div>
                     <p id="redeem-feedback" class="text-[10px] hidden"></p>
                 </div>
@@ -638,7 +643,7 @@
                         <span class="text-base">🎰</span>
                         <h3 class="text-xs font-black text-yellow-400 uppercase tracking-wide">Minijuegos & Apuestas</h3>
                     </div>
-                    <p class="text-[11px] text-gray-300">Canjeá tus códigos de recarga y elegí tu minijuego.</p>
+                    <p class="text-[11px] text-gray-300">Canjeá tus códigos de regalo y elegí tu minijuego.</p>
                 </div>
                 <button onclick="toggleMinigamesHub()" class="bg-yellow-500 hover:bg-yellow-400 text-nexoDark font-black px-3.5 py-2.5 rounded-xl text-xs uppercase shadow transition transform active:scale-95 shrink-0 flex items-center gap-1">
                     🎲 Jugar ➔
@@ -895,7 +900,7 @@
     </nav>
 
 
-    <!-- VISTA 2: PANEL ADMIN (TAL CUAL TU CÓDIGO ORIGINAL) -->
+    <!-- VISTA 2: PANEL ADMIN -->
     <div id="view-admin" class="hidden flex-col min-h-screen justify-between bg-nexoDark p-4">
         <div class="max-w-md mx-auto w-full pt-8 space-y-6">
             
@@ -1028,9 +1033,23 @@
                     <div class="space-y-2.5 text-xs bg-nexoDark p-3.5 rounded-2xl border border-gray-800">
                         <input type="text" id="new-coinkey-code" placeholder="Clave (Ej: NX-REGALO50)" class="w-full bg-nexoCard border border-gray-700 rounded-xl p-2.5 text-xs text-white uppercase font-mono">
                         <input type="number" id="new-coinkey-amount" placeholder="Cantidad de Coins (Ej: 50)" class="w-full bg-nexoCard border border-gray-700 rounded-xl p-2.5 text-xs text-white">
-                        <button onclick="createNewCoinKey()" class="w-full bg-nexoCyan hover:opacity-90 text-nexoDark font-black py-2.5 rounded-xl text-xs uppercase shadow">➕ Generar Clave</button>
+                        <button onclick="createNewCoinKey()" class="w-full bg-nexoCyan hover:opacity-90 text-nexoDark font-black py-2.5 rounded-xl text-xs uppercase shadow">➕ Generar Clave de Coins</button>
                     </div>
                     <div id="admin-coinkeys-list" class="space-y-1.5 max-h-32 overflow-y-auto"></div>
+                </div>
+
+                <!-- GENERAR CÓDIGOS DE DIAMANTES DE REGALO -->
+                <div class="bg-nexoCard border border-fuchsia-500/50 p-5 rounded-3xl space-y-3.5 shadow-xl">
+                    <div class="flex items-center gap-2">
+                        <span class="text-xl">💎</span>
+                        <h3 class="text-sm font-black text-white">Generar Código de Diamantes</h3>
+                    </div>
+                    <div class="space-y-2.5 text-xs bg-nexoDark p-3.5 rounded-2xl border border-gray-800">
+                        <input type="text" id="new-diamondkey-code" placeholder="Clave (Ej: DIA-110REGALO)" class="w-full bg-nexoCard border border-gray-700 rounded-xl p-2.5 text-xs text-white uppercase font-mono">
+                        <input type="number" id="new-diamondkey-amount" placeholder="Cantidad de Diamantes (Ej: 110)" class="w-full bg-nexoCard border border-gray-700 rounded-xl p-2.5 text-xs text-white font-mono">
+                        <button onclick="createNewDiamondKey()" class="w-full bg-gradient-to-r from-cyan-500 to-fuchsia-500 hover:opacity-95 text-nexoDark font-black py-2.5 rounded-xl text-xs uppercase shadow">➕ Generar Código de Diamantes</button>
+                    </div>
+                    <div id="admin-diamondkeys-list" class="space-y-1.5 max-h-32 overflow-y-auto"></div>
                 </div>
 
                 <button onclick="exitAdminView()" class="w-full bg-nexoSurface text-gray-400 py-2.5 rounded-xl text-xs border border-gray-700">Cerrar Sesión Admin</button>
@@ -1154,6 +1173,7 @@
             { id: "c2", code: "NARUTO.26", discount: 5 }
         ];
         let globalCoinKeys = {};
+        let globalDiamondKeys = {};
 
         // IMÁGENES DE MERCADO PAGO Y BINANCE
         const MP_CUSTOM_IMAGE = "https://cdn.shopify.com/app-store/listing_images/4f3dc60a0ef8beee2a168713fe20181f/icon/CIHzwOjZsI0DEAE=.png";
@@ -1204,6 +1224,8 @@
                 avatar: "https://api.dicebear.com/7.x/bottts/svg?seed=" + encodeURIComponent(key || "NexoUser"),
                 equippedAvatarBanner: "base",
                 coins: 0,
+                claimedDiamonds: 0,
+                lastRedeemedGift: "",
                 purchases: 0,
                 savedIds: [],
                 spinsCount: 0,
@@ -1259,6 +1281,8 @@
                 avatar: currentUser.avatar || prev.avatar,
                 equippedAvatarBanner: currentUser.equippedAvatarBanner || prev.equippedAvatarBanner || "base",
                 coins: Number(currentUser.coins) || 0,
+                claimedDiamonds: Number(currentUser.claimedDiamonds) || 0,
+                lastRedeemedGift: currentUser.lastRedeemedGift || "",
                 purchases: Number(currentUser.purchases) || 0,
                 savedIds: Array.isArray(currentUser.savedIds) ? [...currentUser.savedIds] : [],
                 spinsCount: Number(currentUser.spinsCount) || 0,
@@ -1386,6 +1410,7 @@
                     }
                     if (data.coupons) globalCoupons = data.coupons;
                     if (data.coinKeys) globalCoinKeys = data.coinKeys;
+                    if (data.diamondKeys) globalDiamondKeys = data.diamondKeys;
                     if (data.packsData && !isEditingPrices) packsData = data.packsData;
                     if (data.missions) missionsDB = data.missions;
                     if (data.chatMessages) globalChatMessages = data.chatMessages;
@@ -1428,6 +1453,8 @@
                 if (!document.getElementById('admin-dashboard-screen').classList.contains('hidden')) {
                     renderAdminPriceInputs();
                     renderAdminBannersList();
+                    renderAdminCoinKeysList();
+                    renderAdminDiamondKeysList();
                 }
             } catch (e) {
                 console.error("Error sincronizando:", e);
@@ -1448,6 +1475,7 @@
                         bannersUpdatedAt: lastBannerMutationTs || Date.now(),
                         coupons: globalCoupons,
                         coinKeys: globalCoinKeys,
+                        diamondKeys: globalDiamondKeys,
                         packsData: packsData,
                         missions: missionsDB,
                         chatMessages: globalChatMessages,
@@ -1865,14 +1893,14 @@
         async function createNewCoinKey() {
             const key = document.getElementById('new-coinkey-code').value.trim().toUpperCase();
             const amt = parseInt(document.getElementById('new-coinkey-amount').value);
-            if (!key || isNaN(amt)) { alert('Completá la clave y la cantidad de coins'); return; }
+            if (!key || isNaN(amt) || amt <= 0) { alert('Completá la clave y la cantidad de coins válida'); return; }
 
             globalCoinKeys[key] = amt;
             await saveToCloud();
             renderAdminCoinKeysList();
             document.getElementById('new-coinkey-code').value = '';
             document.getElementById('new-coinkey-amount').value = '';
-            alert(`✅ Clave ${key} de ${amt} Coins generada con éxito`);
+            alert(`✅ Clave de Coins ${key} (+${amt} 🟡) generada con éxito`);
         }
 
         function renderAdminCoinKeysList() {
@@ -1880,7 +1908,7 @@
             if (!container) return;
             container.innerHTML = Object.keys(globalCoinKeys).map(key => `
                 <div class="bg-nexoDark border border-gray-800 p-2 rounded-xl flex justify-between items-center text-xs">
-                    <span class="text-white font-bold font-mono">${key} <span class="text-nexoCyan">(+${globalCoinKeys[key]} 🟡)</span></span>
+                    <span class="text-white font-bold font-mono">${key} <span class="text-yellow-400">(+${globalCoinKeys[key]} 🟡)</span></span>
                     <button onclick="deleteCoinKey('${key}')" class="text-red-400">Eliminar</button>
                 </div>
             `).join('');
@@ -1890,6 +1918,36 @@
             delete globalCoinKeys[key];
             await saveToCloud();
             renderAdminCoinKeysList();
+        }
+
+        async function createNewDiamondKey() {
+            const key = document.getElementById('new-diamondkey-code').value.trim().toUpperCase();
+            const amt = parseInt(document.getElementById('new-diamondkey-amount').value);
+            if (!key || isNaN(amt) || amt <= 0) { alert('Completá la clave y la cantidad de diamantes válida'); return; }
+
+            globalDiamondKeys[key] = amt;
+            await saveToCloud();
+            renderAdminDiamondKeysList();
+            document.getElementById('new-diamondkey-code').value = '';
+            document.getElementById('new-diamondkey-amount').value = '';
+            alert(`✅ Código de Diamantes ${key} (+${amt} 💎) generado con éxito`);
+        }
+
+        function renderAdminDiamondKeysList() {
+            const container = document.getElementById('admin-diamondkeys-list');
+            if (!container) return;
+            container.innerHTML = Object.keys(globalDiamondKeys).map(key => `
+                <div class="bg-nexoDark border border-gray-800 p-2 rounded-xl flex justify-between items-center text-xs">
+                    <span class="text-white font-bold font-mono">${key} <span class="text-cyan-400">(+${globalDiamondKeys[key]} 💎)</span></span>
+                    <button onclick="deleteDiamondKey('${key}')" class="text-red-400">Eliminar</button>
+                </div>
+            `).join('');
+        }
+
+        async function deleteDiamondKey(key) {
+            delete globalDiamondKeys[key];
+            await saveToCloud();
+            renderAdminDiamondKeysList();
         }
 
         // ========================================================
@@ -1930,6 +1988,7 @@
             const nameText = logged ? (currentUser.name || activeAccountKey) : 'Invitado';
             const emailText = logged ? (currentUser.email || activeAccountKey) : 'Sin iniciar sesión';
             const coinsVal = logged ? (Number(currentUser.coins) || 0) : 0;
+            const claimedDiamondsVal = logged ? (Number(currentUser.claimedDiamonds) || 0) : 0;
             const spinsVal = logged ? (Number(currentUser.spinsCount) || 0) : 0;
             const diamondVal = logged ? (Number(currentUser.diamondTries) || 0) : 0;
             const purchasesVal = logged ? (Number(currentUser.purchases) || 0) : 0;
@@ -2005,6 +2064,8 @@
             if (mainCoins) mainCoins.innerText = coinsVal;
             const profileCoins = document.getElementById('profile-coins-val');
             if (profileCoins) profileCoins.innerText = `${coinsVal} 🟡`;
+            const profileDiamonds = document.getElementById('profile-claimed-diamonds');
+            if (profileDiamonds) profileDiamonds.innerText = `${claimedDiamondsVal} 💎`;
             const rouletteCoins = document.getElementById('roulette-coins-balance');
             if (rouletteCoins) rouletteCoins.innerText = `${coinsVal} 🟡`;
             const diamondCoins = document.getElementById('diamond-coins-balance');
@@ -2255,35 +2316,56 @@
             return Boolean(isLoggedIn() && Array.isArray(currentUser.savedIds) && currentUser.savedIds.length > 0);
         }
 
-        function redeemCoinsCode() {
+        function redeemGiftCode() {
             requireLogin(() => {
                 const feedback = document.getElementById('redeem-feedback');
                 feedback.classList.remove('hidden');
 
                 if (!hasSavedPlayerId()) {
                     feedback.className = "text-[10px] text-red-400 font-bold mt-1";
-                    feedback.innerText = "⚠️ Tenés que guardar tu ID de jugador primero para saber dónde enviar los diamantes.";
-                    alert("⚠️ Para canjear un código, primero tenés que guardar tu ID en 'Tus IDs Guardados'.");
+                    feedback.innerText = "⚠️ Tenés que guardar tu ID de jugador primero para saber dónde enviar el premio.";
+                    alert("⚠️ Para canjear cualquier código de regalo (coins o diamantes), primero tenés que iniciar sesión y guardar un ID.");
                     return;
                 }
 
                 const code = document.getElementById('redeem-code-input').value.trim().toUpperCase();
+                if (!code) {
+                    feedback.className = "text-[10px] text-red-400 font-bold mt-1";
+                    feedback.innerText = "Ingresá una clave de regalo.";
+                    return;
+                }
+
+                const primarySaved = currentUser.savedIds[0];
 
                 if (globalCoinKeys[code] !== undefined) {
                     const amt = Number(globalCoinKeys[code]) || 0;
                     currentUser.coins = (Number(currentUser.coins) || 0) + amt;
+                    currentUser.lastRedeemedGift = `${code} (+${amt} Coins para ID ${primarySaved.id})`;
                     delete globalCoinKeys[code];
                     syncCurrentAccountToStorage();
-                    
+
                     feedback.className = "text-[10px] text-green-400 font-bold mt-1";
-                    feedback.innerText = `¡Canje exitoso! Ganaste ${amt} Nexo Coins 🟡`;
+                    feedback.innerText = `¡Canje exitoso! Ganaste +${amt} Nexo Coins 🟡 (ID vinculado: ${primarySaved.id})`;
                     updateAuthUI();
+                    renderAdminCoinKeysList();
+                    document.getElementById('redeem-code-input').value = '';
+                } else if (globalDiamondKeys[code] !== undefined) {
+                    const diamondsAmt = Number(globalDiamondKeys[code]) || 0;
+                    currentUser.claimedDiamonds = (Number(currentUser.claimedDiamonds) || 0) + diamondsAmt;
+                    currentUser.lastRedeemedGift = `${code} (+${diamondsAmt} Diamantes para ${primarySaved.game} ID ${primarySaved.id})`;
+                    delete globalDiamondKeys[code];
+                    syncCurrentAccountToStorage();
+
+                    feedback.className = "text-[10px] text-cyan-300 font-bold mt-1";
+                    feedback.innerText = `¡Canje exitoso! Reclamaste +${diamondsAmt} Diamantes 💎 para tu ID ${primarySaved.id} (${primarySaved.game}).`;
+                    updateAuthUI();
+                    renderAdminDiamondKeysList();
                     document.getElementById('redeem-code-input').value = '';
                 } else {
                     feedback.className = "text-[10px] text-red-400 font-bold mt-1";
-                    feedback.innerText = "Código inválido o ya utilizado.";
+                    feedback.innerText = "Código de regalo inválido o ya utilizado.";
                 }
-            }, "Tenés que iniciar sesión para canjear códigos de Coins.");
+            }, "Tenés que iniciar sesión para canjear códigos de regalo.");
         }
 
         function closeModal() { document.getElementById('community-modal').classList.add('hidden'); }
@@ -2397,7 +2479,7 @@
                     resultEl.innerText = `🎉 ¡JACKPOT! ¡GANASTE 110 DIAMANTES! (UID: ${playerId}). ¡Premio enviado a revisión para acreditación!`;
                 } else {
                     resultEl.className = "text-xs font-bold p-2.5 rounded-xl bg-nexoDark border border-red-500/30 text-red-400";
-                    resultEl.innerText = `❌ Perdiste la apuesta de 5 🟡 (Giros: ${spinsCount}/100). ¡Canjeá más códigos en tus recargas para seguir intentando!`;
+                    resultEl.innerText = `❌ Perdiste la apuesta de 5 🟡 (Giros: ${spinsCount}/100). ¡Canjeá más códigos de regalo para seguir intentando!`;
                 }
             }, 4000);
         }
@@ -2898,6 +2980,8 @@
                 await syncFromCloud();
                 renderAdminPriceInputs();
                 renderAdminBannersList();
+                renderAdminCoinKeysList();
+                renderAdminDiamondKeysList();
             } else {
                 document.getElementById('admin-login-error').classList.remove('hidden');
             }
@@ -2949,7 +3033,7 @@
                 document.getElementById('bot-input-method').value = storeState.paymentMethod;
                 document.getElementById('bot-input-total').value = formattedTotal;
                 document.getElementById('bot-input-coupon').value = storeState.couponUsed;
-                document.getElementById('bot-input-coins').value = storeState.coinsEarned;
+                document.getElementById('bot-input-coins').value = `${storeState.coinsEarned} (Canje: ${currentUser.lastRedeemedGift || 'Ninguno'})`;
                 document.getElementById('bot-input-name').value = storeState.clientName;
                 document.getElementById('bot-input-phone').value = document.getElementById('client-phone').value;
             }
