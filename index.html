@@ -59,6 +59,44 @@
         .loader-ring-outer { animation: spin-slow 2.5s linear infinite; }
         .loader-ring-inner { animation: spin-reverse 1.8s linear infinite; }
         .loader-core { animation: pulse-purple 2s ease-in-out infinite; }
+
+        /* Marcos progresivos según cantidad de recargas del banner */
+        .banner-frame-tier-0 {
+            border: 1.5px solid rgba(139, 92, 246, 0.35);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+        }
+        .banner-frame-tier-1 {
+            border: 2px solid #06B6D4;
+            box-shadow: 0 0 16px rgba(6, 182, 212, 0.35);
+        }
+        .banner-frame-tier-2 {
+            border: 2.5px solid #A855F7;
+            box-shadow: 0 0 22px rgba(168, 85, 247, 0.5);
+        }
+        .banner-frame-tier-3 {
+            border: 2.5px solid #F59E0B;
+            box-shadow: 0 0 26px rgba(245, 158, 11, 0.6), inset 0 0 12px rgba(245, 158, 11, 0.2);
+        }
+        .banner-frame-tier-4 {
+            border: 3px solid #EC4899;
+            box-shadow: 0 0 32px rgba(236, 72, 153, 0.7), 0 0 14px rgba(6, 182, 212, 0.5);
+        }
+
+        /* Nombre en arcoíris para el anteúltimo de recargar */
+        @keyframes rainbow-shift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .banner-rainbow-name {
+            background: linear-gradient(90deg, #ff2a5f, #ff9e00, #ffe600, #00f59b, #00d2ff, #b5179e, #ff2a5f);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: rainbow-shift 3s ease infinite;
+            filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.25));
+        }
     </style>
 </head>
 <body class="bg-nexoDark text-white font-sans min-h-screen flex flex-col justify-between relative overflow-x-hidden pb-20">
@@ -904,6 +942,7 @@
                         <input type="text" id="new-banner-tag" placeholder="Etiqueta (Ej: NUEVO)" class="w-full bg-nexoCard border border-gray-700 rounded-xl p-2 text-xs text-white">
                         <input type="text" id="new-banner-title" placeholder="Título del Banner (Ej: Colaboración)" class="w-full bg-nexoCard border border-gray-700 rounded-xl p-2 text-xs text-white">
                         <input type="text" id="new-banner-desc" placeholder="Descripción corta..." class="w-full bg-nexoCard border border-gray-700 rounded-xl p-2 text-xs text-white">
+                        <input type="number" id="new-banner-recharges" step="5" min="0" value="5" placeholder="Recargas (de 5 en 5, Ej: 5, 10, 15...)" class="w-full bg-nexoCard border border-gray-700 rounded-xl p-2 text-xs text-white font-mono">
                         <input type="file" id="new-banner-file" accept="image/*" class="w-full text-[11px] text-gray-300">
                         <button onclick="addNewGlobalBanner()" class="w-full bg-nexoPurple text-white font-black py-2.5 rounded-xl text-xs uppercase shadow">➕ Agregar Banner</button>
                     </div>
@@ -987,6 +1026,41 @@
         let globalBanners = [];
         let lastBannerMutationTs = 0;
 
+        function normalizeBannerStep5(val) {
+            const num = parseInt(val, 10);
+            if (isNaN(num) || num <= 0) return 5;
+            return Math.round(num / 5) * 5;
+        }
+
+        function normalizeBannersList() {
+            if (!Array.isArray(globalBanners)) {
+                globalBanners = [];
+                return;
+            }
+            globalBanners = globalBanners.map((b) => ({
+                ...b,
+                recharges: normalizeBannerStep5(b && b.recharges !== undefined ? b.recharges : 5)
+            }));
+            globalBanners.sort((a, b) => (b.recharges || 0) - (a.recharges || 0));
+        }
+
+        function getBannerFrameClass(recharges) {
+            const rec = normalizeBannerStep5(recharges);
+            if (rec >= 25) return 'banner-frame-tier-4';
+            if (rec >= 20) return 'banner-frame-tier-3';
+            if (rec >= 15) return 'banner-frame-tier-2';
+            if (rec >= 10) return 'banner-frame-tier-1';
+            return 'banner-frame-tier-0';
+        }
+
+        function isPenultimateRechargeBanner(bannerIndex, bannersArr) {
+            if (!Array.isArray(bannersArr) || bannersArr.length < 2) return false;
+            const sortedRecs = [...new Set(bannersArr.map(b => normalizeBannerStep5(b.recharges)))].sort((a, b) => b - a);
+            if (sortedRecs.length < 2) return false;
+            const penultimateVal = sortedRecs[1];
+            return normalizeBannerStep5(bannersArr[bannerIndex].recharges) === penultimateVal;
+        }
+
         function loadBannersLocal() {
             try {
                 const raw = localStorage.getItem(BANNERS_LOCAL_KEY);
@@ -994,6 +1068,7 @@
                     const parsed = JSON.parse(raw);
                     if (parsed && Array.isArray(parsed.items)) {
                         globalBanners = parsed.items;
+                        normalizeBannersList();
                         lastBannerMutationTs = Number(parsed.updatedAt) || 0;
                     }
                 }
@@ -1001,6 +1076,7 @@
         }
 
         function saveBannersLocal() {
+            normalizeBannersList();
             lastBannerMutationTs = Date.now();
             try {
                 localStorage.setItem(BANNERS_LOCAL_KEY, JSON.stringify({
@@ -1165,6 +1241,7 @@
                     if (data.banners && Array.isArray(data.banners) && !recentlyMutatedLocally) {
                         if (cloudBannerTs >= lastBannerMutationTs || globalBanners.length === 0) {
                             globalBanners = data.banners;
+                            normalizeBannersList();
                             if (cloudBannerTs > 0) lastBannerMutationTs = cloudBannerTs;
                             try {
                                 localStorage.setItem(BANNERS_LOCAL_KEY, JSON.stringify({
@@ -1304,17 +1381,32 @@
             const dotsContainer = document.getElementById('carousel-dots-container');
             if (!container || !dotsContainer) return;
 
+            normalizeBannersList();
+
             if (!globalBanners || globalBanners.length === 0) {
                 if (wrapper) wrapper.classList.add('hidden');
                 return;
             }
 
-            if (wrapper) wrapper.classList.remove('hidden');
-            if (currentSlide >= globalBanners.length) currentSlide = 0;
+            if (wrapper) {
+                wrapper.classList.remove(
+                    'hidden',
+                    'banner-frame-tier-0',
+                    'banner-frame-tier-1',
+                    'banner-frame-tier-2',
+                    'banner-frame-tier-3',
+                    'banner-frame-tier-4'
+                );
+                if (currentSlide >= globalBanners.length) currentSlide = 0;
+                const activeBanner = globalBanners[currentSlide];
+                wrapper.classList.add(getBannerFrameClass(activeBanner ? activeBanner.recharges : 5));
+            }
 
             container.innerHTML = globalBanners.map((b, idx) => {
                 const safeImg = b.imgUrl ? String(b.imgUrl).replace(/'/g, "%27") : '';
                 const hasImg = Boolean(safeImg);
+                const recVal = normalizeBannerStep5(b.recharges);
+                const isRainbowName = isPenultimateRechargeBanner(idx, globalBanners);
                 const bgStyle = hasImg
                     ? `background-image: linear-gradient(to right, rgba(9, 7, 16, 0.88), rgba(9, 7, 16, 0.35)), url('${safeImg}'); background-size: 100% 100%; background-position: center center; background-repeat: no-repeat;`
                     : `background: linear-gradient(135deg, #1e1b4b, #3b0764);`;
@@ -1322,9 +1414,12 @@
                 return `
                     <div class="carousel-slide w-full h-full p-5 flex flex-col justify-center relative ${idx !== currentSlide ? 'hidden' : ''}" style="${bgStyle}">
                         ${hasImg ? `<img src="${safeImg}" alt="${b.title || 'Banner'}" class="w-full h-full object-cover object-center opacity-0 pointer-events-none absolute inset-0">` : ''}
-                        <div class="space-y-1.5 max-w-[78%] relative z-10">
-                            <span class="bg-nexoPurple/30 text-nexoCyan border border-nexoCyan/40 text-[9px] font-black px-2.5 py-0.5 rounded-full uppercase tracking-wider">${b.tag || 'NEXO STORE'}</span>
-                            <h3 class="text-base font-black text-white leading-tight drop-shadow">${b.title}</h3>
+                        <div class="space-y-1.5 max-w-[82%] relative z-10">
+                            <div class="flex items-center gap-1.5 flex-wrap">
+                                <span class="bg-nexoPurple/30 text-nexoCyan border border-nexoCyan/40 text-[9px] font-black px-2.5 py-0.5 rounded-full uppercase tracking-wider">${b.tag || 'NEXO STORE'}</span>
+                                <span class="bg-black/60 text-yellow-300 border border-yellow-500/40 text-[9px] font-black px-2 py-0.5 rounded-full font-mono">⚡ ${recVal} recargas</span>
+                            </div>
+                            <h3 class="text-base font-black leading-tight ${isRainbowName ? 'banner-rainbow-name' : 'text-white drop-shadow'}">${b.title}</h3>
                             <p class="text-xs text-gray-200 leading-snug drop-shadow">${b.desc}</p>
                         </div>
                     </div>
@@ -1393,6 +1488,8 @@
             const tag = document.getElementById('new-banner-tag').value.trim() || 'PROMO';
             const title = document.getElementById('new-banner-title').value.trim();
             const desc = document.getElementById('new-banner-desc').value.trim();
+            const recInput = document.getElementById('new-banner-recharges');
+            const recharges = normalizeBannerStep5(recInput ? recInput.value : 5);
             const fileInput = document.getElementById('new-banner-file');
             
             if (!title || !desc) { alert('Completá título y descripción del banner'); return; }
@@ -1402,9 +1499,11 @@
                 imgUrl = await compressBannerToRectangle(fileInput.files[0]);
             }
 
-            globalBanners.push({ id: Date.now(), tag, title, desc, imgUrl });
-            currentSlide = globalBanners.length - 1;
+            const newId = Date.now();
+            globalBanners.push({ id: newId, tag, title, desc, recharges, imgUrl });
             saveBannersLocal();
+            const placedIdx = globalBanners.findIndex(item => item.id === newId);
+            currentSlide = placedIdx >= 0 ? placedIdx : 0;
             renderBannersCarousel();
             renderAdminBannersList();
             await saveToCloud();
@@ -1412,14 +1511,28 @@
             document.getElementById('new-banner-tag').value = '';
             document.getElementById('new-banner-title').value = '';
             document.getElementById('new-banner-desc').value = '';
+            if (recInput) recInput.value = '5';
             fileInput.value = '';
-            alert('✅ Banner agregado');
+            alert(`✅ Banner agregado (${recharges} recargas)`);
+        }
+
+        async function stepBannerRecharges(id, delta) {
+            const target = globalBanners.find(b => b.id === id);
+            if (!target) return;
+            const current = normalizeBannerStep5(target.recharges);
+            target.recharges = Math.max(5, current + delta);
+            saveBannersLocal();
+            renderBannersCarousel();
+            renderAdminBannersList();
+            await saveToCloud();
         }
 
         function renderAdminBannersList() {
             const container = document.getElementById('admin-banners-list');
             const countBadge = document.getElementById('admin-banners-count');
             if(!container) return;
+
+            normalizeBannersList();
 
             if (countBadge) countBadge.innerText = `${globalBanners.length} banners`;
 
@@ -1428,15 +1541,23 @@
                 return;
             }
 
-            container.innerHTML = globalBanners.map(b => `
-                <div class="bg-nexoDark border border-gray-800 p-2.5 rounded-xl flex justify-between items-center text-xs">
-                    <div>
-                        <span class="text-white font-bold block">${b.title}</span>
-                        <span class="text-[10px] text-gray-400">${b.tag}</span>
+            container.innerHTML = globalBanners.map((b, idx) => {
+                const isRainbow = isPenultimateRechargeBanner(idx, globalBanners);
+                const recVal = normalizeBannerStep5(b.recharges);
+                return `
+                    <div class="bg-nexoDark border border-gray-800 p-2.5 rounded-xl flex justify-between items-center gap-2 text-xs">
+                        <div class="min-w-0">
+                            <span class="font-bold block truncate ${isRainbow ? 'banner-rainbow-name' : 'text-white'}">${b.title}</span>
+                            <span class="text-[10px] text-gray-400">${b.tag} • <strong class="text-yellow-300 font-mono">${recVal} recargas</strong>${isRainbow ? ' • 🌈 Anteúltimo' : ''}</span>
+                        </div>
+                        <div class="flex items-center gap-1 shrink-0">
+                            <button onclick="stepBannerRecharges(${b.id}, -5)" class="bg-nexoSurface border border-gray-700 text-gray-200 px-2 py-1 rounded-lg text-[10px] font-bold">-5</button>
+                            <button onclick="stepBannerRecharges(${b.id}, 5)" class="bg-nexoSurface border border-gray-700 text-cyan-300 px-2 py-1 rounded-lg text-[10px] font-bold">+5</button>
+                            <button onclick="deleteBanner(${b.id})" class="bg-red-500/10 border border-red-500/30 text-red-400 px-2.5 py-1 rounded-lg text-[10px] font-bold">Eliminar</button>
+                        </div>
                     </div>
-                    <button onclick="deleteBanner(${b.id})" class="bg-red-500/10 border border-red-500/30 text-red-400 px-2.5 py-1 rounded-lg text-[10px] font-bold">Eliminar</button>
-                </div>
-            `).join('');
+                `;
+            }).join('');
         }
 
         async function deleteBanner(id) {
