@@ -60,41 +60,83 @@
         .loader-ring-inner { animation: spin-reverse 1.8s linear infinite; }
         .loader-core { animation: pulse-purple 2s ease-in-out infinite; }
 
-        /* Marcos progresivos según cantidad de recargas del banner */
-        .banner-frame-tier-0 {
-            border: 1.5px solid rgba(139, 92, 246, 0.35);
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+        /* Marcos/Banners alrededor de la foto de perfil (cada 5 recargas) */
+        .avatar-frame-wrap {
+            position: relative;
+            border-radius: 9999px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
-        .banner-frame-tier-1 {
-            border: 2px solid #06B6D4;
-            box-shadow: 0 0 16px rgba(6, 182, 212, 0.35);
-        }
-        .banner-frame-tier-2 {
-            border: 2.5px solid #A855F7;
-            box-shadow: 0 0 22px rgba(168, 85, 247, 0.5);
-        }
-        .banner-frame-tier-3 {
-            border: 2.5px solid #F59E0B;
-            box-shadow: 0 0 26px rgba(245, 158, 11, 0.6), inset 0 0 12px rgba(245, 158, 11, 0.2);
-        }
-        .banner-frame-tier-4 {
-            border: 3px solid #EC4899;
-            box-shadow: 0 0 32px rgba(236, 72, 153, 0.7), 0 0 14px rgba(6, 182, 212, 0.5);
+        .avatar-ring-decor {
+            position: absolute;
+            border-radius: 9999px;
+            pointer-events: none;
         }
 
-        /* Nombre en arcoíris para el anteúltimo de recargar */
+        .frame-base .avatar-ring-decor {
+            inset: -3px;
+            border: 2px solid #06B6D4;
+        }
+        .frame-5 .avatar-ring-decor {
+            inset: -5px;
+            border: 3px solid #06B6D4;
+            box-shadow: 0 0 14px rgba(6, 182, 212, 0.65);
+        }
+        .frame-10 .avatar-ring-decor {
+            inset: -6px;
+            padding: 3px;
+            background: conic-gradient(from 0deg, #A855F7, #EC4899, #8B5CF6, #A855F7);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            animation: spin-slow 5s linear infinite;
+            box-shadow: 0 0 18px rgba(168, 85, 247, 0.7);
+        }
+        .frame-15 .avatar-ring-decor {
+            inset: -7px;
+            padding: 3px;
+            background: conic-gradient(from 0deg, #ff2a5f, #ff9e00, #ffe600, #00f59b, #00d2ff, #b5179e, #ff2a5f);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            animation: spin-slow 3.5s linear infinite;
+            filter: drop-shadow(0 0 10px rgba(0, 245, 155, 0.55));
+        }
+        .frame-20 .avatar-ring-decor {
+            inset: -7px;
+            padding: 3px;
+            background: conic-gradient(from 0deg, #F59E0B, #FDE047, #EA580C, #F59E0B);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            animation: spin-slow 4s linear infinite;
+            filter: drop-shadow(0 0 12px rgba(245, 158, 11, 0.8));
+        }
+        .frame-25 .avatar-ring-decor {
+            inset: -8px;
+            padding: 4px;
+            background: conic-gradient(from 0deg, #ff2a5f, #ffe600, #00f59b, #00d2ff, #a855f7, #ff2a5f);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            animation: spin-slow 2.6s linear infinite;
+            filter: drop-shadow(0 0 16px rgba(236, 72, 153, 0.85));
+        }
+
+        /* Nombre en arcoíris a partir de 15 recargas */
         @keyframes rainbow-shift {
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
         }
-        .banner-rainbow-name {
+        .rainbow-username {
             background: linear-gradient(90deg, #ff2a5f, #ff9e00, #ffe600, #00f59b, #00d2ff, #b5179e, #ff2a5f);
             background-size: 300% 300%;
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            animation: rainbow-shift 3s ease infinite;
+            animation: rainbow-shift 2.8s ease infinite;
             filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.25));
         }
     </style>
@@ -180,21 +222,33 @@
             </div>
         </div>
 
-        <!-- MODAL PERFIL -->
+        <!-- MODAL PERFIL CON BANNERS DE FOTO DE PERFIL (CADA 5 RECARGAS) Y NOMBRE ARCOÍRIS A LAS 15 -->
         <div id="profile-modal" class="hidden fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4">
             <div class="bg-nexoCard border border-nexoCyan/50 rounded-3xl max-w-sm w-full max-h-[90vh] overflow-y-auto p-5 shadow-2xl relative space-y-4">
                 <button onclick="toggleProfileModal()" class="absolute top-3 right-3 bg-black/60 text-white w-8 h-8 rounded-full font-bold border border-gray-700 z-10">✕</button>
                 
-                <div class="text-center space-y-2">
-                    <div class="relative w-20 h-20 mx-auto">
-                        <img id="user-avatar-img" src="https://api.dicebear.com/7.x/bottts/svg?seed=NexoUser" class="w-20 h-20 rounded-full border-2 border-nexoCyan object-cover bg-nexoDark">
-                        <label for="avatar-upload" class="absolute bottom-0 right-0 bg-nexoPurple hover:bg-purple-600 text-white w-7 h-7 rounded-full flex items-center justify-center text-xs cursor-pointer shadow-lg border border-nexoDark" title="Subir foto">📷</label>
+                <div class="text-center space-y-2 pt-1">
+                    <div id="profile-avatar-frame" class="avatar-frame-wrap frame-base w-24 h-24 mx-auto">
+                        <span class="avatar-ring-decor"></span>
+                        <img id="user-avatar-img" src="https://api.dicebear.com/7.x/bottts/svg?seed=NexoUser" class="w-20 h-20 rounded-full object-cover bg-nexoDark relative z-10">
+                        <label for="avatar-upload" class="absolute bottom-0 right-0 bg-nexoPurple hover:bg-purple-600 text-white w-7 h-7 rounded-full flex items-center justify-center text-xs cursor-pointer shadow-lg border border-nexoDark z-20" title="Subir foto">📷</label>
                         <input type="file" id="avatar-upload" accept="image/*" class="hidden" onchange="handleAvatarUpload(event)">
                     </div>
+                    <p id="avatar-upload-feedback" class="text-[10px] font-bold hidden"></p>
                     <div>
-                        <h3 id="user-profile-name" class="font-black text-sm text-white">Invitado</h3>
+                        <h3 id="user-profile-name" class="font-black text-base text-white">Invitado</h3>
                         <p id="user-profile-email" class="text-[10px] text-gray-400">Sin iniciar sesión</p>
+                        <span id="profile-recharges-badge" class="inline-block mt-1 text-[10px] font-black px-2.5 py-0.5 rounded-full bg-purple-500/20 text-purple-300 border border-purple-500/40">0 Recargas</span>
                     </div>
+                </div>
+
+                <!-- SELECTOR DE BANNERS / MARCOS ALREDEDOR DE LA FOTO DE PERFIL (DE 5 EN 5) -->
+                <div class="bg-nexoDark border border-purple-500/40 p-3 rounded-2xl space-y-2 text-xs">
+                    <div class="flex justify-between items-center">
+                        <span class="font-black text-cyan-300">🖼️ Banners de Perfil (5 en 5)</span>
+                        <span id="rainbow-unlock-hint" class="text-[10px] text-gray-400">🌈 Arcoíris: 15 recargas</span>
+                    </div>
+                    <div id="avatar-frames-selector" class="grid grid-cols-2 gap-1.5"></div>
                 </div>
 
                 <!-- CUANDO HAY CUENTA INICIADA: MOSTRAR CAMBIAR CUENTA Y CERRAR SESIÓN -->
@@ -565,7 +619,10 @@
                     </div>
                 </div>
                 <button onclick="toggleProfileModal()" class="bg-nexoSurface border border-gray-700 px-3 py-1.5 rounded-xl text-xs font-bold text-gray-200 flex items-center gap-2">
-                    <img id="nav-user-avatar" src="https://api.dicebear.com/7.x/bottts/svg?seed=NexoUser" class="w-5 h-5 rounded-full object-cover">
+                    <div id="nav-avatar-frame" class="avatar-frame-wrap frame-base w-6 h-6">
+                        <span class="avatar-ring-decor"></span>
+                        <img id="nav-user-avatar" src="https://api.dicebear.com/7.x/bottts/svg?seed=NexoUser" class="w-5 h-5 rounded-full object-cover relative z-10">
+                    </div>
                     <span id="nav-user-name">Invitado</span>
                 </button>
             </div>
@@ -942,11 +999,10 @@
                         <input type="text" id="new-banner-tag" placeholder="Etiqueta (Ej: NUEVO)" class="w-full bg-nexoCard border border-gray-700 rounded-xl p-2 text-xs text-white">
                         <input type="text" id="new-banner-title" placeholder="Título del Banner (Ej: Colaboración)" class="w-full bg-nexoCard border border-gray-700 rounded-xl p-2 text-xs text-white">
                         <input type="text" id="new-banner-desc" placeholder="Descripción corta..." class="w-full bg-nexoCard border border-gray-700 rounded-xl p-2 text-xs text-white">
-                        <input type="number" id="new-banner-recharges" step="5" min="0" value="5" placeholder="Recargas (de 5 en 5, Ej: 5, 10, 15...)" class="w-full bg-nexoCard border border-gray-700 rounded-xl p-2 text-xs text-white font-mono">
                         <input type="file" id="new-banner-file" accept="image/*" class="w-full text-[11px] text-gray-300">
                         <button onclick="addNewGlobalBanner()" class="w-full bg-nexoPurple text-white font-black py-2.5 rounded-xl text-xs uppercase shadow">➕ Agregar Banner</button>
                     </div>
-                    <div id="admin-banners-list" class="space-y-2 max-h-48 overflow-y-auto pr-1"></div>
+                    <div id="admin-banners-list" class="space-y-2 max-h-40 overflow-y-auto"></div>
                 </div>
 
                 <!-- CÓDIGOS PROMOCIONALES NORMALES -->
@@ -1026,39 +1082,45 @@
         let globalBanners = [];
         let lastBannerMutationTs = 0;
 
-        function normalizeBannerStep5(val) {
-            const num = parseInt(val, 10);
-            if (isNaN(num) || num <= 0) return 5;
-            return Math.round(num / 5) * 5;
+        // Banners/marcos alrededor de la foto de perfil cada 5 recargas
+        const PROFILE_AVATAR_BANNERS = [
+            { id: 'base', req: 0, label: 'Inicial', badge: '0 recargas', frameClass: 'frame-base' },
+            { id: 'tier5', req: 5, label: 'Pulso Cyan', badge: '5 recargas', frameClass: 'frame-5' },
+            { id: 'tier10', req: 10, label: 'Neón Púrpura', badge: '10 recargas', frameClass: 'frame-10' },
+            { id: 'tier15', req: 15, label: 'Arcoíris Élite', badge: '15 recargas', frameClass: 'frame-15' },
+            { id: 'tier20', req: 20, label: 'Llama Dorada', badge: '20 recargas', frameClass: 'frame-20' },
+            { id: 'tier25', req: 25, label: 'Corona Real', badge: '25+ recargas', frameClass: 'frame-25' }
+        ];
+
+        function getUnlockedAvatarBanners(recharges) {
+            const rec = Number(recharges) || 0;
+            return PROFILE_AVATAR_BANNERS.filter(b => rec >= b.req);
         }
 
-        function normalizeBannersList() {
-            if (!Array.isArray(globalBanners)) {
-                globalBanners = [];
+        function getEquippedAvatarBanner(userObj) {
+            const rec = Number(userObj && userObj.purchases) || 0;
+            const unlocked = getUnlockedAvatarBanners(rec);
+            const fallback = unlocked[unlocked.length - 1] || PROFILE_AVATAR_BANNERS[0];
+            if (!userObj || !userObj.equippedAvatarBanner) return fallback;
+            const found = unlocked.find(b => b.id === userObj.equippedAvatarBanner);
+            return found || fallback;
+        }
+
+        function equipAvatarBanner(bannerId) {
+            const rec = Number(currentUser.purchases) || 0;
+            const target = PROFILE_AVATAR_BANNERS.find(b => b.id === bannerId);
+            if (!target) return;
+            if (rec < target.req) {
+                alert(`🔒 Necesitás ${target.req} recargas para desbloquear "${target.label}".`);
                 return;
             }
-            globalBanners = globalBanners.map((b) => ({
-                ...b,
-                recharges: normalizeBannerStep5(b && b.recharges !== undefined ? b.recharges : 5)
-            }));
-            globalBanners.sort((a, b) => (b.recharges || 0) - (a.recharges || 0));
-        }
-
-        function getBannerFrameClass(recharges) {
-            const rec = normalizeBannerStep5(recharges);
-            if (rec >= 25) return 'banner-frame-tier-4';
-            if (rec >= 20) return 'banner-frame-tier-3';
-            if (rec >= 15) return 'banner-frame-tier-2';
-            if (rec >= 10) return 'banner-frame-tier-1';
-            return 'banner-frame-tier-0';
-        }
-
-        function isPenultimateRechargeBanner(bannerIndex, bannersArr) {
-            if (!Array.isArray(bannersArr) || bannersArr.length < 2) return false;
-            const sortedRecs = [...new Set(bannersArr.map(b => normalizeBannerStep5(b.recharges)))].sort((a, b) => b - a);
-            if (sortedRecs.length < 2) return false;
-            const penultimateVal = sortedRecs[1];
-            return normalizeBannerStep5(bannersArr[bannerIndex].recharges) === penultimateVal;
+            currentUser.equippedAvatarBanner = target.id;
+            if (isLoggedIn()) {
+                syncCurrentAccountToStorage();
+            } else {
+                saveAccountsLocal();
+            }
+            updateAuthUI();
         }
 
         function loadBannersLocal() {
@@ -1068,7 +1130,6 @@
                     const parsed = JSON.parse(raw);
                     if (parsed && Array.isArray(parsed.items)) {
                         globalBanners = parsed.items;
-                        normalizeBannersList();
                         lastBannerMutationTs = Number(parsed.updatedAt) || 0;
                     }
                 }
@@ -1076,7 +1137,6 @@
         }
 
         function saveBannersLocal() {
-            normalizeBannersList();
             lastBannerMutationTs = Date.now();
             try {
                 localStorage.setItem(BANNERS_LOCAL_KEY, JSON.stringify({
@@ -1142,6 +1202,7 @@
                 name: name || "Invitado",
                 password: "",
                 avatar: "https://api.dicebear.com/7.x/bottts/svg?seed=" + encodeURIComponent(key || "NexoUser"),
+                equippedAvatarBanner: "base",
                 coins: 0,
                 purchases: 0,
                 savedIds: [],
@@ -1196,6 +1257,7 @@
                 name: currentUser.name || prev.name || activeAccountKey,
                 password: currentUser.password || prev.password || "",
                 avatar: currentUser.avatar || prev.avatar,
+                equippedAvatarBanner: currentUser.equippedAvatarBanner || prev.equippedAvatarBanner || "base",
                 coins: Number(currentUser.coins) || 0,
                 purchases: Number(currentUser.purchases) || 0,
                 savedIds: Array.isArray(currentUser.savedIds) ? [...currentUser.savedIds] : [],
@@ -1227,6 +1289,78 @@
         let currentUser = defaultAccountRecord("", "", "Invitado");
         loadAccountsLocal();
 
+        function compressAvatarImage(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = new Image();
+                    img.onload = function() {
+                        const size = 240;
+                        const canvas = document.createElement('canvas');
+                        canvas.width = size;
+                        canvas.height = size;
+                        const ctx = canvas.getContext('2d');
+
+                        const minSide = Math.min(img.width, img.height);
+                        const sx = (img.width - minSide) / 2;
+                        const sy = (img.height - minSide) / 2;
+
+                        ctx.drawImage(img, sx, sy, minSide, minSide, 0, 0, size, size);
+                        resolve(canvas.toDataURL('image/jpeg', 0.82));
+                    };
+                    img.onerror = () => reject(new Error("No se pudo cargar la imagen"));
+                    img.src = e.target.result;
+                };
+                reader.onerror = () => reject(new Error("No se pudo leer el archivo"));
+                reader.readAsDataURL(file);
+            });
+        }
+
+        async function handleAvatarUpload(event) {
+            const file = event.target && event.target.files && event.target.files[0];
+            const fb = document.getElementById('avatar-upload-feedback');
+            if (!file) return;
+
+            if (!file.type || !file.type.startsWith('image/')) {
+                if (fb) {
+                    fb.className = "text-[10px] font-bold text-red-400";
+                    fb.innerText = "❌ Seleccioná una imagen válida (JPG, PNG, WEBP).";
+                    fb.classList.remove('hidden');
+                }
+                event.target.value = '';
+                return;
+            }
+
+            try {
+                const avatarDataUrl = await compressAvatarImage(file);
+                currentUser.avatar = avatarDataUrl;
+
+                if (isLoggedIn()) {
+                    syncCurrentAccountToStorage();
+                } else {
+                    try {
+                        localStorage.setItem("nexo_guest_avatar_v1", avatarDataUrl);
+                    } catch (e) {}
+                }
+
+                updateAuthUI();
+
+                if (fb) {
+                    fb.className = "text-[10px] font-bold text-green-400";
+                    fb.innerText = "✅ Foto de perfil actualizada.";
+                    fb.classList.remove('hidden');
+                    setTimeout(() => fb.classList.add('hidden'), 3000);
+                }
+            } catch (err) {
+                if (fb) {
+                    fb.className = "text-[10px] font-bold text-red-400";
+                    fb.innerText = "❌ Error al cargar la foto. Probá con otra imagen.";
+                    fb.classList.remove('hidden');
+                }
+            }
+            event.target.value = '';
+        }
+
         async function syncFromCloud() {
             const url = getCleanDbUrl();
             if (!url.startsWith("http")) return;
@@ -1241,7 +1375,6 @@
                     if (data.banners && Array.isArray(data.banners) && !recentlyMutatedLocally) {
                         if (cloudBannerTs >= lastBannerMutationTs || globalBanners.length === 0) {
                             globalBanners = data.banners;
-                            normalizeBannersList();
                             if (cloudBannerTs > 0) lastBannerMutationTs = cloudBannerTs;
                             try {
                                 localStorage.setItem(BANNERS_LOCAL_KEY, JSON.stringify({
@@ -1381,32 +1514,17 @@
             const dotsContainer = document.getElementById('carousel-dots-container');
             if (!container || !dotsContainer) return;
 
-            normalizeBannersList();
-
             if (!globalBanners || globalBanners.length === 0) {
                 if (wrapper) wrapper.classList.add('hidden');
                 return;
             }
 
-            if (wrapper) {
-                wrapper.classList.remove(
-                    'hidden',
-                    'banner-frame-tier-0',
-                    'banner-frame-tier-1',
-                    'banner-frame-tier-2',
-                    'banner-frame-tier-3',
-                    'banner-frame-tier-4'
-                );
-                if (currentSlide >= globalBanners.length) currentSlide = 0;
-                const activeBanner = globalBanners[currentSlide];
-                wrapper.classList.add(getBannerFrameClass(activeBanner ? activeBanner.recharges : 5));
-            }
+            if (wrapper) wrapper.classList.remove('hidden');
+            if (currentSlide >= globalBanners.length) currentSlide = 0;
 
             container.innerHTML = globalBanners.map((b, idx) => {
                 const safeImg = b.imgUrl ? String(b.imgUrl).replace(/'/g, "%27") : '';
                 const hasImg = Boolean(safeImg);
-                const recVal = normalizeBannerStep5(b.recharges);
-                const isRainbowName = isPenultimateRechargeBanner(idx, globalBanners);
                 const bgStyle = hasImg
                     ? `background-image: linear-gradient(to right, rgba(9, 7, 16, 0.88), rgba(9, 7, 16, 0.35)), url('${safeImg}'); background-size: 100% 100%; background-position: center center; background-repeat: no-repeat;`
                     : `background: linear-gradient(135deg, #1e1b4b, #3b0764);`;
@@ -1414,12 +1532,9 @@
                 return `
                     <div class="carousel-slide w-full h-full p-5 flex flex-col justify-center relative ${idx !== currentSlide ? 'hidden' : ''}" style="${bgStyle}">
                         ${hasImg ? `<img src="${safeImg}" alt="${b.title || 'Banner'}" class="w-full h-full object-cover object-center opacity-0 pointer-events-none absolute inset-0">` : ''}
-                        <div class="space-y-1.5 max-w-[82%] relative z-10">
-                            <div class="flex items-center gap-1.5 flex-wrap">
-                                <span class="bg-nexoPurple/30 text-nexoCyan border border-nexoCyan/40 text-[9px] font-black px-2.5 py-0.5 rounded-full uppercase tracking-wider">${b.tag || 'NEXO STORE'}</span>
-                                <span class="bg-black/60 text-yellow-300 border border-yellow-500/40 text-[9px] font-black px-2 py-0.5 rounded-full font-mono">⚡ ${recVal} recargas</span>
-                            </div>
-                            <h3 class="text-base font-black leading-tight ${isRainbowName ? 'banner-rainbow-name' : 'text-white drop-shadow'}">${b.title}</h3>
+                        <div class="space-y-1 max-w-[82%] relative z-10">
+                            <span class="bg-nexoPurple/30 text-nexoCyan border border-nexoCyan/40 text-[9px] font-black px-2.5 py-0.5 rounded-full uppercase tracking-wider">${b.tag || 'NEXO STORE'}</span>
+                            <h3 class="text-base font-black text-white leading-tight drop-shadow">${b.title}</h3>
                             <p class="text-xs text-gray-200 leading-snug drop-shadow">${b.desc}</p>
                         </div>
                     </div>
@@ -1488,8 +1603,6 @@
             const tag = document.getElementById('new-banner-tag').value.trim() || 'PROMO';
             const title = document.getElementById('new-banner-title').value.trim();
             const desc = document.getElementById('new-banner-desc').value.trim();
-            const recInput = document.getElementById('new-banner-recharges');
-            const recharges = normalizeBannerStep5(recInput ? recInput.value : 5);
             const fileInput = document.getElementById('new-banner-file');
             
             if (!title || !desc) { alert('Completá título y descripción del banner'); return; }
@@ -1500,10 +1613,9 @@
             }
 
             const newId = Date.now();
-            globalBanners.push({ id: newId, tag, title, desc, recharges, imgUrl });
+            globalBanners.push({ id: newId, tag, title, desc, imgUrl });
             saveBannersLocal();
-            const placedIdx = globalBanners.findIndex(item => item.id === newId);
-            currentSlide = placedIdx >= 0 ? placedIdx : 0;
+            currentSlide = globalBanners.length - 1;
             renderBannersCarousel();
             renderAdminBannersList();
             await saveToCloud();
@@ -1511,28 +1623,14 @@
             document.getElementById('new-banner-tag').value = '';
             document.getElementById('new-banner-title').value = '';
             document.getElementById('new-banner-desc').value = '';
-            if (recInput) recInput.value = '5';
             fileInput.value = '';
-            alert(`✅ Banner agregado (${recharges} recargas)`);
-        }
-
-        async function stepBannerRecharges(id, delta) {
-            const target = globalBanners.find(b => b.id === id);
-            if (!target) return;
-            const current = normalizeBannerStep5(target.recharges);
-            target.recharges = Math.max(5, current + delta);
-            saveBannersLocal();
-            renderBannersCarousel();
-            renderAdminBannersList();
-            await saveToCloud();
+            alert('✅ Banner agregado');
         }
 
         function renderAdminBannersList() {
             const container = document.getElementById('admin-banners-list');
             const countBadge = document.getElementById('admin-banners-count');
             if(!container) return;
-
-            normalizeBannersList();
 
             if (countBadge) countBadge.innerText = `${globalBanners.length} banners`;
 
@@ -1541,23 +1639,12 @@
                 return;
             }
 
-            container.innerHTML = globalBanners.map((b, idx) => {
-                const isRainbow = isPenultimateRechargeBanner(idx, globalBanners);
-                const recVal = normalizeBannerStep5(b.recharges);
-                return `
-                    <div class="bg-nexoDark border border-gray-800 p-2.5 rounded-xl flex justify-between items-center gap-2 text-xs">
-                        <div class="min-w-0">
-                            <span class="font-bold block truncate ${isRainbow ? 'banner-rainbow-name' : 'text-white'}">${b.title}</span>
-                            <span class="text-[10px] text-gray-400">${b.tag} • <strong class="text-yellow-300 font-mono">${recVal} recargas</strong>${isRainbow ? ' • 🌈 Anteúltimo' : ''}</span>
-                        </div>
-                        <div class="flex items-center gap-1 shrink-0">
-                            <button onclick="stepBannerRecharges(${b.id}, -5)" class="bg-nexoSurface border border-gray-700 text-gray-200 px-2 py-1 rounded-lg text-[10px] font-bold">-5</button>
-                            <button onclick="stepBannerRecharges(${b.id}, 5)" class="bg-nexoSurface border border-gray-700 text-cyan-300 px-2 py-1 rounded-lg text-[10px] font-bold">+5</button>
-                            <button onclick="deleteBanner(${b.id})" class="bg-red-500/10 border border-red-500/30 text-red-400 px-2.5 py-1 rounded-lg text-[10px] font-bold">Eliminar</button>
-                        </div>
-                    </div>
-                `;
-            }).join('');
+            container.innerHTML = globalBanners.map(b => `
+                <div class="bg-nexoDark border border-gray-800 p-2.5 rounded-xl flex justify-between items-center text-xs">
+                    <span class="text-white font-bold truncate pr-2">${b.title} (${b.tag})</span>
+                    <button onclick="deleteBanner(${b.id})" class="text-red-400 font-bold shrink-0">Eliminar</button>
+                </div>
+            `).join('');
         }
 
         async function deleteBanner(id) {
@@ -1806,22 +1893,96 @@
         }
 
         // ========================================================
-        // PERFIL, CUENTAS, NEXO COINS Y COMPRA POR WHATSAPP
+        // PERFIL, CUENTAS, BANNERS DE PERFIL, NOMBRE ARCOÍRIS Y COMPRA
         // ========================================================
+        function renderAvatarBannersSelector(recharges, equippedBanner) {
+            const box = document.getElementById('avatar-frames-selector');
+            if (!box) return;
+            const rec = Number(recharges) || 0;
+
+            box.innerHTML = PROFILE_AVATAR_BANNERS.map((b) => {
+                const unlocked = rec >= b.req;
+                const active = equippedBanner && equippedBanner.id === b.id;
+                return `
+                    <button type="button" onclick="equipAvatarBanner('${b.id}')" class="p-2 rounded-xl border text-left transition flex flex-col justify-between ${
+                        active
+                            ? 'bg-nexoCyan/15 border-nexoCyan text-white'
+                            : unlocked
+                                ? 'bg-nexoCard border-purple-500/40 hover:border-purple-400 text-gray-200'
+                                : 'bg-nexoCard/50 border-gray-800 text-gray-500 opacity-75'
+                    }">
+                        <span class="font-black text-[11px] leading-tight">${unlocked ? '✨' : '🔒'} ${b.label}</span>
+                        <span class="text-[9px] font-mono mt-0.5 ${active ? 'text-nexoCyan font-bold' : unlocked ? 'text-purple-300' : 'text-gray-500'}">
+                            ${active ? 'EQUIPADO' : b.badge}
+                        </span>
+                    </button>
+                `;
+            }).join('');
+        }
+
         function updateAuthUI() {
             const logged = isLoggedIn();
+            let guestAvatar = "";
+            if (!logged) {
+                try { guestAvatar = localStorage.getItem("nexo_guest_avatar_v1") || ""; } catch (e) {}
+            }
+
             const nameText = logged ? (currentUser.name || activeAccountKey) : 'Invitado';
             const emailText = logged ? (currentUser.email || activeAccountKey) : 'Sin iniciar sesión';
             const coinsVal = logged ? (Number(currentUser.coins) || 0) : 0;
             const spinsVal = logged ? (Number(currentUser.spinsCount) || 0) : 0;
             const diamondVal = logged ? (Number(currentUser.diamondTries) || 0) : 0;
             const purchasesVal = logged ? (Number(currentUser.purchases) || 0) : 0;
+            const avatarSrc = logged
+                ? (currentUser.avatar || 'https://api.dicebear.com/7.x/bottts/svg?seed=' + encodeURIComponent(activeAccountKey))
+                : (guestAvatar || currentUser.avatar || 'https://api.dicebear.com/7.x/bottts/svg?seed=NexoUser');
 
-            document.getElementById('user-profile-name').innerText = nameText;
+            const hasRainbowName = purchasesVal >= 15;
+            const equippedBanner = getEquippedAvatarBanner({ ...currentUser, purchases: purchasesVal });
+
+            const profileNameEl = document.getElementById('user-profile-name');
+            const navNameEl = document.getElementById('nav-user-name');
+
+            profileNameEl.innerText = nameText;
+            profileNameEl.className = `font-black text-base ${hasRainbowName ? 'rainbow-username' : 'text-white'}`;
+
+            navNameEl.innerText = nameText.split(' ')[0];
+            navNameEl.className = hasRainbowName ? 'rainbow-username font-black' : '';
+
             document.getElementById('user-profile-email').innerText = emailText;
-            document.getElementById('user-avatar-img').src = currentUser.avatar || 'https://api.dicebear.com/7.x/bottts/svg?seed=NexoUser';
-            document.getElementById('nav-user-avatar').src = currentUser.avatar || 'https://api.dicebear.com/7.x/bottts/svg?seed=NexoUser';
-            document.getElementById('nav-user-name').innerText = nameText.split(' ')[0];
+            document.getElementById('user-avatar-img').src = avatarSrc;
+            document.getElementById('nav-user-avatar').src = avatarSrc;
+
+            const frameClasses = ['frame-base', 'frame-5', 'frame-10', 'frame-15', 'frame-20', 'frame-25'];
+            const profileFrameEl = document.getElementById('profile-avatar-frame');
+            const navFrameEl = document.getElementById('nav-avatar-frame');
+            if (profileFrameEl) {
+                profileFrameEl.classList.remove(...frameClasses);
+                profileFrameEl.classList.add(equippedBanner.frameClass);
+            }
+            if (navFrameEl) {
+                navFrameEl.classList.remove(...frameClasses);
+                navFrameEl.classList.add(equippedBanner.frameClass);
+            }
+
+            const recBadge = document.getElementById('profile-recharges-badge');
+            if (recBadge) {
+                recBadge.innerText = `${purchasesVal} Recargas • ${equippedBanner.label}`;
+            }
+
+            const rainbowHint = document.getElementById('rainbow-unlock-hint');
+            if (rainbowHint) {
+                if (hasRainbowName) {
+                    rainbowHint.innerText = "🌈 Nombre Arcoíris ACTIVO";
+                    rainbowHint.className = "text-[10px] font-black rainbow-username";
+                } else {
+                    const faltan = Math.max(0, 15 - purchasesVal);
+                    rainbowHint.innerText = `🌈 Arcoíris en ${faltan} recargas más`;
+                    rainbowHint.className = "text-[10px] text-gray-400";
+                }
+            }
+
+            renderAvatarBannersSelector(purchasesVal, equippedBanner);
 
             const loggedBox = document.getElementById('profile-logged-actions');
             const guestBox = document.getElementById('profile-guest-actions');
@@ -1949,6 +2110,9 @@
                 syncCurrentAccountToStorage();
             }
 
+            let guestAvatar = "";
+            try { guestAvatar = localStorage.getItem("nexo_guest_avatar_v1") || ""; } catch (e) {}
+
             const existing = accountsDB[key];
             if (existing) {
                 if (existing.password && pass && existing.password !== pass) {
@@ -1965,13 +2129,15 @@
                     ...existing,
                     email: emailOrUser || existing.email || key,
                     name: nickname || existing.name || key,
-                    password: pass || existing.password || ""
+                    password: pass || existing.password || "",
+                    avatar: existing.avatar || guestAvatar || defaultAccountRecord(key).avatar
                 };
             } else {
                 activeAccountKey = key;
                 currentUser = {
                     ...defaultAccountRecord(key, emailOrUser || key, nickname || emailOrUser || key),
                     password: pass,
+                    avatar: guestAvatar || defaultAccountRecord(key).avatar,
                     coins: 0
                 };
             }
@@ -2793,7 +2959,10 @@
             if (!window.receiptUploadedValid) { alert('Subí un comprobante válido a nombre de Kevin Eloy Cabelier'); return; }
             if (!document.getElementById('terms-check').checked) { alert('Acepta los términos'); return; }
             currentUser.purchases = (Number(currentUser.purchases) || 0) + 1;
+            const autoUnlocked = getEquippedAvatarBanner(currentUser);
+            if (autoUnlocked) currentUser.equippedAvatarBanner = autoUnlocked.id;
             syncCurrentAccountToStorage();
+            updateAuthUI();
             document.getElementById('hidden-bot-form').submit();
         }
 
