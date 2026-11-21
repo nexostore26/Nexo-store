@@ -562,7 +562,7 @@
                 </div>
 
                 <div class="bg-nexoDark border border-yellow-500/40 p-3 rounded-2xl space-y-2">
-                    <p class="text-[11px] font-bold text-yellow-400">🎟️ Canjear Clave de Coins (de tus recargas):</p>
+                    <p class="text-[11px] font-bold text-yellow-400">🎟️ Canjear Clave de Coins (requiere ID guardado):</p>
                     <div class="flex gap-1.5">
                         <input type="text" id="redeem-code-input" placeholder="Ej: NX-9482AB" class="w-full bg-nexoCard border border-gray-700 rounded-lg px-2.5 py-1.5 text-xs uppercase text-white font-mono focus:outline-none focus:border-yellow-500">
                         <button onclick="redeemCoinsCode()" class="bg-yellow-500 hover:bg-yellow-400 text-nexoDark font-black px-3 py-1.5 rounded-lg text-[11px]">Canjear</button>
@@ -2251,11 +2251,23 @@
             if (countEl) countEl.innerText = list.length;
         }
 
+        function hasSavedPlayerId() {
+            return Boolean(isLoggedIn() && Array.isArray(currentUser.savedIds) && currentUser.savedIds.length > 0);
+        }
+
         function redeemCoinsCode() {
             requireLogin(() => {
-                const code = document.getElementById('redeem-code-input').value.trim().toUpperCase();
                 const feedback = document.getElementById('redeem-feedback');
                 feedback.classList.remove('hidden');
+
+                if (!hasSavedPlayerId()) {
+                    feedback.className = "text-[10px] text-red-400 font-bold mt-1";
+                    feedback.innerText = "⚠️ Tenés que guardar tu ID de jugador primero para saber dónde enviar los diamantes.";
+                    alert("⚠️ Para canjear un código, primero tenés que guardar tu ID en 'Tus IDs Guardados'.");
+                    return;
+                }
+
+                const code = document.getElementById('redeem-code-input').value.trim().toUpperCase();
 
                 if (globalCoinKeys[code] !== undefined) {
                     const amt = Number(globalCoinKeys[code]) || 0;
