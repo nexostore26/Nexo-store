@@ -772,7 +772,7 @@
                     <div class="bg-nexoDark/80 border border-gray-800 p-3 rounded-xl">
                         <label class="text-[11px] font-bold text-gray-300">🎟️ Código Promocional</label>
                         <div class="flex gap-2 mt-1">
-                            <input type="text" id="promo-code" placeholder="Ej: NARUTO.26" class="w-full bg-nexoCard border border-gray-700 rounded-lg px-3 py-2 text-xs uppercase text-white">
+                            <input type="text" id="promo-code" placeholder="Ej: LA12 o NARUTO.26" class="w-full bg-nexoCard border border-gray-700 rounded-lg px-3 py-2 text-xs uppercase text-white">
                             <button onclick="validateCode()" class="bg-nexoPurple px-4 rounded-lg text-xs font-bold">Aplicar</button>
                         </div>
                         <p id="code-feedback" class="text-[11px] mt-1.5 hidden"></p>
@@ -1019,7 +1019,7 @@
                         <h3 class="text-sm font-black text-white">Crear Código Promocional</h3>
                     </div>
                     <div class="space-y-2.5 text-xs bg-nexoDark p-3.5 rounded-2xl border border-gray-800">
-                        <input type="text" id="new-coupon-code" placeholder="Código (Ej: VERANO2026)" class="w-full bg-nexoCard border border-gray-700 rounded-xl p-2.5 text-xs text-white uppercase font-mono">
+                        <input type="text" id="new-coupon-code" placeholder="Código (Ej: LA12)" class="w-full bg-nexoCard border border-gray-700 rounded-xl p-2.5 text-xs text-white uppercase font-mono">
                         <input type="number" id="new-coupon-discount" placeholder="Descuento en % (Ej: 10)" class="w-full bg-nexoCard border border-gray-700 rounded-xl p-2.5 text-xs text-white">
                         <button onclick="createNewCoupon()" class="w-full bg-yellow-500 hover:bg-yellow-400 text-nexoDark font-black py-2.5 rounded-xl text-xs uppercase shadow">➕ Crear Cupón</button>
                     </div>
@@ -1097,11 +1097,13 @@
         const ACCOUNTS_DB_LOCAL_KEY = "nexo_accounts_db_v1";
         const ACTIVE_ACCOUNT_LOCAL_KEY = "nexo_active_account_key_v1";
         const BANNERS_LOCAL_KEY = "nexo_banners_local_v1";
+        const PROMO_COUPONS_LOCAL_KEY = "nexo_promo_coupons_v1";
 
         let globalMaintenanceMode = false;
         let isEditingPrices = false;
         let globalBanners = [];
         let lastBannerMutationTs = 0;
+        let lastCouponMutationTs = 0;
 
         // Banners/marcos alrededor de la foto de perfil cada 5 recargas
         const PROFILE_AVATAR_BANNERS = [
@@ -1170,6 +1172,32 @@
         loadBannersLocal();
 
         let globalCoupons = { "NEXO10": { discount: 10, maxUses: 1000, usedCount: 0 } };
+
+        function loadPromoCouponsLocal() {
+            try {
+                const raw = localStorage.getItem(PROMO_COUPONS_LOCAL_KEY);
+                if (raw) {
+                    const parsed = JSON.parse(raw);
+                    if (parsed && typeof parsed.items === "object" && parsed.items !== null) {
+                        globalCoupons = parsed.items;
+                        lastCouponMutationTs = Number(parsed.updatedAt) || 0;
+                    }
+                }
+            } catch (e) {}
+        }
+
+        function savePromoCouponsLocal() {
+            lastCouponMutationTs = Date.now();
+            try {
+                localStorage.setItem(PROMO_COUPONS_LOCAL_KEY, JSON.stringify({
+                    updatedAt: lastCouponMutationTs,
+                    items: globalCoupons
+                }));
+            } catch (e) {}
+        }
+
+        loadPromoCouponsLocal();
+
         let globalCreatorCoupons = [
             { id: "c1", code: "SOYASTA", discount: 5 },
             { id: "c2", code: "NARUTO.26", discount: 5 }
@@ -1397,8 +1425,8 @@
                 if (data) {
                     if (data.maintenanceMode !== undefined) globalMaintenanceMode = data.maintenanceMode;
                     const cloudBannerTs = Number(data.bannersUpdatedAt) || 0;
-                    const recentlyMutatedLocally = (Date.now() - lastBannerMutationTs) < 12000;
-                    if (data.banners && Array.isArray(data.banners) && !recentlyMutatedLocally) {
+                    const recentlyMutatedBanners = (Date.now() - lastBannerMutationTs) < 12000;
+                    if (data.banners && Array.isArray(data.banners) && !recentlyMutatedBanners) {
                         if (cloudBannerTs >= lastBannerMutationTs || globalBanners.length === 0) {
                             globalBanners = data.banners;
                             if (cloudBannerTs > 0) lastBannerMutationTs = cloudBannerTs;
@@ -1410,7 +1438,22 @@
                             } catch (e) {}
                         }
                     }
-                    if (data.coupons) globalCoupons = data.coupons;
+
+                    const cloudCouponTs = Number(data.couponsUpdatedAt) || 0;
+                    const recentlyMutatedCoupons = (Date.now() - lastCouponMutationTs) < 12000;
+                    if (!recentlyMutatedCoupons && data.coupons && typeof data.coupons === "object") {
+                        if (cloudCouponTs >= lastCouponMutationTs) {
+                            globalCoupons = data.coupons;
+                            if (cloudCouponTs > 0) lastCouponMutationTs = cloudCouponTs;
+                            try {
+                                localStorage.setItem(PROMO_COUPONS_LOCAL_KEY, JSON.stringify({
+                                    updatedAt: lastCouponMutationTs,
+                                    items: globalCoupons
+                                }));
+                            } catch (e) {}
+                        }
+                    }
+
                     if (data.coinKeys) globalCoinKeys = data.coinKeys;
                     if (data.diamondKeys) globalDiamondKeys = data.diamondKeys;
                     if (data.packsData && !isEditingPrices) packsData = data.packsData;
@@ -1455,6 +1498,7 @@
                 if (!document.getElementById('admin-dashboard-screen').classList.contains('hidden')) {
                     renderAdminPriceInputs();
                     renderAdminBannersList();
+                    renderAdminCouponsList();
                     renderAdminCoinKeysList();
                     renderAdminDiamondKeysList();
                 }
@@ -1476,6 +1520,7 @@
                         banners: globalBanners,
                         bannersUpdatedAt: lastBannerMutationTs || Date.now(),
                         coupons: globalCoupons,
+                        couponsUpdatedAt: lastCouponMutationTs || Date.now(),
                         coinKeys: globalCoinKeys,
                         diamondKeys: globalDiamondKeys,
                         packsData: packsData,
@@ -1789,34 +1834,68 @@
             }
         }
 
+        // ========================================================
+        // CUPONES PROMOCIONALES NORMALES (CREAR, GUARDAR Y ELIMINAR)
+        // ========================================================
         async function createNewCoupon() {
-            const codeInput = document.getElementById('new-coupon-code').value.trim().toUpperCase();
-            const disc = parseInt(document.getElementById('new-coupon-discount').value);
-            if (!codeInput || isNaN(disc)) { alert('Completá el código y el porcentaje de descuento'); return; }
+            const codeInputEl = document.getElementById('new-coupon-code');
+            const discInputEl = document.getElementById('new-coupon-discount');
+            const codeInput = (codeInputEl.value || '').trim().toUpperCase();
+            const disc = parseInt(discInputEl.value, 10);
+
+            if (!codeInput || isNaN(disc) || disc <= 0 || disc > 100) {
+                alert('Completá el código y un porcentaje de descuento válido (1 a 100)');
+                return;
+            }
+
+            if (!globalCoupons || typeof globalCoupons !== "object") {
+                globalCoupons = {};
+            }
 
             globalCoupons[codeInput] = { discount: disc, maxUses: 1000, usedCount: 0 };
-            await saveToCloud();
+            savePromoCouponsLocal();
             renderAdminCouponsList();
-            document.getElementById('new-coupon-code').value = '';
-            document.getElementById('new-coupon-discount').value = '';
-            alert(`✅ Cupón ${codeInput} (${disc}%) creado con éxito`);
+            await saveToCloud();
+
+            codeInputEl.value = '';
+            discInputEl.value = '';
+            alert(`✅ Cupón ${codeInput} (${disc}%) guardado con éxito`);
         }
 
         function renderAdminCouponsList() {
             const container = document.getElementById('admin-coupons-list');
             if (!container) return;
-            container.innerHTML = Object.keys(globalCoupons).map(code => `
-                <div class="bg-nexoDark border border-gray-800 p-2.5 rounded-xl flex justify-between items-center text-xs">
-                    <span class="text-white font-bold font-mono">${code} <span class="text-yellow-400">(${globalCoupons[code].discount}%)</span></span>
-                    <button onclick="deleteCoupon('${code}')" class="text-red-400 hover:text-red-300 font-bold px-2 py-1">Eliminar</button>
-                </div>
-            `).join('');
+
+            const codes = Object.keys(globalCoupons || {});
+            if (codes.length === 0) {
+                container.innerHTML = `<p class="text-[11px] text-gray-500 text-center py-2">No hay cupones promocionales creados.</p>`;
+                return;
+            }
+
+            container.innerHTML = codes.map(code => {
+                const info = globalCoupons[code] || { discount: 0 };
+                const safeAttrCode = String(code).replace(/"/g, '&quot;');
+                return `
+                    <div class="bg-nexoDark border border-gray-800 p-2.5 rounded-xl flex justify-between items-center text-xs">
+                        <span class="text-white font-bold font-mono">${code} <span class="text-yellow-400">(${info.discount}%)</span></span>
+                        <button type="button" data-coupon-code="${safeAttrCode}" onclick="deleteCouponFromBtn(this)" class="text-red-400 hover:text-red-300 font-bold px-2 py-1">Eliminar</button>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        async function deleteCouponFromBtn(btn) {
+            const code = btn && btn.getAttribute('data-coupon-code');
+            if (!code) return;
+            await deleteCoupon(code);
         }
 
         async function deleteCoupon(code) {
+            if (!globalCoupons || typeof globalCoupons !== "object") return;
             delete globalCoupons[code];
-            await saveToCloud();
+            savePromoCouponsLocal();
             renderAdminCouponsList();
+            await saveToCloud();
         }
 
         function openCreatorStep() {
@@ -2932,7 +3011,7 @@
             feedback.classList.remove('hidden');
 
             let activeCoupon = null;
-            if (globalCoupons[rawInput]) {
+            if (globalCoupons && globalCoupons[rawInput]) {
                 activeCoupon = globalCoupons[rawInput];
             } else {
                 const found = globalCreatorCoupons.find(c => c.code === rawInput);
@@ -2979,11 +3058,12 @@
                 document.getElementById('admin-login-screen').classList.add('hidden');
                 document.getElementById('admin-creators-step').classList.add('hidden');
                 document.getElementById('admin-dashboard-screen').classList.remove('hidden');
-                await syncFromCloud();
                 renderAdminPriceInputs();
                 renderAdminBannersList();
+                renderAdminCouponsList();
                 renderAdminCoinKeysList();
                 renderAdminDiamondKeysList();
+                await syncFromCloud();
             } else {
                 document.getElementById('admin-login-error').classList.remove('hidden');
             }
@@ -3066,9 +3146,11 @@
 
         window.onload = async function() {
             loadBannersLocal();
+            loadPromoCouponsLocal();
             loadAccountsLocal();
             updateAuthUI();
             renderBannersCarousel();
+            renderAdminCouponsList();
             renderSavedIds();
             await syncFromCloud();
         };
