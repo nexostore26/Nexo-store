@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="es" class="dark">
 <head>
+    <meta name="google-site-verification" content="lzs4Bby3rvvDX1S2lWnDFKWVs9saC0_JWxGEFLejMXw" />
+    <link rel="icon" href="Title.jpg" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nexo Store | Tu Recarga Segura</title>
@@ -32,14 +34,14 @@
         
         .roulette-wheel {
             background: conic-gradient(
-                #EAB308 0deg 45deg,
+                #EF4444 0deg 45deg,
                 #1E1B4B 45deg 90deg,
                 #06B6D4 90deg 135deg,
                 #1E1B4B 135deg 180deg,
                 #10B981 180deg 225deg,
                 #1E1B4B 225deg 270deg,
                 #8B5CF6 270deg 315deg,
-                #EF4444 315deg 360deg
+                #EAB308 315deg 360deg
             );
             transition: transform 4s cubic-bezier(0.17, 0.67, 0.12, 0.99);
         }
@@ -59,6 +61,86 @@
         .loader-ring-outer { animation: spin-slow 2.5s linear infinite; }
         .loader-ring-inner { animation: spin-reverse 1.8s linear infinite; }
         .loader-core { animation: pulse-purple 2s ease-in-out infinite; }
+
+        /* Marcos/Banners alrededor de la foto de perfil (cada 5 recargas) */
+        .avatar-frame-wrap {
+            position: relative;
+            border-radius: 9999px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .avatar-ring-decor {
+            position: absolute;
+            border-radius: 9999px;
+            pointer-events: none;
+        }
+
+        .frame-base .avatar-ring-decor {
+            inset: -3px;
+            border: 2px solid #06B6D4;
+        }
+        .frame-5 .avatar-ring-decor {
+            inset: -5px;
+            border: 3px solid #06B6D4;
+            box-shadow: 0 0 14px rgba(6, 182, 212, 0.65);
+        }
+        .frame-10 .avatar-ring-decor {
+            inset: -6px;
+            padding: 3px;
+            background: conic-gradient(from 0deg, #A855F7, #EC4899, #8B5CF6, #A855F7);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            animation: spin-slow 5s linear infinite;
+            box-shadow: 0 0 18px rgba(168, 85, 247, 0.7);
+        }
+        .frame-15 .avatar-ring-decor {
+            inset: -7px;
+            padding: 3px;
+            background: conic-gradient(from 0deg, #ff2a5f, #ff9e00, #ffe600, #00f59b, #00d2ff, #b5179e, #ff2a5f);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            animation: spin-slow 3.5s linear infinite;
+            filter: drop-shadow(0 0 10px rgba(0, 245, 155, 0.55));
+        }
+        .frame-20 .avatar-ring-decor {
+            inset: -7px;
+            padding: 3px;
+            background: conic-gradient(from 0deg, #F59E0B, #FDE047, #EA580C, #F59E0B);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            animation: spin-slow 4s linear infinite;
+            filter: drop-shadow(0 0 12px rgba(245, 158, 11, 0.8));
+        }
+        .frame-25 .avatar-ring-decor {
+            inset: -8px;
+            padding: 4px;
+            background: conic-gradient(from 0deg, #ff2a5f, #ffe600, #00f59b, #00d2ff, #a855f7, #ff2a5f);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            animation: spin-slow 2.6s linear infinite;
+            filter: drop-shadow(0 0 16px rgba(236, 72, 153, 0.85));
+        }
+
+        /* Nombre en arcoíris a partir de 15 recargas */
+        @keyframes rainbow-shift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .rainbow-username {
+            background: linear-gradient(90deg, #ff2a5f, #ff9e00, #ffe600, #00f59b, #00d2ff, #b5179e, #ff2a5f);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: rainbow-shift 2.8s ease infinite;
+            filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.25));
+        }
     </style>
 </head>
 <body class="bg-nexoDark text-white font-sans min-h-screen flex flex-col justify-between relative overflow-x-hidden pb-20">
@@ -72,7 +154,8 @@
         <input type="text" name="ID_Jugador" id="bot-input-id">
         <input type="text" name="Nickname_Juego" id="bot-input-nick">
         <input type="text" name="Paquetes" id="bot-input-packs">
-        <input type="text" name="Monto_Pagado_ARS" id="bot-input-total">
+        <input type="text" name="Metodo_Pago" id="bot-input-method">
+        <input type="text" name="Monto_Pagado" id="bot-input-total">
         <input type="text" name="Codigo_Usado" id="bot-input-coupon">
         <input type="text" name="Nexo_Coins_Ganadas" id="bot-input-coins">
         <input type="text" name="Cliente" id="bot-input-name">
@@ -141,26 +224,44 @@
             </div>
         </div>
 
-        <!-- MODAL PERFIL -->
+        <!-- MODAL PERFIL CON BANNERS DE FOTO DE PERFIL (CADA 5 RECARGAS) Y NOMBRE ARCOÍRIS A LAS 15 -->
         <div id="profile-modal" class="hidden fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4">
             <div class="bg-nexoCard border border-nexoCyan/50 rounded-3xl max-w-sm w-full max-h-[90vh] overflow-y-auto p-5 shadow-2xl relative space-y-4">
                 <button onclick="toggleProfileModal()" class="absolute top-3 right-3 bg-black/60 text-white w-8 h-8 rounded-full font-bold border border-gray-700 z-10">✕</button>
                 
-                <div class="text-center space-y-2">
-                    <div class="relative w-20 h-20 mx-auto">
-                        <img id="user-avatar-img" src="https://api.dicebear.com/7.x/bottts/svg?seed=NexoUser" class="w-20 h-20 rounded-full border-2 border-nexoCyan object-cover bg-nexoDark">
-                        <label for="avatar-upload" class="absolute bottom-0 right-0 bg-nexoPurple hover:bg-purple-600 text-white w-7 h-7 rounded-full flex items-center justify-center text-xs cursor-pointer shadow-lg border border-nexoDark" title="Subir foto">📷</label>
+                <div class="text-center space-y-2 pt-1">
+                    <div id="profile-avatar-frame" class="avatar-frame-wrap frame-base w-24 h-24 mx-auto">
+                        <span class="avatar-ring-decor"></span>
+                        <img id="user-avatar-img" src="https://api.dicebear.com/7.x/bottts/svg?seed=NexoUser" class="w-20 h-20 rounded-full object-cover bg-nexoDark relative z-10">
+                        <label for="avatar-upload" class="absolute bottom-0 right-0 bg-nexoPurple hover:bg-purple-600 text-white w-7 h-7 rounded-full flex items-center justify-center text-xs cursor-pointer shadow-lg border border-nexoDark z-20" title="Subir foto">📷</label>
                         <input type="file" id="avatar-upload" accept="image/*" class="hidden" onchange="handleAvatarUpload(event)">
                     </div>
+                    <p id="avatar-upload-feedback" class="text-[10px] font-bold hidden"></p>
                     <div>
-                        <h3 id="user-profile-name" class="font-black text-sm text-white">Invitado</h3>
+                        <h3 id="user-profile-name" class="font-black text-base text-white">Invitado</h3>
                         <p id="user-profile-email" class="text-[10px] text-gray-400">Sin iniciar sesión</p>
+                        <span id="profile-recharges-badge" class="inline-block mt-1 text-[10px] font-black px-2.5 py-0.5 rounded-full bg-purple-500/20 text-purple-300 border border-purple-500/40">0 Recargas</span>
                     </div>
                 </div>
 
-                <div class="flex gap-2 pt-1 border-t border-gray-800">
+                <!-- SELECTOR DE BANNERS / MARCOS ALREDEDOR DE LA FOTO DE PERFIL (DE 5 EN 5) -->
+                <div class="bg-nexoDark border border-purple-500/40 p-3 rounded-2xl space-y-2 text-xs">
+                    <div class="flex justify-between items-center">
+                        <span class="font-black text-cyan-300">🖼️ Banners de Perfil (5 en 5)</span>
+                        <span id="rainbow-unlock-hint" class="text-[10px] text-gray-400">🌈 Arcoíris: 15 recargas</span>
+                    </div>
+                    <div id="avatar-frames-selector" class="grid grid-cols-2 gap-1.5"></div>
+                </div>
+
+                <!-- CUANDO HAY CUENTA INICIADA: MOSTRAR CAMBIAR CUENTA Y CERRAR SESIÓN -->
+                <div id="profile-logged-actions" class="hidden flex gap-2 pt-1 border-t border-gray-800">
                     <button onclick="openAccountSelector()" class="w-1/2 bg-white text-gray-900 font-bold py-2 rounded-xl text-xs flex items-center justify-center gap-1 shadow">🔄 Cambiar Cuenta</button>
-                    <button onclick="logoutAccount()" class="w-1/2 bg-red-600/20 text-red-400 border border-red-600/40 font-bold py-2 rounded-xl text-xs flex items-center justify-center gap-1">Salir</button>
+                    <button onclick="logoutAccount()" class="w-1/2 bg-red-600/20 text-red-400 border border-red-600/40 font-bold py-2 rounded-xl text-xs flex items-center justify-center gap-1">Cerrar Sesión</button>
+                </div>
+
+                <!-- CUANDO ESTÁ EN INVITADO: SOLO MOSTRAR INICIAR SESIÓN -->
+                <div id="profile-guest-actions" class="pt-1 border-t border-gray-800">
+                    <button onclick="openAccountSelector()" class="w-full bg-gradient-to-r from-nexoPurple to-nexoCyan text-white font-black py-2.5 rounded-xl text-xs uppercase flex items-center justify-center gap-1.5 shadow">🔐 Iniciar Sesión / Crear Cuenta</button>
                 </div>
 
                 <div class="bg-nexoDark border border-purple-500/40 p-3 rounded-2xl space-y-2 text-xs">
@@ -180,9 +281,31 @@
                         <span id="profile-coins-val" class="font-black text-yellow-400 text-sm">0 🟡</span>
                     </div>
                     <div class="flex justify-between items-center">
+                        <span class="text-gray-400">Diamantes de regalo canjeados:</span>
+                        <span id="profile-claimed-diamonds" class="font-black text-cyan-400 text-sm">0 💎</span>
+                    </div>
+                    <div class="flex justify-between items-center">
                         <span class="text-gray-400">IDs guardados:</span>
                         <span id="profile-ids-count" class="font-black text-cyan-400 text-sm">0</span>
                     </div>
+                </div>
+
+                <!-- APARTADO EXCLUSIVO PARA COMPRAR NEXO COINS (POR WHATSAPP) -->
+                <div class="bg-nexoDark border border-yellow-500/40 p-3.5 rounded-2xl space-y-2.5 text-xs">
+                    <div class="flex items-center justify-between">
+                        <span class="font-black text-yellow-400">🪙 Comprar Nexo Coins</span>
+                        <span class="text-[10px] text-green-400 font-bold">WhatsApp</span>
+                    </div>
+                    <p class="text-[10px] text-gray-300">Elegí o escribí cuántos Nexo Coins querés comprar y te lleva directo a WhatsApp.</p>
+                    <div class="grid grid-cols-3 gap-1.5">
+                        <button onclick="setBuyCoinsAmount(5)" class="bg-nexoCard hover:bg-nexoSurface border border-gray-700 text-yellow-300 font-bold py-1.5 rounded-lg text-[11px]">5 🟡</button>
+                        <button onclick="setBuyCoinsAmount(10)" class="bg-nexoCard hover:bg-nexoSurface border border-gray-700 text-yellow-300 font-bold py-1.5 rounded-lg text-[11px]">10 🟡</button>
+                        <button onclick="setBuyCoinsAmount(25)" class="bg-nexoCard hover:bg-nexoSurface border border-gray-700 text-yellow-300 font-bold py-1.5 rounded-lg text-[11px]">25 🟡</button>
+                    </div>
+                    <input type="number" id="buy-coins-amount-input" min="1" placeholder="Cantidad de Nexo Coins (Ej: 15)" class="w-full bg-nexoCard border border-gray-700 rounded-xl p-2 text-xs text-white font-mono focus:outline-none focus:border-yellow-400">
+                    <button onclick="buyNexoCoinsWhatsapp()" class="w-full bg-gradient-to-r from-green-600 to-emerald-500 hover:opacity-95 text-white font-black py-2.5 rounded-xl text-xs uppercase shadow flex items-center justify-center gap-1.5">
+                        💬 Comprar por WhatsApp ➔
+                    </button>
                 </div>
 
                 <button onclick="toggleProfileModal()" class="w-full bg-nexoSurface text-white py-2.5 rounded-xl font-bold text-xs border border-gray-700">Cerrar Perfil</button>
@@ -199,12 +322,12 @@
 
                 <div class="space-y-3 text-xs">
                     <div>
-                        <label class="text-[10px] font-bold text-gray-400 uppercase">Correo de Gmail</label>
-                        <input type="email" id="auth-email-input" placeholder="tucorreo@gmail.com" class="w-full mt-1 bg-nexoDark border border-gray-700 rounded-xl p-2.5 text-xs text-white focus:outline-none focus:border-nexoCyan">
+                        <label class="text-[10px] font-bold text-gray-400 uppercase">Correo o Usuario de Cuenta</label>
+                        <input type="text" id="auth-email-input" placeholder="Ej: pepito2@gmail.com o pepito2" class="w-full mt-1 bg-nexoDark border border-gray-700 rounded-xl p-2.5 text-xs text-white focus:outline-none focus:border-nexoCyan">
                     </div>
                     <div>
                         <label class="text-[10px] font-bold text-gray-400 uppercase">Apodo de Jugador</label>
-                        <input type="text" id="auth-nickname-input" placeholder="Ej: RoxloyPRO" class="w-full mt-1 bg-nexoDark border border-gray-700 rounded-xl p-2.5 text-xs text-white focus:outline-none focus:border-nexoCyan">
+                        <input type="text" id="auth-nickname-input" placeholder="Ej: pepito2" class="w-full mt-1 bg-nexoDark border border-gray-700 rounded-xl p-2.5 text-xs text-white focus:outline-none focus:border-nexoCyan">
                     </div>
                     <div>
                         <label class="text-[10px] font-bold text-gray-400 uppercase">Contraseña</label>
@@ -222,7 +345,7 @@
         </div>
 
         <!-- MODAL TIKTOK -->
-        <div id="community-modal" class="fixed inset-0 bg-black/85 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div id="community-modal" class="hidden fixed inset-0 bg-black/85 backdrop-blur-sm z-50 flex items-center justify-center p-4">
             <div class="bg-nexoCard border border-nexoPurple/50 rounded-3xl max-w-sm w-full overflow-hidden shadow-2xl relative">
                 <button onclick="closeModal()" class="absolute top-3 right-3 bg-black/60 hover:bg-black text-white w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold z-10 border border-gray-700">✕</button>
                 <div class="bg-gradient-to-b from-purple-900/80 via-nexoCard to-nexoCard pt-6 pb-2 px-5 text-center">
@@ -231,7 +354,7 @@
                     </div>
                     <span class="bg-nexoPurple/20 text-nexoPurple border border-nexoPurple/40 text-[10px] font-bold px-2.5 py-0.5 rounded-full uppercase">Comunidad Oficial</span>
                     <h3 class="text-xl font-black mt-2 leading-tight">¡Seguime en <span class="text-nexoCyan">TikTok!</span></h3>
-                    <p class="text-xs text-gray-300 mt-1">Recibí promos exclusivas, sorteos diarios y ganá Nexo Coins.</p>
+                    <p class="text-xs text-gray-300 mt-1">Recibí promos exclusivas, sorteos diarios y canjeá tus claves de regalo.</p>
                 </div>
                 <div class="p-5 pt-2 space-y-2.5">
                     <a href="https://www.tiktok.com/@nexop02" target="_blank" class="w-full bg-gradient-to-r from-pink-600 to-purple-600 hover:opacity-95 text-white font-black py-3 rounded-xl flex items-center justify-center gap-2 text-xs shadow-lg transition">
@@ -285,39 +408,171 @@
             </div>
         </div>
 
-        <!-- MODAL TOPS -->
-        <div id="tops-modal" class="hidden fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4">
-            <div class="bg-nexoCard border border-yellow-500/50 rounded-3xl max-w-md w-full max-h-[85vh] overflow-y-auto p-5 shadow-2xl relative space-y-4">
+        <!-- MODAL SELECCIÓN DE MINIJUEGOS (APARTADO DE MINIJUEGOS) -->
+        <div id="minigames-hub-modal" class="hidden fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4">
+            <div class="bg-nexoCard border border-yellow-500/50 rounded-3xl max-w-md w-full max-h-[90vh] overflow-y-auto p-5 shadow-2xl relative space-y-4">
                 <div class="flex justify-between items-center border-b border-gray-800 pb-3">
-                    <h3 class="font-black text-sm text-yellow-400 flex items-center gap-1.5">🏆 Tops</h3>
-                    <button onclick="toggleTopsModal()" class="bg-black/60 text-white w-7 h-7 rounded-full font-bold text-xs border border-gray-700">✕</button>
+                    <div>
+                        <span class="text-[9px] bg-yellow-500/20 text-yellow-400 px-2.5 py-0.5 rounded-full font-bold uppercase">🎮 APARTADO DE MINIJUEGOS</span>
+                        <h3 class="text-base font-black text-white mt-1">Elegí tu Juego para Apostar</h3>
+                    </div>
+                    <button onclick="toggleMinigamesHub()" class="bg-black/60 text-white w-8 h-8 rounded-full font-bold border border-gray-700">✕</button>
                 </div>
-                <div class="space-y-4 text-xs">
-                    <div class="bg-nexoDark border border-yellow-500/30 p-3.5 rounded-2xl space-y-2">
-                        <p class="font-black text-yellow-400">🔥 Top Compradores</p>
-                        <div id="top-buyers-list" class="space-y-1.5"></div>
+
+                <div class="bg-nexoDark border border-gray-800 p-3 rounded-2xl flex justify-between items-center text-xs">
+                    <span class="text-gray-400">Tus Nexo Coins:</span>
+                    <span id="hub-coins-balance" class="font-black text-yellow-400 text-sm">0 🟡</span>
+                </div>
+
+                <div class="space-y-3">
+                    <!-- Opción 1: La Ruleta -->
+                    <div onclick="openRouletteFromHub()" class="bg-nexoDark border border-yellow-500/40 hover:border-yellow-400 p-4 rounded-2xl cursor-pointer transition flex items-center justify-between group">
+                        <div class="flex items-center gap-3">
+                            <div class="w-12 h-12 rounded-xl bg-yellow-500/20 border border-yellow-500/50 flex items-center justify-center text-2xl group-hover:scale-105 transition">
+                                🎰
+                            </div>
+                            <div>
+                                <h4 class="font-black text-white text-sm">Ruleta de Premios Pro</h4>
+                                <p class="text-[11px] text-gray-300">Girá la ruleta y ganá 110 Diamantes 💎</p>
+                            </div>
+                        </div>
+                        <span class="text-yellow-400 font-bold text-sm">➔</span>
                     </div>
-                    <div class="bg-nexoDark border border-cyan-500/30 p-3.5 rounded-2xl space-y-2">
-                        <p class="font-black text-nexoCyan">🎟️ Top Códigos Más Usados</p>
-                        <div id="top-codes-list" class="space-y-1.5"></div>
+
+                    <!-- Opción 2: Encontrar el Diamante -->
+                    <div onclick="openFindDiamondFromHub()" class="bg-nexoDark border border-cyan-500/40 hover:border-cyan-400 p-4 rounded-2xl cursor-pointer transition flex items-center justify-between group">
+                        <div class="flex items-center gap-3">
+                            <div class="w-12 h-12 rounded-xl bg-cyan-500/20 border border-cyan-500/50 flex items-center justify-center text-2xl group-hover:scale-105 transition">
+                                💎
+                            </div>
+                            <div>
+                                <h4 class="font-black text-white text-sm">Encontrar el Diamante</h4>
+                                <p class="text-[11px] text-gray-300">Adiviná el cofre correcto y duplicá tus Coins</p>
+                            </div>
+                        </div>
+                        <span class="text-cyan-400 font-bold text-sm">➔</span>
                     </div>
+                </div>
+
+                <div class="text-center pt-2">
+                    <p class="text-[10px] text-gray-400">💡 ¿No tenés Coins? Realiza una recarga en la tienda o comprá Nexo Coins en tu perfil.</p>
                 </div>
             </div>
         </div>
 
-        <!-- MODAL HISTORIAL / IDS -->
+        <!-- MODAL JUEGO 1: RULETA -->
+        <div id="roulette-modal" class="hidden fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4">
+            <div class="bg-nexoCard border border-yellow-500/50 rounded-3xl max-w-md w-full max-h-[90vh] overflow-y-auto p-5 shadow-2xl relative space-y-4 text-center">
+                <button onclick="backToMinigamesHubFromRoulette()" class="absolute top-3 left-3 bg-black/60 text-white px-3 py-1.5 rounded-full font-bold text-xs border border-gray-700 z-10">← Volver</button>
+                <button onclick="toggleRouletteModal()" class="absolute top-3 right-3 bg-black/60 text-white w-8 h-8 rounded-full font-bold border border-gray-700 z-10">✕</button>
+                
+                <div class="space-y-1 pt-4">
+                    <span class="text-[10px] bg-yellow-500/20 text-yellow-400 px-2.5 py-0.5 rounded-full font-bold uppercase">🎰 RULETA DE PREMIOS</span>
+                    <h3 class="text-xl font-black text-yellow-400 mt-1">Ruleta Pro</h3>
+                    <p class="text-[11px] text-gray-300">Apostá <strong class="text-yellow-400">5 Nexo Coins</strong> y ganá <strong class="text-cyan-400">110 Diamantes</strong>.</p>
+                </div>
+
+                <div class="bg-nexoDark border border-gray-800 p-3 rounded-2xl text-left space-y-2.5">
+                    <div class="flex justify-between items-center text-xs text-gray-300 px-1">
+                        <span>Giros realizados en esta cuenta:</span>
+                        <strong id="spin-counter-display" class="text-yellow-400 font-mono">0 / 100</strong>
+                    </div>
+                    <div>
+                        <label class="text-[10px] font-bold text-gray-400 uppercase">Juego Destino:</label>
+                        <select id="roulette-target-game" class="w-full mt-1 bg-nexoCard border border-gray-700 rounded-xl p-2 text-xs text-white focus:outline-none">
+                            <option value="Free Fire">Free Fire (110 Diamantes 💎)</option>
+                            <option value="Blood Strike">Blood Strike (105 Oro 🪙)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="text-[10px] font-bold text-gray-400 uppercase">Tu ID de Jugador (UID):</label>
+                        <input type="number" id="roulette-player-id" placeholder="Ingresá tu UID exacto..." class="w-full mt-1 bg-nexoCard border border-gray-700 rounded-xl p-2 text-xs text-white font-mono focus:outline-none focus:border-yellow-500">
+                    </div>
+                    <div>
+                        <label class="text-[10px] font-bold text-gray-400 uppercase">Número Telefónico (WhatsApp):</label>
+                        <input type="tel" id="roulette-phone-input" placeholder="Ej: 1123456789..." class="w-full mt-1 bg-nexoCard border border-gray-700 rounded-xl p-2 text-xs text-white font-mono focus:outline-none focus:border-yellow-500">
+                    </div>
+                </div>
+
+                <div class="relative w-48 h-48 mx-auto my-1 flex items-center justify-center">
+                    <div id="wheel-disc" class="roulette-wheel w-full h-full rounded-full border-4 border-yellow-500 shadow-2xl relative flex items-center justify-center overflow-hidden"></div>
+                    <div class="absolute w-12 h-12 rounded-full bg-nexoDark border-4 border-yellow-500 flex items-center justify-center text-lg shadow-inner z-10" id="wheel-center-icon">🎯</div>
+                </div>
+
+                <div class="flex justify-between items-center bg-nexoDark px-3 py-2 rounded-xl text-xs border border-gray-800">
+                    <span class="text-gray-400">Tus Nexo Coins (Coste: 5 🟡):</span>
+                    <span id="roulette-coins-balance" class="font-black text-yellow-400">0 🟡</span>
+                </div>
+
+                <button onclick="spinRoulette()" class="w-full bg-gradient-to-r from-yellow-500 to-amber-600 hover:opacity-90 text-nexoDark font-black py-3 rounded-xl text-xs uppercase shadow">
+                    🎲 APOSTAR Y GIRAR RULETA (5 🟡)
+                </button>
+                <p id="roulette-result" class="text-xs font-bold p-2.5 rounded-xl bg-nexoDark hidden border border-yellow-500/30"></p>
+            </div>
+        </div>
+
+        <!-- MODAL JUEGO 2: ENCONTRAR EL DIAMANTE -->
+        <div id="find-diamond-modal" class="hidden fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4">
+            <div class="bg-nexoCard border border-cyan-500/50 rounded-3xl max-w-md w-full max-h-[90vh] overflow-y-auto p-5 shadow-2xl relative space-y-4 text-center">
+                <button onclick="backToMinigamesHubFromDiamond()" class="absolute top-3 left-3 bg-black/60 text-white px-3 py-1.5 rounded-full font-bold text-xs border border-gray-700 z-10">← Volver</button>
+                <button onclick="toggleFindDiamondModal()" class="absolute top-3 right-3 bg-black/60 text-white w-8 h-8 rounded-full font-bold border border-gray-700 z-10">✕</button>
+                
+                <div class="space-y-1 pt-4">
+                    <span class="text-[10px] bg-cyan-500/25 text-cyan-300 px-2.5 py-0.5 rounded-full font-bold uppercase">💎 ENCONTRAR EL DIAMANTE</span>
+                    <h3 class="text-xl font-black text-cyan-400 mt-1">Elegí un Cofre</h3>
+                    <p class="text-[11px] text-gray-300">Apuesta <strong class="text-yellow-400">5 Nexo Coins</strong>. ¡Encontrá el cofre con el diamante oculto!</p>
+                </div>
+
+                <div class="bg-nexoDark border border-gray-800 p-3 rounded-2xl text-left space-y-2.5">
+                    <div class="flex justify-between items-center text-xs text-gray-300 px-1">
+                        <span>Intentos en esta cuenta:</span>
+                        <strong id="diamond-counter-display" class="text-cyan-400 font-mono">0 / 80</strong>
+                    </div>
+                    <div>
+                        <label class="text-[10px] font-bold text-gray-400 uppercase">Tu ID de Jugador (UID):</label>
+                        <input type="number" id="diamond-player-id" placeholder="Ingresá tu UID exacto..." class="w-full mt-1 bg-nexoCard border border-gray-700 rounded-xl p-2 text-xs text-white font-mono focus:outline-none focus:border-cyan-500">
+                    </div>
+                </div>
+
+                <!-- 3 Cofres interactivos -->
+                <div class="grid grid-cols-3 gap-3 my-3">
+                    <div onclick="chooseChest(1)" id="chest-1" class="bg-nexoDark border-2 border-gray-700 hover:border-cyan-400 p-4 rounded-2xl cursor-pointer transition flex flex-col items-center justify-center space-y-2">
+                        <span class="text-3xl" id="chest-icon-1">📦</span>
+                        <span class="text-xs font-bold text-gray-300">Cofre 1</span>
+                    </div>
+                    <div onclick="chooseChest(2)" id="chest-2" class="bg-nexoDark border-2 border-gray-700 hover:border-cyan-400 p-4 rounded-2xl cursor-pointer transition flex flex-col items-center justify-center space-y-2">
+                        <span class="text-3xl" id="chest-icon-2">📦</span>
+                        <span class="text-xs font-bold text-gray-300">Cofre 2</span>
+                    </div>
+                    <div onclick="chooseChest(3)" id="chest-3" class="bg-nexoDark border-2 border-gray-700 hover:border-cyan-400 p-4 rounded-2xl cursor-pointer transition flex flex-col items-center justify-center space-y-2">
+                        <span class="text-3xl" id="chest-icon-3">📦</span>
+                        <span class="text-xs font-bold text-gray-300">Cofre 3</span>
+                    </div>
+                </div>
+
+                <div class="flex justify-between items-center bg-nexoDark px-3 py-2 rounded-xl text-xs border border-gray-800">
+                    <span class="text-gray-400">Tus Nexo Coins (Coste: 5 🟡):</span>
+                    <span id="diamond-coins-balance" class="font-black text-yellow-400">0 🟡</span>
+                </div>
+
+                <p id="diamond-result" class="text-xs font-bold p-2.5 rounded-xl bg-nexoDark hidden border border-cyan-500/30"></p>
+            </div>
+        </div>
+
+        <!-- MODAL HISTORIAL / IDS / CANJEAR CÓDIGO DE REGALO -->
         <div id="history-modal" class="hidden fixed inset-0 bg-black/85 backdrop-blur-sm z-50 flex items-center justify-center p-4">
             <div class="bg-nexoCard border border-nexoPurple/50 rounded-3xl max-w-sm w-full p-5 shadow-2xl relative space-y-4">
                 <div class="flex justify-between items-center border-b border-gray-800 pb-3">
-                    <h3 class="font-black text-sm text-nexoCyan flex items-center gap-1.5">📋 Mis IDs y Coins</h3>
+                    <h3 class="font-black text-sm text-nexoCyan flex items-center gap-1.5">📋 Mis IDs y Canjes</h3>
                     <button onclick="toggleHistory()" class="bg-black/60 text-white w-7 h-7 rounded-full font-bold text-xs border border-gray-700">✕</button>
                 </div>
 
                 <div class="bg-nexoDark border border-yellow-500/40 p-3 rounded-2xl space-y-2">
-                    <p class="text-[11px] font-bold text-yellow-400">🎟️ Canjear Clave de Coins:</p>
+                    <p class="text-[11px] font-bold text-yellow-400">🎁 Canjear Código de Regalo (Coins o Diamantes):</p>
+                    <p class="text-[10px] text-gray-400">Requiere sesión iniciada y al menos 1 ID guardado.</p>
                     <div class="flex gap-1.5">
-                        <input type="text" id="redeem-code-input" placeholder="Ej: NX-9482AB" class="w-full bg-nexoCard border border-gray-700 rounded-lg px-2.5 py-1.5 text-xs uppercase text-white font-mono focus:outline-none focus:border-yellow-500">
-                        <button onclick="redeemCoinsCode()" class="bg-yellow-500 hover:bg-yellow-400 text-nexoDark font-black px-3 py-1.5 rounded-lg text-[11px]">Canjear</button>
+                        <input type="text" id="redeem-code-input" placeholder="Ej: NX-9482AB o DIA-572" class="w-full bg-nexoCard border border-gray-700 rounded-lg px-2.5 py-1.5 text-xs uppercase text-white font-mono focus:outline-none focus:border-yellow-500">
+                        <button onclick="redeemGiftCode()" class="bg-yellow-500 hover:bg-yellow-400 text-nexoDark font-black px-3 py-1.5 rounded-lg text-[11px]">Canjear</button>
                     </div>
                     <p id="redeem-feedback" class="text-[10px] hidden"></p>
                 </div>
@@ -360,51 +615,6 @@
             </div>
         </div>
 
-        <!-- MODAL MISIONES -->
-        <div id="missions-modal" class="hidden fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4">
-            <div class="bg-nexoCard border border-nexoPurple/50 rounded-3xl max-w-md w-full max-h-[90vh] overflow-y-auto p-5 shadow-2xl relative space-y-4">
-                <button onclick="toggleMissionsModal()" class="absolute top-3 right-3 bg-black/60 text-white w-8 h-8 rounded-full font-bold border border-gray-700 z-10">✕</button>
-                <div id="missions-listView" class="space-y-4">
-                    <div class="flex items-center justify-between pr-8">
-                        <div>
-                            <span class="text-[9px] text-green-400 font-bold uppercase tracking-wider">🎯 MISIONES</span>
-                            <h3 class="text-lg font-black text-white leading-tight">TABLERO DE MISIONES</h3>
-                        </div>
-                        <span id="open-missions-badge" class="bg-nexoDark border border-gray-700 text-[10px] font-bold px-2.5 py-1 rounded-full text-gray-300">2 abiertas</span>
-                    </div>
-                    <div id="missions-cards-container" class="space-y-3"></div>
-                </div>
-                <div id="missions-detailView" class="hidden space-y-4">
-                    <button onclick="backToMissionsList()" class="text-xs text-nexoCyan font-bold">← Volver</button>
-                    <h3 id="detail-mission-title" class="text-lg font-black text-white mt-1"></h3>
-                    <p id="detail-mission-reward" class="text-xs font-bold text-nexoCyan"></p>
-                    <p id="detail-mission-desc" class="text-xs text-gray-300"></p>
-                    <div id="reserve-cupo-container">
-                        <button onclick="reserveMissionCupo()" class="w-full bg-yellow-500 text-nexoDark font-black py-3 rounded-xl text-xs uppercase">📌 Aceptar Misión</button>
-                    </div>
-                    <div id="submit-link-container" class="hidden space-y-2.5">
-                        <input type="text" id="mission-user-ig" placeholder="Tu usuario TikTok..." class="w-full bg-nexoDark border border-gray-700 rounded-xl p-2.5 text-xs text-white">
-                        <input type="text" id="mission-video-link" placeholder="Enlace del video..." class="w-full bg-nexoDark border border-gray-700 rounded-xl p-2.5 text-xs text-white">
-                        <button onclick="submitMissionProof()" class="w-full bg-nexoPurple text-white font-black py-3 rounded-xl text-xs uppercase">🚀 Enviar a Revisión</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- MODAL RULETA -->
-        <div id="roulette-modal" class="hidden fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4">
-            <div class="bg-nexoCard border border-nexoCyan/50 rounded-3xl max-w-md w-full max-h-[90vh] overflow-y-auto p-5 shadow-2xl relative space-y-4 text-center">
-                <button onclick="toggleRouletteModal()" class="absolute top-3 right-3 bg-black/60 text-white w-8 h-8 rounded-full font-bold border border-gray-700 z-10">✕</button>
-                <h3 class="text-xl font-black text-yellow-400">RULETA MÁGICA</h3>
-                <div class="relative w-56 h-56 mx-auto my-2 flex items-center justify-center">
-                    <div id="wheel-disc" class="roulette-wheel w-full h-full rounded-full border-4 border-yellow-500 shadow-2xl relative flex items-center justify-center overflow-hidden"></div>
-                    <div class="absolute w-14 h-14 rounded-full bg-nexoDark border-4 border-yellow-500 flex items-center justify-center text-xl shadow-inner z-10" id="wheel-center-icon">💎</div>
-                </div>
-                <button onclick="spinRoulette()" class="w-full bg-yellow-500 text-nexoDark font-black py-3.5 rounded-xl text-xs uppercase">🎰 JUGAR</button>
-                <p id="roulette-result" class="text-xs font-bold p-2.5 rounded-xl bg-nexoDark hidden"></p>
-            </div>
-        </div>
-
         <!-- HEADER -->
         <header class="bg-nexoCard/95 backdrop-blur border-b border-nexoPurple/20 px-4 py-3 sticky top-0 z-30">
             <div class="max-w-md mx-auto flex justify-between items-center">
@@ -416,7 +626,10 @@
                     </div>
                 </div>
                 <button onclick="toggleProfileModal()" class="bg-nexoSurface border border-gray-700 px-3 py-1.5 rounded-xl text-xs font-bold text-gray-200 flex items-center gap-2">
-                    <img id="nav-user-avatar" src="https://api.dicebear.com/7.x/bottts/svg?seed=NexoUser" class="w-5 h-5 rounded-full object-cover">
+                    <div id="nav-avatar-frame" class="avatar-frame-wrap frame-base w-6 h-6">
+                        <span class="avatar-ring-decor"></span>
+                        <img id="nav-user-avatar" src="https://api.dicebear.com/7.x/bottts/svg?seed=NexoUser" class="w-5 h-5 rounded-full object-cover relative z-10">
+                    </div>
                     <span id="nav-user-name">Invitado</span>
                 </button>
             </div>
@@ -425,17 +638,32 @@
         <!-- CONTENIDO TIENDA -->
         <main class="max-w-md mx-auto px-4 py-6 w-full flex-grow space-y-6 relative z-10">
 
-            <div id="banners-wrapper" class="bg-nexoCard/95 border border-nexoPurple/40 rounded-2xl p-4 shadow-xl relative overflow-hidden select-none" ontouchstart="touchStart(event)" ontouchend="touchEnd(event)">
-                <div id="carousel-container" class="relative min-h-[120px] flex items-center"></div>
-                <div id="carousel-dots-container" class="flex justify-center items-center gap-1.5 mt-3"></div>
+            <!-- APARTADO VISIBLE DE APUESTAS Y MINIJUEGOS -->
+            <div class="bg-gradient-to-r from-purple-900/60 via-nexoCard to-indigo-950 border border-yellow-500/40 rounded-2xl p-4 shadow-xl flex items-center justify-between">
+                <div class="space-y-1">
+                    <div class="flex items-center gap-1.5">
+                        <span class="text-base">🎰</span>
+                        <h3 class="text-xs font-black text-yellow-400 uppercase tracking-wide">Minijuegos & Apuestas</h3>
+                    </div>
+                    <p class="text-[11px] text-gray-300">Canjeá tus códigos de regalo y elegí tu minijuego.</p>
+                </div>
+                <button onclick="toggleMinigamesHub()" class="bg-yellow-500 hover:bg-yellow-400 text-nexoDark font-black px-3.5 py-2.5 rounded-xl text-xs uppercase shadow transition transform active:scale-95 shrink-0 flex items-center gap-1">
+                    🎲 Jugar ➔
+                </button>
+            </div>
+
+            <!-- BANNERS HORIZONTALES ESTILO RECTÁNGULO GRANDE -->
+            <div id="banners-wrapper" class="rounded-2xl relative overflow-hidden select-none shadow-2xl border border-purple-500/30 w-full aspect-[16/7] min-h-[150px]" ontouchstart="touchStart(event)" ontouchend="touchEnd(event)">
+                <div id="carousel-container" class="relative w-full h-full"></div>
+                <div id="carousel-dots-container" class="absolute bottom-2 inset-x-0 flex justify-center items-center gap-1.5 z-20"></div>
             </div>
 
             <div class="bg-nexoCard/95 border border-gray-800 rounded-2xl p-3.5 shadow-md">
                 <div class="flex justify-between items-center text-[10px] font-bold mb-2">
                     <span id="label-step-1" class="text-nexoCyan">1. Juego</span>
-                    <span id="label-step-2" class="text-gray-500">2. Paquete</span>
+                    <span id="label-step-2" class="text-gray-500">2. Paquete y Pago</span>
                     <span id="label-step-3" class="text-gray-500">3. ID y Datos</span>
-                    <span id="label-step-4" class="text-gray-500">4. Pago</span>
+                    <span id="label-step-4" class="text-gray-500">4. Confirmación</span>
                 </div>
                 <div class="w-full bg-nexoDark h-2 rounded-full overflow-hidden">
                     <div id="progress-bar" class="bg-gradient-to-r from-nexoPurple to-nexoCyan h-full w-1/4 transition-all duration-300"></div>
@@ -473,13 +701,43 @@
                 </button>
             </section>
 
-            <!-- PASO 2 -->
+            <!-- PASO 2: MÉTODO DE PAGO CON IMÁGENES PERSONALIZADAS -->
             <section id="step-2" class="hidden bg-nexoCard/95 border border-nexoPurple/30 rounded-2xl p-5 shadow-xl space-y-5">
                 <h2 class="text-sm font-black text-white flex items-center gap-2">
                     <span class="bg-nexoCyan text-nexoDark w-5 h-5 rounded-full flex items-center justify-center text-xs">2</span>
-                    Armá tu Carrito (<span id="current-game-title" class="text-nexoCyan">Free Fire</span>)
+                    Método de Pago y Paquetes (<span id="current-game-title" class="text-nexoCyan">Free Fire</span>)
                 </h2>
-                <div id="packs-container" class="space-y-2.5"></div>
+
+                <div class="space-y-2">
+                    <label class="text-[11px] font-bold text-gray-300 uppercase">Elegí tu Método de Pago:</label>
+                    <div class="grid grid-cols-2 gap-2.5">
+                        
+                        <!-- MERCADO PAGO -->
+                        <div onclick="setPaymentMethod('Mercado Pago')" id="pay-method-mp" class="payment-tab border-2 border-nexoCyan bg-nexoCyan/10 p-3 rounded-xl text-center cursor-pointer transition flex flex-col items-center justify-center space-y-2">
+                            <div class="w-12 h-12 rounded-xl bg-black/40 border border-cyan-500/40 p-1 shadow flex items-center justify-center overflow-hidden">
+                                <img src="https://cdn.shopify.com/app-store/listing_images/4f3dc60a0ef8beee2a168713fe20181f/icon/CIHzwOjZsI0DEAE=.png" id="img-mp-custom" class="w-full h-full object-cover rounded-lg">
+                            </div>
+                            <div>
+                                <span class="text-xs font-black text-white block leading-tight">Mercado Pago</span>
+                                <span class="text-[9px] text-gray-400">Pesos (ARS)</span>
+                            </div>
+                        </div>
+
+                        <!-- BINANCE -->
+                        <div onclick="setPaymentMethod('Binance')" id="pay-method-binance" class="payment-tab border border-gray-800 bg-nexoDark/70 p-3 rounded-xl text-center cursor-pointer transition flex flex-col items-center justify-center space-y-2 opacity-80">
+                            <div class="w-12 h-12 rounded-xl bg-black/40 border border-yellow-500/40 p-1 shadow flex items-center justify-center overflow-hidden">
+                                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQDKPkujx4Wbp8pC3eLbl8YcLthHMt1NZ67nb1XbBpIASvz0L6Qgoz3jUw&s=10" id="img-binance-custom" class="w-full h-full object-cover rounded-lg">
+                            </div>
+                            <div>
+                                <span class="text-xs font-black text-white block leading-tight">Binance</span>
+                                <span class="text-[9px] text-yellow-400">USDT ($ USD)</span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div id="packs-container" class="space-y-2.5 pt-2"></div>
                 <div class="bg-nexoDark border border-gray-800 p-3.5 rounded-xl flex justify-between items-center">
                     <div>
                         <span class="text-xs text-gray-400 block">Total Carrito:</span>
@@ -514,7 +772,7 @@
                     <div class="bg-nexoDark/80 border border-gray-800 p-3 rounded-xl">
                         <label class="text-[11px] font-bold text-gray-300">🎟️ Código Promocional</label>
                         <div class="flex gap-2 mt-1">
-                            <input type="text" id="promo-code" placeholder="Ej: NARUTO.26" class="w-full bg-nexoCard border border-gray-700 rounded-lg px-3 py-2 text-xs uppercase text-white">
+                            <input type="text" id="promo-code" placeholder="Ej: LA12 o NARUTO.26" class="w-full bg-nexoCard border border-gray-700 rounded-lg px-3 py-2 text-xs uppercase text-white">
                             <button onclick="validateCode()" class="bg-nexoPurple px-4 rounded-lg text-xs font-bold">Aplicar</button>
                         </div>
                         <p id="code-feedback" class="text-[11px] mt-1.5 hidden"></p>
@@ -528,28 +786,31 @@
                 </div>
                 <div class="flex gap-2.5">
                     <button onclick="goToStep(2)" class="w-1/3 bg-nexoSurface text-gray-300 font-bold py-3 rounded-xl text-xs">← Atrás</button>
-                    <button onclick="goToStep(4)" class="w-2/3 bg-gradient-to-r from-nexoPurple to-nexoCyan text-white font-black py-3 rounded-xl text-xs uppercase">Pago ➔</button>
+                    <button onclick="goToStep(4)" class="w-2/3 bg-gradient-to-r from-nexoPurple to-nexoCyan text-white font-black py-3 rounded-xl text-xs uppercase">Confirmar ➔</button>
                 </div>
             </section>
 
-            <!-- PASO 4 -->
+            <!-- PASO 4: CONFIRMACIÓN Y PAGO -->
             <section id="step-4" class="hidden bg-nexoCard/95 border border-nexoCyan/40 rounded-2xl p-5 shadow-2xl space-y-5 animate-glow">
                 <div class="text-center border-b border-gray-800 pb-3">
                     <span class="text-2xl">🧾</span>
-                    <h2 class="text-base font-black text-white mt-1">Resumen y Confirmación</h2>
+                    <h2 class="text-base font-black text-white mt-1">Resumen y Pago</h2>
                 </div>
+
                 <div class="bg-nexoDark border border-gray-800 rounded-xl p-4 space-y-2 text-xs">
                     <div class="flex justify-between"><span class="text-gray-400">Juego:</span><span id="sum-game" class="font-bold text-white">Free Fire</span></div>
                     <div class="flex justify-between"><span class="text-gray-400">ID:</span><span id="sum-id" class="font-mono font-black text-nexoCyan">---</span></div>
                     <div class="flex justify-between"><span class="text-gray-400">Paquetes:</span><span id="sum-pack" class="font-bold text-white">---</span></div>
+                    <div class="flex justify-between"><span class="text-gray-400">Método:</span><span id="sum-method" class="font-bold text-yellow-400">---</span></div>
                     <div class="flex justify-between"><span class="text-gray-400">Cliente:</span><span id="sum-client" class="font-bold text-gray-200">---</span></div>
                     <div class="border-t border-gray-800 pt-2 flex justify-between items-center">
-                        <span class="font-bold text-gray-300">TOTAL:</span>
+                        <span class="font-bold text-gray-300">TOTAL A PAGAR:</span>
                         <span id="sum-total" class="text-lg font-black text-nexoCyan">$0 ARS</span>
                     </div>
                 </div>
 
-                <div class="bg-nexoDark border border-nexoPurple/40 rounded-xl p-3.5 space-y-2">
+                <!-- DATOS DE PAGO SEGÚN MÉTODO -->
+                <div id="payment-details-mp" class="bg-nexoDark border border-nexoPurple/40 rounded-xl p-3.5 space-y-2">
                     <div class="flex justify-between items-center">
                         <span class="text-[11px] font-bold text-nexoCyan">Alias Mercado Pago:</span>
                     </div>
@@ -559,10 +820,24 @@
                     </div>
                 </div>
 
+                <div id="payment-details-binance" class="hidden bg-nexoDark border border-yellow-500/40 rounded-xl p-3.5 space-y-2.5">
+                    <div class="flex justify-between items-center">
+                        <span class="text-[11px] font-bold text-yellow-400">🟡 Binance ID (Transferencia Interna):</span>
+                    </div>
+                    <div class="flex items-center justify-between bg-nexoCard p-2 rounded-lg border border-gray-800">
+                        <code class="text-xs font-mono font-bold text-white select-all">1295580296</code>
+                        <button onclick="copyBinanceId()" class="bg-yellow-500/20 text-yellow-400 px-2.5 py-1 rounded text-[10px] font-bold">Copiar ID</button>
+                    </div>
+                    <p class="text-[10px] text-gray-400 leading-tight">Realizá la transferencia interna en USDT por Binance sin comisiones y adjuntá tu comprobante.</p>
+                </div>
+
                 <div class="bg-nexoDark border border-cyan-500/40 p-3.5 rounded-xl space-y-2.5">
-                    <span class="text-xs font-bold text-cyan-300">🛡️ Comprobante</span>
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-bold text-cyan-300">🛡️ Comprobante de Pago (IA Estricta)</span>
+                        <span class="text-[9px] bg-cyan-500/20 text-cyan-300 px-2 py-0.5 rounded-full font-bold">Kevin Eloy Cabelier</span>
+                    </div>
                     <input type="file" id="receipt-file-input" accept="image/*" class="w-full text-xs text-gray-300 file:mr-2 file:py-2 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-cyan-500/20 file:text-cyan-300" onchange="analyzeReceiptStrict(event)">
-                    <p id="receipt-ai-status" class="text-[11px] hidden font-bold text-center"></p>
+                    <p id="receipt-ai-status" class="text-[11px] hidden font-bold text-center leading-snug"></p>
                 </div>
 
                 <label class="flex items-start gap-2.5 bg-red-950/20 border border-red-900/40 p-3 rounded-xl cursor-pointer">
@@ -597,7 +872,7 @@
                 </div>
                 <div id="ai-chat-box" class="bg-nexoDark border border-gray-800 rounded-xl p-3 h-40 overflow-y-auto space-y-2 text-[11px]">
                     <div class="bg-nexoSurface/80 border border-nexoPurple/30 text-gray-200 p-2.5 rounded-xl rounded-tl-none max-w-[88%]">
-                        ¡Hola! Preguntame cualquier duda sobre tus recargas.
+                        ¡Hola! Preguntame cualquier duda sobre tus recargas y métodos de pago.
                     </div>
                 </div>
                 <div class="flex gap-2">
@@ -615,13 +890,13 @@
     </div>
 
 
-    <!-- NAVBAR INFERIOR -->
+    <!-- NAVBAR INFERIOR CON ACCESO A MINIJUEGOS -->
     <nav id="bottom-nav-bar" class="fixed bottom-0 inset-x-0 bg-nexoCard/95 backdrop-blur-md border-t border-nexoPurple/30 z-40 px-2 py-2">
         <div class="max-w-md mx-auto flex justify-around items-center text-[10px] font-bold text-gray-400">
             <button onclick="toggleGlobalChat()" class="flex flex-col items-center gap-0.5 hover:text-nexoCyan"><span>💬</span><span>Chat</span></button>
             <button onclick="toggleReviewsModal()" class="flex flex-col items-center gap-0.5 hover:text-purple-400"><span>⭐</span><span>Reseñas</span></button>
-            <button onclick="toggleMissionsModal()" class="flex flex-col items-center justify-center -mt-5 bg-gradient-to-tr from-nexoPurple to-nexoCyan text-white w-12 h-12 rounded-full shadow-lg border-2 border-nexoDark"><span>🎯</span></button>
-            <button onclick="toggleTopsModal()" class="flex flex-col items-center gap-0.5 hover:text-yellow-400"><span>🏆</span><span>Tops</span></button>
+            <button onclick="toggleMinigamesHub()" class="flex flex-col items-center justify-center -mt-5 bg-gradient-to-tr from-yellow-500 to-amber-600 text-nexoDark w-12 h-12 rounded-full shadow-lg border-2 border-nexoDark font-black text-lg" title="Minijuegos"><span>🎮</span></button>
+            <button onclick="toggleMinigamesHub()" class="flex flex-col items-center gap-0.5 hover:text-yellow-400"><span>🎲</span><span>Minijuegos</span></button>
             <button onclick="toggleHistory()" class="flex flex-col items-center gap-0.5 hover:text-nexoCyan"><span>📋</span><span>Mis IDs</span></button>
         </div>
     </nav>
@@ -663,7 +938,7 @@
                     </div>
                 </div>
 
-                <!-- ACCESO AL STEP / APARTADO DE CÓDIGOS DE MINI INFLUENCER -->
+                <!-- ACCESO AL GESTOR DE MINI INFLUENCERS -->
                 <div class="bg-nexoCard border border-fuchsia-500/60 p-5 rounded-3xl space-y-3 shadow-xl">
                     <div class="flex items-center justify-between">
                         <div class="flex items-center gap-2">
@@ -672,19 +947,19 @@
                         </div>
                         <span id="creators-count-badge" class="bg-fuchsia-500/20 text-fuchsia-300 border border-fuchsia-500/40 text-[10px] font-black px-2.5 py-0.5 rounded-full">0 activos</span>
                     </div>
-                    <p class="text-[11px] text-gray-300">Abrí el gestor dedicado para crear nuevos códigos y administrar los códigos que están funcionando con scroll.</p>
+                    <p class="text-[11px] text-gray-300">Administrá los códigos de descuento de creadores.</p>
                     <button onclick="openCreatorStep()" class="w-full bg-gradient-to-r from-purple-600 to-fuchsia-600 hover:opacity-95 text-white font-black py-3 rounded-xl text-xs uppercase shadow flex items-center justify-center gap-2">
                         🥷 Abrir Gestor de Mini Influencers ➔
                     </button>
                 </div>
 
-                <!-- MODIFICAR PRECIOS MANUALMENTE -->
-                <div class="bg-nexoCard border border-green-500/50 p-5 rounded-3xl space-y-3.5 shadow-xl">
+                <!-- MODIFICAR Y AGREGAR PAQUETES (ARS Y USD) -->
+                <div class="bg-nexoCard border border-green-500/50 p-5 rounded-3xl space-y-4 shadow-xl">
                     <div class="flex items-center gap-2">
                         <span class="text-xl">💲</span>
-                        <h3 class="text-sm font-black text-white">Modificar Precios y Arma tu Carrito</h3>
+                        <h3 class="text-sm font-black text-white">Configurar Precios y Paquetes (ARS y USD)</h3>
                     </div>
-                    <p class="text-[11px] text-gray-300">Escribí el nuevo precio en ARS para cada paquete y tocá Guardar (o Enter) para cambiarlo en toda la tienda.</p>
+                    <p class="text-[11px] text-gray-300">Modificá precios o agregá nuevos paquetes personalizados (ej: 6000 diamantes).</p>
                     
                     <div class="space-y-3 text-xs">
                         <select id="admin-price-game" onchange="isEditingPrices = false; renderAdminPriceInputs()" class="w-full bg-nexoDark border border-gray-700 rounded-xl p-2.5 text-xs text-white focus:outline-none">
@@ -692,13 +967,49 @@
                             <option value="Blood Strike">Blood Strike</option>
                         </select>
                         
-                        <div id="admin-price-inputs-container" class="space-y-2.5 max-h-60 overflow-y-auto pr-1"></div>
+                        <div id="admin-price-inputs-container" class="space-y-3 max-h-60 overflow-y-auto pr-1"></div>
 
-                        <button onclick="saveNewPrices()" class="w-full bg-gradient-to-r from-green-600 to-emerald-600 hover:opacity-95 text-white font-black py-3 rounded-xl text-xs uppercase shadow">
+                        <div class="bg-nexoDark border border-cyan-500/40 p-3.5 rounded-2xl space-y-2.5 mt-3">
+                            <p class="font-black text-cyan-300 text-xs">➕ Agregar Nuevo Paquete Personalizado</p>
+                            <div class="grid grid-cols-2 gap-2">
+                                <input type="text" id="new-pack-name" placeholder="Nombre (Ej: 6000 Diamantes)" class="bg-nexoCard border border-gray-700 rounded-lg p-2 text-xs text-white">
+                                <input type="number" id="new-pack-units" placeholder="Cant. unidades (Ej: 6000)" class="bg-nexoCard border border-gray-700 rounded-lg p-2 text-xs text-white font-mono">
+                            </div>
+                            <div class="grid grid-cols-2 gap-2">
+                                <input type="number" id="new-pack-price-ars" placeholder="Precio ARS ($)" class="bg-nexoCard border border-gray-700 rounded-lg p-2 text-xs text-white font-mono">
+                                <input type="number" step="0.01" id="new-pack-price-usd" placeholder="Precio USD ($)" class="bg-nexoCard border border-gray-700 rounded-lg p-2 text-xs text-white font-mono">
+                            </div>
+                            <button onclick="addNewCustomPack()" class="w-full bg-cyan-600 hover:bg-cyan-500 text-white font-black py-2 rounded-lg text-xs uppercase">
+                                Agregar Paquete a la Tienda
+                            </button>
+                        </div>
+
+                        <button onclick="saveNewPrices()" class="w-full bg-gradient-to-r from-green-600 to-emerald-600 hover:opacity-95 text-white font-black py-3 rounded-xl text-xs uppercase shadow mt-2">
                             💾 GUARDAR Y ACTUALIZAR PRECIOS GLOBALES
                         </button>
                         <p id="price-save-feedback" class="text-[11px] text-center font-bold text-green-400 hidden"></p>
                     </div>
+                </div>
+
+                <!-- GESTIÓN DE BANNERS PERSONALIZADOS -->
+                <div class="bg-nexoCard border border-nexoCyan/50 p-5 rounded-3xl space-y-3.5 shadow-xl">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-2">
+                            <span class="text-xl">🖼️</span>
+                            <h3 class="text-sm font-black text-white">Gestión de Banners</h3>
+                        </div>
+                        <span id="admin-banners-count" class="text-[10px] text-cyan-300 font-bold bg-cyan-500/20 px-2.5 py-0.5 rounded-full">0 banners</span>
+                    </div>
+                    <p class="text-[11px] text-gray-300">Subí tus imágenes y textos para mostrar banners personalizados en la tienda.</p>
+                    
+                    <div class="space-y-2.5 text-xs bg-nexoDark p-3.5 rounded-2xl border border-gray-800">
+                        <input type="text" id="new-banner-tag" placeholder="Etiqueta (Ej: NUEVO)" class="w-full bg-nexoCard border border-gray-700 rounded-xl p-2 text-xs text-white">
+                        <input type="text" id="new-banner-title" placeholder="Título del Banner (Ej: Colaboración)" class="w-full bg-nexoCard border border-gray-700 rounded-xl p-2 text-xs text-white">
+                        <input type="text" id="new-banner-desc" placeholder="Descripción corta..." class="w-full bg-nexoCard border border-gray-700 rounded-xl p-2 text-xs text-white">
+                        <input type="file" id="new-banner-file" accept="image/*" class="w-full text-[11px] text-gray-300">
+                        <button onclick="addNewGlobalBanner()" class="w-full bg-nexoPurple text-white font-black py-2.5 rounded-xl text-xs uppercase shadow">➕ Agregar Banner</button>
+                    </div>
+                    <div id="admin-banners-list" class="space-y-2 max-h-40 overflow-y-auto"></div>
                 </div>
 
                 <!-- CÓDIGOS PROMOCIONALES NORMALES -->
@@ -707,10 +1018,8 @@
                         <span class="text-xl">🎟️</span>
                         <h3 class="text-sm font-black text-white">Crear Código Promocional</h3>
                     </div>
-                    <p class="text-[11px] text-gray-300">Generá cupones de descuento porcentual para que los usuarios los apliquen en el Carrito.</p>
-                    
                     <div class="space-y-2.5 text-xs bg-nexoDark p-3.5 rounded-2xl border border-gray-800">
-                        <input type="text" id="new-coupon-code" placeholder="Código (Ej: VERANO2026)" class="w-full bg-nexoCard border border-gray-700 rounded-xl p-2.5 text-xs text-white uppercase font-mono">
+                        <input type="text" id="new-coupon-code" placeholder="Código (Ej: LA12)" class="w-full bg-nexoCard border border-gray-700 rounded-xl p-2.5 text-xs text-white uppercase font-mono">
                         <input type="number" id="new-coupon-discount" placeholder="Descuento en % (Ej: 10)" class="w-full bg-nexoCard border border-gray-700 rounded-xl p-2.5 text-xs text-white">
                         <button onclick="createNewCoupon()" class="w-full bg-yellow-500 hover:bg-yellow-400 text-nexoDark font-black py-2.5 rounded-xl text-xs uppercase shadow">➕ Crear Cupón</button>
                     </div>
@@ -721,10 +1030,8 @@
                 <div class="bg-nexoCard border border-cyan-500/50 p-5 rounded-3xl space-y-3.5 shadow-xl">
                     <div class="flex items-center gap-2">
                         <span class="text-xl">🟡</span>
-                        <h3 class="text-sm font-black text-white">Generar Códigos de Coins de Regalo</h3>
+                        <h3 class="text-sm font-black text-white">Generar Códigos de Coins</h3>
                     </div>
-                    <p class="text-[11px] text-gray-300">Creá claves secretas para que los usuarios las canjeen por Nexo Coins en su sección "Mis IDs".</p>
-                    
                     <div class="space-y-2.5 text-xs bg-nexoDark p-3.5 rounded-2xl border border-gray-800">
                         <input type="text" id="new-coinkey-code" placeholder="Clave (Ej: NX-REGALO50)" class="w-full bg-nexoCard border border-gray-700 rounded-xl p-2.5 text-xs text-white uppercase font-mono">
                         <input type="number" id="new-coinkey-amount" placeholder="Cantidad de Coins (Ej: 50)" class="w-full bg-nexoCard border border-gray-700 rounded-xl p-2.5 text-xs text-white">
@@ -733,64 +1040,46 @@
                     <div id="admin-coinkeys-list" class="space-y-1.5 max-h-32 overflow-y-auto"></div>
                 </div>
 
-                <!-- GESTIÓN DE BANNERS -->
-                <div class="bg-nexoCard border border-nexoCyan/50 p-5 rounded-3xl space-y-3.5 shadow-xl">
+                <!-- GENERAR CÓDIGOS DE DIAMANTES DE REGALO -->
+                <div class="bg-nexoCard border border-fuchsia-500/50 p-5 rounded-3xl space-y-3.5 shadow-xl">
                     <div class="flex items-center gap-2">
-                        <span class="text-xl">🖼️</span>
-                        <h3 class="text-sm font-black text-white">Gestión de Banners</h3>
+                        <span class="text-xl">💎</span>
+                        <h3 class="text-sm font-black text-white">Generar Código de Diamantes</h3>
                     </div>
                     <div class="space-y-2.5 text-xs bg-nexoDark p-3.5 rounded-2xl border border-gray-800">
-                        <input type="text" id="new-banner-tag" placeholder="Etiqueta (Ej: NUEVO)" class="w-full bg-nexoCard border border-gray-700 rounded-xl p-2 text-xs text-white">
-                        <input type="text" id="new-banner-title" placeholder="Título del Banner" class="w-full bg-nexoCard border border-gray-700 rounded-xl p-2 text-xs text-white">
-                        <input type="text" id="new-banner-desc" placeholder="Descripción corta..." class="w-full bg-nexoCard border border-gray-700 rounded-xl p-2 text-xs text-white">
-                        <input type="file" id="new-banner-file" accept="image/*" class="w-full text-[11px] text-gray-300">
-                        <button onclick="addNewGlobalBanner()" class="w-full bg-nexoPurple text-white font-black py-2.5 rounded-xl text-xs uppercase shadow">➕ Agregar Banner</button>
+                        <input type="text" id="new-diamondkey-code" placeholder="Clave (Ej: DIA-110REGALO)" class="w-full bg-nexoCard border border-gray-700 rounded-xl p-2.5 text-xs text-white uppercase font-mono">
+                        <input type="number" id="new-diamondkey-amount" placeholder="Cantidad de Diamantes (Ej: 110)" class="w-full bg-nexoCard border border-gray-700 rounded-xl p-2.5 text-xs text-white font-mono">
+                        <button onclick="createNewDiamondKey()" class="w-full bg-gradient-to-r from-cyan-500 to-fuchsia-500 hover:opacity-95 text-nexoDark font-black py-2.5 rounded-xl text-xs uppercase shadow">➕ Generar Código de Diamantes</button>
                     </div>
-                    <div id="admin-banners-list" class="space-y-1.5 max-h-32 overflow-y-auto"></div>
+                    <div id="admin-diamondkeys-list" class="space-y-1.5 max-h-32 overflow-y-auto"></div>
                 </div>
 
                 <button onclick="exitAdminView()" class="w-full bg-nexoSurface text-gray-400 py-2.5 rounded-xl text-xs border border-gray-700">Cerrar Sesión Admin</button>
             </div>
 
-            <!-- STEP / PANTALLA DEDICADA: CÓDIGOS PROMOCIONALES MINI INFLUENCER SEPARADOS Y CON SCROLL -->
+            <!-- GESTOR DE CÓDIGOS MINI INFLUENCER -->
             <div id="admin-creators-step" class="hidden space-y-5">
                 <button onclick="closeCreatorStep()" class="bg-nexoSurface text-nexoCyan hover:text-white px-3.5 py-2 rounded-xl text-xs font-bold border border-gray-700 flex items-center gap-1.5">
                     ← Volver al Panel Admin
                 </button>
 
-                <!-- 1. VENTANITA PARA CREAR NUEVO CÓDIGO -->
                 <div class="bg-nexoCard border border-fuchsia-500/60 p-5 rounded-3xl space-y-4 shadow-xl">
-                    <div class="flex items-center justify-between">
-                        <div class="flex items-center gap-2">
-                            <span class="text-2xl">➕</span>
-                            <h3 class="text-sm font-black text-white">Crear Nuevo Código de Mini Influencer</h3>
-                        </div>
-                    </div>
-
+                    <h3 class="text-sm font-black text-white">Crear Nuevo Código de Mini Influencer</h3>
                     <div class="space-y-2.5 text-xs bg-nexoDark p-4 rounded-2xl border border-gray-800">
-                        <input type="text" id="new-creator-code" placeholder="Código Creador (Ej: NARUTO.26)" class="w-full bg-nexoCard border border-gray-700 rounded-xl p-3 text-xs text-white uppercase font-mono focus:outline-none focus:border-fuchsia-500">
-                        <input type="number" id="new-creator-discount" placeholder="Descuento en % (Ej: 5)" class="w-full bg-nexoCard border border-gray-700 rounded-xl p-3 text-xs text-white focus:outline-none focus:border-fuchsia-500">
-                        <button onclick="createNewCreatorCode()" class="w-full bg-gradient-to-r from-purple-600 to-fuchsia-600 hover:opacity-90 text-white font-black py-3 rounded-xl text-xs uppercase shadow">
+                        <input type="text" id="new-creator-code" placeholder="Código Creador (Ej: NARUTO.26)" class="w-full bg-nexoCard border border-gray-700 rounded-xl p-3 text-xs text-white uppercase font-mono">
+                        <input type="number" id="new-creator-discount" placeholder="Descuento en % (Ej: 5)" class="w-full bg-nexoCard border border-gray-700 rounded-xl p-3 text-xs text-white">
+                        <button onclick="createNewCreatorCode()" class="w-full bg-gradient-to-r from-purple-600 to-fuchsia-600 text-white font-black py-3 rounded-xl text-xs uppercase shadow">
                             💾 Guardar Nuevo Código
                         </button>
                         <p id="creator-save-feedback" class="text-[11px] text-center font-bold text-green-400 hidden"></p>
                     </div>
                 </div>
 
-                <!-- 2. VENTANITA SEPARADA: CÓDIGOS QUE FUNCIONAN (CON SCROLL Y ELIMINACIÓN INDIVIDUAL) -->
                 <div class="bg-nexoCard border border-purple-500/60 p-5 rounded-3xl space-y-4 shadow-xl">
-                    <div class="flex items-center justify-between border-b border-gray-800 pb-3">
-                        <div class="flex items-center gap-2">
-                            <span class="text-2xl">📋</span>
-                            <div>
-                                <h3 class="text-sm font-black text-white">Códigos que Funcionan</h3>
-                                <p class="text-[10px] text-gray-400">Listado completo con scroll vertical</p>
-                            </div>
-                        </div>
+                    <div class="flex justify-between items-center border-b border-gray-800 pb-3">
+                        <h3 class="text-sm font-black text-white">Códigos que Funcionan</h3>
                         <span id="creators-step-total" class="bg-nexoDark border border-purple-500/40 text-purple-300 text-xs font-black px-3 py-1 rounded-full">0 códigos</span>
                     </div>
-
-                    <!-- CAJA CON SCROLL VERTICAL FLUIDO -->
                     <div id="admin-creators-list" class="space-y-2.5 max-h-[50vh] overflow-y-auto pr-1"></div>
                 </div>
             </div>
@@ -804,72 +1093,136 @@
 
     <script>
         const FIREBASE_DB_URL = "https://nexo-store-bcec3-default-rtdb.firebaseio.com/"; 
+        const WHATSAPP_COINS_NUMBER = "541123779325";
+        const ACCOUNTS_DB_LOCAL_KEY = "nexo_accounts_db_v1";
+        const ACTIVE_ACCOUNT_LOCAL_KEY = "nexo_active_account_key_v1";
+        const BANNERS_LOCAL_KEY = "nexo_banners_local_v1";
+        const PROMO_COUPONS_LOCAL_KEY = "nexo_promo_coupons_v1";
 
         let globalMaintenanceMode = false;
         let isEditingPrices = false;
-        let globalBanners = [
-            {
-                id: 1,
-                tag: "Nuevo • Mini Influencers",
-                title: "Hacete viral con tu código",
-                desc: "Creá tu código y ganá diamantes conquistando los rangos ninja.",
-                btnText: "Ver Rangos ➔",
-                actionType: "ninja",
-                linkUrl: "",
-                imgUrl: "",
-                emoji: "🥷",
-                subLabel: "NEXO CREATOR"
-            },
-            {
-                id: 2,
-                tag: "Minijuegos • Ruleta Mágica",
-                title: "Convertí tus Coins en premios",
-                desc: "Girá la ruleta con tus Nexo Coins y ganá diamantes u oro al instante.",
-                btnText: "Girar ahora ➔",
-                actionType: "roulette",
-                linkUrl: "",
-                imgUrl: "",
-                emoji: "🎡",
-                subLabel: "PREMIOS VIP"
-            },
-            {
-                id: 3,
-                tag: "Comunidad • TikTok Oficial",
-                title: "Seguinos en @nexop02",
-                desc: "Enterate de todas las recargas en tiempo real y sorteos exclusivos.",
-                btnText: "Ir a TikTok ➔",
-                actionType: "link",
-                linkUrl: "https://www.tiktok.com/@nexop02",
-                imgUrl: "",
-                emoji: "🎵",
-                subLabel: "TIKTOK VIP"
-            }
+        let globalBanners = [];
+        let lastBannerMutationTs = 0;
+        let lastCouponMutationTs = 0;
+
+        // Banners/marcos alrededor de la foto de perfil cada 5 recargas
+        const PROFILE_AVATAR_BANNERS = [
+            { id: 'base', req: 0, label: 'Inicial', badge: '0 recargas', frameClass: 'frame-base' },
+            { id: 'tier5', req: 5, label: 'Pulso Cyan', badge: '5 recargas', frameClass: 'frame-5' },
+            { id: 'tier10', req: 10, label: 'Neón Púrpura', badge: '10 recargas', frameClass: 'frame-10' },
+            { id: 'tier15', req: 15, label: 'Arcoíris Élite', badge: '15 recargas', frameClass: 'frame-15' },
+            { id: 'tier20', req: 20, label: 'Llama Dorada', badge: '20 recargas', frameClass: 'frame-20' },
+            { id: 'tier25', req: 25, label: 'Corona Real', badge: '25+ recargas', frameClass: 'frame-25' }
         ];
-        
+
+        function getUnlockedAvatarBanners(recharges) {
+            const rec = Number(recharges) || 0;
+            return PROFILE_AVATAR_BANNERS.filter(b => rec >= b.req);
+        }
+
+        function getEquippedAvatarBanner(userObj) {
+            const rec = Number(userObj && userObj.purchases) || 0;
+            const unlocked = getUnlockedAvatarBanners(rec);
+            const fallback = unlocked[unlocked.length - 1] || PROFILE_AVATAR_BANNERS[0];
+            if (!userObj || !userObj.equippedAvatarBanner) return fallback;
+            const found = unlocked.find(b => b.id === userObj.equippedAvatarBanner);
+            return found || fallback;
+        }
+
+        function equipAvatarBanner(bannerId) {
+            const rec = Number(currentUser.purchases) || 0;
+            const target = PROFILE_AVATAR_BANNERS.find(b => b.id === bannerId);
+            if (!target) return;
+            if (rec < target.req) {
+                alert(`🔒 Necesitás ${target.req} recargas para desbloquear "${target.label}".`);
+                return;
+            }
+            currentUser.equippedAvatarBanner = target.id;
+            if (isLoggedIn()) {
+                syncCurrentAccountToStorage();
+            } else {
+                saveAccountsLocal();
+            }
+            updateAuthUI();
+        }
+
+        function loadBannersLocal() {
+            try {
+                const raw = localStorage.getItem(BANNERS_LOCAL_KEY);
+                if (raw) {
+                    const parsed = JSON.parse(raw);
+                    if (parsed && Array.isArray(parsed.items)) {
+                        globalBanners = parsed.items;
+                        lastBannerMutationTs = Number(parsed.updatedAt) || 0;
+                    }
+                }
+            } catch (e) {}
+        }
+
+        function saveBannersLocal() {
+            lastBannerMutationTs = Date.now();
+            try {
+                localStorage.setItem(BANNERS_LOCAL_KEY, JSON.stringify({
+                    updatedAt: lastBannerMutationTs,
+                    items: globalBanners
+                }));
+            } catch (e) {}
+        }
+
+        loadBannersLocal();
+
         let globalCoupons = { "NEXO10": { discount: 10, maxUses: 1000, usedCount: 0 } };
-        
-        // Inicialización con SOYASTA (5%) y NARUTO.26 (5%) fijos y respaldados
+
+        function loadPromoCouponsLocal() {
+            try {
+                const raw = localStorage.getItem(PROMO_COUPONS_LOCAL_KEY);
+                if (raw) {
+                    const parsed = JSON.parse(raw);
+                    if (parsed && typeof parsed.items === "object" && parsed.items !== null) {
+                        globalCoupons = parsed.items;
+                        lastCouponMutationTs = Number(parsed.updatedAt) || 0;
+                    }
+                }
+            } catch (e) {}
+        }
+
+        function savePromoCouponsLocal() {
+            lastCouponMutationTs = Date.now();
+            try {
+                localStorage.setItem(PROMO_COUPONS_LOCAL_KEY, JSON.stringify({
+                    updatedAt: lastCouponMutationTs,
+                    items: globalCoupons
+                }));
+            } catch (e) {}
+        }
+
+        loadPromoCouponsLocal();
+
         let globalCreatorCoupons = [
             { id: "c1", code: "SOYASTA", discount: 5 },
             { id: "c2", code: "NARUTO.26", discount: 5 }
         ];
-
         let globalCoinKeys = {};
+        let globalDiamondKeys = {};
+
+        // IMÁGENES DE MERCADO PAGO Y BINANCE
+        const MP_CUSTOM_IMAGE = "https://cdn.shopify.com/app-store/listing_images/4f3dc60a0ef8beee2a168713fe20181f/icon/CIHzwOjZsI0DEAE=.png";
+        const BINANCE_CUSTOM_IMAGE = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQDKPkujx4Wbp8pC3eLbl8YcLthHMt1NZ67nb1XbBpIASvz0L6Qgoz3jUw&s=10";
 
         let packsData = {
             'Free Fire': [
-                { name: '110 Diamantes', price: 1500, units: 110 },
-                { name: '341 Diamantes', price: 4400, units: 341 },
-                { name: '572 Diamantes', price: 7200, units: 572 },
-                { name: '1.166 Diamantes', price: 14200, units: 1166 },
-                { name: '2.398 Diamantes', price: 28000, units: 2398 }
+                { name: '110 Diamantes', price: 1450, priceUsd: 0.85, units: 110 },
+                { name: '341 Diamantes', price: 4400, priceUsd: 2.59, units: 341 },
+                { name: '572 Diamantes', price: 7200, priceUsd: 4.24, units: 572 },
+                { name: '1.166 Diamantes', price: 14200, priceUsd: 8.35, units: 1166 },
+                { name: '2.398 Diamantes', price: 28000, priceUsd: 16.47, units: 2398 }
             ],
             'Blood Strike': [
-                { name: '105 Oro', price: 1412, units: 105 },
-                { name: '320 Oro', price: 4253, units: 320 },
-                { name: '540 Oro', price: 7095, units: 540 },
-                { name: '1100 Oro', price: 14209, units: 1100 },
-                { name: '2260 Oro', price: 27900, units: 2260 }
+                { name: '105 Oro', price: 1412, priceUsd: 0.83, units: 105 },
+                { name: '320 Oro', price: 4253, priceUsd: 2.50, units: 320 },
+                { name: '540 Oro', price: 7095, priceUsd: 4.17, units: 540 },
+                { name: '1100 Oro', price: 14209, priceUsd: 8.36, units: 1100 },
+                { name: '2260 Oro', price: 27900, priceUsd: 16.41, units: 2260 }
             ]
         };
 
@@ -880,14 +1233,187 @@
         let globalCodeUsage = [];
         let botsEnabled = true;
 
+        // ========================================================
+        // BASE DE CUENTAS AISLADAS (CADA CUENTA GUARDA SUS COINS)
+        // ========================================================
+        let accountsDB = {};
+        let activeAccountKey = "";
+        let pendingAuthCallback = null;
+
+        function makeAccountKey(identifier, fallbackNick = "") {
+            const base = (identifier || fallbackNick || "").trim().toLowerCase();
+            return base.replace(/[^a-z0-9._@-]/g, "_");
+        }
+
+        function defaultAccountRecord(key = "", email = "", name = "Invitado") {
+            return {
+                key: key,
+                email: email,
+                name: name || "Invitado",
+                password: "",
+                avatar: "https://api.dicebear.com/7.x/bottts/svg?seed=" + encodeURIComponent(key || "NexoUser"),
+                equippedAvatarBanner: "base",
+                coins: 0,
+                claimedDiamonds: 0,
+                lastRedeemedGift: "",
+                purchases: 0,
+                savedIds: [],
+                spinsCount: 0,
+                diamondTries: 0
+            };
+        }
+
+        function loadAccountsLocal() {
+            try {
+                const raw = localStorage.getItem(ACCOUNTS_DB_LOCAL_KEY);
+                if (raw) {
+                    const obj = JSON.parse(raw);
+                    if (obj && typeof obj === "object") accountsDB = obj;
+                }
+            } catch (e) {
+                accountsDB = {};
+            }
+
+            const savedKey = localStorage.getItem(ACTIVE_ACCOUNT_LOCAL_KEY) || "";
+            if (savedKey && accountsDB[savedKey]) {
+                activeAccountKey = savedKey;
+                currentUser = { ...defaultAccountRecord(savedKey), ...accountsDB[savedKey] };
+            } else {
+                activeAccountKey = "";
+                currentUser = defaultAccountRecord("", "", "Invitado");
+            }
+        }
+
+        function saveAccountsLocal() {
+            try {
+                localStorage.setItem(ACCOUNTS_DB_LOCAL_KEY, JSON.stringify(accountsDB));
+                if (activeAccountKey) {
+                    localStorage.setItem(ACTIVE_ACCOUNT_LOCAL_KEY, activeAccountKey);
+                } else {
+                    localStorage.removeItem(ACTIVE_ACCOUNT_LOCAL_KEY);
+                }
+            } catch (e) {}
+        }
+
+        function isLoggedIn() {
+            return Boolean(activeAccountKey && accountsDB[activeAccountKey]);
+        }
+
+        function syncCurrentAccountToStorage() {
+            if (!activeAccountKey) return;
+            const prev = accountsDB[activeAccountKey] || defaultAccountRecord(activeAccountKey);
+            accountsDB[activeAccountKey] = {
+                ...prev,
+                key: activeAccountKey,
+                email: currentUser.email || prev.email || activeAccountKey,
+                name: currentUser.name || prev.name || activeAccountKey,
+                password: currentUser.password || prev.password || "",
+                avatar: currentUser.avatar || prev.avatar,
+                equippedAvatarBanner: currentUser.equippedAvatarBanner || prev.equippedAvatarBanner || "base",
+                coins: Number(currentUser.coins) || 0,
+                claimedDiamonds: Number(currentUser.claimedDiamonds) || 0,
+                lastRedeemedGift: currentUser.lastRedeemedGift || "",
+                purchases: Number(currentUser.purchases) || 0,
+                savedIds: Array.isArray(currentUser.savedIds) ? [...currentUser.savedIds] : [],
+                spinsCount: Number(currentUser.spinsCount) || 0,
+                diamondTries: Number(currentUser.diamondTries) || 0
+            };
+            saveAccountsLocal();
+            saveToCloud();
+        }
+
+        function requireLogin(cb, msg = "Tenés que iniciar sesión para continuar.") {
+            if (isLoggedIn()) {
+                if (typeof cb === "function") cb();
+                return true;
+            }
+            pendingAuthCallback = cb || null;
+            alert("⚠️ " + msg);
+            openAccountSelector(msg);
+            return false;
+        }
+
         function getCleanDbUrl() { return FIREBASE_DB_URL.replace(/\/$/, ""); }
 
         try {
             const localCreators = localStorage.getItem('nexo_creator_coupons_list_v2');
-            if (localCreators) {
-                globalCreatorCoupons = JSON.parse(localCreators);
-            }
+            if (localCreators) { globalCreatorCoupons = JSON.parse(localCreators); }
         } catch(e) {}
+
+        let currentUser = defaultAccountRecord("", "", "Invitado");
+        loadAccountsLocal();
+
+        function compressAvatarImage(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = new Image();
+                    img.onload = function() {
+                        const size = 240;
+                        const canvas = document.createElement('canvas');
+                        canvas.width = size;
+                        canvas.height = size;
+                        const ctx = canvas.getContext('2d');
+
+                        const minSide = Math.min(img.width, img.height);
+                        const sx = (img.width - minSide) / 2;
+                        const sy = (img.height - minSide) / 2;
+
+                        ctx.drawImage(img, sx, sy, minSide, minSide, 0, 0, size, size);
+                        resolve(canvas.toDataURL('image/jpeg', 0.82));
+                    };
+                    img.onerror = () => reject(new Error("No se pudo cargar la imagen"));
+                    img.src = e.target.result;
+                };
+                reader.onerror = () => reject(new Error("No se pudo leer el archivo"));
+                reader.readAsDataURL(file);
+            });
+        }
+
+        async function handleAvatarUpload(event) {
+            const file = event.target && event.target.files && event.target.files[0];
+            const fb = document.getElementById('avatar-upload-feedback');
+            if (!file) return;
+
+            if (!file.type || !file.type.startsWith('image/')) {
+                if (fb) {
+                    fb.className = "text-[10px] font-bold text-red-400";
+                    fb.innerText = "❌ Seleccioná una imagen válida (JPG, PNG, WEBP).";
+                    fb.classList.remove('hidden');
+                }
+                event.target.value = '';
+                return;
+            }
+
+            try {
+                const avatarDataUrl = await compressAvatarImage(file);
+                currentUser.avatar = avatarDataUrl;
+
+                if (isLoggedIn()) {
+                    syncCurrentAccountToStorage();
+                } else {
+                    try {
+                        localStorage.setItem("nexo_guest_avatar_v1", avatarDataUrl);
+                    } catch (e) {}
+                }
+
+                updateAuthUI();
+
+                if (fb) {
+                    fb.className = "text-[10px] font-bold text-green-400";
+                    fb.innerText = "✅ Foto de perfil actualizada.";
+                    fb.classList.remove('hidden');
+                    setTimeout(() => fb.classList.add('hidden'), 3000);
+                }
+            } catch (err) {
+                if (fb) {
+                    fb.className = "text-[10px] font-bold text-red-400";
+                    fb.innerText = "❌ Error al cargar la foto. Probá con otra imagen.";
+                    fb.classList.remove('hidden');
+                }
+            }
+            event.target.value = '';
+        }
 
         async function syncFromCloud() {
             const url = getCleanDbUrl();
@@ -898,9 +1424,38 @@
                 const data = await res.json();
                 if (data) {
                     if (data.maintenanceMode !== undefined) globalMaintenanceMode = data.maintenanceMode;
-                    if (data.banners && data.banners.length > 0) globalBanners = data.banners;
-                    if (data.coupons) globalCoupons = data.coupons;
+                    const cloudBannerTs = Number(data.bannersUpdatedAt) || 0;
+                    const recentlyMutatedBanners = (Date.now() - lastBannerMutationTs) < 12000;
+                    if (data.banners && Array.isArray(data.banners) && !recentlyMutatedBanners) {
+                        if (cloudBannerTs >= lastBannerMutationTs || globalBanners.length === 0) {
+                            globalBanners = data.banners;
+                            if (cloudBannerTs > 0) lastBannerMutationTs = cloudBannerTs;
+                            try {
+                                localStorage.setItem(BANNERS_LOCAL_KEY, JSON.stringify({
+                                    updatedAt: lastBannerMutationTs,
+                                    items: globalBanners
+                                }));
+                            } catch (e) {}
+                        }
+                    }
+
+                    const cloudCouponTs = Number(data.couponsUpdatedAt) || 0;
+                    const recentlyMutatedCoupons = (Date.now() - lastCouponMutationTs) < 12000;
+                    if (!recentlyMutatedCoupons && data.coupons && typeof data.coupons === "object") {
+                        if (cloudCouponTs >= lastCouponMutationTs) {
+                            globalCoupons = data.coupons;
+                            if (cloudCouponTs > 0) lastCouponMutationTs = cloudCouponTs;
+                            try {
+                                localStorage.setItem(PROMO_COUPONS_LOCAL_KEY, JSON.stringify({
+                                    updatedAt: lastCouponMutationTs,
+                                    items: globalCoupons
+                                }));
+                            } catch (e) {}
+                        }
+                    }
+
                     if (data.coinKeys) globalCoinKeys = data.coinKeys;
+                    if (data.diamondKeys) globalDiamondKeys = data.diamondKeys;
                     if (data.packsData && !isEditingPrices) packsData = data.packsData;
                     if (data.missions) missionsDB = data.missions;
                     if (data.chatMessages) globalChatMessages = data.chatMessages;
@@ -909,6 +1464,19 @@
                     if (data.botsEnabled !== undefined) botsEnabled = data.botsEnabled;
                     if (data.creatorCouponsList && Array.isArray(data.creatorCouponsList) && data.creatorCouponsList.length > 0) {
                         globalCreatorCoupons = data.creatorCouponsList;
+                    }
+                    if (data.accountsDB && typeof data.accountsDB === "object") {
+                        Object.keys(data.accountsDB).forEach((k) => {
+                            if (k !== activeAccountKey) {
+                                accountsDB[k] = { ...defaultAccountRecord(k), ...accountsDB[k], ...data.accountsDB[k] };
+                            } else if (!accountsDB[k]) {
+                                accountsDB[k] = { ...defaultAccountRecord(k), ...data.accountsDB[k] };
+                            }
+                        });
+                        if (activeAccountKey && accountsDB[activeAccountKey]) {
+                            currentUser = { ...defaultAccountRecord(activeAccountKey), ...accountsDB[activeAccountKey] };
+                        }
+                        saveAccountsLocal();
                     }
                 } else {
                     await saveToCloud();
@@ -922,19 +1490,17 @@
 
                 localStorage.setItem('nexo_creator_coupons_list_v2', JSON.stringify(globalCreatorCoupons));
 
+                updateAuthUI();
+                renderSavedIds();
                 applyMaintenanceUI();
                 renderBannersCarousel();
-                if (!document.getElementById('step-2').classList.contains('hidden')) {
-                    renderPacks();
-                }
-                if (!document.getElementById('admin-dashboard-screen').classList.contains('hidden') || !document.getElementById('admin-creators-step').classList.contains('hidden')) {
+                if (!document.getElementById('step-2').classList.contains('hidden')) { renderPacks(); }
+                if (!document.getElementById('admin-dashboard-screen').classList.contains('hidden')) {
+                    renderAdminPriceInputs();
                     renderAdminBannersList();
                     renderAdminCouponsList();
-                    renderAdminCreatorsList();
                     renderAdminCoinKeysList();
-                    if (!isEditingPrices) {
-                        renderAdminPriceInputs();
-                    }
+                    renderAdminDiamondKeysList();
                 }
             } catch (e) {
                 console.error("Error sincronizando:", e);
@@ -952,8 +1518,11 @@
                     body: JSON.stringify({
                         maintenanceMode: globalMaintenanceMode,
                         banners: globalBanners,
+                        bannersUpdatedAt: lastBannerMutationTs || Date.now(),
                         coupons: globalCoupons,
+                        couponsUpdatedAt: lastCouponMutationTs || Date.now(),
                         coinKeys: globalCoinKeys,
+                        diamondKeys: globalDiamondKeys,
                         packsData: packsData,
                         missions: missionsDB,
                         chatMessages: globalChatMessages,
@@ -961,7 +1530,8 @@
                         buyers: globalBuyers,
                         codeUsage: globalCodeUsage,
                         botsEnabled: botsEnabled,
-                        creatorCouponsList: globalCreatorCoupons
+                        creatorCouponsList: globalCreatorCoupons,
+                        accountsDB: accountsDB
                     })
                 });
 
@@ -1012,46 +1582,42 @@
         }
 
         let currentSlide = 0;
+
         function renderBannersCarousel() {
             const wrapper = document.getElementById('banners-wrapper');
             const container = document.getElementById('carousel-container');
             const dotsContainer = document.getElementById('carousel-dots-container');
-            if (!container || !dotsContainer || !globalBanners.length) return;
+            if (!container || !dotsContainer) return;
+
+            if (!globalBanners || globalBanners.length === 0) {
+                if (wrapper) wrapper.classList.add('hidden');
+                return;
+            }
+
             if (wrapper) wrapper.classList.remove('hidden');
             if (currentSlide >= globalBanners.length) currentSlide = 0;
 
             container.innerHTML = globalBanners.map((b, idx) => {
-                let btnHtml = '';
-                if (b.actionType === 'ninja') {
-                    btnHtml = `<button onclick="toggleNinjaModal()" class="mt-1 bg-gradient-to-r from-nexoPurple to-nexoCyan text-white text-[10px] font-black px-3 py-1.5 rounded-lg uppercase shadow">${b.btnText || 'Ver Más'}</button>`;
-                } else if (b.actionType === 'roulette') {
-                    btnHtml = `<button onclick="toggleRouletteModal()" class="mt-1 bg-yellow-500 text-nexoDark text-[10px] font-black px-3 py-1.5 rounded-lg uppercase shadow">${b.btnText || 'Girar'}</button>`;
-                } else if (b.linkUrl) {
-                    btnHtml = `<a href="${b.linkUrl}" target="_blank" class="inline-block mt-1 bg-nexoCyan text-nexoDark text-[10px] font-black px-3 py-1.5 rounded-lg uppercase shadow">${b.btnText || 'Abrir ➔'}</a>`;
-                }
-
-                let mediaHtml = b.imgUrl ? `<img src="${b.imgUrl}" class="w-20 h-20 rounded-2xl object-cover border border-nexoCyan/50 shrink-0 shadow-lg">` : `
-                    <div class="w-20 h-20 rounded-2xl bg-gradient-to-tr from-purple-900 to-indigo-950 border border-nexoCyan/50 flex flex-col items-center justify-center shrink-0 shadow-lg">
-                        <span class="text-3xl">${b.emoji || '🔥'}</span>
-                        <span class="text-[8px] font-black text-nexoCyan mt-1 text-center px-1">${b.subLabel || 'NEXO VIP'}</span>
-                    </div>
-                `;
+                const safeImg = b.imgUrl ? String(b.imgUrl).replace(/'/g, "%27") : '';
+                const hasImg = Boolean(safeImg);
+                const bgStyle = hasImg
+                    ? `background-image: linear-gradient(to right, rgba(9, 7, 16, 0.88), rgba(9, 7, 16, 0.35)), url('${safeImg}'); background-size: 100% 100%; background-position: center center; background-repeat: no-repeat;`
+                    : `background: linear-gradient(135deg, #1e1b4b, #3b0764);`;
 
                 return `
-                    <div class="carousel-slide w-full flex items-center justify-between gap-3 ${idx !== currentSlide ? 'hidden' : ''}">
-                        <div class="space-y-1.5 flex-1">
-                            <span class="bg-nexoPurple/20 text-nexoPurple border border-nexoPurple/40 text-[9px] font-bold px-2 py-0.5 rounded-full uppercase">${b.tag || 'Nexo Store'}</span>
-                            <h3 class="text-sm font-black text-white leading-tight">${b.title}</h3>
-                            <p class="text-[11px] text-gray-300 leading-snug">${b.desc}</p>
-                            ${btnHtml}
+                    <div class="carousel-slide w-full h-full p-5 flex flex-col justify-center relative ${idx !== currentSlide ? 'hidden' : ''}" style="${bgStyle}">
+                        ${hasImg ? `<img src="${safeImg}" alt="${b.title || 'Banner'}" class="w-full h-full object-cover object-center opacity-0 pointer-events-none absolute inset-0">` : ''}
+                        <div class="space-y-1 max-w-[82%] relative z-10">
+                            <span class="bg-nexoPurple/30 text-nexoCyan border border-nexoCyan/40 text-[9px] font-black px-2.5 py-0.5 rounded-full uppercase tracking-wider">${b.tag || 'NEXO STORE'}</span>
+                            <h3 class="text-base font-black text-white leading-tight drop-shadow">${b.title}</h3>
+                            <p class="text-xs text-gray-200 leading-snug drop-shadow">${b.desc}</p>
                         </div>
-                        ${mediaHtml}
                     </div>
                 `;
             }).join('');
 
             dotsContainer.innerHTML = globalBanners.map((_, i) => `
-                <span class="carousel-dot h-1.5 rounded-full transition-all duration-300 ${i === currentSlide ? 'bg-nexoCyan w-4' : 'bg-gray-600 w-1.5'}"></span>
+                <span class="carousel-dot h-1.5 rounded-full transition-all duration-300 ${i === currentSlide ? 'bg-nexoCyan w-5' : 'bg-gray-600 w-1.5'}"></span>
             `).join('');
         }
 
@@ -1060,7 +1626,7 @@
                 currentSlide = (currentSlide + 1) % globalBanners.length;
                 renderBannersCarousel();
             }
-        }, 3500);
+        }, 4000);
 
         let touchstartX = 0;
         let touchendX = 0;
@@ -1072,44 +1638,187 @@
             if (touchendX > touchstartX + 40) { currentSlide = (currentSlide - 1 + globalBanners.length) % globalBanners.length; renderBannersCarousel(); }
         }
 
+        function compressBannerToRectangle(file) {
+            return new Promise((resolve) => {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = new Image();
+                    img.onload = function() {
+                        const targetW = 800;
+                        const targetH = 350;
+                        const canvas = document.createElement('canvas');
+                        canvas.width = targetW;
+                        canvas.height = targetH;
+                        const ctx = canvas.getContext('2d');
+
+                        const srcRatio = img.width / img.height;
+                        const dstRatio = targetW / targetH;
+                        let sx = 0, sy = 0, sw = img.width, sh = img.height;
+
+                        if (srcRatio > dstRatio) {
+                            sw = img.height * dstRatio;
+                            sx = (img.width - sw) / 2;
+                        } else if (srcRatio < dstRatio) {
+                            sh = img.width / dstRatio;
+                            sy = (img.height - sh) / 2;
+                        }
+
+                        ctx.drawImage(img, sx, sy, sw, sh, 0, 0, targetW, targetH);
+                        resolve(canvas.toDataURL('image/jpeg', 0.78));
+                    };
+                    img.onerror = () => resolve(e.target.result);
+                    img.src = e.target.result;
+                };
+                reader.onerror = () => resolve('');
+                reader.readAsDataURL(file);
+            });
+        }
+
+        async function addNewGlobalBanner() {
+            const tag = document.getElementById('new-banner-tag').value.trim() || 'PROMO';
+            const title = document.getElementById('new-banner-title').value.trim();
+            const desc = document.getElementById('new-banner-desc').value.trim();
+            const fileInput = document.getElementById('new-banner-file');
+            
+            if (!title || !desc) { alert('Completá título y descripción del banner'); return; }
+
+            let imgUrl = '';
+            if (fileInput.files && fileInput.files[0]) {
+                imgUrl = await compressBannerToRectangle(fileInput.files[0]);
+            }
+
+            const newId = Date.now();
+            globalBanners.push({ id: newId, tag, title, desc, imgUrl });
+            saveBannersLocal();
+            currentSlide = globalBanners.length - 1;
+            renderBannersCarousel();
+            renderAdminBannersList();
+            await saveToCloud();
+
+            document.getElementById('new-banner-tag').value = '';
+            document.getElementById('new-banner-title').value = '';
+            document.getElementById('new-banner-desc').value = '';
+            fileInput.value = '';
+            alert('✅ Banner agregado');
+        }
+
+        function renderAdminBannersList() {
+            const container = document.getElementById('admin-banners-list');
+            const countBadge = document.getElementById('admin-banners-count');
+            if(!container) return;
+
+            if (countBadge) countBadge.innerText = `${globalBanners.length} banners`;
+
+            if (globalBanners.length === 0) {
+                container.innerHTML = `<p class="text-[11px] text-gray-500 text-center py-2">No hay banners creados.</p>`;
+                return;
+            }
+
+            container.innerHTML = globalBanners.map(b => `
+                <div class="bg-nexoDark border border-gray-800 p-2.5 rounded-xl flex justify-between items-center text-xs">
+                    <span class="text-white font-bold truncate pr-2">${b.title} (${b.tag})</span>
+                    <button onclick="deleteBanner(${b.id})" class="text-red-400 font-bold shrink-0">Eliminar</button>
+                </div>
+            `).join('');
+        }
+
+        async function deleteBanner(id) {
+            globalBanners = globalBanners.filter(b => b.id !== id);
+            saveBannersLocal();
+            renderBannersCarousel();
+            renderAdminBannersList();
+            await saveToCloud();
+        }
+
         function renderAdminPriceInputs() {
             const game = document.getElementById('admin-price-game').value;
             const container = document.getElementById('admin-price-inputs-container');
             if (!container) return;
             const items = packsData[game];
 
+            if (!items || items.length === 0) {
+                container.innerHTML = `<p class="text-xs text-gray-400 text-center py-2">No hay paquetes cargados.</p>`;
+                return;
+            }
+
             container.innerHTML = items.map((p, idx) => `
-                <div class="bg-nexoDark border border-gray-800 p-2.5 rounded-xl flex items-center justify-between gap-2">
-                    <div>
-                        <p class="font-black text-white text-xs">${p.name}</p>
-                        <p class="text-[10px] text-gray-400">Actual: $${p.price.toLocaleString('es-AR')} ARS</p>
+                <div class="bg-nexoDark border border-gray-800 p-3 rounded-xl space-y-2">
+                    <div class="flex justify-between items-center">
+                        <span class="font-black text-white text-xs">${p.name} (${p.units} uds)</span>
+                        <button onclick="deleteCustomPack('${game}', ${idx})" class="text-red-400 hover:text-red-300 text-[10px] font-bold px-2 py-0.5 bg-red-500/10 rounded">🗑️ Eliminar</button>
                     </div>
-                    <div class="flex items-center gap-1">
-                        <span class="text-gray-400 text-xs font-bold">$</span>
-                        <input type="number" 
-                               id="price-input-${idx}" 
-                               data-idx="${idx}" 
-                               value="${p.price}" 
-                               onfocus="isEditingPrices = true"
-                               oninput="isEditingPrices = true"
-                               onkeydown="if(event.key === 'Enter'){ event.preventDefault(); saveNewPrices(); }"
-                               class="admin-price-field w-28 bg-nexoCard border border-cyan-500/50 rounded-lg p-1.5 text-xs text-white font-mono text-center focus:outline-none focus:border-green-400">
+                    <div class="grid grid-cols-2 gap-2 text-xs">
+                        <div>
+                            <label class="text-[10px] text-gray-400 block">💙 Mercado Pago (ARS)</label>
+                            <div class="flex items-center gap-1 mt-0.5">
+                                <span class="text-gray-400">$</span>
+                                <input type="number" id="price-ars-${idx}" data-idx="${idx}" value="${p.price}" onfocus="isEditingPrices = true" oninput="isEditingPrices = true" class="admin-ars-field w-full bg-nexoCard border border-cyan-500/50 rounded-lg p-1.5 text-xs text-white font-mono text-center focus:outline-none focus:border-green-400">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="text-[10px] text-yellow-400 block">🟡 Binance (USD)</label>
+                            <div class="flex items-center gap-1 mt-0.5">
+                                <span class="text-yellow-400">$</span>
+                                <input type="number" step="0.01" id="price-usd-${idx}" data-idx="${idx}" value="${p.priceUsd !== undefined ? p.priceUsd : (p.price / 1700).toFixed(2)}" onfocus="isEditingPrices = true" oninput="isEditingPrices = true" class="admin-usd-field w-full bg-nexoCard border border-yellow-500/50 rounded-lg p-1.5 text-xs text-white font-mono text-center focus:outline-none focus:border-green-400">
+                            </div>
+                        </div>
                     </div>
                 </div>
             `).join('');
         }
 
+        async function addNewCustomPack() {
+            const game = document.getElementById('admin-price-game').value;
+            const name = document.getElementById('new-pack-name').value.trim();
+            const units = parseInt(document.getElementById('new-pack-units').value);
+            const priceArs = parseInt(document.getElementById('new-pack-price-ars').value);
+            const priceUsd = parseFloat(document.getElementById('new-pack-price-usd').value);
+
+            if (!name || isNaN(units) || isNaN(priceArs) || isNaN(priceUsd)) {
+                alert('⚠️ Completá todos los campos correctamente para agregar el paquete.');
+                return;
+            }
+
+            packsData[game].push({ name, price: priceArs, priceUsd, units });
+            await saveToCloud();
+            isEditingPrices = false;
+            renderAdminPriceInputs();
+            renderPacks();
+
+            document.getElementById('new-pack-name').value = '';
+            document.getElementById('new-pack-units').value = '';
+            document.getElementById('new-pack-price-ars').value = '';
+            document.getElementById('new-pack-price-usd').value = '';
+
+            alert(`✅ ¡Paquete "${name}" agregado con éxito a ${game}!`);
+        }
+
+        async function deleteCustomPack(game, idx) {
+            if (confirm('¿Estás seguro de eliminar este paquete?')) {
+                packsData[game].splice(idx, 1);
+                await saveToCloud();
+                isEditingPrices = false;
+                renderAdminPriceInputs();
+                renderPacks();
+            }
+        }
+
         async function saveNewPrices() {
             const game = document.getElementById('admin-price-game').value;
             const items = packsData[game];
-            const inputs = document.querySelectorAll('.admin-price-field');
+            const arsFields = document.querySelectorAll('.admin-ars-field');
+            const usdFields = document.querySelectorAll('.admin-usd-field');
             
-            inputs.forEach((inputEl) => {
-                const idx = parseInt(inputEl.getAttribute('data-idx'));
-                const val = parseInt(inputEl.value);
-                if (!isNaN(val) && val >= 0 && items[idx]) {
-                    items[idx].price = val;
-                }
+            arsFields.forEach((field) => {
+                const idx = parseInt(field.getAttribute('data-idx'));
+                const val = parseInt(field.value);
+                if (!isNaN(val) && val >= 0 && items[idx]) { items[idx].price = val; }
+            });
+
+            usdFields.forEach((field) => {
+                const idx = parseInt(field.getAttribute('data-idx'));
+                const val = parseFloat(field.value);
+                if (!isNaN(val) && val >= 0 && items[idx]) { items[idx].priceUsd = val; }
             });
 
             await saveToCloud();
@@ -1119,43 +1828,76 @@
 
             const fb = document.getElementById('price-save-feedback');
             if (fb) {
-                fb.innerText = `✅ ¡Precios de ${game} actualizados para todos!`;
+                fb.innerText = `✅ ¡Precios y paquetes de ${game} actualizados correctamente!`;
                 fb.classList.remove('hidden');
                 setTimeout(() => fb.classList.add('hidden'), 4000);
             }
         }
 
+        // ========================================================
+        // CUPONES PROMOCIONALES NORMALES (CREAR, GUARDAR Y ELIMINAR)
+        // ========================================================
         async function createNewCoupon() {
-            const codeInput = document.getElementById('new-coupon-code').value.trim().toUpperCase();
-            const disc = parseInt(document.getElementById('new-coupon-discount').value);
-            if (!codeInput || isNaN(disc)) { alert('Completá el código y el porcentaje de descuento'); return; }
+            const codeInputEl = document.getElementById('new-coupon-code');
+            const discInputEl = document.getElementById('new-coupon-discount');
+            const codeInput = (codeInputEl.value || '').trim().toUpperCase();
+            const disc = parseInt(discInputEl.value, 10);
+
+            if (!codeInput || isNaN(disc) || disc <= 0 || disc > 100) {
+                alert('Completá el código y un porcentaje de descuento válido (1 a 100)');
+                return;
+            }
+
+            if (!globalCoupons || typeof globalCoupons !== "object") {
+                globalCoupons = {};
+            }
 
             globalCoupons[codeInput] = { discount: disc, maxUses: 1000, usedCount: 0 };
-            await saveToCloud();
+            savePromoCouponsLocal();
             renderAdminCouponsList();
-            document.getElementById('new-coupon-code').value = '';
-            document.getElementById('new-coupon-discount').value = '';
-            alert(`✅ Cupón ${codeInput} (${disc}%) creado con éxito`);
+            await saveToCloud();
+
+            codeInputEl.value = '';
+            discInputEl.value = '';
+            alert(`✅ Cupón ${codeInput} (${disc}%) guardado con éxito`);
         }
 
         function renderAdminCouponsList() {
             const container = document.getElementById('admin-coupons-list');
             if (!container) return;
-            container.innerHTML = Object.keys(globalCoupons).map(code => `
-                <div class="bg-nexoDark border border-gray-800 p-2.5 rounded-xl flex justify-between items-center text-xs">
-                    <span class="text-white font-bold font-mono">${code} <span class="text-yellow-400">(${globalCoupons[code].discount}%)</span></span>
-                    <button onclick="deleteCoupon('${code}')" class="text-red-400 hover:text-red-300 font-bold px-2 py-1">Eliminar</button>
-                </div>
-            `).join('');
+
+            const codes = Object.keys(globalCoupons || {});
+            if (codes.length === 0) {
+                container.innerHTML = `<p class="text-[11px] text-gray-500 text-center py-2">No hay cupones promocionales creados.</p>`;
+                return;
+            }
+
+            container.innerHTML = codes.map(code => {
+                const info = globalCoupons[code] || { discount: 0 };
+                const safeAttrCode = String(code).replace(/"/g, '&quot;');
+                return `
+                    <div class="bg-nexoDark border border-gray-800 p-2.5 rounded-xl flex justify-between items-center text-xs">
+                        <span class="text-white font-bold font-mono">${code} <span class="text-yellow-400">(${info.discount}%)</span></span>
+                        <button type="button" data-coupon-code="${safeAttrCode}" onclick="deleteCouponFromBtn(this)" class="text-red-400 hover:text-red-300 font-bold px-2 py-1">Eliminar</button>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        async function deleteCouponFromBtn(btn) {
+            const code = btn && btn.getAttribute('data-coupon-code');
+            if (!code) return;
+            await deleteCoupon(code);
         }
 
         async function deleteCoupon(code) {
+            if (!globalCoupons || typeof globalCoupons !== "object") return;
             delete globalCoupons[code];
-            await saveToCloud();
+            savePromoCouponsLocal();
             renderAdminCouponsList();
+            await saveToCloud();
         }
 
-        // NAVEGACIÓN DE STEP PARA MINI INFLUENCERS
         function openCreatorStep() {
             document.getElementById('admin-dashboard-screen').classList.add('hidden');
             document.getElementById('admin-creators-step').classList.remove('hidden');
@@ -1168,22 +1910,14 @@
             renderAdminCreatorsList();
         }
 
-        // AGREGAR NUEVO CÓDIGO SIN BORRAR NINGUNO (MÉTODO DE LISTA SEGURA)
         async function createNewCreatorCode() {
             const rawCode = document.getElementById('new-creator-code').value.trim().toUpperCase();
             const disc = parseInt(document.getElementById('new-creator-discount').value);
 
-            if (!rawCode || isNaN(disc) || disc <= 0) { 
-                alert('Completá el código del creador y un descuento válido'); 
-                return; 
-            }
+            if (!rawCode || isNaN(disc) || disc <= 0) { alert('Completá el código del creador y un descuento válido'); return; }
 
-            // Validar si ya existe
             const exists = globalCreatorCoupons.some(c => c.code === rawCode);
-            if (exists) {
-                alert('⚠️ Este código ya existe en la lista.');
-                return;
-            }
+            if (exists) { alert('⚠️ Este código ya existe en la lista.'); return; }
 
             const newId = 'c_' + Date.now() + Math.random().toString(36).substr(2, 4);
             globalCreatorCoupons.push({ id: newId, code: rawCode, discount: disc });
@@ -1205,7 +1939,6 @@
 
         function renderAdminCreatorsList() {
             const totalCount = globalCreatorCoupons.length;
-
             const badge = document.getElementById('creators-count-badge');
             if (badge) badge.innerText = `${totalCount} activos`;
 
@@ -1220,7 +1953,6 @@
                 return;
             }
 
-            // Mostrar orden inverso para ver los últimos añadidos arriba, con scroll vertical
             container.innerHTML = [...globalCreatorCoupons].reverse().map(item => `
                 <div class="bg-nexoDark border border-gray-800 p-3 rounded-xl flex justify-between items-center text-xs">
                     <div>
@@ -1242,14 +1974,14 @@
         async function createNewCoinKey() {
             const key = document.getElementById('new-coinkey-code').value.trim().toUpperCase();
             const amt = parseInt(document.getElementById('new-coinkey-amount').value);
-            if (!key || isNaN(amt)) { alert('Completá la clave y la cantidad de coins'); return; }
+            if (!key || isNaN(amt) || amt <= 0) { alert('Completá la clave y la cantidad de coins válida'); return; }
 
             globalCoinKeys[key] = amt;
             await saveToCloud();
             renderAdminCoinKeysList();
             document.getElementById('new-coinkey-code').value = '';
             document.getElementById('new-coinkey-amount').value = '';
-            alert(`✅ Clave ${key} de ${amt} Coins generada con éxito`);
+            alert(`✅ Clave de Coins ${key} (+${amt} 🟡) generada con éxito`);
         }
 
         function renderAdminCoinKeysList() {
@@ -1257,7 +1989,7 @@
             if (!container) return;
             container.innerHTML = Object.keys(globalCoinKeys).map(key => `
                 <div class="bg-nexoDark border border-gray-800 p-2 rounded-xl flex justify-between items-center text-xs">
-                    <span class="text-white font-bold font-mono">${key} <span class="text-nexoCyan">(+${globalCoinKeys[key]} 🟡)</span></span>
+                    <span class="text-white font-bold font-mono">${key} <span class="text-yellow-400">(+${globalCoinKeys[key]} 🟡)</span></span>
                     <button onclick="deleteCoinKey('${key}')" class="text-red-400">Eliminar</button>
                 </div>
             `).join('');
@@ -1269,27 +2001,337 @@
             renderAdminCoinKeysList();
         }
 
-        let currentUser = { email: '', name: 'Invitado', avatar: 'https://api.dicebear.com/7.x/bottts/svg?seed=NexoUser', coins: 0, purchases: 0, savedIds: [] };
+        async function createNewDiamondKey() {
+            const key = document.getElementById('new-diamondkey-code').value.trim().toUpperCase();
+            const amt = parseInt(document.getElementById('new-diamondkey-amount').value);
+            if (!key || isNaN(amt) || amt <= 0) { alert('Completá la clave y la cantidad de diamantes válida'); return; }
+
+            globalDiamondKeys[key] = amt;
+            await saveToCloud();
+            renderAdminDiamondKeysList();
+            document.getElementById('new-diamondkey-code').value = '';
+            document.getElementById('new-diamondkey-amount').value = '';
+            alert(`✅ Código de Diamantes ${key} (+${amt} 💎) generado con éxito`);
+        }
+
+        function renderAdminDiamondKeysList() {
+            const container = document.getElementById('admin-diamondkeys-list');
+            if (!container) return;
+            container.innerHTML = Object.keys(globalDiamondKeys).map(key => `
+                <div class="bg-nexoDark border border-gray-800 p-2 rounded-xl flex justify-between items-center text-xs">
+                    <span class="text-white font-bold font-mono">${key} <span class="text-cyan-400">(+${globalDiamondKeys[key]} 💎)</span></span>
+                    <button onclick="deleteDiamondKey('${key}')" class="text-red-400">Eliminar</button>
+                </div>
+            `).join('');
+        }
+
+        async function deleteDiamondKey(key) {
+            delete globalDiamondKeys[key];
+            await saveToCloud();
+            renderAdminDiamondKeysList();
+        }
+
+        // ========================================================
+        // PERFIL, CUENTAS, BANNERS DE PERFIL, NOMBRE ARCOÍRIS Y COMPRA
+        // ========================================================
+        function renderAvatarBannersSelector(recharges, equippedBanner) {
+            const box = document.getElementById('avatar-frames-selector');
+            if (!box) return;
+            const rec = Number(recharges) || 0;
+
+            box.innerHTML = PROFILE_AVATAR_BANNERS.map((b) => {
+                const unlocked = rec >= b.req;
+                const active = equippedBanner && equippedBanner.id === b.id;
+                return `
+                    <button type="button" onclick="equipAvatarBanner('${b.id}')" class="p-2 rounded-xl border text-left transition flex flex-col justify-between ${
+                        active
+                            ? 'bg-nexoCyan/15 border-nexoCyan text-white'
+                            : unlocked
+                                ? 'bg-nexoCard border-purple-500/40 hover:border-purple-400 text-gray-200'
+                                : 'bg-nexoCard/50 border-gray-800 text-gray-500 opacity-75'
+                    }">
+                        <span class="font-black text-[11px] leading-tight">${unlocked ? '✨' : '🔒'} ${b.label}</span>
+                        <span class="text-[9px] font-mono mt-0.5 ${active ? 'text-nexoCyan font-bold' : unlocked ? 'text-purple-300' : 'text-gray-500'}">
+                            ${active ? 'EQUIPADO' : b.badge}
+                        </span>
+                    </button>
+                `;
+            }).join('');
+        }
 
         function updateAuthUI() {
-            document.getElementById('user-profile-name').innerText = currentUser.name;
-            document.getElementById('user-avatar-img').src = currentUser.avatar;
-            document.getElementById('nav-user-avatar').src = currentUser.avatar;
-            document.getElementById('nav-user-name').innerText = currentUser.name.split(' ')[0];
+            const logged = isLoggedIn();
+            let guestAvatar = "";
+            if (!logged) {
+                try { guestAvatar = localStorage.getItem("nexo_guest_avatar_v1") || ""; } catch (e) {}
+            }
+
+            const nameText = logged ? (currentUser.name || activeAccountKey) : 'Invitado';
+            const emailText = logged ? (currentUser.email || activeAccountKey) : 'Sin iniciar sesión';
+            const coinsVal = logged ? (Number(currentUser.coins) || 0) : 0;
+            const claimedDiamondsVal = logged ? (Number(currentUser.claimedDiamonds) || 0) : 0;
+            const spinsVal = logged ? (Number(currentUser.spinsCount) || 0) : 0;
+            const diamondVal = logged ? (Number(currentUser.diamondTries) || 0) : 0;
+            const purchasesVal = logged ? (Number(currentUser.purchases) || 0) : 0;
+            const avatarSrc = logged
+                ? (currentUser.avatar || 'https://api.dicebear.com/7.x/bottts/svg?seed=' + encodeURIComponent(activeAccountKey))
+                : (guestAvatar || currentUser.avatar || 'https://api.dicebear.com/7.x/bottts/svg?seed=NexoUser');
+
+            const hasRainbowName = purchasesVal >= 15;
+            const equippedBanner = getEquippedAvatarBanner({ ...currentUser, purchases: purchasesVal });
+
+            const profileNameEl = document.getElementById('user-profile-name');
+            const navNameEl = document.getElementById('nav-user-name');
+
+            profileNameEl.innerText = nameText;
+            profileNameEl.className = `font-black text-base ${hasRainbowName ? 'rainbow-username' : 'text-white'}`;
+
+            navNameEl.innerText = nameText.split(' ')[0];
+            navNameEl.className = hasRainbowName ? 'rainbow-username font-black' : '';
+
+            document.getElementById('user-profile-email').innerText = emailText;
+            document.getElementById('user-avatar-img').src = avatarSrc;
+            document.getElementById('nav-user-avatar').src = avatarSrc;
+
+            const frameClasses = ['frame-base', 'frame-5', 'frame-10', 'frame-15', 'frame-20', 'frame-25'];
+            const profileFrameEl = document.getElementById('profile-avatar-frame');
+            const navFrameEl = document.getElementById('nav-avatar-frame');
+            if (profileFrameEl) {
+                profileFrameEl.classList.remove(...frameClasses);
+                profileFrameEl.classList.add(equippedBanner.frameClass);
+            }
+            if (navFrameEl) {
+                navFrameEl.classList.remove(...frameClasses);
+                navFrameEl.classList.add(equippedBanner.frameClass);
+            }
+
+            const recBadge = document.getElementById('profile-recharges-badge');
+            if (recBadge) {
+                recBadge.innerText = `${purchasesVal} Recargas • ${equippedBanner.label}`;
+            }
+
+            const rainbowHint = document.getElementById('rainbow-unlock-hint');
+            if (rainbowHint) {
+                if (hasRainbowName) {
+                    rainbowHint.innerText = "🌈 Nombre Arcoíris ACTIVO";
+                    rainbowHint.className = "text-[10px] font-black rainbow-username";
+                } else {
+                    const faltan = Math.max(0, 15 - purchasesVal);
+                    rainbowHint.innerText = `🌈 Arcoíris en ${faltan} recargas más`;
+                    rainbowHint.className = "text-[10px] text-gray-400";
+                }
+            }
+
+            renderAvatarBannersSelector(purchasesVal, equippedBanner);
+
+            const loggedBox = document.getElementById('profile-logged-actions');
+            const guestBox = document.getElementById('profile-guest-actions');
+            if (loggedBox && guestBox) {
+                if (logged) {
+                    loggedBox.classList.remove('hidden');
+                    guestBox.classList.add('hidden');
+                } else {
+                    loggedBox.classList.add('hidden');
+                    guestBox.classList.remove('hidden');
+                }
+            }
+
+            const pCount = document.getElementById('profile-purchases-count');
+            if (pCount) pCount.innerText = `${purchasesVal} / 10 Compras`;
+            const pBar = document.getElementById('loyalty-progress-bar');
+            if (pBar) pBar.style.width = `${Math.min(100, purchasesVal * 10)}%`;
+
+            const mainCoins = document.getElementById('main-coins-display');
+            if (mainCoins) mainCoins.innerText = coinsVal;
+            const profileCoins = document.getElementById('profile-coins-val');
+            if (profileCoins) profileCoins.innerText = `${coinsVal} 🟡`;
+            const profileDiamonds = document.getElementById('profile-claimed-diamonds');
+            if (profileDiamonds) profileDiamonds.innerText = `${claimedDiamondsVal} 💎`;
+            const rouletteCoins = document.getElementById('roulette-coins-balance');
+            if (rouletteCoins) rouletteCoins.innerText = `${coinsVal} 🟡`;
+            const diamondCoins = document.getElementById('diamond-coins-balance');
+            if (diamondCoins) diamondCoins.innerText = `${coinsVal} 🟡`;
+            const hubCoins = document.getElementById('hub-coins-balance');
+            if (hubCoins) hubCoins.innerText = `${coinsVal} 🟡`;
+
+            const spinDisplay = document.getElementById('spin-counter-display');
+            if (spinDisplay) spinDisplay.innerText = `${spinsVal} / 100`;
+
+            const diamondDisplay = document.getElementById('diamond-counter-display');
+            if (diamondDisplay) diamondDisplay.innerText = `${diamondVal} / 80`;
+
+            const idsCount = document.getElementById('profile-ids-count');
+            if (idsCount) idsCount.innerText = logged && Array.isArray(currentUser.savedIds) ? currentUser.savedIds.length : 0;
+
+            renderSavedAccountsList();
         }
 
-        function toggleProfileModal() { document.getElementById('profile-modal').classList.toggle('hidden'); }
-        function openAccountSelector() { document.getElementById('account-selector-modal').classList.toggle('hidden'); }
-        function loginOrRegisterAccount() {
-            const email = document.getElementById('auth-email-input').value.trim();
-            const nickname = document.getElementById('auth-nickname-input').value.trim();
-            if (!email || !nickname) return;
-            currentUser.name = nickname;
-            currentUser.email = email;
-            updateAuthUI();
-            document.getElementById('account-selector-modal').classList.add('hidden');
+        function renderSavedAccountsList() {
+            const box = document.getElementById('saved-accounts-device-list');
+            if (!box) return;
+            const keys = Object.keys(accountsDB);
+            if (keys.length === 0) {
+                box.innerHTML = `<p class="text-[10px] text-gray-500 text-center py-1">No hay cuentas guardadas.</p>`;
+                return;
+            }
+            box.innerHTML = keys.map((k) => {
+                const acc = accountsDB[k];
+                const active = k === activeAccountKey;
+                return `
+                    <div class="bg-nexoDark border ${active ? 'border-nexoCyan' : 'border-gray-800'} p-2 rounded-xl flex justify-between items-center text-[11px]">
+                        <div>
+                            <span class="font-bold text-white block">${acc.name || acc.email || k}</span>
+                            <span class="text-[10px] text-yellow-400 font-mono">${Number(acc.coins) || 0} 🟡</span>
+                        </div>
+                        <button type="button" onclick="selectSavedAccount('${k}')" class="${active ? 'bg-nexoCyan/20 text-nexoCyan border border-nexoCyan/40' : 'bg-nexoPurple text-white'} px-2.5 py-1 rounded-lg font-bold text-[10px]">
+                            ${active ? 'Activa' : 'Entrar'}
+                        </button>
+                    </div>
+                `;
+            }).join('');
         }
-        function logoutAccount() { location.reload(); }
+
+        function selectSavedAccount(key) {
+            if (!accountsDB[key]) return;
+            if (activeAccountKey) {
+                syncCurrentAccountToStorage();
+            }
+            activeAccountKey = key;
+            currentUser = { ...defaultAccountRecord(key), ...accountsDB[key] };
+            saveAccountsLocal();
+            updateAuthUI();
+            renderSavedIds();
+            document.getElementById('account-selector-modal').classList.add('hidden');
+            if (typeof pendingAuthCallback === "function") {
+                const fn = pendingAuthCallback;
+                pendingAuthCallback = null;
+                fn();
+            }
+        }
+
+        function toggleProfileModal() {
+            updateAuthUI();
+            renderSavedIds();
+            document.getElementById('profile-modal').classList.toggle('hidden');
+        }
+
+        function openAccountSelector(notice = "") {
+            const fb = document.getElementById('auth-feedback');
+            if (fb) {
+                if (notice) {
+                    fb.className = "text-[11px] text-center font-bold text-yellow-300";
+                    fb.innerText = notice;
+                    fb.classList.remove('hidden');
+                } else {
+                    fb.classList.add('hidden');
+                }
+            }
+            renderSavedAccountsList();
+            document.getElementById('account-selector-modal').classList.remove('hidden');
+        }
+
+        function loginOrRegisterAccount() {
+            const emailOrUser = document.getElementById('auth-email-input').value.trim();
+            const nickname = document.getElementById('auth-nickname-input').value.trim();
+            const pass = document.getElementById('auth-pass-input').value.trim();
+            const fb = document.getElementById('auth-feedback');
+
+            if (!emailOrUser && !nickname) {
+                if (fb) {
+                    fb.className = "text-[11px] text-center font-bold text-red-400";
+                    fb.innerText = "Ingresá un correo o usuario y un apodo.";
+                    fb.classList.remove('hidden');
+                }
+                return;
+            }
+
+            const key = makeAccountKey(emailOrUser || nickname, nickname);
+            if (!key) return;
+
+            if (activeAccountKey && activeAccountKey !== key) {
+                syncCurrentAccountToStorage();
+            }
+
+            let guestAvatar = "";
+            try { guestAvatar = localStorage.getItem("nexo_guest_avatar_v1") || ""; } catch (e) {}
+
+            const existing = accountsDB[key];
+            if (existing) {
+                if (existing.password && pass && existing.password !== pass) {
+                    if (fb) {
+                        fb.className = "text-[11px] text-center font-bold text-red-400";
+                        fb.innerText = "Contraseña incorrecta para esta cuenta.";
+                        fb.classList.remove('hidden');
+                    }
+                    return;
+                }
+                activeAccountKey = key;
+                currentUser = {
+                    ...defaultAccountRecord(key),
+                    ...existing,
+                    email: emailOrUser || existing.email || key,
+                    name: nickname || existing.name || key,
+                    password: pass || existing.password || "",
+                    avatar: existing.avatar || guestAvatar || defaultAccountRecord(key).avatar
+                };
+            } else {
+                activeAccountKey = key;
+                currentUser = {
+                    ...defaultAccountRecord(key, emailOrUser || key, nickname || emailOrUser || key),
+                    password: pass,
+                    avatar: guestAvatar || defaultAccountRecord(key).avatar,
+                    coins: 0
+                };
+            }
+
+            accountsDB[key] = { ...currentUser };
+            saveAccountsLocal();
+            saveToCloud();
+            updateAuthUI();
+            renderSavedIds();
+
+            document.getElementById('auth-pass-input').value = '';
+            document.getElementById('account-selector-modal').classList.add('hidden');
+
+            if (typeof pendingAuthCallback === "function") {
+                const fn = pendingAuthCallback;
+                pendingAuthCallback = null;
+                fn();
+            }
+        }
+
+        function logoutAccount() {
+            if (activeAccountKey) {
+                syncCurrentAccountToStorage();
+            }
+            activeAccountKey = "";
+            localStorage.removeItem(ACTIVE_ACCOUNT_LOCAL_KEY);
+            currentUser = defaultAccountRecord("", "", "Invitado");
+            storeState.cart = {};
+            storeState.discountPercent = 0;
+            storeState.couponUsed = 'Ninguno';
+            updateAuthUI();
+            renderSavedIds();
+            goToStep(1);
+        }
+
+        function setBuyCoinsAmount(amount) {
+            const input = document.getElementById('buy-coins-amount-input');
+            if (input) input.value = amount;
+        }
+
+        function buyNexoCoinsWhatsapp() {
+            const input = document.getElementById('buy-coins-amount-input');
+            const amount = parseInt(input ? input.value : '0', 10);
+            if (isNaN(amount) || amount <= 0) {
+                alert('⚠️ Ingresá o elegí cuántos Nexo Coins querés comprar.');
+                return;
+            }
+            const userLabel = isLoggedIn() ? `${currentUser.name} (${currentUser.email || activeAccountKey})` : 'Invitado';
+            const texto = `Hola! Quiero comprar ${amount} Nexo Coins 🟡 para mi cuenta: ${userLabel}.`;
+            const url = `https://wa.me/${WHATSAPP_COINS_NUMBER}?text=${encodeURIComponent(texto)}`;
+            window.open(url, '_blank');
+        }
 
         function copyCreatorPromoText() {
             navigator.clipboard.writeText("🔥 ¡Recargá tus diamantes de Free Fire y oro de Blood Strike súper rápido y seguro en Nexo Store! Usá mi código de creador para obtener descuentos exclusivos. 💎⚡");
@@ -1317,69 +2359,557 @@
         function toggleReviewsModal() { document.getElementById('reviews-modal').classList.toggle('hidden'); }
         function setReviewStars(val) {}
         function submitNewReview() {}
-        function toggleTopsModal() { document.getElementById('tops-modal').classList.toggle('hidden'); }
-        function toggleHistory() { document.getElementById('history-modal').classList.toggle('hidden'); }
+        function toggleHistory() {
+            renderSavedIds();
+            document.getElementById('history-modal').classList.toggle('hidden');
+        }
         
         function saveNewId() {
-            const game = document.getElementById('save-id-game').value;
-            const idVal = document.getElementById('save-id-input').value.trim();
-            if (!idVal) return;
-            currentUser.savedIds.push({ game, id: idVal });
-            renderSavedIds();
-            document.getElementById('save-id-input').value = '';
-            alert('ID guardado');
+            requireLogin(() => {
+                const game = document.getElementById('save-id-game').value;
+                const idVal = document.getElementById('save-id-input').value.trim();
+                if (!idVal) return;
+                if (!Array.isArray(currentUser.savedIds)) currentUser.savedIds = [];
+                currentUser.savedIds.push({ game, id: idVal });
+                syncCurrentAccountToStorage();
+                renderSavedIds();
+                updateAuthUI();
+                document.getElementById('save-id-input').value = '';
+                alert('ID guardado');
+            }, "Tenés que iniciar sesión para guardar IDs.");
         }
 
         function renderSavedIds() {
             const container = document.getElementById('saved-ids-list');
             if (!container) return;
-            container.innerHTML = currentUser.savedIds.map((item, idx) => `
+            const list = isLoggedIn() && Array.isArray(currentUser.savedIds) ? currentUser.savedIds : [];
+            container.innerHTML = list.map((item, idx) => `
                 <div class="bg-nexoDark border border-gray-800 p-2 rounded-xl flex justify-between items-center text-xs">
                     <span class="font-mono text-cyan-400">[${item.game}] ${item.id}</span>
-                    <button onclick="currentUser.savedIds.splice(${idx}, 1); renderSavedIds();" class="text-red-400">Borrar</button>
+                    <button onclick="currentUser.savedIds.splice(${idx}, 1); syncCurrentAccountToStorage(); renderSavedIds(); updateAuthUI();" class="text-red-400">Borrar</button>
                 </div>
             `).join('');
             const countEl = document.getElementById('profile-ids-count');
-            if (countEl) countEl.innerText = currentUser.savedIds.length;
+            if (countEl) countEl.innerText = list.length;
         }
 
-        function redeemCoinsCode() {
-            const code = document.getElementById('redeem-code-input').value.trim().toUpperCase();
-            const feedback = document.getElementById('redeem-feedback');
-            feedback.classList.remove('hidden');
+        function hasSavedPlayerId() {
+            return Boolean(isLoggedIn() && Array.isArray(currentUser.savedIds) && currentUser.savedIds.length > 0);
+        }
 
-            if (globalCoinKeys[code] !== undefined) {
-                const amt = globalCoinKeys[code];
-                currentUser.coins += amt;
-                delete globalCoinKeys[code];
-                saveToCloud();
-                
-                feedback.className = "text-[10px] text-green-400 font-bold mt-1";
-                feedback.innerText = `¡Canje exitoso! Ganaste ${amt} Nexo Coins 🟡`;
-                document.getElementById('profile-coins-val').innerText = `${currentUser.coins} 🟡`;
-                document.getElementById('redeem-code-input').value = '';
-            } else {
-                feedback.className = "text-[10px] text-red-400 font-bold mt-1";
-                feedback.innerText = "Código inválido o ya utilizado.";
-            }
+        function redeemGiftCode() {
+            requireLogin(() => {
+                const feedback = document.getElementById('redeem-feedback');
+                feedback.classList.remove('hidden');
+
+                if (!hasSavedPlayerId()) {
+                    feedback.className = "text-[10px] text-red-400 font-bold mt-1";
+                    feedback.innerText = "⚠️ Tenés que guardar tu ID de jugador primero para saber dónde enviar el premio.";
+                    alert("⚠️ Para canjear cualquier código de regalo (coins o diamantes), primero tenés que iniciar sesión y guardar un ID.");
+                    return;
+                }
+
+                const code = document.getElementById('redeem-code-input').value.trim().toUpperCase();
+                if (!code) {
+                    feedback.className = "text-[10px] text-red-400 font-bold mt-1";
+                    feedback.innerText = "Ingresá una clave de regalo.";
+                    return;
+                }
+
+                const primarySaved = currentUser.savedIds[0];
+
+                if (globalCoinKeys[code] !== undefined) {
+                    const amt = Number(globalCoinKeys[code]) || 0;
+                    currentUser.coins = (Number(currentUser.coins) || 0) + amt;
+                    currentUser.lastRedeemedGift = `${code} (+${amt} Coins para ID ${primarySaved.id})`;
+                    delete globalCoinKeys[code];
+                    syncCurrentAccountToStorage();
+
+                    feedback.className = "text-[10px] text-green-400 font-bold mt-1";
+                    feedback.innerText = `¡Canje exitoso! Ganaste +${amt} Nexo Coins 🟡 (ID vinculado: ${primarySaved.id})`;
+                    updateAuthUI();
+                    renderAdminCoinKeysList();
+                    document.getElementById('redeem-code-input').value = '';
+                } else if (globalDiamondKeys[code] !== undefined) {
+                    const diamondsAmt = Number(globalDiamondKeys[code]) || 0;
+                    currentUser.claimedDiamonds = (Number(currentUser.claimedDiamonds) || 0) + diamondsAmt;
+                    currentUser.lastRedeemedGift = `${code} (+${diamondsAmt} Diamantes para ${primarySaved.game} ID ${primarySaved.id})`;
+                    delete globalDiamondKeys[code];
+                    syncCurrentAccountToStorage();
+
+                    feedback.className = "text-[10px] text-cyan-300 font-bold mt-1";
+                    feedback.innerText = `¡Canje exitoso! Reclamaste +${diamondsAmt} Diamantes 💎 para tu ID ${primarySaved.id} (${primarySaved.game}).`;
+                    updateAuthUI();
+                    renderAdminDiamondKeysList();
+                    document.getElementById('redeem-code-input').value = '';
+                } else {
+                    feedback.className = "text-[10px] text-red-400 font-bold mt-1";
+                    feedback.innerText = "Código de regalo inválido o ya utilizado.";
+                }
+            }, "Tenés que iniciar sesión para canjear códigos de regalo.");
         }
 
         function closeModal() { document.getElementById('community-modal').classList.add('hidden'); }
         function toggleNinjaModal() { document.getElementById('ninja-modal').classList.toggle('hidden'); }
-        function toggleRouletteModal() { document.getElementById('roulette-modal').classList.toggle('hidden'); }
-        function spinRoulette() {}
+        
+        // CONTROL DEL APARTADO DE MINIJUEGOS (EXIGE INICIAR SESIÓN)
+        function toggleMinigamesHub() {
+            const hub = document.getElementById('minigames-hub-modal');
+            if (!hub.classList.contains('hidden')) {
+                hub.classList.add('hidden');
+                return;
+            }
+            requireLogin(() => {
+                updateAuthUI();
+                hub.classList.remove('hidden');
+            }, "Tenés que iniciar sesión para entrar a los minijuegos.");
+        }
+
+        function openRouletteFromHub() {
+            requireLogin(() => {
+                document.getElementById('minigames-hub-modal').classList.add('hidden');
+                updateAuthUI();
+                document.getElementById('roulette-modal').classList.remove('hidden');
+            }, "Tenés que iniciar sesión para girar la ruleta.");
+        }
+
+        function backToMinigamesHubFromRoulette() {
+            document.getElementById('roulette-modal').classList.add('hidden');
+            updateAuthUI();
+            document.getElementById('minigames-hub-modal').classList.remove('hidden');
+        }
+
+        function toggleRouletteModal() {
+            const modal = document.getElementById('roulette-modal');
+            if (!modal.classList.contains('hidden')) {
+                modal.classList.add('hidden');
+                return;
+            }
+            requireLogin(() => {
+                updateAuthUI();
+                modal.classList.remove('hidden');
+            }, "Tenés que iniciar sesión para girar la ruleta.");
+        }
+
+        function openFindDiamondFromHub() {
+            requireLogin(() => {
+                document.getElementById('minigames-hub-modal').classList.add('hidden');
+                updateAuthUI();
+                document.getElementById('find-diamond-modal').classList.remove('hidden');
+            }, "Tenés que iniciar sesión para jugar.");
+        }
+
+        function backToMinigamesHubFromDiamond() {
+            document.getElementById('find-diamond-modal').classList.add('hidden');
+            updateAuthUI();
+            document.getElementById('minigames-hub-modal').classList.remove('hidden');
+        }
+
+        function toggleFindDiamondModal() {
+            const modal = document.getElementById('find-diamond-modal');
+            if (!modal.classList.contains('hidden')) {
+                modal.classList.add('hidden');
+                return;
+            }
+            requireLogin(() => {
+                updateAuthUI();
+                modal.classList.remove('hidden');
+            }, "Tenés que iniciar sesión para jugar.");
+        }
+
+        // LÓGICA DE RULETA DE APUESTA (AISLADA POR CUENTA)
+        function spinRoulette() {
+            if (!isLoggedIn()) {
+                requireLogin(() => {}, "Tenés que iniciar sesión para girar la ruleta.");
+                return;
+            }
+
+            const playerId = document.getElementById('roulette-player-id').value.trim();
+            const phoneInput = document.getElementById('roulette-phone-input').value.trim();
+            const resultEl = document.getElementById('roulette-result');
+            resultEl.classList.add('hidden');
+
+            if (!playerId || playerId.length < 8) {
+                alert('⚠️ Ingresá tu ID de Jugador (UID) válido para recibir el premio si ganás.');
+                return;
+            }
+            if (!phoneInput || phoneInput.length < 6) {
+                alert('⚠️ Ingresá tu número telefónico de contacto.');
+                return;
+            }
+            const userCoins = Number(currentUser.coins) || 0;
+            if (userCoins < 5) {
+                alert('❌ No tenés suficientes Nexo Coins. Necesitás al menos 5 🟡 para apostar y girar.');
+                return;
+            }
+
+            currentUser.coins = userCoins - 5;
+            currentUser.spinsCount = (Number(currentUser.spinsCount) || 0) + 1;
+            const spinsCount = currentUser.spinsCount;
+            syncCurrentAccountToStorage();
+            updateAuthUI();
+
+            const wheelDisc = document.getElementById('wheel-disc');
+            const randomRotation = 1800 + (Math.floor(Math.random() * 360));
+            wheelDisc.style.transform = `rotate(${randomRotation}deg)`;
+
+            setTimeout(() => {
+                resultEl.classList.remove('hidden');
+                if (spinsCount >= 100) {
+                    resultEl.className = "text-xs font-bold p-2.5 rounded-xl bg-nexoDark border border-green-500/40 text-green-400";
+                    resultEl.innerText = `🎉 ¡JACKPOT! ¡GANASTE 110 DIAMANTES! (UID: ${playerId}). ¡Premio enviado a revisión para acreditación!`;
+                } else {
+                    resultEl.className = "text-xs font-bold p-2.5 rounded-xl bg-nexoDark border border-red-500/30 text-red-400";
+                    resultEl.innerText = `❌ Perdiste la apuesta de 5 🟡 (Giros: ${spinsCount}/100). ¡Canjeá más códigos de regalo para seguir intentando!`;
+                }
+            }, 4000);
+        }
+
+        // LÓGICA DE ENCONTRAR EL DIAMANTE (AISLADA POR CUENTA)
+        function chooseChest(chestNum) {
+            if (!isLoggedIn()) {
+                requireLogin(() => {}, "Tenés que iniciar sesión para jugar.");
+                return;
+            }
+
+            const playerId = document.getElementById('diamond-player-id').value.trim();
+            const resultEl = document.getElementById('diamond-result');
+            resultEl.classList.add('hidden');
+
+            if (!playerId || playerId.length < 8) {
+                alert('⚠️ Ingresá tu ID de Jugador (UID) válido antes de elegir un cofre.');
+                return;
+            }
+            const userCoins = Number(currentUser.coins) || 0;
+            if (userCoins < 5) {
+                alert('❌ No tenés suficientes Nexo Coins. Necesitás 5 🟡 para abrir un cofre.');
+                return;
+            }
+
+            currentUser.coins = userCoins - 5;
+            currentUser.diamondTries = (Number(currentUser.diamondTries) || 0) + 1;
+            const diamondTries = currentUser.diamondTries;
+            syncCurrentAccountToStorage();
+            updateAuthUI();
+
+            for (let i = 1; i <= 3; i++) {
+                document.getElementById(`chest-icon-${i}`).innerText = '🪙';
+            }
+
+            setTimeout(() => {
+                resultEl.classList.remove('hidden');
+
+                if (diamondTries >= 80) {
+                    document.getElementById(`chest-icon-${chestNum}`).innerText = '💎';
+                    resultEl.className = "text-xs font-bold p-2.5 rounded-xl bg-nexoDark border border-green-500/40 text-green-400";
+                    resultEl.innerText = `🎉 ¡ENCONTRASTE EL DIAMANTE OCULTO! (UID: ${playerId}). ¡Ganaste 110 Diamantes acreditados a revisión!`;
+                } else {
+                    document.getElementById(`chest-icon-${chestNum}`).innerText = '❌';
+                    resultEl.className = "text-xs font-bold p-2.5 rounded-xl bg-nexoDark border border-red-500/30 text-red-400";
+                    resultEl.innerText = `❌ Este cofre estaba vacío. Perdiste 5 🟡 (Intentos: ${diamondTries}/80). ¡Seguí participando!`;
+                }
+            }, 1000);
+        }
+
         function verifyPlayerIdReal() {}
-        function analyzeReceiptStrict(e) {
-            if(e.target.files[0]) {
-                document.getElementById('receipt-ai-status').classList.remove('hidden');
-                document.getElementById('receipt-ai-status').innerText = '✅ Comprobante verificado';
+
+        // ========================================================
+        // IA ESTRICTA DE COMPROBANTE:
+        // 1) Comprobante real (no foto cualquiera)
+        // 2) Sin SynthID / marcas IA / edición sospechosa
+        // 3) Destinatario: Kevin Eloy Cabelier
+        // ========================================================
+        let tesseractScriptPromise = null;
+
+        function loadTesseractJs() {
+            if (window.Tesseract) return Promise.resolve(window.Tesseract);
+            if (tesseractScriptPromise) return tesseractScriptPromise;
+            tesseractScriptPromise = new Promise((resolve, reject) => {
+                const s = document.createElement('script');
+                s.src = 'https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js';
+                s.onload = () => resolve(window.Tesseract);
+                s.onerror = () => reject(new Error('No se pudo cargar el motor OCR'));
+                document.head.appendChild(s);
+            });
+            return tesseractScriptPromise;
+        }
+
+        function normalizeTextStrict(str) {
+            return (str || '')
+                .toLowerCase()
+                .normalize('NFD')
+                .replace(/[\u0300-\u036f]/g, '')
+                .replace(/[^a-z0-9$.,@:/\s-]/g, ' ')
+                .replace(/\s+/g, ' ')
+                .trim();
+        }
+
+        function levenshteinDist(a, b) {
+            const m = a.length, n = b.length;
+            const dp = Array.from({ length: m + 1 }, () => new Array(n + 1).fill(0));
+            for (let i = 0; i <= m; i++) dp[i][0] = i;
+            for (let j = 0; j <= n; j++) dp[0][j] = j;
+            for (let i = 1; i <= m; i++) {
+                for (let j = 1; j <= n; j++) {
+                    const cost = a[i - 1] === b[j - 1] ? 0 : 1;
+                    dp[i][j] = Math.min(dp[i - 1][j] + 1, dp[i][j - 1] + 1, dp[i - 1][j - 1] + cost);
+                }
+            }
+            return dp[m][n];
+        }
+
+        function hasRecipientKevinEloyCabelier(normalizedText) {
+            const words = normalizedText.split(/\s+/).filter(Boolean);
+            const hasKevin = words.some(w => w === 'kevin' || levenshteinDist(w, 'kevin') <= 1);
+            const hasEloy = words.some(w => w === 'eloy' || levenshteinDist(w, 'eloy') <= 1);
+            const hasCabelier = words.some(w => w === 'cabelier' || levenshteinDist(w, 'cabelier') <= 2);
+            const hasAlias = normalizedText.includes('kevincabelier.mp') || normalizedText.includes('kevincabelier');
+            return (hasKevin && hasEloy && hasCabelier) || hasAlias;
+        }
+
+        function checkAiOrSynthIdMarkers(rawFileBytesText, fileNameLower, ocrNormText) {
+            const forbiddenMarkers = [
+                'synthid',
+                'c2pa',
+                'digital source type',
+                'trainedalgorithmicmedia',
+                'ai generated',
+                'generated by ai',
+                'midjourney',
+                'dall-e',
+                'dalle',
+                'stable diffusion',
+                'imagen',
+                'gemini'
+            ];
+            for (const marker of forbiddenMarkers) {
+                if (rawFileBytesText.includes(marker) || fileNameLower.includes(marker) || ocrNormText.includes(marker)) {
+                    return `Se detectó marca o firma de IA / SynthID ("${marker}").`;
+                }
+            }
+            return null;
+        }
+
+        function detectEditingAnomalies(canvas, ctx) {
+            const w = canvas.width;
+            const h = canvas.height;
+            const imgData = ctx.getImageData(0, 0, w, h).data;
+
+            const cols = 4;
+            const rows = 4;
+            const cellW = Math.floor(w / cols);
+            const cellH = Math.floor(h / rows);
+            const blockEdges = [];
+
+            for (let r = 0; r < rows; r++) {
+                for (let c = 0; c < cols; c++) {
+                    const x0 = c * cellW;
+                    const y0 = r * cellH;
+                    const x1 = Math.min(w, x0 + cellW);
+                    const y1 = Math.min(h, y0 + cellH);
+
+                    let edgeSum = 0;
+                    let samples = 0;
+                    for (let y = y0 + 1; y < y1 - 1; y += 2) {
+                        for (let x = x0 + 1; x < x1 - 1; x += 2) {
+                            const idx = (y * w + x) * 4;
+                            const idxRight = (y * w + (x + 1)) * 4;
+                            const idxDown = ((y + 1) * w + x) * 4;
+
+                            const lum = 0.299 * imgData[idx] + 0.587 * imgData[idx + 1] + 0.114 * imgData[idx + 2];
+                            const lumR = 0.299 * imgData[idxRight] + 0.587 * imgData[idxRight + 1] + 0.114 * imgData[idxRight + 2];
+                            const lumD = 0.299 * imgData[idxDown] + 0.587 * imgData[idxDown + 1] + 0.114 * imgData[idxDown + 2];
+
+                            const grad = Math.abs(lum - lumR) + Math.abs(lum - lumD);
+                            edgeSum += grad;
+                            samples++;
+                        }
+                    }
+                    blockEdges.push(samples > 0 ? edgeSum / samples : 0);
+                }
+            }
+
+            const avgEdge = blockEdges.reduce((a, b) => a + b, 0) / blockEdges.length;
+            const maxEdge = Math.max(...blockEdges);
+            const minEdge = Math.min(...blockEdges);
+
+            if (avgEdge > 0 && maxEdge > avgEdge * 2.85 && (maxEdge - minEdge) > 22) {
+                return "Se detectaron irregularidades visuales o posibles zonas editadas/pegadas en el comprobante.";
+            }
+            return null;
+        }
+
+        function isRealReceiptContent(ocrNormText, width, height) {
+            const receiptKeywords = [
+                'comprobante', 'transferencia', 'enviaste', 'recibiste', 'operacion',
+                'motivo', 'alias', 'cbu', 'cvu', 'fecha', 'hora', 'total', 'monto',
+                'mercado pago', 'mercadopago', 'binance', 'usdt', 'ars', 'pesos',
+                'transferido', 'exitosa', 'aprobada', 'id de transaccion', 'nro'
+            ];
+            let matches = 0;
+            for (const kw of receiptKeywords) {
+                if (ocrNormText.includes(kw)) matches++;
+            }
+            const hasCurrencyOrAmount = /(\$\s*\d+|\d+[.,]\d{2}\s*(ars|usdt|usd)?|\d+\s*(ars|usdt|usd))/i.test(ocrNormText);
+            const hasDigits = /\d{2,}/.test(ocrNormText);
+
+            if (matches < 2 || (!hasCurrencyOrAmount && !hasDigits) || ocrNormText.length < 25) {
+                return false;
+            }
+            return true;
+        }
+
+        async function analyzeReceiptStrict(e) {
+            window.receiptUploadedValid = false;
+            const statusEl = document.getElementById('receipt-ai-status');
+            const file = e.target.files && e.target.files[0];
+
+            statusEl.classList.remove('hidden');
+            if (!file) {
+                statusEl.className = "text-[11px] font-bold text-center text-red-400";
+                statusEl.innerText = "❌ No se seleccionó ningún archivo.";
+                return;
+            }
+
+            if (!file.type.startsWith('image/')) {
+                statusEl.className = "text-[11px] font-bold text-center text-red-400";
+                statusEl.innerText = "❌ Rechazado: el archivo debe ser una imagen real de comprobante.";
+                e.target.value = '';
+                return;
+            }
+
+            if (file.size < 12000) {
+                statusEl.className = "text-[11px] font-bold text-center text-red-400";
+                statusEl.innerText = "❌ Rechazado: la imagen es demasiado liviana o corrupta para ser un comprobante real.";
+                e.target.value = '';
+                return;
+            }
+
+            statusEl.className = "text-[11px] font-bold text-center text-cyan-300";
+            statusEl.innerText = "🛡️ Analizando comprobante, SynthID, edición y destinatario...";
+
+            try {
+                const arrayBuffer = await file.arrayBuffer();
+                const bytes = new Uint8Array(arrayBuffer);
+                const chunkSize = Math.min(bytes.length, 300000);
+                let asciiSample = "";
+                for (let i = 0; i < chunkSize; i++) {
+                    const code = bytes[i];
+                    if (code >= 32 && code <= 126) {
+                        asciiSample += String.fromCharCode(code);
+                    } else if (code === 10 || code === 13) {
+                        asciiSample += " ";
+                    }
+                }
+                const rawAsciiLower = asciiSample.toLowerCase();
+                const fileNameLower = (file.name || '').toLowerCase();
+
+                const dataUrl = await new Promise((resolve, reject) => {
+                    const reader = new FileReader();
+                    reader.onload = () => resolve(reader.result);
+                    reader.onerror = () => reject(new Error("Error leyendo imagen"));
+                    reader.readAsDataURL(file);
+                });
+
+                const img = await new Promise((resolve, reject) => {
+                    const imageEl = new Image();
+                    imageEl.onload = () => resolve(imageEl);
+                    imageEl.onerror = () => reject(new Error("Imagen inválida"));
+                    imageEl.src = dataUrl;
+                });
+
+                if (img.width < 250 || img.height < 250) {
+                    statusEl.className = "text-[11px] font-bold text-center text-red-400";
+                    statusEl.innerText = "❌ Rechazado: resolución demasiado baja para verificar el comprobante.";
+                    e.target.value = '';
+                    return;
+                }
+
+                const canvas = document.createElement('canvas');
+                const targetW = Math.min(img.width, 1200);
+                const scale = targetW / img.width;
+                canvas.width = targetW;
+                canvas.height = Math.max(1, Math.round(img.height * scale));
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+                const editAnomaly = detectEditingAnomalies(canvas, ctx);
+                if (editAnomaly) {
+                    statusEl.className = "text-[11px] font-bold text-center text-red-400";
+                    statusEl.innerText = `❌ Rechazado: ${editAnomaly}`;
+                    e.target.value = '';
+                    return;
+                }
+
+                const TesseractLib = await loadTesseractJs();
+                const ocrRes = await TesseractLib.recognize(canvas, 'spa+eng');
+                const extractedText = (ocrRes && ocrRes.data && ocrRes.data.text) ? ocrRes.data.text : '';
+                const ocrNorm = normalizeTextStrict(extractedText);
+
+                const aiMarkerError = checkAiOrSynthIdMarkers(rawAsciiLower, fileNameLower, ocrNorm);
+                if (aiMarkerError) {
+                    statusEl.className = "text-[11px] font-bold text-center text-red-400";
+                    statusEl.innerText = `❌ Rechazado: ${aiMarkerError}`;
+                    e.target.value = '';
+                    return;
+                }
+
+                if (!isRealReceiptContent(ocrNorm, img.width, img.height)) {
+                    statusEl.className = "text-[11px] font-bold text-center text-red-400";
+                    statusEl.innerText = "❌ Rechazado: esto no parece un comprobante de pago válido sino una foto cualquiera o incompleta.";
+                    e.target.value = '';
+                    return;
+                }
+
+                if (!hasRecipientKevinEloyCabelier(ocrNorm)) {
+                    statusEl.className = "text-[11px] font-bold text-center text-red-400";
+                    statusEl.innerText = "❌ Rechazado: el comprobante debe figurar a nombre de Kevin Eloy Cabelier.";
+                    e.target.value = '';
+                    return;
+                }
+
                 window.receiptUploadedValid = true;
+                statusEl.className = "text-[11px] font-bold text-center text-green-400";
+                statusEl.innerText = "✅ Comprobante verificado: sin señales de IA/edición y a nombre de Kevin Eloy Cabelier.";
+            } catch (err) {
+                window.receiptUploadedValid = false;
+                statusEl.className = "text-[11px] font-bold text-center text-red-400";
+                statusEl.innerText = "❌ No se pudo verificar el comprobante con seguridad. Intentá con una captura clara.";
+                e.target.value = '';
             }
         }
         function askAIQuick(q) {}
         function sendAIMessage() {}
 
-        let storeState = { game: 'Free Fire', playerId: '', cart: {}, totalBasePrice: 0, finalPrice: 0, coinsEarned: 0, discountPercent: 0, couponUsed: 'Ninguno', clientName: '', clientPhone: '' };
+        let storeState = { 
+            game: 'Free Fire', 
+            playerId: '', 
+            cart: {}, 
+            totalBasePrice: 0, 
+            finalPrice: 0, 
+            coinsEarned: 0, 
+            discountPercent: 0, 
+            couponUsed: 'Ninguno', 
+            clientName: '', 
+            clientPhone: '',
+            paymentMethod: 'Mercado Pago' 
+        };
+
+        function setPaymentMethod(method) {
+            storeState.paymentMethod = method;
+            storeState.cart = {}; 
+            const mpTab = document.getElementById('pay-method-mp');
+            const binanceTab = document.getElementById('pay-method-binance');
+
+            if (method === 'Mercado Pago') {
+                mpTab.className = "payment-tab border-2 border-nexoCyan bg-nexoCyan/10 p-3 rounded-xl text-center cursor-pointer transition flex flex-col items-center justify-center space-y-2";
+                binanceTab.className = "payment-tab border border-gray-800 bg-nexoDark/70 p-3 rounded-xl text-center cursor-pointer transition flex flex-col items-center justify-center space-y-2 opacity-80";
+            } else {
+                binanceTab.className = "payment-tab border-2 border-yellow-500 bg-yellow-500/10 p-3 rounded-xl text-center cursor-pointer transition flex flex-col items-center justify-center space-y-2";
+                mpTab.className = "payment-tab border border-gray-800 bg-nexoDark/70 p-3 rounded-xl text-center cursor-pointer transition flex flex-col items-center justify-center space-y-2 opacity-80";
+            }
+            renderPacks();
+        }
 
         function selectGame(gameName, el) {
             storeState.game = gameName;
@@ -1398,16 +2928,27 @@
             
             container.innerHTML = items.map(p => {
                 let count = storeState.cart[p.name] ? storeState.cart[p.name].count : 0;
+                let priceDisplay = '';
+                let priceVal = 0;
+
+                if (storeState.paymentMethod === 'Binance') {
+                    priceVal = p.priceUsd !== undefined ? p.priceUsd : (p.price / 1700);
+                    priceDisplay = `$${Number(priceVal).toFixed(2)} USDT`;
+                } else {
+                    priceVal = p.price;
+                    priceDisplay = `$${p.price.toLocaleString('es-AR')} ARS`;
+                }
+
                 return `
                     <div class="border border-gray-800 bg-nexoDark/80 p-3 rounded-xl flex items-center justify-between">
                         <div>
                             <p class="font-black text-xs text-white">${p.name}</p>
-                            <p class="text-[10px] text-nexoCyan">$${p.price.toLocaleString('es-AR')} ARS</p>
+                            <p class="text-[10px] ${storeState.paymentMethod === 'Binance' ? 'text-yellow-400' : 'text-nexoCyan'}">${priceDisplay}</p>
                         </div>
                         <div class="flex items-center gap-2">
-                            <button onclick="updateCart('${p.name}', ${p.price}, ${p.units}, -1)" class="w-7 h-7 bg-nexoSurface rounded-lg font-bold text-xs">-</button>
+                            <button onclick="updateCart('${p.name}', ${priceVal}, ${p.units}, -1)" class="w-7 h-7 bg-nexoSurface rounded-lg font-bold text-xs">-</button>
                             <span id="qty-${p.name.replace(/\s+/g, '')}" class="text-xs font-bold w-4 text-center">${count}</span>
-                            <button onclick="updateCart('${p.name}', ${p.price}, ${p.units}, 1)" class="w-7 h-7 bg-nexoPurple text-white rounded-lg font-bold text-xs">+</button>
+                            <button onclick="updateCart('${p.name}', ${priceVal}, ${p.units}, 1)" class="w-7 h-7 bg-nexoPurple text-white rounded-lg font-bold text-xs">+</button>
                         </div>
                     </div>
                 `;
@@ -1417,7 +2958,12 @@
 
         function updateCart(name, price, units, delta) {
             const currentItem = packsData[storeState.game].find(x => x.name === name);
-            const actualPrice = currentItem ? currentItem.price : price;
+            let actualPrice = price;
+            if (currentItem) {
+                actualPrice = storeState.paymentMethod === 'Binance' 
+                    ? (currentItem.priceUsd !== undefined ? currentItem.priceUsd : (currentItem.price / 1700)) 
+                    : currentItem.price;
+            }
 
             if(!storeState.cart[name]) storeState.cart[name] = { count: 0, price: actualPrice, units };
             storeState.cart[name].price = actualPrice;
@@ -1442,9 +2988,19 @@
             }
             storeState.finalPrice = final;
             
-            let priceText = `$${total.toLocaleString('es-AR')} ARS`;
-            if (storeState.discountPercent > 0) {
-                priceText = `<span class="line-through text-gray-500 text-xs">$${total.toLocaleString('es-AR')}</span> <span class="text-nexoCyan">$${final.toLocaleString('es-AR')} ARS (${storeState.discountPercent}% OFF)</span>`;
+            let priceText = '';
+            if (storeState.paymentMethod === 'Binance') {
+                if (storeState.discountPercent > 0) {
+                    priceText = `<span class="line-through text-gray-500 text-xs">$${total.toFixed(2)}</span> <span class="text-yellow-400">$${final.toFixed(2)} USDT (${storeState.discountPercent}% OFF)</span>`;
+                } else {
+                    priceText = `<span class="text-yellow-400">$${final.toFixed(2)} USDT</span>`;
+                }
+            } else {
+                if (storeState.discountPercent > 0) {
+                    priceText = `<span class="line-through text-gray-500 text-xs">$${total.toLocaleString('es-AR')}</span> <span class="text-nexoCyan">$${final.toLocaleString('es-AR')} ARS (${storeState.discountPercent}% OFF)</span>`;
+                } else {
+                    priceText = `$${total.toLocaleString('es-AR')} ARS`;
+                }
             }
             document.getElementById('display-price').innerHTML = priceText;
         }
@@ -1455,7 +3011,7 @@
             feedback.classList.remove('hidden');
 
             let activeCoupon = null;
-            if (globalCoupons[rawInput]) {
+            if (globalCoupons && globalCoupons[rawInput]) {
                 activeCoupon = globalCoupons[rawInput];
             } else {
                 const found = globalCreatorCoupons.find(c => c.code === rawInput);
@@ -1502,19 +3058,31 @@
                 document.getElementById('admin-login-screen').classList.add('hidden');
                 document.getElementById('admin-creators-step').classList.add('hidden');
                 document.getElementById('admin-dashboard-screen').classList.remove('hidden');
-                await syncFromCloud();
                 renderAdminPriceInputs();
                 renderAdminBannersList();
                 renderAdminCouponsList();
-                renderAdminCreatorsList();
                 renderAdminCoinKeysList();
+                renderAdminDiamondKeysList();
+                await syncFromCloud();
             } else {
                 document.getElementById('admin-login-error').classList.remove('hidden');
             }
         }
 
         function goToStep(step) {
-            if (step === 2) renderPacks();
+            if (step >= 2 && !isLoggedIn()) {
+                requireLogin(() => {
+                    goToStep(step);
+                }, "Tenés que iniciar sesión para recargar.");
+                return;
+            }
+
+            if (step === 2) {
+                renderPacks();
+                // Inyectar las imágenes personalizadas de Mercado Pago y Binance
+                document.getElementById('img-mp-custom').src = MP_CUSTOM_IMAGE;
+                document.getElementById('img-binance-custom').src = BINANCE_CUSTOM_IMAGE;
+            }
             if (step === 3 && Object.keys(storeState.cart).length === 0) { alert('Seleccioná al menos un paquete.'); return; }
             if (step === 4) {
                 storeState.playerId = document.getElementById('player-id').value;
@@ -1522,16 +3090,32 @@
                 document.getElementById('sum-game').innerText = storeState.game;
                 document.getElementById('sum-id').innerText = storeState.playerId;
                 document.getElementById('sum-pack').innerText = Object.keys(storeState.cart).join(', ');
+                document.getElementById('sum-method').innerText = storeState.paymentMethod;
                 document.getElementById('sum-client').innerText = storeState.clientName;
-                document.getElementById('sum-total').innerText = `$${storeState.finalPrice.toLocaleString('es-AR')} ARS`;
+
+                let formattedTotal = '';
+                const mpDetails = document.getElementById('payment-details-mp');
+                const binanceDetails = document.getElementById('payment-details-binance');
+
+                if (storeState.paymentMethod === 'Binance') {
+                    formattedTotal = `$${storeState.finalPrice.toFixed(2)} USDT (USD)`;
+                    mpDetails.classList.add('hidden');
+                    binanceDetails.classList.remove('hidden');
+                } else {
+                    formattedTotal = `$${storeState.finalPrice.toLocaleString('es-AR')} ARS`;
+                    binanceDetails.classList.add('hidden');
+                    mpDetails.classList.remove('hidden');
+                }
+                document.getElementById('sum-total').innerText = formattedTotal;
 
                 document.getElementById('bot-input-game').value = storeState.game;
                 document.getElementById('bot-input-id').value = storeState.playerId;
                 document.getElementById('bot-input-nick').value = currentUser.name;
                 document.getElementById('bot-input-packs').value = Object.keys(storeState.cart).join(', ');
-                document.getElementById('bot-input-total').value = `$${storeState.finalPrice.toLocaleString('es-AR')} ARS`;
+                document.getElementById('bot-input-method').value = storeState.paymentMethod;
+                document.getElementById('bot-input-total').value = formattedTotal;
                 document.getElementById('bot-input-coupon').value = storeState.couponUsed;
-                document.getElementById('bot-input-coins').value = storeState.coinsEarned;
+                document.getElementById('bot-input-coins').value = `${storeState.coinsEarned} (Canje: ${currentUser.lastRedeemedGift || 'Ninguno'})`;
                 document.getElementById('bot-input-name').value = storeState.clientName;
                 document.getElementById('bot-input-phone').value = document.getElementById('client-phone').value;
             }
@@ -1543,70 +3127,30 @@
         }
 
         function copyAlias() { navigator.clipboard.writeText('kevincabelier.mp'); alert('Alias copiado'); }
+        function copyBinanceId() { navigator.clipboard.writeText('1295580296'); alert('Binance ID copiado'); }
 
         async function sendOrderGmailBot() {
-            if (!window.receiptUploadedValid) { alert('Sube el comprobante'); return; }
+            if (!isLoggedIn()) {
+                requireLogin(() => {}, "Tenés que iniciar sesión para enviar un pedido.");
+                return;
+            }
+            if (!window.receiptUploadedValid) { alert('Subí un comprobante válido a nombre de Kevin Eloy Cabelier'); return; }
             if (!document.getElementById('terms-check').checked) { alert('Acepta los términos'); return; }
+            currentUser.purchases = (Number(currentUser.purchases) || 0) + 1;
+            const autoUnlocked = getEquippedAvatarBanner(currentUser);
+            if (autoUnlocked) currentUser.equippedAvatarBanner = autoUnlocked.id;
+            syncCurrentAccountToStorage();
+            updateAuthUI();
             document.getElementById('hidden-bot-form').submit();
         }
 
-        async function addNewGlobalBanner() {
-            const tag = document.getElementById('new-banner-tag').value.trim() || 'PROMO';
-            const title = document.getElementById('new-banner-title').value.trim();
-            const desc = document.getElementById('new-banner-desc').value.trim();
-            const fileInput = document.getElementById('new-banner-file');
-            
-            if (!title || !desc) { alert('Completá título y descripción'); return; }
-
-            let imgUrl = '';
-            if (fileInput.files && fileInput.files[0]) {
-                const reader = new FileReader();
-                reader.onload = async function(e) {
-                    imgUrl = e.target.result;
-                    globalBanners.push({ id: Date.now(), tag, title, desc, imgUrl });
-                    await saveToCloud();
-                    renderBannersCarousel();
-                    renderAdminBannersList();
-                    document.getElementById('new-banner-tag').value = '';
-                    document.getElementById('new-banner-title').value = '';
-                    document.getElementById('new-banner-desc').value = '';
-                    fileInput.value = '';
-                    alert('✅ Banner agregado con imagen');
-                };
-                reader.readAsDataURL(fileInput.files[0]);
-            } else {
-                globalBanners.push({ id: Date.now(), tag, title, desc, imgUrl: '' });
-                await saveToCloud();
-                renderBannersCarousel();
-                renderAdminBannersList();
-                document.getElementById('new-banner-tag').value = '';
-                document.getElementById('new-banner-title').value = '';
-                document.getElementById('new-banner-desc').value = '';
-                alert('✅ Banner agregado');
-            }
-        }
-
-        function renderAdminBannersList() {
-            const container = document.getElementById('admin-banners-list');
-            if(!container) return;
-            container.innerHTML = globalBanners.map(b => `
-                <div class="bg-nexoDark border border-gray-800 p-2 rounded-xl flex justify-between items-center text-xs">
-                    <span class="text-white font-bold">${b.title}</span>
-                    <button onclick="deleteBanner(${b.id})" class="text-red-400">Eliminar</button>
-                </div>
-            `).join('');
-        }
-
-        async function deleteBanner(id) {
-            globalBanners = globalBanners.filter(b => b.id !== id);
-            await saveToCloud();
-            renderBannersCarousel();
-            renderAdminBannersList();
-        }
-
         window.onload = async function() {
+            loadBannersLocal();
+            loadPromoCouponsLocal();
+            loadAccountsLocal();
             updateAuthUI();
             renderBannersCarousel();
+            renderAdminCouponsList();
             renderSavedIds();
             await syncFromCloud();
         };
