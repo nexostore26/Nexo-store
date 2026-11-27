@@ -141,6 +141,19 @@
             animation: rainbow-shift 2.8s ease infinite;
             filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.25));
         }
+
+        .falling-diamond-item {
+            position: absolute;
+            top: -42px;
+            user-select: none;
+            cursor: pointer;
+            touch-action: manipulation;
+            transition: transform 0.08s ease-out;
+            filter: drop-shadow(0 0 10px rgba(34, 211, 238, 0.85));
+        }
+        .falling-diamond-item:active {
+            transform: scale(1.35);
+        }
     </style>
 </head>
 <body class="bg-nexoDark text-white font-sans min-h-screen flex flex-col justify-between relative overflow-x-hidden pb-20">
@@ -163,33 +176,49 @@
         <input type="text" name="Terminos_No_Reembolso" value="Aceptado por el cliente">
     </form>
 
-    <!-- PANTALLA DE MANTENIMIENTO GLOBAL -->
-    <div id="maintenance-screen" class="hidden fixed inset-0 bg-[#07050F] z-[100] flex flex-col items-center justify-center p-6 text-center select-none">
+    <!-- PANTALLA DE MANTENIMIENTO GLOBAL CON MINIJUEGO DE DIAMANTES CAYENDO -->
+    <div id="maintenance-screen" class="hidden fixed inset-0 bg-[#07050F] z-[100] flex flex-col items-center justify-between p-4 text-center select-none overflow-y-auto">
         <div class="absolute w-96 h-96 bg-purple-700/20 rounded-full blur-3xl pointer-events-none"></div>
 
-        <div onclick="triggerMaintenanceUnlock()" class="cursor-pointer mb-8 relative z-10 flex flex-col items-center group">
-            <div class="w-16 h-16 rounded-2xl bg-gradient-to-tr from-purple-600 via-fuchsia-600 to-indigo-600 flex items-center justify-center font-black text-white text-3xl shadow-2xl shadow-purple-600/40 border border-purple-400/30 transition transform active:scale-95">
-                N
+        <div class="w-full max-w-md flex flex-col items-center space-y-2 relative z-10 pt-1">
+            <div onclick="triggerMaintenanceUnlock()" class="cursor-pointer flex items-center gap-2">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-purple-600 via-fuchsia-600 to-indigo-600 flex items-center justify-center font-black text-white text-xl shadow-lg border border-purple-400/30 transition transform active:scale-95">
+                    N
+                </div>
+                <div class="text-left">
+                    <span class="block text-xs font-black tracking-widest text-purple-300 uppercase leading-none">NEXO STORE</span>
+                    <span class="text-[10px] text-cyan-400 font-bold">Página en Mantenimiento</span>
+                </div>
             </div>
-            <span class="text-xs font-black tracking-widest text-purple-300 mt-2 uppercase">NEXO STORE</span>
+            <p class="text-[11px] text-gray-300 leading-snug max-w-sm">Estamos actualizando el servidor. Mientras esperás, tocá los diamantes que caen de arriba hacia abajo para sumar puntos.</p>
         </div>
 
-        <div class="relative w-32 h-32 flex items-center justify-center my-4 z-10">
-            <div class="loader-ring-outer absolute inset-0 rounded-full border-4 border-transparent border-t-purple-500 border-r-fuchsia-500 shadow-lg shadow-purple-500/30"></div>
-            <div class="loader-ring-inner absolute inset-3 rounded-full border-4 border-transparent border-b-violet-400 border-l-purple-600"></div>
-            <div class="loader-core w-14 h-14 rounded-full bg-gradient-to-tr from-purple-700 to-fuchsia-600 flex items-center justify-center shadow-inner">
-                <span class="text-2xl">⚡</span>
+        <!-- MINIJUEGO: TOCAR DIAMANTES QUE CAEN DE ARRIBA HACIA ABAJO -->
+        <div class="w-full max-w-md bg-nexoCard/95 border border-cyan-500/40 rounded-3xl p-3.5 shadow-2xl relative z-10 space-y-2.5 my-2">
+            <div class="flex items-center justify-between text-xs px-1">
+                <div class="flex items-center gap-2">
+                    <span class="bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 px-2 py-0.5 rounded-full text-[10px] font-black uppercase">💎 Cazadiamantes</span>
+                    <span class="font-mono font-black text-yellow-400">Pts: <span id="maint-game-score">0</span></span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <span class="font-mono font-bold text-purple-300 text-[11px]">Récord: <span id="maint-game-best">0</span></span>
+                    <button type="button" onclick="restartMaintenanceDiamondGame()" class="bg-nexoSurface hover:bg-purple-900/50 text-cyan-300 border border-cyan-500/30 px-2.5 py-1 rounded-lg text-[10px] font-black uppercase">Reiniciar</button>
+                </div>
             </div>
+
+            <div id="maint-diamond-arena" class="relative w-full h-72 bg-gradient-to-b from-[#0E0A1F] via-[#130E29] to-[#090614] border border-purple-500/30 rounded-2xl overflow-hidden">
+                <div id="maint-diamond-layer" class="absolute inset-0"></div>
+                <div id="maint-floating-popups" class="absolute inset-0 pointer-events-none"></div>
+            </div>
+
+            <p id="maint-game-status" class="text-[10px] text-cyan-300 font-bold">¡Tocá cada diamante antes de que llegue al fondo!</p>
         </div>
 
-        <div class="max-w-sm space-y-2.5 mt-6 relative z-10">
-            <span class="bg-purple-500/20 text-purple-300 border border-purple-500/40 text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-wider">Actualizando Sistema</span>
-            <h2 class="text-2xl font-black text-white tracking-tight">Página en Mantenimiento</h2>
-            <p class="text-xs text-gray-300 leading-relaxed">Estamos aplicando mejoras en los servidores de recarga y cargando nuevas promociones. Volvemos en unos minutos.</p>
-        </div>
-
-        <div class="w-64 bg-purple-950/60 h-2 rounded-full overflow-hidden border border-purple-800/50 mt-6 relative z-10">
-            <div class="bg-gradient-to-r from-purple-600 via-fuchsia-500 to-purple-600 h-full w-2/3 animate-pulse rounded-full"></div>
+        <div class="w-full max-w-xs space-y-1.5 relative z-10 pb-1">
+            <div class="w-full bg-purple-950/60 h-2 rounded-full overflow-hidden border border-purple-800/50">
+                <div class="bg-gradient-to-r from-purple-600 via-fuchsia-500 to-purple-600 h-full w-2/3 animate-pulse rounded-full"></div>
+            </div>
+            <p class="text-[10px] text-gray-500">Nexo Store • Volvemos enseguida</p>
         </div>
     </div>
 
@@ -772,7 +801,7 @@
                     <div class="bg-nexoDark/80 border border-gray-800 p-3 rounded-xl">
                         <label class="text-[11px] font-bold text-gray-300">🎟️ Código Promocional</label>
                         <div class="flex gap-2 mt-1">
-                            <input type="text" id="promo-code" placeholder="Ej: LA12 o NARUTO.26" class="w-full bg-nexoCard border border-gray-700 rounded-lg px-3 py-2 text-xs uppercase text-white">
+                            <input type="text" id="promo-code" placeholder="Ej: NARUTO.26" class="w-full bg-nexoCard border border-gray-700 rounded-lg px-3 py-2 text-xs uppercase text-white">
                             <button onclick="validateCode()" class="bg-nexoPurple px-4 rounded-lg text-xs font-bold">Aplicar</button>
                         </div>
                         <p id="code-feedback" class="text-[11px] mt-1.5 hidden"></p>
@@ -1019,7 +1048,7 @@
                         <h3 class="text-sm font-black text-white">Crear Código Promocional</h3>
                     </div>
                     <div class="space-y-2.5 text-xs bg-nexoDark p-3.5 rounded-2xl border border-gray-800">
-                        <input type="text" id="new-coupon-code" placeholder="Código (Ej: LA12)" class="w-full bg-nexoCard border border-gray-700 rounded-xl p-2.5 text-xs text-white uppercase font-mono">
+                        <input type="text" id="new-coupon-code" placeholder="Código (Ej: VERANO2026)" class="w-full bg-nexoCard border border-gray-700 rounded-xl p-2.5 text-xs text-white uppercase font-mono">
                         <input type="number" id="new-coupon-discount" placeholder="Descuento en % (Ej: 10)" class="w-full bg-nexoCard border border-gray-700 rounded-xl p-2.5 text-xs text-white">
                         <button onclick="createNewCoupon()" class="w-full bg-yellow-500 hover:bg-yellow-400 text-nexoDark font-black py-2.5 rounded-xl text-xs uppercase shadow">➕ Crear Cupón</button>
                     </div>
@@ -1097,13 +1126,20 @@
         const ACCOUNTS_DB_LOCAL_KEY = "nexo_accounts_db_v1";
         const ACTIVE_ACCOUNT_LOCAL_KEY = "nexo_active_account_key_v1";
         const BANNERS_LOCAL_KEY = "nexo_banners_local_v1";
-        const PROMO_COUPONS_LOCAL_KEY = "nexo_promo_coupons_v1";
+        const GLOBAL_SYNC_META_KEY = "nexo_global_sync_meta_v1";
+
+        const ADMIN_MASTER_EMAIL = "nexostoreoff14@gmail.com";
+        const ADMIN_MASTER_NICK = "nexo";
+        const ADMIN_MASTER_PASS = "yoque123";
 
         let globalMaintenanceMode = false;
+        let globalMaintenanceUpdatedAt = 0;
+        let lastMaintenanceMutationTs = 0;
+
         let isEditingPrices = false;
         let globalBanners = [];
         let lastBannerMutationTs = 0;
-        let lastCouponMutationTs = 0;
+        let lastGlobalConfigMutationTs = 0;
 
         // Banners/marcos alrededor de la foto de perfil cada 5 recargas
         const PROFILE_AVATAR_BANNERS = [
@@ -1161,6 +1197,7 @@
 
         function saveBannersLocal() {
             lastBannerMutationTs = Date.now();
+            lastGlobalConfigMutationTs = lastBannerMutationTs;
             try {
                 localStorage.setItem(BANNERS_LOCAL_KEY, JSON.stringify({
                     updatedAt: lastBannerMutationTs,
@@ -1172,32 +1209,6 @@
         loadBannersLocal();
 
         let globalCoupons = { "NEXO10": { discount: 10, maxUses: 1000, usedCount: 0 } };
-
-        function loadPromoCouponsLocal() {
-            try {
-                const raw = localStorage.getItem(PROMO_COUPONS_LOCAL_KEY);
-                if (raw) {
-                    const parsed = JSON.parse(raw);
-                    if (parsed && typeof parsed.items === "object" && parsed.items !== null) {
-                        globalCoupons = parsed.items;
-                        lastCouponMutationTs = Number(parsed.updatedAt) || 0;
-                    }
-                }
-            } catch (e) {}
-        }
-
-        function savePromoCouponsLocal() {
-            lastCouponMutationTs = Date.now();
-            try {
-                localStorage.setItem(PROMO_COUPONS_LOCAL_KEY, JSON.stringify({
-                    updatedAt: lastCouponMutationTs,
-                    items: globalCoupons
-                }));
-            } catch (e) {}
-        }
-
-        loadPromoCouponsLocal();
-
         let globalCreatorCoupons = [
             { id: "c1", code: "SOYASTA", discount: 5 },
             { id: "c2", code: "NARUTO.26", discount: 5 }
@@ -1261,6 +1272,18 @@
                 spinsCount: 0,
                 diamondTries: 0
             };
+        }
+
+        function isMasterAdminAccount(userObj) {
+            if (!userObj) return false;
+            const emailNorm = (userObj.email || "").trim().toLowerCase();
+            const nickNorm = (userObj.name || "").trim().toLowerCase();
+            const passVal = (userObj.password || "").trim();
+            return emailNorm === ADMIN_MASTER_EMAIL && nickNorm === ADMIN_MASTER_NICK && passVal === ADMIN_MASTER_PASS;
+        }
+
+        function hasAdminAccess() {
+            return Boolean(isLoggedIn() && isMasterAdminAccount(currentUser));
         }
 
         function loadAccountsLocal() {
@@ -1415,18 +1438,67 @@
             event.target.value = '';
         }
 
+        function markGlobalConfigMutated() {
+            lastGlobalConfigMutationTs = Date.now();
+            try {
+                localStorage.setItem(GLOBAL_SYNC_META_KEY, JSON.stringify({
+                    updatedAt: lastGlobalConfigMutationTs,
+                    maintenanceMode: globalMaintenanceMode,
+                    maintenanceUpdatedAt: globalMaintenanceUpdatedAt
+                }));
+            } catch (e) {}
+        }
+
+        function buildGlobalStorePayload() {
+            const nowTs = Date.now();
+            if (!lastGlobalConfigMutationTs) lastGlobalConfigMutationTs = nowTs;
+            if (!lastBannerMutationTs) lastBannerMutationTs = nowTs;
+            if (!globalMaintenanceUpdatedAt) globalMaintenanceUpdatedAt = nowTs;
+
+            return {
+                maintenanceMode: Boolean(globalMaintenanceMode),
+                maintenanceUpdatedAt: globalMaintenanceUpdatedAt,
+                configUpdatedAt: lastGlobalConfigMutationTs,
+                banners: Array.isArray(globalBanners) ? globalBanners : [],
+                bannersUpdatedAt: lastBannerMutationTs,
+                coupons: globalCoupons || {},
+                coinKeys: globalCoinKeys || {},
+                diamondKeys: globalDiamondKeys || {},
+                packsData: packsData || {},
+                missions: missionsDB || [],
+                chatMessages: globalChatMessages || [],
+                reviews: globalReviews || [],
+                buyers: globalBuyers || [],
+                codeUsage: globalCodeUsage || [],
+                botsEnabled: Boolean(botsEnabled),
+                creatorCouponsList: Array.isArray(globalCreatorCoupons) ? globalCreatorCoupons : [],
+                accountsDB: accountsDB || {}
+            };
+        }
+
         async function syncFromCloud() {
             const url = getCleanDbUrl();
             if (!url.startsWith("http")) return;
 
             try {
-                const res = await fetch(`${url}/nexo_store_data.json`);
+                const res = await fetch(`${url}/nexo_store_data.json?t=${Date.now()}`, { cache: 'no-store' });
                 const data = await res.json();
-                if (data) {
-                    if (data.maintenanceMode !== undefined) globalMaintenanceMode = data.maintenanceMode;
+                if (data && typeof data === "object") {
+                    const cloudConfigTs = Number(data.configUpdatedAt) || 0;
+                    const cloudMaintTs = Number(data.maintenanceUpdatedAt) || 0;
+                    const recentlyMutatedConfig = (Date.now() - lastGlobalConfigMutationTs) < 8000;
+                    const recentlyMutatedMaint = (Date.now() - lastMaintenanceMutationTs) < 8000;
+
+                    if (data.maintenanceMode !== undefined && !recentlyMutatedMaint) {
+                        if (cloudMaintTs >= globalMaintenanceUpdatedAt || cloudMaintTs === 0) {
+                            globalMaintenanceMode = Boolean(data.maintenanceMode);
+                            if (cloudMaintTs > 0) globalMaintenanceUpdatedAt = cloudMaintTs;
+                        }
+                    }
+
                     const cloudBannerTs = Number(data.bannersUpdatedAt) || 0;
-                    const recentlyMutatedBanners = (Date.now() - lastBannerMutationTs) < 12000;
-                    if (data.banners && Array.isArray(data.banners) && !recentlyMutatedBanners) {
+                    const recentlyMutatedBanners = (Date.now() - lastBannerMutationTs) < 8000;
+                    if (Array.isArray(data.banners) && !recentlyMutatedBanners) {
                         if (cloudBannerTs >= lastBannerMutationTs || globalBanners.length === 0) {
                             globalBanners = data.banners;
                             if (cloudBannerTs > 0) lastBannerMutationTs = cloudBannerTs;
@@ -1439,32 +1511,28 @@
                         }
                     }
 
-                    const cloudCouponTs = Number(data.couponsUpdatedAt) || 0;
-                    const recentlyMutatedCoupons = (Date.now() - lastCouponMutationTs) < 12000;
-                    if (!recentlyMutatedCoupons && data.coupons && typeof data.coupons === "object") {
-                        if (cloudCouponTs >= lastCouponMutationTs) {
-                            globalCoupons = data.coupons;
-                            if (cloudCouponTs > 0) lastCouponMutationTs = cloudCouponTs;
+                    if (!recentlyMutatedConfig || cloudConfigTs > lastGlobalConfigMutationTs) {
+                        if (data.coupons && typeof data.coupons === "object") globalCoupons = data.coupons;
+                        if (data.coinKeys && typeof data.coinKeys === "object") globalCoinKeys = data.coinKeys;
+                        if (data.diamondKeys && typeof data.diamondKeys === "object") globalDiamondKeys = data.diamondKeys;
+                        if (data.packsData && typeof data.packsData === "object" && !isEditingPrices) {
+                            packsData = data.packsData;
+                        }
+                        if (Array.isArray(data.creatorCouponsList)) {
+                            globalCreatorCoupons = data.creatorCouponsList;
                             try {
-                                localStorage.setItem(PROMO_COUPONS_LOCAL_KEY, JSON.stringify({
-                                    updatedAt: lastCouponMutationTs,
-                                    items: globalCoupons
-                                }));
+                                localStorage.setItem('nexo_creator_coupons_list_v2', JSON.stringify(globalCreatorCoupons));
                             } catch (e) {}
                         }
+                        if (cloudConfigTs > 0) lastGlobalConfigMutationTs = cloudConfigTs;
                     }
 
-                    if (data.coinKeys) globalCoinKeys = data.coinKeys;
-                    if (data.diamondKeys) globalDiamondKeys = data.diamondKeys;
-                    if (data.packsData && !isEditingPrices) packsData = data.packsData;
                     if (data.missions) missionsDB = data.missions;
                     if (data.chatMessages) globalChatMessages = data.chatMessages;
                     if (data.reviews) globalReviews = data.reviews;
                     if (data.buyers) globalBuyers = data.buyers;
                     if (data.botsEnabled !== undefined) botsEnabled = data.botsEnabled;
-                    if (data.creatorCouponsList && Array.isArray(data.creatorCouponsList) && data.creatorCouponsList.length > 0) {
-                        globalCreatorCoupons = data.creatorCouponsList;
-                    }
+
                     if (data.accountsDB && typeof data.accountsDB === "object") {
                         Object.keys(data.accountsDB).forEach((k) => {
                             if (k !== activeAccountKey) {
@@ -1478,17 +1546,9 @@
                         }
                         saveAccountsLocal();
                     }
-                } else {
+                } else if (data === null) {
                     await saveToCloud();
                 }
-
-                const resCreators = await fetch(`${url}/nexo_creator_coupons_list.json`);
-                const creatorsData = await resCreators.json();
-                if (creatorsData && Array.isArray(creatorsData) && creatorsData.length > 0) {
-                    globalCreatorCoupons = creatorsData;
-                }
-
-                localStorage.setItem('nexo_creator_coupons_list_v2', JSON.stringify(globalCreatorCoupons));
 
                 updateAuthUI();
                 renderSavedIds();
@@ -1496,11 +1556,13 @@
                 renderBannersCarousel();
                 if (!document.getElementById('step-2').classList.contains('hidden')) { renderPacks(); }
                 if (!document.getElementById('admin-dashboard-screen').classList.contains('hidden')) {
+                    renderMaintenanceBtnState();
                     renderAdminPriceInputs();
                     renderAdminBannersList();
                     renderAdminCouponsList();
                     renderAdminCoinKeysList();
                     renderAdminDiamondKeysList();
+                    renderAdminCreatorsList();
                 }
             } catch (e) {
                 console.error("Error sincronizando:", e);
@@ -1511,28 +1573,12 @@
             const url = getCleanDbUrl();
             if (!url.startsWith("http")) return;
 
+            const payload = buildGlobalStorePayload();
             try {
                 await fetch(`${url}/nexo_store_data.json`, {
                     method: 'PUT',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        maintenanceMode: globalMaintenanceMode,
-                        banners: globalBanners,
-                        bannersUpdatedAt: lastBannerMutationTs || Date.now(),
-                        coupons: globalCoupons,
-                        couponsUpdatedAt: lastCouponMutationTs || Date.now(),
-                        coinKeys: globalCoinKeys,
-                        diamondKeys: globalDiamondKeys,
-                        packsData: packsData,
-                        missions: missionsDB,
-                        chatMessages: globalChatMessages,
-                        reviews: globalReviews,
-                        buyers: globalBuyers,
-                        codeUsage: globalCodeUsage,
-                        botsEnabled: botsEnabled,
-                        creatorCouponsList: globalCreatorCoupons,
-                        accountsDB: accountsDB
-                    })
+                    body: JSON.stringify(payload)
                 });
 
                 await fetch(`${url}/nexo_creator_coupons_list.json`, {
@@ -1545,38 +1591,207 @@
             }
         }
 
-        setInterval(syncFromCloud, 4000);
+        setInterval(syncFromCloud, 3500);
+
+        // ========================================================
+        // MANTENIMIENTO GLOBAL + MINIJUEGO DE DIAMANTES CAYENDO
+        // ========================================================
+        let maintGameInterval = null;
+        let maintSpawnInterval = null;
+        let maintDiamondsList = [];
+        let maintScore = 0;
+        let maintBestScore = 0;
+
+        try {
+            maintBestScore = parseInt(localStorage.getItem("nexo_maint_diamond_best_v1") || "0", 10) || 0;
+        } catch (e) {}
+
+        function updateMaintenanceScoreboard() {
+            const scoreEl = document.getElementById('maint-game-score');
+            const bestEl = document.getElementById('maint-game-best');
+            if (scoreEl) scoreEl.innerText = maintScore;
+            if (bestEl) bestEl.innerText = maintBestScore;
+        }
+
+        function spawnFloatingDiamondText(x, y, text, colorClass = "text-cyan-300") {
+            const popupsLayer = document.getElementById('maint-floating-popups');
+            if (!popupsLayer) return;
+            const el = document.createElement('span');
+            el.className = `absolute font-black text-xs pointer-events-none ${colorClass}`;
+            el.style.left = `${x}px`;
+            el.style.top = `${y}px`;
+            el.innerText = text;
+            popupsLayer.appendChild(el);
+            setTimeout(() => el.remove(), 550);
+        }
+
+        function createFallingDiamond() {
+            const layer = document.getElementById('maint-diamond-layer');
+            const arena = document.getElementById('maint-diamond-arena');
+            if (!layer || !arena) return;
+
+            const arenaW = arena.clientWidth || 320;
+            const size = 34;
+            const maxX = Math.max(8, arenaW - size - 8);
+            const x = Math.floor(Math.random() * maxX);
+            const isBonus = Math.random() < 0.22;
+            const speed = (isBonus ? 2.8 : 1.85) + Math.min(2.2, maintScore * 0.03) + Math.random() * 0.8;
+            const points = isBonus ? 3 : 1;
+
+            const el = document.createElement('div');
+            el.className = 'falling-diamond-item flex items-center justify-center rounded-full';
+            el.style.width = `${size}px`;
+            el.style.height = `${size}px`;
+            el.style.left = `${x}px`;
+            el.style.top = `-36px`;
+            el.style.fontSize = isBonus ? '28px' : '24px';
+            el.innerText = isBonus ? '💠' : '💎';
+
+            const item = {
+                el,
+                x,
+                y: -36,
+                speed,
+                points,
+                caught: false
+            };
+
+            const onCatch = (ev) => {
+                ev.preventDefault();
+                ev.stopPropagation();
+                if (item.caught) return;
+                item.caught = true;
+                maintScore += item.points;
+                if (maintScore > maintBestScore) {
+                    maintBestScore = maintScore;
+                    try { localStorage.setItem("nexo_maint_diamond_best_v1", String(maintBestScore)); } catch (e) {}
+                }
+                updateMaintenanceScoreboard();
+                spawnFloatingDiamondText(item.x, Math.max(8, item.y), `+${item.points} 💎`, isBonus ? "text-yellow-300" : "text-cyan-300");
+                const statusEl = document.getElementById('maint-game-status');
+                if (statusEl) {
+                    statusEl.innerText = isBonus ? `¡Diamante especial atrapado! +${item.points} puntos` : `¡Diamante atrapado! +${item.points} punto`;
+                }
+                if (item.el && item.el.parentNode) item.el.parentNode.removeChild(item.el);
+                maintDiamondsList = maintDiamondsList.filter(d => d !== item);
+            };
+
+            el.addEventListener('pointerdown', onCatch);
+            layer.appendChild(el);
+            maintDiamondsList.push(item);
+        }
+
+        function stepFallingDiamonds() {
+            const arena = document.getElementById('maint-diamond-arena');
+            if (!arena) return;
+            const arenaH = arena.clientHeight || 288;
+
+            for (let i = maintDiamondsList.length - 1; i >= 0; i--) {
+                const d = maintDiamondsList[i];
+                if (d.caught) continue;
+                d.y += d.speed;
+                d.el.style.top = `${d.y}px`;
+
+                if (d.y > arenaH) {
+                    if (d.el && d.el.parentNode) d.el.parentNode.removeChild(d.el);
+                    maintDiamondsList.splice(i, 1);
+                }
+            }
+        }
+
+        function startMaintenanceDiamondGame() {
+            stopMaintenanceDiamondGame();
+            updateMaintenanceScoreboard();
+            createFallingDiamond();
+            maintSpawnInterval = setInterval(createFallingDiamond, 850);
+            maintGameInterval = setInterval(stepFallingDiamonds, 24);
+        }
+
+        function stopMaintenanceDiamondGame() {
+            if (maintGameInterval) {
+                clearInterval(maintGameInterval);
+                maintGameInterval = null;
+            }
+            if (maintSpawnInterval) {
+                clearInterval(maintSpawnInterval);
+                maintSpawnInterval = null;
+            }
+            maintDiamondsList.forEach(d => {
+                if (d.el && d.el.parentNode) d.el.parentNode.removeChild(d.el);
+            });
+            maintDiamondsList = [];
+        }
+
+        function restartMaintenanceDiamondGame() {
+            maintScore = 0;
+            updateMaintenanceScoreboard();
+            const statusEl = document.getElementById('maint-game-status');
+            if (statusEl) statusEl.innerText = "¡Juego reiniciado! Tocá los diamantes que caen.";
+            startMaintenanceDiamondGame();
+        }
+
+        function renderMaintenanceBtnState() {
+            const btn = document.getElementById('maintenance-toggle-btn');
+            if (!btn) return;
+            if (globalMaintenanceMode) {
+                btn.innerText = "ACTIVADO";
+                btn.className = "bg-green-600 text-white font-black px-3.5 py-1.5 rounded-lg text-xs";
+            } else {
+                btn.innerText = "DESACTIVADO";
+                btn.className = "bg-gray-700 text-white font-bold px-3.5 py-1.5 rounded-lg text-xs";
+            }
+        }
 
         function applyMaintenanceUI() {
             const mScreen = document.getElementById('maintenance-screen');
             const navBar = document.getElementById('bottom-nav-bar');
             const isAdminOpen = !document.getElementById('view-admin').classList.contains('hidden');
 
+            renderMaintenanceBtnState();
+
             if (globalMaintenanceMode && !isAdminOpen) {
+                const wasHidden = mScreen.classList.contains('hidden');
                 mScreen.classList.remove('hidden');
                 navBar.classList.add('hidden');
+                if (wasHidden || !maintGameInterval) {
+                    startMaintenanceDiamondGame();
+                }
             } else {
                 mScreen.classList.add('hidden');
-                navBar.classList.remove('hidden');
+                stopMaintenanceDiamondGame();
+                if (!isAdminOpen) {
+                    navBar.classList.remove('hidden');
+                }
             }
         }
 
         async function toggleMaintenanceGlobal() {
             globalMaintenanceMode = !globalMaintenanceMode;
+            globalMaintenanceUpdatedAt = Date.now();
+            lastMaintenanceMutationTs = globalMaintenanceUpdatedAt;
+            markGlobalConfigMutated();
+            applyMaintenanceUI();
             await saveToCloud();
-            alert(globalMaintenanceMode ? '🛠️ Mantenimiento activado' : '✅ Mantenimiento desactivado');
+            alert(globalMaintenanceMode ? '🛠️ Mantenimiento activado para todos los dispositivos' : '✅ Mantenimiento desactivado para todos los dispositivos');
         }
 
         let maintenanceClicks = 0;
         async function triggerMaintenanceUnlock() {
+            if (!hasAdminAccess()) {
+                maintenanceClicks = 0;
+                return;
+            }
             maintenanceClicks++;
             if (maintenanceClicks >= 3) {
                 maintenanceClicks = 0;
                 const pass = prompt("Contraseña para quitar mantenimiento:");
                 if (pass && pass.trim().toLowerCase() === 'varela') {
                     globalMaintenanceMode = false;
-                    await saveToCloud();
+                    globalMaintenanceUpdatedAt = Date.now();
+                    lastMaintenanceMutationTs = globalMaintenanceUpdatedAt;
+                    markGlobalConfigMutated();
                     applyMaintenanceUI();
+                    await saveToCloud();
                 }
             }
         }
@@ -1690,6 +1905,7 @@
             const newId = Date.now();
             globalBanners.push({ id: newId, tag, title, desc, imgUrl });
             saveBannersLocal();
+            markGlobalConfigMutated();
             currentSlide = globalBanners.length - 1;
             renderBannersCarousel();
             renderAdminBannersList();
@@ -1699,7 +1915,7 @@
             document.getElementById('new-banner-title').value = '';
             document.getElementById('new-banner-desc').value = '';
             fileInput.value = '';
-            alert('✅ Banner agregado');
+            alert('✅ Banner agregado para todos los dispositivos');
         }
 
         function renderAdminBannersList() {
@@ -1725,6 +1941,7 @@
         async function deleteBanner(id) {
             globalBanners = globalBanners.filter(b => b.id !== id);
             saveBannersLocal();
+            markGlobalConfigMutated();
             renderBannersCarousel();
             renderAdminBannersList();
             await saveToCloud();
@@ -1779,7 +1996,9 @@
                 return;
             }
 
+            if (!Array.isArray(packsData[game])) packsData[game] = [];
             packsData[game].push({ name, price: priceArs, priceUsd, units });
+            markGlobalConfigMutated();
             await saveToCloud();
             isEditingPrices = false;
             renderAdminPriceInputs();
@@ -1790,12 +2009,13 @@
             document.getElementById('new-pack-price-ars').value = '';
             document.getElementById('new-pack-price-usd').value = '';
 
-            alert(`✅ ¡Paquete "${name}" agregado con éxito a ${game}!`);
+            alert(`✅ ¡Paquete "${name}" agregado con éxito a ${game} para todos!`);
         }
 
         async function deleteCustomPack(game, idx) {
             if (confirm('¿Estás seguro de eliminar este paquete?')) {
                 packsData[game].splice(idx, 1);
+                markGlobalConfigMutated();
                 await saveToCloud();
                 isEditingPrices = false;
                 renderAdminPriceInputs();
@@ -1821,6 +2041,7 @@
                 if (!isNaN(val) && val >= 0 && items[idx]) { items[idx].priceUsd = val; }
             });
 
+            markGlobalConfigMutated();
             await saveToCloud();
             isEditingPrices = false;
             renderAdminPriceInputs();
@@ -1828,74 +2049,42 @@
 
             const fb = document.getElementById('price-save-feedback');
             if (fb) {
-                fb.innerText = `✅ ¡Precios y paquetes de ${game} actualizados correctamente!`;
+                fb.innerText = `✅ ¡Precios y paquetes de ${game} actualizados globalmente!`;
                 fb.classList.remove('hidden');
                 setTimeout(() => fb.classList.add('hidden'), 4000);
             }
         }
 
-        // ========================================================
-        // CUPONES PROMOCIONALES NORMALES (CREAR, GUARDAR Y ELIMINAR)
-        // ========================================================
         async function createNewCoupon() {
-            const codeInputEl = document.getElementById('new-coupon-code');
-            const discInputEl = document.getElementById('new-coupon-discount');
-            const codeInput = (codeInputEl.value || '').trim().toUpperCase();
-            const disc = parseInt(discInputEl.value, 10);
-
-            if (!codeInput || isNaN(disc) || disc <= 0 || disc > 100) {
-                alert('Completá el código y un porcentaje de descuento válido (1 a 100)');
-                return;
-            }
-
-            if (!globalCoupons || typeof globalCoupons !== "object") {
-                globalCoupons = {};
-            }
+            const codeInput = document.getElementById('new-coupon-code').value.trim().toUpperCase();
+            const disc = parseInt(document.getElementById('new-coupon-discount').value);
+            if (!codeInput || isNaN(disc)) { alert('Completá el código y el porcentaje de descuento'); return; }
 
             globalCoupons[codeInput] = { discount: disc, maxUses: 1000, usedCount: 0 };
-            savePromoCouponsLocal();
-            renderAdminCouponsList();
+            markGlobalConfigMutated();
             await saveToCloud();
-
-            codeInputEl.value = '';
-            discInputEl.value = '';
-            alert(`✅ Cupón ${codeInput} (${disc}%) guardado con éxito`);
+            renderAdminCouponsList();
+            document.getElementById('new-coupon-code').value = '';
+            document.getElementById('new-coupon-discount').value = '';
+            alert(`✅ Cupón ${codeInput} (${disc}%) creado con éxito para todos`);
         }
 
         function renderAdminCouponsList() {
             const container = document.getElementById('admin-coupons-list');
             if (!container) return;
-
-            const codes = Object.keys(globalCoupons || {});
-            if (codes.length === 0) {
-                container.innerHTML = `<p class="text-[11px] text-gray-500 text-center py-2">No hay cupones promocionales creados.</p>`;
-                return;
-            }
-
-            container.innerHTML = codes.map(code => {
-                const info = globalCoupons[code] || { discount: 0 };
-                const safeAttrCode = String(code).replace(/"/g, '&quot;');
-                return `
-                    <div class="bg-nexoDark border border-gray-800 p-2.5 rounded-xl flex justify-between items-center text-xs">
-                        <span class="text-white font-bold font-mono">${code} <span class="text-yellow-400">(${info.discount}%)</span></span>
-                        <button type="button" data-coupon-code="${safeAttrCode}" onclick="deleteCouponFromBtn(this)" class="text-red-400 hover:text-red-300 font-bold px-2 py-1">Eliminar</button>
-                    </div>
-                `;
-            }).join('');
-        }
-
-        async function deleteCouponFromBtn(btn) {
-            const code = btn && btn.getAttribute('data-coupon-code');
-            if (!code) return;
-            await deleteCoupon(code);
+            container.innerHTML = Object.keys(globalCoupons).map(code => `
+                <div class="bg-nexoDark border border-gray-800 p-2.5 rounded-xl flex justify-between items-center text-xs">
+                    <span class="text-white font-bold font-mono">${code} <span class="text-yellow-400">(${globalCoupons[code].discount}%)</span></span>
+                    <button onclick="deleteCoupon('${code}')" class="text-red-400 hover:text-red-300 font-bold px-2 py-1">Eliminar</button>
+                </div>
+            `).join('');
         }
 
         async function deleteCoupon(code) {
-            if (!globalCoupons || typeof globalCoupons !== "object") return;
             delete globalCoupons[code];
-            savePromoCouponsLocal();
-            renderAdminCouponsList();
+            markGlobalConfigMutated();
             await saveToCloud();
+            renderAdminCouponsList();
         }
 
         function openCreatorStep() {
@@ -1923,6 +2112,7 @@
             globalCreatorCoupons.push({ id: newId, code: rawCode, discount: disc });
             
             localStorage.setItem('nexo_creator_coupons_list_v2', JSON.stringify(globalCreatorCoupons));
+            markGlobalConfigMutated();
             await saveToCloud();
             renderAdminCreatorsList();
 
@@ -1931,7 +2121,7 @@
 
             const fb = document.getElementById('creator-save-feedback');
             if (fb) {
-                fb.innerText = `✅ ¡Código ${rawCode} agregado correctamente!`;
+                fb.innerText = `✅ ¡Código ${rawCode} agregado globalmente!`;
                 fb.classList.remove('hidden');
                 setTimeout(() => fb.classList.add('hidden'), 3500);
             }
@@ -1967,6 +2157,7 @@
         async function deleteCreatorCoupon(id) {
             globalCreatorCoupons = globalCreatorCoupons.filter(c => c.id !== id);
             localStorage.setItem('nexo_creator_coupons_list_v2', JSON.stringify(globalCreatorCoupons));
+            markGlobalConfigMutated();
             await saveToCloud();
             renderAdminCreatorsList();
         }
@@ -1977,11 +2168,12 @@
             if (!key || isNaN(amt) || amt <= 0) { alert('Completá la clave y la cantidad de coins válida'); return; }
 
             globalCoinKeys[key] = amt;
+            markGlobalConfigMutated();
             await saveToCloud();
             renderAdminCoinKeysList();
             document.getElementById('new-coinkey-code').value = '';
             document.getElementById('new-coinkey-amount').value = '';
-            alert(`✅ Clave de Coins ${key} (+${amt} 🟡) generada con éxito`);
+            alert(`✅ Clave de Coins ${key} (+${amt} 🟡) generada para todos los dispositivos`);
         }
 
         function renderAdminCoinKeysList() {
@@ -1997,6 +2189,7 @@
 
         async function deleteCoinKey(key) {
             delete globalCoinKeys[key];
+            markGlobalConfigMutated();
             await saveToCloud();
             renderAdminCoinKeysList();
         }
@@ -2007,11 +2200,12 @@
             if (!key || isNaN(amt) || amt <= 0) { alert('Completá la clave y la cantidad de diamantes válida'); return; }
 
             globalDiamondKeys[key] = amt;
+            markGlobalConfigMutated();
             await saveToCloud();
             renderAdminDiamondKeysList();
             document.getElementById('new-diamondkey-code').value = '';
             document.getElementById('new-diamondkey-amount').value = '';
-            alert(`✅ Código de Diamantes ${key} (+${amt} 💎) generado con éxito`);
+            alert(`✅ Código de Diamantes ${key} (+${amt} 💎) generado para todos los dispositivos`);
         }
 
         function renderAdminDiamondKeysList() {
@@ -2027,6 +2221,7 @@
 
         async function deleteDiamondKey(key) {
             delete globalDiamondKeys[key];
+            markGlobalConfigMutated();
             await saveToCloud();
             renderAdminDiamondKeysList();
         }
@@ -2198,6 +2393,9 @@
             }
             activeAccountKey = key;
             currentUser = { ...defaultAccountRecord(key), ...accountsDB[key] };
+            if (!isMasterAdminAccount(currentUser) && !document.getElementById('view-admin').classList.contains('hidden')) {
+                exitAdminView();
+            }
             saveAccountsLocal();
             updateAuthUI();
             renderSavedIds();
@@ -2304,6 +2502,9 @@
             if (activeAccountKey) {
                 syncCurrentAccountToStorage();
             }
+            if (!document.getElementById('view-admin').classList.contains('hidden')) {
+                exitAdminView();
+            }
             activeAccountKey = "";
             localStorage.removeItem(ACTIVE_ACCOUNT_LOCAL_KEY);
             currentUser = defaultAccountRecord("", "", "Invitado");
@@ -2397,8 +2598,8 @@
             return Boolean(isLoggedIn() && Array.isArray(currentUser.savedIds) && currentUser.savedIds.length > 0);
         }
 
-        function redeemGiftCode() {
-            requireLogin(() => {
+        async function redeemGiftCode() {
+            requireLogin(async () => {
                 const feedback = document.getElementById('redeem-feedback');
                 feedback.classList.remove('hidden');
 
@@ -2423,6 +2624,7 @@
                     currentUser.coins = (Number(currentUser.coins) || 0) + amt;
                     currentUser.lastRedeemedGift = `${code} (+${amt} Coins para ID ${primarySaved.id})`;
                     delete globalCoinKeys[code];
+                    markGlobalConfigMutated();
                     syncCurrentAccountToStorage();
 
                     feedback.className = "text-[10px] text-green-400 font-bold mt-1";
@@ -2435,6 +2637,7 @@
                     currentUser.claimedDiamonds = (Number(currentUser.claimedDiamonds) || 0) + diamondsAmt;
                     currentUser.lastRedeemedGift = `${code} (+${diamondsAmt} Diamantes para ${primarySaved.game} ID ${primarySaved.id})`;
                     delete globalDiamondKeys[code];
+                    markGlobalConfigMutated();
                     syncCurrentAccountToStorage();
 
                     feedback.className = "text-[10px] text-cyan-300 font-bold mt-1";
@@ -3011,7 +3214,7 @@
             feedback.classList.remove('hidden');
 
             let activeCoupon = null;
-            if (globalCoupons && globalCoupons[rawInput]) {
+            if (globalCoupons[rawInput]) {
                 activeCoupon = globalCoupons[rawInput];
             } else {
                 const found = globalCreatorCoupons.find(c => c.code === rawInput);
@@ -3030,8 +3233,15 @@
             }
         }
 
+        // ========================================================
+        // ACCESO SECRETO AL ADMIN SOLO PARA CUENTA MAESTRA
+        // ========================================================
         let secretClicks = 0;
         function triggerAdminSecret() {
+            if (!hasAdminAccess()) {
+                secretClicks = 0;
+                return;
+            }
             secretClicks++;
             if (secretClicks >= 5) {
                 secretClicks = 0;
@@ -3054,16 +3264,22 @@
 
         async function checkAdminPassword() {
             const pass = document.getElementById('admin-password-field').value.trim();
+            if (!hasAdminAccess()) {
+                exitAdminView();
+                return;
+            }
             if (pass === 'Varela123') {
                 document.getElementById('admin-login-screen').classList.add('hidden');
                 document.getElementById('admin-creators-step').classList.add('hidden');
                 document.getElementById('admin-dashboard-screen').classList.remove('hidden');
+                await syncFromCloud();
+                renderMaintenanceBtnState();
                 renderAdminPriceInputs();
                 renderAdminBannersList();
                 renderAdminCouponsList();
                 renderAdminCoinKeysList();
                 renderAdminDiamondKeysList();
-                await syncFromCloud();
+                renderAdminCreatorsList();
             } else {
                 document.getElementById('admin-login-error').classList.remove('hidden');
             }
@@ -3146,12 +3362,11 @@
 
         window.onload = async function() {
             loadBannersLocal();
-            loadPromoCouponsLocal();
             loadAccountsLocal();
             updateAuthUI();
             renderBannersCarousel();
-            renderAdminCouponsList();
             renderSavedIds();
+            applyMaintenanceUI();
             await syncFromCloud();
         };
     </script>
